@@ -38,13 +38,13 @@ _ALL_SECTORS = [
     "Industrials", "Real Estate", "Technology", "Utilities",
 ]
 
-# Diverging red → gray → green; gray midpoint (#444) is visible at 0% change.
+# Diverging red → dark neutral → green; deep saturated for Bloomberg aesthetic.
 _HEATMAP_SCALE = [
-    [0.00, "#8B0000"],
-    [0.25, "#CC2200"],
-    [0.50, "#444444"],
-    [0.75, "#007700"],
-    [1.00, "#005500"],
+    [0.00, "#7B0000"],
+    [0.20, "#DD1111"],
+    [0.50, "#1C2535"],
+    [0.80, "#00AA44"],
+    [1.00, "#005522"],
 ]
 
 INDEX_GROUPS = {
@@ -248,6 +248,380 @@ _WIDGET_KEYS = [
 def _reset_all() -> None:
     for k in _WIDGET_KEYS:
         st.session_state.pop(k, None)
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Bloomberg Terminal CSS theme
+# ──────────────────────────────────────────────────────────────────────────────
+
+_CSS_COMMON = """
+/* ── Skeleton shimmer animation ───────────────────────────────────────────── */
+@keyframes _skshimmer {
+    0%   { background-position: -400px 0; }
+    100% { background-position:  400px 0; }
+}
+.sk-box {
+    border-radius: 6px;
+    height: 80px;
+    margin: 4px 0;
+    animation: _skshimmer 1.4s infinite linear;
+}
+.sk-line {
+    border-radius: 4px;
+    height: 14px;
+    width: 60%;
+    margin: 6px 0;
+    animation: _skshimmer 1.4s infinite linear;
+}
+
+/* ── Ratio cards ───────────────────────────────────────────────────────────── */
+.r-card {
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+}
+.r-card-title {
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 10px;
+    padding-bottom: 7px;
+}
+.r-row { display: flex; flex-wrap: wrap; gap: 10px 16px; }
+.r-item { flex: 1; min-width: 72px; }
+.r-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+.r-value { font-size: 1.05rem; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.r-bench { font-size: 0.62rem; margin-top: 3px; }
+
+/* ── Ticker hero ────────────────────────────────────────────────────────────── */
+.t-hero { padding: 10px 0 16px; margin-bottom: 12px; }
+.t-hero-top { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 8px; }
+.t-sym { font-size: 2rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1; }
+.t-name { font-size: 0.9rem; font-weight: 400; margin-top: 2px; opacity: 0.7; }
+.t-price { font-size: 2.2rem; font-weight: 900; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.t-chg { font-size: 1.05rem; font-weight: 700; margin-left: 10px; }
+.t-pos { color: #00CC66; }
+.t-neg { color: #FF3344; }
+"""
+
+_CSS_DARK = """
+<style>
+""" + _CSS_COMMON + """
+/* ── Color tokens ────────────────────────────────────────────────────────── */
+:root {
+    --bg:      #0B0E1A;
+    --bg2:     #141927;
+    --bg3:     #1A2235;
+    --border:  #1E2C42;
+    --txt:     #E2E8F0;
+    --txt2:    #7A8EA8;
+    --green:   #00CC66;
+    --red:     #FF3344;
+    --gold:    #FFA500;
+    --blue:    #1A6DFF;
+    --blue2:   #4D94FF;
+}
+
+/* ── App shell ───────────────────────────────────────────────────────────── */
+.stApp, [data-testid="stAppViewContainer"],
+section[data-testid="stMain"] {
+    background: var(--bg) !important;
+    color: var(--txt) !important;
+}
+.block-container { background: var(--bg) !important; padding-top: 0.75rem !important; }
+
+/* ── Typography ──────────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--txt) !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em !important;
+}
+h1 { font-size: 1.75rem !important; }
+h3 { font-size: 1.25rem !important; }
+p, span, label, div { color: var(--txt); }
+
+/* ── Navigation radio bar ────────────────────────────────────────────────── */
+[data-testid="stRadio"] > div {
+    gap: 4px !important;
+    background: transparent !important;
+}
+[data-testid="stRadio"] label {
+    color: var(--txt2) !important;
+    font-weight: 600 !important;
+    font-size: 0.92rem !important;
+    padding: 6px 16px !important;
+    border-radius: 6px !important;
+    border: 1px solid transparent !important;
+    transition: all 0.15s !important;
+    cursor: pointer !important;
+}
+[data-testid="stRadio"] label:hover {
+    background: var(--bg3) !important;
+    color: var(--txt) !important;
+}
+[data-testid="stRadio"] label:has(input:checked) {
+    background: var(--bg3) !important;
+    color: #fff !important;
+    border-color: var(--blue) !important;
+}
+[data-testid="stRadio"] input { display: none !important; }
+
+/* ── Sticky nav ──────────────────────────────────────────────────────────── */
+div[data-testid="element-container"]:has(> div > [data-testid="stRadio"]) {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 999 !important;
+    background: var(--bg) !important;
+    padding: 8px 0 6px !important;
+    border-bottom: 1px solid var(--border) !important;
+    margin-bottom: 2px !important;
+}
+
+/* ── Metrics ─────────────────────────────────────────────────────────────── */
+[data-testid="stMetric"] {
+    background: var(--bg2) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+    padding: 12px 14px !important;
+}
+[data-testid="stMetricLabel"] p {
+    color: var(--txt2) !important;
+    font-size: 0.7rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.09em !important;
+}
+[data-testid="stMetricValue"] {
+    color: var(--txt) !important;
+    font-size: 1.35rem !important;
+    font-weight: 800 !important;
+    font-variant-numeric: tabular-nums !important;
+}
+
+/* ── Divider ─────────────────────────────────────────────────────────────── */
+hr { border-color: var(--border) !important; margin: 0.6rem 0 !important; }
+
+/* ── Expanders ───────────────────────────────────────────────────────────── */
+[data-testid="stExpander"] {
+    background: var(--bg2) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 10px !important;
+    margin-bottom: 12px !important;
+}
+[data-testid="stExpander"] summary,
+[data-testid="stExpander"] summary span {
+    color: var(--txt) !important;
+    font-weight: 600 !important;
+}
+
+/* ── Bordered containers ─────────────────────────────────────────────────── */
+[data-testid="stVerticalBlockBorderWrapper"][style*="border"] > div {
+    background: var(--bg2) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 10px !important;
+}
+
+/* ── Tabs ────────────────────────────────────────────────────────────────── */
+[data-baseweb="tab-list"] {
+    background: var(--bg2) !important;
+    border-bottom: 1px solid var(--border) !important;
+    border-radius: 8px 8px 0 0 !important;
+    gap: 2px !important;
+}
+[data-baseweb="tab"] {
+    color: var(--txt2) !important;
+    font-weight: 600 !important;
+    font-size: 0.88rem !important;
+    background: transparent !important;
+}
+[aria-selected="true"][data-baseweb="tab"] {
+    color: var(--txt) !important;
+    border-bottom: 2px solid var(--blue) !important;
+}
+[data-baseweb="tab-panel"] {
+    background: var(--bg2) !important;
+    border: 1px solid var(--border) !important;
+    border-top: none !important;
+    border-radius: 0 0 8px 8px !important;
+    padding: 16px !important;
+}
+
+/* ── DataFrame ───────────────────────────────────────────────────────────── */
+[data-testid="stDataFrame"] {
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+}
+
+/* ── Inputs ──────────────────────────────────────────────────────────────── */
+[data-testid="stTextInput"] input,
+[data-testid="stNumberInput"] input {
+    background: var(--bg3) !important;
+    color: var(--txt) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 6px !important;
+}
+[data-testid="stTextInput"] input:focus,
+[data-testid="stNumberInput"] input:focus {
+    border-color: var(--blue) !important;
+    box-shadow: 0 0 0 2px rgba(26,109,255,0.25) !important;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+[data-testid="stButton"] button {
+    background: var(--bg3) !important;
+    color: var(--txt) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    transition: all 0.15s !important;
+}
+[data-testid="stButton"] button:hover {
+    border-color: var(--blue2) !important;
+    color: #fff !important;
+}
+[data-testid="stButton"] button[kind="primary"] {
+    background: var(--blue) !important;
+    border-color: var(--blue) !important;
+    color: #fff !important;
+}
+[data-testid="stButton"] button[kind="primary"]:hover {
+    background: var(--blue2) !important;
+    border-color: var(--blue2) !important;
+}
+
+/* ── Progress bar ────────────────────────────────────────────────────────── */
+[data-testid="stProgress"] > div > div {
+    background: linear-gradient(90deg, var(--blue), var(--blue2)) !important;
+}
+
+/* ── Info/warning banners ────────────────────────────────────────────────── */
+[data-testid="stInfo"] {
+    background: rgba(26,109,255,0.12) !important;
+    border-left: 3px solid var(--blue) !important;
+    border-radius: 0 6px 6px 0 !important;
+    color: var(--txt) !important;
+}
+[data-testid="stWarning"] {
+    background: rgba(255,165,0,0.12) !important;
+    border-left: 3px solid var(--gold) !important;
+    border-radius: 0 6px 6px 0 !important;
+    color: var(--txt) !important;
+}
+
+/* ── Sidebar ─────────────────────────────────────────────────────────────── */
+[data-testid="stSidebar"] {
+    background: var(--bg2) !important;
+    border-right: 1px solid var(--border) !important;
+}
+
+/* ── Caption ─────────────────────────────────────────────────────────────── */
+.stCaption, [data-testid="stCaptionContainer"] p,
+[data-testid="stCaptionContainer"] span {
+    color: var(--txt2) !important;
+    font-size: 0.78rem !important;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--txt2); }
+
+/* ── Hide default Streamlit chrome ───────────────────────────────────────── */
+#MainMenu, footer, [data-testid="stHeader"] { visibility: hidden !important; height: 0 !important; }
+[data-testid="stToolbar"] { display: none !important; }
+
+/* ── Skeleton colors ─────────────────────────────────────────────────────── */
+.sk-box, .sk-line {
+    background: linear-gradient(90deg, var(--bg2) 25%, var(--bg3) 50%, var(--bg2) 75%);
+    background-size: 400px 100%;
+}
+
+/* ── Ratio card colors ───────────────────────────────────────────────────── */
+.r-card { background: var(--bg2); border: 1px solid var(--border); }
+.r-card-title { color: var(--txt2); border-bottom: 1px solid var(--border); }
+.r-label { color: var(--txt2); }
+.r-value { color: var(--txt); }
+.r-bench { color: var(--txt2); }
+
+/* ── Ticker hero colors ──────────────────────────────────────────────────── */
+.t-hero { border-bottom: 1px solid var(--border); }
+.t-sym { color: #fff; }
+.t-name { color: var(--txt2); }
+.t-price { color: #fff; }
+
+/* ── Toggle ──────────────────────────────────────────────────────────────── */
+[data-testid="stToggle"] span { font-size: 0.8rem !important; color: var(--txt2) !important; }
+</style>
+"""
+
+_CSS_LIGHT = """
+<style>
+""" + _CSS_COMMON + """
+:root {
+    --bg:      #F2F5FA;
+    --bg2:     #FFFFFF;
+    --bg3:     #E8EDF5;
+    --border:  #CDD5E0;
+    --txt:     #0B1628;
+    --txt2:    #4A5B75;
+    --green:   #00883D;
+    --red:     #CC1122;
+    --gold:    #B85C00;
+    --blue:    #1A5FCC;
+    --blue2:   #2E7AFF;
+}
+.stApp, [data-testid="stAppViewContainer"],
+section[data-testid="stMain"] { background: var(--bg) !important; color: var(--txt) !important; }
+.block-container { background: var(--bg) !important; padding-top: 0.75rem !important; }
+h1, h2, h3, h4, h5, h6 { color: var(--txt) !important; font-weight: 800 !important; }
+[data-testid="stRadio"] > div { gap: 4px !important; }
+[data-testid="stRadio"] label { color: var(--txt2) !important; font-weight: 600 !important; padding: 6px 16px !important; border-radius: 6px !important; border: 1px solid transparent !important; }
+[data-testid="stRadio"] label:has(input:checked) { background: var(--bg3) !important; color: var(--txt) !important; border-color: var(--blue) !important; }
+[data-testid="stRadio"] input { display: none !important; }
+div[data-testid="element-container"]:has(> div > [data-testid="stRadio"]) { position: sticky !important; top: 0 !important; z-index: 999 !important; background: var(--bg) !important; padding: 8px 0 6px !important; border-bottom: 1px solid var(--border) !important; }
+[data-testid="stMetric"] { background: var(--bg2) !important; border: 1px solid var(--border) !important; border-radius: 8px !important; padding: 12px 14px !important; box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important; }
+[data-testid="stMetricLabel"] p { color: var(--txt2) !important; font-size: 0.7rem !important; font-weight: 700 !important; text-transform: uppercase !important; letter-spacing: 0.09em !important; }
+[data-testid="stMetricValue"] { color: var(--txt) !important; font-size: 1.35rem !important; font-weight: 800 !important; }
+hr { border-color: var(--border) !important; }
+[data-testid="stExpander"] { background: var(--bg2) !important; border: 1px solid var(--border) !important; border-radius: 10px !important; box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important; }
+[data-testid="stButton"] button { border-radius: 6px !important; font-weight: 600 !important; }
+[data-testid="stButton"] button[kind="primary"] { background: var(--blue) !important; color: #fff !important; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+#MainMenu, footer, [data-testid="stHeader"] { visibility: hidden !important; height: 0 !important; }
+[data-testid="stToolbar"] { display: none !important; }
+.sk-box, .sk-line { background: linear-gradient(90deg, var(--bg2) 25%, var(--bg3) 50%, var(--bg2) 75%); background-size: 400px 100%; }
+.r-card { background: var(--bg2); border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.r-card-title { color: var(--txt2); border-bottom: 1px solid var(--border); }
+.r-label { color: var(--txt2); }
+.r-value { color: var(--txt); }
+.r-bench { color: var(--txt2); }
+.t-hero { border-bottom: 1px solid var(--border); }
+.t-sym { color: var(--txt); }
+.t-name { color: var(--txt2); }
+.t-price { color: var(--txt); }
+.t-pos { color: var(--green); }
+.t-neg { color: var(--red); }
+</style>
+"""
+
+
+def _inject_css() -> None:
+    dark = st.session_state.get("dark_mode", True)
+    st.markdown(_CSS_DARK if dark else _CSS_LIGHT, unsafe_allow_html=True)
+
+
+def _skeleton(n_cols: int = 5, height: int = 80) -> None:
+    cols = st.columns(n_cols)
+    for col in cols:
+        col.markdown(
+            f'<div class="sk-box" style="height:{height}px"></div>',
+            unsafe_allow_html=True,
+        )
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -649,6 +1023,8 @@ def render_market_heatmap(sector_filter: set[str] = frozenset()) -> str | None:
             "⏳ **First load** — downloading sector & market-cap data for ~500 S&P 500 "
             "stocks. This takes roughly 20–30 seconds and is then cached for 12 hours."
         )
+        _skeleton(5, 80)
+        _skeleton(5, 80)
 
     with st.spinner("Loading S&P 500 constituent data…"):
         meta = fetch_sp500_meta()
@@ -969,93 +1345,81 @@ def render_financial_ratios(f: dict, sector: str | None = None) -> None:
     def _x(v):   return f"{v:.1f}×"    if v is not None else "—"
 
     bench = _SECTOR_BENCHMARKS.get(sector, {}) if sector else {}
+    def _b_r(k):   bv = bench.get(k); return f"avg {_r(bv)}"   if bv is not None else ""
+    def _b_pct(k): bv = bench.get(k); return f"avg {_pct(bv)}" if bv is not None else ""
+    def _b_x(k):   bv = bench.get(k); return f"avg {_x(bv)}"   if bv is not None else ""
 
-    def _bd_r(key):
-        bv = bench.get(key)
-        return (f"Sector avg: {_r(bv)}", "off") if bv is not None else (None, "off")
+    def _item(label: str, value: str, bench_str: str = "") -> str:
+        bench_html = f'<div class="r-bench">{bench_str}</div>' if bench_str else ""
+        return (f'<div class="r-item">'
+                f'<div class="r-label">{label}</div>'
+                f'<div class="r-value">{value}</div>'
+                f'{bench_html}</div>')
 
-    def _bd_pct(key):
-        bv = bench.get(key)
-        return (f"Sector avg: {_pct(bv)}", "off") if bv is not None else (None, "off")
+    def _card(title: str, items_html: str) -> str:
+        return (f'<div class="r-card">'
+                f'<div class="r-card-title">{title}</div>'
+                f'<div class="r-row">{items_html}</div>'
+                f'</div>')
 
-    def _bd_x(key):
-        bv = bench.get(key)
-        return (f"Sector avg: {_x(bv)}", "off") if bv is not None else (None, "off")
+    bench_note = f" · <small>sector benchmarks in gray</small>" if bench else ""
+    st.markdown(f"**Key Ratios**{bench_note}", unsafe_allow_html=True)
 
-    st.markdown("**Key Ratios**" + (f" · *{sector} sector benchmarks shown in gray*" if bench else ""))
-    c1, c2, c3, c4, c5 = st.columns(5)
-    d1, dc1 = _bd_r("pe")
-    c1.metric("P/E",       _r(f.get("pe")),       delta=d1, delta_color=dc1,
-              help="Price to Earnings Ratio — share price divided by trailing 12-month earnings per share. Lower = cheaper relative to earnings.")
-    d2, dc2 = _bd_r("pb")
-    c2.metric("P/B",       _r(f.get("pb")),       delta=d2, delta_color=dc2,
-              help="Price to Book Ratio — share price divided by book value (net assets) per share. <1 may indicate undervaluation.")
-    d3, dc3 = _bd_x("ev_ebitda")
-    c3.metric("EV/EBITDA", _x(f.get("ev_ebitda")), delta=d3, delta_color=dc3,
-              help="Enterprise Value to EBITDA — compares total firm value to pre-tax, pre-depreciation operating earnings. Useful for comparing capital-intensive companies.")
-    d4, dc4 = _bd_r("de")
-    c4.metric("D/E",       _r(f.get("de")),       delta=d4, delta_color=dc4,
-              help="Debt to Equity Ratio — total debt divided by total shareholders' equity. Higher values mean more financial leverage.")
-    c5.metric("Rev Growth", _pct(f.get("rev")),
-              help="Revenue Growth (year-over-year) — percentage change in total revenue vs. the same period last year.")
+    col_l, col_r = st.columns(2)
 
-    c6, c7, c8, c9, c10 = st.columns(5)
-    d6, dc6 = _bd_r("current_ratio")
-    c6.metric("Current Ratio", _r(f.get("current_ratio")), delta=d6, delta_color=dc6,
-              help="Current Ratio — current assets divided by current liabilities. A ratio >1 indicates the company can cover short-term obligations.")
-    d7, dc7 = _bd_r("quick_ratio")
-    c7.metric("Quick Ratio",   _r(f.get("quick_ratio")),   delta=d7, delta_color=dc7,
-              help="Quick Ratio (Acid Test) — (current assets − inventory) / current liabilities. A stricter liquidity measure that excludes inventory.")
-    d8, dc8 = _bd_pct("roe")
-    c8.metric("ROE",           _pct(f.get("roe")),         delta=d8, delta_color=dc8,
-              help="Return on Equity — net income as a percentage of shareholders' equity. Measures how efficiently management uses equity capital.")
-    d9, dc9 = _bd_pct("roa")
-    c9.metric("ROA",           _pct(f.get("roa")),         delta=d9, delta_color=dc9,
-              help="Return on Assets — net income as a percentage of total assets. Measures overall asset efficiency regardless of financing.")
-    d10, dc10 = _bd_pct("net_margin")
-    c10.metric("Net Margin",   _pct(f.get("net_margin")),  delta=d10, delta_color=dc10,
-               help="Net Profit Margin — net income as a percentage of total revenue. The bottom-line profitability after all expenses, taxes, and interest.")
+    # ── Left column ───────────────────────────────────────────────────────────
+    with col_l:
+        # Valuation card
+        items = (
+            _item("P/E",       _r(f.get("pe")),        _b_r("pe")) +
+            _item("P/B",       _r(f.get("pb")),        _b_r("pb")) +
+            _item("EV/EBITDA", _x(f.get("ev_ebitda")), _b_x("ev_ebitda")) +
+            _item("Fwd P/E",   _r(f.get("fwd_pe")),    _b_r("fwd_pe")) +
+            _item("PEG",       _r(f.get("peg")),        _b_r("peg")) +
+            _item("P/S",       _r(f.get("ps")),         _b_r("ps"))
+        )
+        st.markdown(_card("Valuation", items), unsafe_allow_html=True)
 
-    c11, c12, c13 = st.columns(3)
-    d11, dc11 = _bd_pct("gross_margin")
-    c11.metric("Gross Margin", _pct(f.get("gross_margin")), delta=d11, delta_color=dc11,
-               help="Gross Profit Margin — (revenue − cost of goods sold) / revenue. Indicates pricing power and production efficiency.")
-    d12, dc12 = _bd_pct("op_margin")
-    c12.metric("Oper. Margin", _pct(f.get("op_margin")),   delta=d12, delta_color=dc12,
-               help="Operating Profit Margin — operating income / revenue. Profit from core operations before interest and taxes.")
-    c13.metric("Mkt Cap",      f"${f['mktcap']/1e9:.1f}B" if f.get("mktcap") else "—",
-               help="Market Capitalization — total market value of all outstanding shares (share price × shares outstanding).")
+        # Balance sheet card
+        items = (
+            _item("D/E",           _r(f.get("de")),            _b_r("de")) +
+            _item("Current Ratio", _r(f.get("current_ratio")), _b_r("current_ratio")) +
+            _item("Quick Ratio",   _r(f.get("quick_ratio")),   _b_r("quick_ratio")) +
+            _item("Mkt Cap",       f"${f['mktcap']/1e9:.1f}B" if f.get("mktcap") else "—") +
+            _item("Rev Growth",    _pct(f.get("rev")))
+        )
+        st.markdown(_card("Balance Sheet & Liquidity", items), unsafe_allow_html=True)
 
-    c14, c15, c16, c17, c18 = st.columns(5)
-    d14, dc14 = _bd_r("fwd_pe")
-    c14.metric("Fwd P/E",     _r(f.get("fwd_pe")),        delta=d14, delta_color=dc14,
-               help="Forward P/E — share price divided by consensus next-12-month EPS estimate. Reflects near-term earnings expectations.")
-    d15, dc15 = _bd_r("peg")
-    c15.metric("PEG",         _r(f.get("peg")),            delta=d15, delta_color=dc15,
-               help="PEG Ratio — P/E divided by EPS growth rate. <1 is often considered undervalued relative to growth; >2 may indicate expensive growth.")
-    d16, dc16 = _bd_r("ps")
-    c16.metric("P/S",         _r(f.get("ps")),             delta=d16, delta_color=dc16,
-               help="Price-to-Sales (trailing 12m) — market cap divided by annual revenue. Useful for early-stage or low-margin companies.")
-    d17, dc17 = _bd_pct("eps_growth")
-    c17.metric("EPS Growth",  _pct(f.get("eps_growth")),   delta=d17, delta_color=dc17,
-               help="EPS Growth (YoY) — quarterly earnings per share growth compared to the same quarter last year.")
-    c18.metric("Earn. Surprise", _pct(f.get("surprise_pct")),
-               help="Earnings Surprise — last quarter's reported EPS vs. analyst consensus estimate, expressed as a percentage. Positive = beat.")
+    # ── Right column ──────────────────────────────────────────────────────────
+    with col_r:
+        # Profitability card
+        items = (
+            _item("Gross Margin", _pct(f.get("gross_margin")), _b_pct("gross_margin")) +
+            _item("Oper. Margin", _pct(f.get("op_margin")),    _b_pct("op_margin")) +
+            _item("Net Margin",   _pct(f.get("net_margin")),   _b_pct("net_margin")) +
+            _item("ROE",          _pct(f.get("roe")),          _b_pct("roe")) +
+            _item("ROA",          _pct(f.get("roa")),          _b_pct("roa"))
+        )
+        st.markdown(_card("Profitability", items), unsafe_allow_html=True)
 
-    c19, c20, c21, c22, c23 = st.columns(5)
-    c19.metric("Div Yield",  _pct(f.get("div_yield")),
-               help="Annual Dividend Yield — annual dividends per share divided by current share price.")
-    c20.metric("Payout",     _pct(f.get("payout")),
-               help="Dividend Payout Ratio — dividends paid as a percentage of net income. High ratios may be unsustainable.")
-    c21.metric("FCF Yield",  _pct(f.get("fcf_yield")),
-               help="Free Cash Flow Yield — annual free cash flow divided by market cap. Higher = more cash generated relative to valuation.")
-    short_val = f.get("short_pct")
-    c22.metric("Short Int.", _pct(short_val),
-               help="Short Interest — short-sold shares as a % of float. High short interest can indicate bearish sentiment or short-squeeze potential.")
+        # Growth & earnings card
+        items = (
+            _item("EPS Growth",     _pct(f.get("eps_growth")),   _b_pct("eps_growth")) +
+            _item("Earn. Surprise", _pct(f.get("surprise_pct"))) +
+            _item("FCF Yield",      _pct(f.get("fcf_yield")))
+        )
+        st.markdown(_card("Growth & Earnings", items), unsafe_allow_html=True)
+
+    # ── Income & short interest (full width) ──────────────────────────────────
     prox_h = f.get("prox_high")
-    c23.metric("52wH Prox.",
-               f"{prox_h*100:.1f}% below" if prox_h is not None else "—",
-               help="52-Week High Proximity — how far the current price is below the 52-week high.")
+    items = (
+        _item("Div Yield",  _pct(f.get("div_yield"))) +
+        _item("Payout",     _pct(f.get("payout"))) +
+        _item("Short Int.", _pct(f.get("short_pct"))) +
+        _item("52wH Prox.", f"{prox_h*100:.1f}% below" if prox_h is not None else "—") +
+        _item("52wL Prox.", f"{f['prox_low']*100:.1f}% above" if f.get("prox_low") is not None else "—")
+    )
+    st.markdown(_card("Income & Short Interest", items), unsafe_allow_html=True)
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -1068,22 +1432,40 @@ def render_single_ticker(ticker: str) -> None:
     if f.get("error") and not f.get("name"):
         st.error(f"Could not load data for **{ticker}**: {f['error']}")
         return
-    name = f.get("name", ticker)
-    p    = fetch_price_batch((ticker,)).get(ticker, {})
-
-    st.markdown(f"### {ticker} — {name}")
-    # Quick stats bar
-    q1, q2, q3, q4, q5 = st.columns(5)
+    name  = f.get("name", ticker)
+    p     = fetch_price_batch((ticker,)).get(ticker, {})
     price = p.get("price")
     chg   = p.get("daily_change")
-    q1.metric("Price",    f"${price:.2f}" if price else "—",
-              delta=f"{chg:+.2f}%" if chg is not None else None)
-    q2.metric("Sector",   f.get("sector") or "—")
-    mc = f.get("mktcap")
-    q3.metric("Mkt Cap",  f"${mc/1e9:.1f}B" if mc else "—")
-    q4.metric("P/E",      f"{f['pe']:.1f}" if f.get("pe") else "—")
+
+    # ── Hero header ───────────────────────────────────────────────────────────
+    chg_class = "t-pos" if (chg or 0) >= 0 else "t-neg"
+    price_str = f"${price:,.2f}" if price is not None else "—"
+    chg_str   = f"{chg:+.2f}%" if chg is not None else ""
+    st.markdown(f"""
+    <div class="t-hero">
+      <div class="t-hero-top">
+        <div>
+          <div class="t-sym">{ticker}</div>
+          <div class="t-name">{name}</div>
+        </div>
+        <div style="text-align:right">
+          <span class="t-price">{price_str}</span>
+          <span class="t-chg {chg_class}">{chg_str}</span>
+        </div>
+      </div>
+    </div>""", unsafe_allow_html=True)
+
+    # ── Quick stats strip ─────────────────────────────────────────────────────
+    mc  = f.get("mktcap")
     rsi = p.get("rsi")
-    q5.metric("RSI (14d)", f"{rsi:.1f}" if rsi else "—")
+    chg_1m = p.get("chg_1m")
+    q1, q2, q3, q4, q5 = st.columns(5)
+    q1.metric("Sector",    f.get("sector") or "—")
+    q2.metric("Mkt Cap",   f"${mc/1e9:.1f}B" if mc else "—")
+    q3.metric("P/E",       f"{f['pe']:.1f}"  if f.get("pe") else "—")
+    q4.metric("RSI (14d)", f"{rsi:.1f}"      if rsi else "—")
+    q5.metric("1-Month",   f"{chg_1m:+.1f}%" if chg_1m is not None else "—",
+              delta=f"{chg_1m:+.2f}%" if chg_1m is not None else None)
 
     render_financial_ratios(f, f.get("sector"))
     tab_chart, tab_analyst = st.tabs(["📈 Price Chart", "🔎 Analyst & News"])
@@ -1325,8 +1707,11 @@ def render_etf_page() -> None:
         st.divider()
 
     # ── Load data ─────────────────────────────────────────────────────────────
+    if not st.session_state.get("_etf_loaded"):
+        _skeleton(6, 72)
     with st.spinner("Loading ETF data…"):
         df = fetch_etf_data()
+    st.session_state["_etf_loaded"] = True
 
     if df.empty:
         st.error("ETF data unavailable — Yahoo Finance may be throttling. Refresh in a moment.")
@@ -1392,8 +1777,11 @@ def render_commodities_page() -> None:
     st.title("🛢 Commodities")
     st.caption("Major commodity futures · Data via Yahoo Finance · For research only.")
 
+    if not st.session_state.get("_com_loaded"):
+        _skeleton(5, 72)
     with st.spinner("Loading commodity data…"):
         df = fetch_commodity_data()
+    st.session_state["_com_loaded"] = True
 
     if df.empty:
         st.error("Commodity data unavailable — Yahoo Finance may be throttling. Refresh in a moment.")
@@ -1469,8 +1857,11 @@ def render_crypto_page() -> None:
     st.title("₿ Crypto")
     st.caption("Major cryptocurrencies · Data via Yahoo Finance · For research only.")
 
+    if not st.session_state.get("_crypto_loaded"):
+        _skeleton(4, 72)
     with st.spinner("Loading crypto data…"):
         df = fetch_crypto_data()
+    st.session_state["_crypto_loaded"] = True
 
     if df.empty:
         st.error("Crypto data unavailable — Yahoo Finance may be throttling. Refresh in a moment.")
@@ -2080,14 +2471,29 @@ def main() -> None:
         layout="wide", initial_sidebar_state="collapsed",
     )
 
+    # Default dark mode on first load.
+    if "dark_mode" not in st.session_state:
+        st.session_state["dark_mode"] = True
+
+    _inject_css()
+
     # ── Top navigation bar ────────────────────────────────────────────────────
-    nav_page = st.radio(
-        "Page",
-        ["📈 Equities", "🛢 Commodities", "₿ Crypto", "📊 ETFs"],
-        horizontal=True,
-        key="nav_page",
-        label_visibility="collapsed",
-    )
+    nav_col, toggle_col = st.columns([11, 1])
+    with nav_col:
+        nav_page = st.radio(
+            "Page",
+            ["📈 Equities", "🛢 Commodities", "₿ Crypto", "📊 ETFs"],
+            horizontal=True,
+            key="nav_page",
+            label_visibility="collapsed",
+        )
+    with toggle_col:
+        st.toggle(
+            "🌙",
+            value=st.session_state["dark_mode"],
+            key="dark_mode",
+            help="Toggle dark / light mode",
+        )
     st.divider()
 
     if nav_page == "📈 Equities":
