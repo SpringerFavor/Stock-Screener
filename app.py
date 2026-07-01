@@ -2538,84 +2538,294 @@ _NETWORK_COMPANIES: dict[str, dict] = {
     "SAP":   {"name": "SAP SE",             "sector": "Technology",              "mktcap_b": 250},
 }
 
-# Edge list: (source, target, relationship_type, description)
-_NETWORK_EDGES: list[tuple[str, str, str, str]] = [
+# Edge list — each entry is a dict with full deal metadata
+_NETWORK_EDGES: list[dict] = [
     # ── Supply Chain ──────────────────────────────────────────────────────────
-    ("AAPL", "TSM",   "Supply Chain", "TSMC manufactures Apple silicon chips"),
-    ("AAPL", "QCOM",  "Supply Chain", "Qualcomm modems & wireless chips for iPhone"),
-    ("AAPL", "AVGO",  "Supply Chain", "Broadcom wireless & Bluetooth chips"),
-    ("AAPL", "SWKS",  "Supply Chain", "Skyworks RF components for iPhone"),
-    ("NVDA", "TSM",   "Supply Chain", "TSMC manufactures NVIDIA GPUs"),
-    ("AMD",  "TSM",   "Supply Chain", "TSMC manufactures AMD CPUs & GPUs"),
-    ("QCOM", "TSM",   "Supply Chain", "TSMC manufactures Qualcomm SoCs"),
-    ("AVGO", "TSM",   "Supply Chain", "TSMC manufactures Broadcom networking chips"),
-    ("INTC", "TSM",   "Supply Chain", "TSMC manufactures Intel foundry chips"),
-    ("MCD",  "KO",    "Supply Chain", "Coca-Cola exclusive beverage supplier to McDonald's"),
-    ("YUM",  "PEP",   "Supply Chain", "PepsiCo exclusive beverage partner for KFC/Pizza Hut"),
-    ("WMT",  "PG",    "Supply Chain", "P&G largest US retail distribution relationship"),
-    ("TGT",  "PG",    "Supply Chain", "P&G major product distribution through Target"),
-    ("AMZN", "UPS",   "Supply Chain", "UPS major shipping & logistics partner"),
-    ("AMZN", "FDX",   "Supply Chain", "FedEx shipping & air freight partner"),
-    ("BA",   "GE",    "Supply Chain", "GE Aviation engines on 737, 777, 787"),
-    ("BA",   "RTX",   "Supply Chain", "Pratt & Whitney engines on Boeing aircraft"),
-    ("LMT",  "RTX",   "Supply Chain", "F-35 powered by Pratt & Whitney F135 engines"),
-    ("LMT",  "GE",    "Supply Chain", "GE F110 engines for F-16 fleet"),
-    ("XOM",  "SLB",   "Supply Chain", "SLB provides oilfield services to ExxonMobil"),
-    ("CVX",  "SLB",   "Supply Chain", "SLB provides oilfield services to Chevron"),
-    ("XOM",  "HAL",   "Supply Chain", "Halliburton drilling & completion services"),
-    ("CVX",  "HAL",   "Supply Chain", "Halliburton drilling services for Chevron wells"),
-    ("META", "QCOM",  "Supply Chain", "Qualcomm Snapdragon chips power Meta Quest VR"),
+    {"src":"AAPL","dst":"TSM",  "type":"Supply Chain",
+     "desc":"TSMC manufactures Apple A-series and M-series chips",
+     "value":"~$20B+ annually","year":"2010",
+     "details":"TSMC is Apple's exclusive chip foundry for A-series (iPhone) and M-series (Mac) silicon. Apple represents ~25% of TSMC's total revenue. The relationship began with the A4 chip in 2010, replacing Samsung after IP disputes."},
+    {"src":"AAPL","dst":"QCOM", "type":"Supply Chain",
+     "desc":"Qualcomm 5G modems and RF chips power every iPhone",
+     "value":"~$15B+ annually","year":"2011",
+     "details":"Qualcomm supplies 5G modems and RF front-end chips for iPhones. Despite a bitter patent war (2017-2019) settled for ~$4.5B, the companies renewed their supply agreement. Qualcomm chips handle virtually all iPhone cellular connectivity."},
+    {"src":"AAPL","dst":"AVGO", "type":"Supply Chain",
+     "desc":"Broadcom wireless, Wi-Fi, and Bluetooth chips for Apple devices",
+     "value":"~$15B annually (2022 deal)","year":"2020",
+     "details":"Apple signed a multi-year agreement with Broadcom in 2020 for wireless components, extended in 2022 to cover Wi-Fi 6E, Bluetooth, and other chips. Broadcom's CEO described Apple as their largest customer, representing ~20% of Broadcom's revenue."},
+    {"src":"AAPL","dst":"SWKS", "type":"Supply Chain",
+     "desc":"Skyworks RF front-end modules handle cellular signals in iPhone",
+     "value":"~$2-3B annually","year":"2011",
+     "details":"Skyworks Solutions supplies radio frequency chips and power amplifiers used in iPhones. Apple accounts for roughly 50% of Skyworks' annual revenue. Skyworks chips handle cellular signal amplification across multiple frequency bands for 4G/5G."},
+    {"src":"NVDA","dst":"TSM",  "type":"Supply Chain",
+     "desc":"TSMC manufactures all NVIDIA GPUs on leading-edge nodes",
+     "value":"~$10-15B+ annually","year":"1998",
+     "details":"TSMC has manufactured NVIDIA's GPUs since the company's early days. Modern NVIDIA GPUs (H100, H200, Blackwell) are produced on TSMC's most advanced 4nm and 3nm processes. NVIDIA's AI-driven growth has made it one of TSMC's top-3 customers."},
+    {"src":"AMD", "dst":"TSM",  "type":"Supply Chain",
+     "desc":"TSMC manufactures AMD Ryzen CPUs and RDNA GPUs",
+     "value":"~$8-12B annually","year":"2009",
+     "details":"AMD moved exclusively to TSMC after spinning off its fab operations (GlobalFoundries) in 2009. AMD's Ryzen and EPYC CPUs are built on TSMC 5nm/4nm. The AMD-TSMC relationship underpins AMD's competitive comeback against Intel."},
+    {"src":"QCOM","dst":"TSM",  "type":"Supply Chain",
+     "desc":"TSMC manufactures Qualcomm Snapdragon SoCs for premium smartphones",
+     "value":"~$6B+ annually","year":"2015",
+     "details":"Qualcomm's flagship Snapdragon SoCs are made by TSMC on 4nm and 3nm. After splitting orders with Samsung, Qualcomm shifted more volume to TSMC following Samsung's yield issues in 2022-23. TSMC is now Qualcomm's primary foundry."},
+    {"src":"AVGO","dst":"TSM",  "type":"Supply Chain",
+     "desc":"TSMC manufactures Broadcom networking chips and AI ASICs",
+     "value":"~$5B+ annually","year":"2012",
+     "details":"Broadcom uses TSMC's advanced nodes for networking chips and custom AI accelerators, including Google's TPUs (made by TSMC under Broadcom design). Broadcom's AI ASIC business is growing rapidly, serving major hyperscalers."},
+    {"src":"INTC","dst":"TSM",  "type":"Supply Chain",
+     "desc":"TSMC produces Intel Arc GPUs and certain Xeon mobile chips",
+     "value":"~$2B+ annually","year":"2021",
+     "details":"Intel began outsourcing to TSMC in 2021 as part of its IDM 2.0 strategy. TSMC produces Intel's Arc GPU line and Xeon mobile processors. Intel targets ~40% internal manufacturing while leveraging TSMC for leading-edge designs it cannot produce internally."},
+    {"src":"MCD", "dst":"KO",   "type":"Supply Chain",
+     "desc":"Coca-Cola is McDonald's exclusive fountain beverage supplier since 1955",
+     "value":"~$1.5B annually","year":"1955",
+     "details":"Coca-Cola has supplied McDonald's exclusively since Ray Kroc and Robert Woodruff sealed the deal. McDonald's accounts for ~5% of Coca-Cola's global volume across 40,000+ locations. McDonald's fountains use a proprietary chilled delivery system designed with Coke."},
+    {"src":"YUM", "dst":"PEP",  "type":"Supply Chain",
+     "desc":"PepsiCo exclusive beverage partner for KFC, Pizza Hut, and Taco Bell",
+     "value":"~$1B annually","year":"1997",
+     "details":"Yum! Brands was spun from PepsiCo in 1997 and retained PepsiCo as its beverage partner. KFC, Pizza Hut, Taco Bell, and Habit Burger serve Pepsi products at 55,000+ global locations, making Yum! one of PepsiCo's largest on-premise accounts."},
+    {"src":"WMT", "dst":"PG",   "type":"Supply Chain",
+     "desc":"P&G's largest retail partner — ~16% of P&G total revenue flows through Walmart",
+     "value":"~$11B annually","year":"1985",
+     "details":"Walmart accounts for approximately 16% of P&G's total revenue. The relationship pioneered 'everyday low prices' collaboration and RFID supply-chain tracking in the 1980s-90s. P&G has dedicated account teams embedded at Walmart's Bentonville HQ."},
+    {"src":"TGT", "dst":"PG",   "type":"Supply Chain",
+     "desc":"P&G second-largest US retail customer through Target stores",
+     "value":"~$3-4B annually","year":"1960s",
+     "details":"Target is P&G's second-largest US retail customer. P&G brands (Tide, Pampers, Gillette, Oral-B) are among Target's top consumer staples. P&G co-develops Target-exclusive product variants and participates in Target's promotional programs."},
+    {"src":"AMZN","dst":"UPS",  "type":"Supply Chain",
+     "desc":"UPS handles overflow and international Amazon packages",
+     "value":"~$12B (peak, declining)","year":"2001",
+     "details":"UPS was Amazon's dominant carrier in the early 2000s. Amazon now handles ~76% of its own volume via Amazon Logistics, but UPS still handles overflow and international shipments. Amazon represented ~11% of UPS 2022 revenue; the relationship is scaling back as Amazon's internal network grows."},
+    {"src":"AMZN","dst":"FDX",  "type":"Supply Chain",
+     "desc":"FedEx international air freight partner for Amazon sellers",
+     "value":"~$8B historically","year":"2001",
+     "details":"FedEx ended its U.S. domestic ground contract with Amazon in 2019 as Amazon built its own delivery network. FedEx still handles some international air shipments for Amazon marketplace sellers. FedEx CEO publicly stated they're not pursuing Amazon's business."},
+    {"src":"BA",  "dst":"GE",   "type":"Supply Chain",
+     "desc":"GE Aviation engines power Boeing 737 MAX (LEAP-1B) and 777X (GE9X)",
+     "value":"~$20B+ (lifetime contracts)","year":"1956",
+     "details":"GE Aerospace is the sole-source engine supplier for Boeing's 737 MAX (LEAP-1B) and 777X (GE9X). The 787 uses GEnx engines. These programs represent hundreds of billions in lifetime value. Boeing's 737 MAX grounding crisis made GE and Boeing's commercial fortunes closely linked."},
+    {"src":"BA",  "dst":"RTX",  "type":"Supply Chain",
+     "desc":"Pratt & Whitney engines on Boeing 757, 767, and older 737 models",
+     "value":"~$5B+ (aftermarket ongoing)","year":"1970s",
+     "details":"Pratt & Whitney (RTX subsidiary) supplies engines for several Boeing aircraft including the 757 (PW2000) and older 767/737 variants. While GE dominates newer Boeing programs, RTX/PW maintains aftermarket services for thousands of P&W-powered Boeing jets globally."},
+    {"src":"LMT", "dst":"RTX",  "type":"Supply Chain",
+     "desc":"Pratt & Whitney F135 is the sole engine for the F-35 Lightning II",
+     "value":"~$50B+ (lifetime program)","year":"2001",
+     "details":"P&W (RTX) was selected in 2001 as sole-source engine supplier for the F-35 program — the largest defense procurement in history (~$400B+ lifetime). P&W has exclusive rights to F135 production and maintenance. Congressional debates about an alternative engine have not displaced P&W."},
+    {"src":"LMT", "dst":"GE",   "type":"Supply Chain",
+     "desc":"GE F110 turbofan engines power F-16 Fighting Falcons sold by Lockheed",
+     "value":"~$2B+ (ongoing)","year":"1984",
+     "details":"GE Aerospace's F110 powers a large share of F-16s, competing with Pratt & Whitney's F100. For F-16 Block 70/72 export sales, buyers can choose GE F110 or P&W F100. This competitive engine environment has persisted across 50+ years of F-16 production."},
+    {"src":"XOM", "dst":"SLB",  "type":"Supply Chain",
+     "desc":"SLB provides oilfield services, well-logging, and digital tools to ExxonMobil",
+     "value":"~$2-5B annually","year":"1970s",
+     "details":"SLB (formerly Schlumberger) is ExxonMobil's largest third-party oilfield services provider. SLB supplies drilling fluids, well logging, completion services, and digital reservoir management for Exxon's Permian, Guyana, and deepwater Gulf of Mexico operations."},
+    {"src":"CVX", "dst":"SLB",  "type":"Supply Chain",
+     "desc":"SLB oilfield services for Chevron's global upstream operations",
+     "value":"~$1.5-3B annually","year":"1970s",
+     "details":"SLB provides Chevron with directional drilling, formation evaluation, and stimulation services. Key Chevron projects supported by SLB include Tengiz expansion in Kazakhstan, deepwater Gulf of Mexico, and Permian Basin unconventional operations."},
+    {"src":"XOM", "dst":"HAL",  "type":"Supply Chain",
+     "desc":"Halliburton drilling and hydraulic fracturing services for ExxonMobil",
+     "value":"~$1-3B annually","year":"1980s",
+     "details":"Halliburton provides ExxonMobil with hydraulic fracturing, cementing, and completion services, especially in the Permian Basin. HAL's Sperry Drilling and Baroid brands support Exxon's North American unconventional operations, typically awarded in competitive bids with SLB."},
+    {"src":"CVX", "dst":"HAL",  "type":"Supply Chain",
+     "desc":"Halliburton well completion and drilling services for Chevron",
+     "value":"~$1-2B annually","year":"1980s",
+     "details":"Halliburton supports Chevron's upstream operations with well completion, production chemicals, and drilling services across the Permian Basin, deepwater Gulf, and international projects including Kazakhstan's Tengiz field."},
+    {"src":"META","dst":"QCOM", "type":"Supply Chain",
+     "desc":"Qualcomm Snapdragon XR chips are the sole processor in Meta Quest headsets",
+     "value":"~$1.5B annually","year":"2022",
+     "details":"Qualcomm's Snapdragon XR2 Gen 2 and XR2+ Gen 2 chips are the exclusive processor in Meta Quest 3 and Quest Pro. Qualcomm and Meta announced a multi-year, multi-generation supply agreement in 2022. Meta's AR/VR ambitions make this a strategically growing relationship."},
 
     # ── Partnership ───────────────────────────────────────────────────────────
-    ("GOOGL","AAPL",  "Partnership",  "Google pays Apple for default iOS search (~$20B/yr)"),
-    ("MSFT", "NVDA",  "Partnership",  "Azure AI supercomputer cluster with NVIDIA GPUs"),
-    ("GOOGL","NVDA",  "Partnership",  "Google Cloud AI compute partnership"),
-    ("META", "NVDA",  "Partnership",  "Meta AI training infrastructure on NVIDIA"),
-    ("AMZN", "NVDA",  "Partnership",  "AWS AI GPU instances partnership"),
-    ("ORCL", "NVDA",  "Partnership",  "Oracle Cloud AI infrastructure with NVIDIA"),
-    ("TSLA", "NVDA",  "Partnership",  "Tesla uses NVIDIA for FSD AI training workloads"),
-    ("V",    "PYPL",  "Partnership",  "Visa-PayPal strategic payment network agreement"),
-    ("MA",   "PYPL",  "Partnership",  "Mastercard-PayPal digital wallet network deal"),
-    ("AAPL", "V",     "Partnership",  "Apple Pay operates on Visa network"),
-    ("AAPL", "MA",    "Partnership",  "Apple Card issued on Mastercard network"),
-    ("MSFT", "CRM",   "Partnership",  "Salesforce + Microsoft 365 deep integration"),
-    ("GOOGL","CRM",   "Partnership",  "Salesforce + Google Cloud strategic partnership"),
-    ("WMT",  "MSFT",  "Partnership",  "Walmart 5-year Azure cloud transformation deal"),
-    ("MSFT", "SAP",   "Partnership",  "SAP enterprise apps run on Microsoft Azure"),
-    ("META", "MSFT",  "Partnership",  "Meta AI Llama models on Azure Marketplace"),
-    ("JPM",  "V",     "Partnership",  "JPMorgan Chase Sapphire Visa card portfolio"),
-    ("BAC",  "MA",    "Partnership",  "Bank of America Mastercard co-brand cards"),
-    ("WFC",  "V",     "Partnership",  "Wells Fargo Visa consumer card partnership"),
-    ("AMZN", "SBUX",  "Partnership",  "Alexa voice ordering & Amazon HQ Starbucks stores"),
-    ("TSLA", "F",     "Partnership",  "Ford adopts Tesla NACS EV charging standard"),
-    ("TSLA", "GM",    "Partnership",  "GM adopts Tesla NACS EV charging standard"),
-    ("MSFT", "AAPL",  "Partnership",  "Microsoft 365 & Teams on iOS and macOS"),
-    ("GOOGL","SPOT",  "Partnership",  "Spotify + Google Assistant integration"),
-    ("ADBE", "MSFT",  "Partnership",  "Adobe Creative Cloud + Microsoft 365 integration"),
-    ("GOOGL","UBER",  "Partnership",  "Google Maps powers Uber navigation globally"),
-    ("MSFT", "GILD",  "Partnership",  "Gilead uses Azure AI for drug discovery"),
+    {"src":"GOOGL","dst":"AAPL","type":"Partnership",
+     "desc":"Google pays Apple for default search engine placement on Safari/iOS",
+     "value":"~$18-20B annually","year":"2007",
+     "details":"Google's payment to Apple for default search status on Safari is the largest known revenue-sharing deal in tech. A 2023 DOJ antitrust trial revealed Google paid Apple $18B in 2021 alone. This deal represents ~15-18% of Apple Services revenue and is Google's single largest traffic acquisition cost."},
+    {"src":"MSFT","dst":"NVDA", "type":"Partnership",
+     "desc":"Microsoft Azure built its AI supercomputing infrastructure on NVIDIA GPUs",
+     "value":"~$10B+ (multi-year)","year":"2016",
+     "details":"Microsoft Azure hosts tens of thousands of NVIDIA H100 GPUs powering Azure OpenAI Service (ChatGPT, Copilot). NVIDIA CEO Jensen Huang and Microsoft CEO Satya Nadella appear frequently together at product launches. The relationship deepened dramatically in 2023 with Microsoft's $10B+ OpenAI investment requiring massive NVIDIA GPU clusters."},
+    {"src":"GOOGL","dst":"NVDA","type":"Partnership",
+     "desc":"Google Cloud deploys NVIDIA H100/H200 clusters for enterprise AI",
+     "value":"~$5B+ (multi-year)","year":"2023",
+     "details":"Google Cloud deployed large clusters of NVIDIA H100 and H200 GPUs to serve enterprise AI demand alongside its proprietary TPU chips. The partnership includes co-selling commitments on Google Cloud Marketplace for NVIDIA-powered AI workloads."},
+    {"src":"META","dst":"NVDA", "type":"Partnership",
+     "desc":"Meta ordered 350,000+ NVIDIA H100 GPUs — one of the world's largest AI clusters",
+     "value":"~$10-15B (2023-24 orders)","year":"2023",
+     "details":"Meta CEO Mark Zuckerberg announced in 2024 that Meta was deploying 350,000 H100 GPUs for AI training — one of the largest GPU clusters in existence. Meta uses NVIDIA GPUs to train LLaMA language models and develop AI for its 3B+ user platforms, making Meta one of NVIDIA's largest customers by unit volume."},
+    {"src":"AMZN","dst":"NVDA", "type":"Partnership",
+     "desc":"AWS P5/P4 instances powered by NVIDIA H100/A100 GPUs for cloud AI",
+     "value":"~$5-10B annually","year":"2023",
+     "details":"AWS's P5 instances use NVIDIA H100 SXM5 GPUs with 192GB HBM3 memory per GPU. Amazon also develops its own Trainium and Inferentia chips but NVIDIA partnerships ensure Amazon can serve customers who depend on NVIDIA's CUDA ecosystem. AWS and NVIDIA co-market AI training services."},
+    {"src":"ORCL","dst":"NVDA", "type":"Partnership",
+     "desc":"Oracle Cloud built a 131,000-GPU NVIDIA H100 supercluster",
+     "value":"~$4B+ (2023-24)","year":"2023",
+     "details":"Oracle Cloud Infrastructure (OCI) built one of the largest H100 GPU clusters globally — 131,072 NVIDIA H100s interconnected via high-bandwidth fabric. NVIDIA CEO Jensen Huang featured Oracle CEO Larry Ellison at the 2024 GTC keynote. Oracle positioned this as its leap to compete with AWS and Azure on AI infrastructure."},
+    {"src":"TSLA","dst":"NVDA", "type":"Partnership",
+     "desc":"Tesla used NVIDIA GPUs to train Full Self-Driving AI before building Dojo",
+     "value":"~$500M-1B historically","year":"2019",
+     "details":"Tesla relied heavily on NVIDIA A100 and H100 GPUs for training its FSD neural networks before transitioning to its proprietary Dojo supercomputer in 2023. Elon Musk noted Tesla was among the largest buyers of NVIDIA GPUs. Some NVIDIA GPU usage for AI inference continues alongside Dojo."},
+    {"src":"V",   "dst":"PYPL", "type":"Partnership",
+     "desc":"Visa-PayPal strategic deal: Visa promoted as 'first choice' in PayPal wallet",
+     "value":"Revenue sharing (undisclosed)","year":"2016",
+     "details":"In 2016, Visa and PayPal ended years of adversarial positioning with a landmark strategic partnership. PayPal agreed to promote Visa as a first-choice funding option and enable tap-to-pay, while Visa gained access to PayPal's 400M+ users. Venmo integrates with Visa Direct for instant payouts."},
+    {"src":"MA",  "dst":"PYPL", "type":"Partnership",
+     "desc":"Mastercard-PayPal strategic deal for digital wallet and Click to Pay integration",
+     "value":"Revenue sharing (undisclosed)","year":"2016",
+     "details":"Mastercard and PayPal signed a mirror strategic agreement in 2016. Mastercard is promoted as a preferred payment option in PayPal's wallet, while PayPal benefits from Mastercard's merchant network and Mastercard Send for money transfers."},
+    {"src":"AAPL","dst":"V",    "type":"Partnership",
+     "desc":"Apple Pay operates on Visa network — Visa was a founding partner at 2014 launch",
+     "value":"~$0.15% per transaction","year":"2014",
+     "details":"Visa was one of three founding payment network partners when Apple Pay launched in October 2014. Visa provides tokenization infrastructure for Apple Pay contactless transactions. Apple Pay is accepted at 85%+ of US retailers. Apple earns approximately 0.15% on each Visa transaction made via Apple Pay."},
+    {"src":"AAPL","dst":"MA",   "type":"Partnership",
+     "desc":"Apple Card runs on Mastercard network; Apple Pay on MA since 2014",
+     "value":"Transaction fee share (undisclosed)","year":"2014",
+     "details":"The Apple Card (launched 2019 with Goldman Sachs) runs on the Mastercard payment network. Apple Pay also launched with Mastercard in 2014. Apple negotiated competitive interchange rates and revenue-sharing. Goldman Sachs withdrew from Apple Card in 2024, with a new issuer expected to continue the Mastercard arrangement."},
+    {"src":"MSFT","dst":"CRM",  "type":"Partnership",
+     "desc":"Salesforce and Microsoft 365 deep AI integration — Copilot, Teams, Azure",
+     "value":"~$100M+ annually","year":"2014",
+     "details":"After years of rivalry, Salesforce and Microsoft formed a partnership in 2014 that has deepened dramatically. Salesforce Data Cloud integrates with Azure OpenAI; Slack connects to Teams. In 2023 they deepened the AI partnership. Notable because Salesforce CEO Marc Benioff was a vocal Microsoft critic for years."},
+    {"src":"GOOGL","dst":"CRM", "type":"Partnership",
+     "desc":"Salesforce + Google Cloud partnership for CRM and AI workloads",
+     "value":"~$50M+ annually","year":"2017",
+     "details":"Salesforce and Google Cloud signed a partnership in 2017 to integrate Google Workspace with Salesforce CRM. The partnership expanded in 2023 with Google Vertex AI integrating into Salesforce Einstein AI. Google Workspace (Gmail, Calendar, Drive) has native Salesforce connectors."},
+    {"src":"WMT", "dst":"MSFT", "type":"Partnership",
+     "desc":"Walmart signed a 5-year Azure cloud deal, deliberately avoiding AWS competitor",
+     "value":"~$400M+ (5-year)","year":"2018",
+     "details":"Walmart signed a 5-year cloud deal with Microsoft Azure in 2018, a calculated move to avoid enriching competitor Amazon (AWS). Walmart uses Azure for supply chain optimization, inventory management, and customer analytics. The deal was extended in 2022 and has become a template for retailers avoiding Amazon cloud services."},
+    {"src":"MSFT","dst":"SAP",  "type":"Partnership",
+     "desc":"SAP enterprise apps run on Microsoft Azure — RISE with SAP program",
+     "value":"~$1B+ annually","year":"2016",
+     "details":"SAP and Microsoft have partnered since 2016 on running SAP S/4HANA and enterprise workloads on Azure. The 'RISE with SAP on Azure' program helps enterprises migrate SAP systems to the cloud. Microsoft Teams integrates natively with SAP apps. The partnership expanded in 2023 with Azure OpenAI powering SAP Joule AI assistant."},
+    {"src":"META","dst":"MSFT", "type":"Partnership",
+     "desc":"Meta's Llama open-source AI models available on Microsoft Azure Marketplace",
+     "value":"Revenue sharing (undisclosed)","year":"2023",
+     "details":"Meta made its Llama 2 and Llama 3 models available through Microsoft Azure AI Studio in 2023. Azure enterprise customers can fine-tune and deploy Llama models with Azure's security and compliance controls. The partnership gives Meta's Llama commercial reach while helping Azure compete with AWS Bedrock."},
+    {"src":"JPM", "dst":"V",    "type":"Partnership",
+     "desc":"JPMorgan Chase issues the world's largest Visa credit card portfolio",
+     "value":"Interchange revenue sharing","year":"1958",
+     "details":"JPMorgan Chase's Sapphire, Freedom, Ink, and co-brand cards (United, Marriott) run on Visa's network. Chase is Visa's largest card-issuing partner by purchase volume (~$800B+/yr). Chase Sapphire Reserve, launched 2016, became one of the most successful premium card launches in history."},
+    {"src":"BAC", "dst":"MA",   "type":"Partnership",
+     "desc":"Bank of America Mastercard consumer and co-brand card partnership",
+     "value":"Interchange revenue sharing","year":"1966",
+     "details":"Bank of America is one of Mastercard's largest card-issuing partners. BofA's cash rewards, travel rewards, and co-brand cards (Alaska Airlines, Allegiant) operate on Mastercard's network. BofA also participates in Mastercard's Click to Pay digital initiative."},
+    {"src":"WFC", "dst":"V",    "type":"Partnership",
+     "desc":"Wells Fargo Visa consumer card and debit card partnership",
+     "value":"Interchange revenue sharing","year":"1970s",
+     "details":"Wells Fargo issues Visa consumer and business credit cards, and all Wells Fargo debit cards run on Visa's network. Signature cards include the Active Cash (2% cash back) and Autograph. Wells Fargo has ~$500B in Visa purchase volume annually, making it a top-5 Visa issuer globally."},
+    {"src":"AMZN","dst":"SBUX", "type":"Partnership",
+     "desc":"Starbucks Alexa voice ordering; Starbucks operates cafes on Amazon campus",
+     "value":"Nominal (strategic)","year":"2017",
+     "details":"Starbucks launched an Alexa skill in 2017 for voice ordering. Starbucks cafes operate inside Amazon's Seattle HQ. Both companies are Seattle-based with overlapping leadership relationships. Amazon Fresh stores sell Starbucks ready-to-drink products, extending the commercial relationship into grocery."},
+    {"src":"TSLA","dst":"F",    "type":"Partnership",
+     "desc":"Ford adopts Tesla NACS connector — F-150 Lightning and Mach-E gain Supercharger access",
+     "value":"Royalty and charging fee savings","year":"2023",
+     "details":"In May 2023, Ford became the first legacy automaker to adopt Tesla's NACS charging standard. Ford EV drivers gained access to Tesla's 12,000+ North American Supercharger network. Adapters shipped for Mustang Mach-E and F-150 Lightning owners in 2023; NACS native ports roll out in 2025 model years."},
+    {"src":"TSLA","dst":"GM",   "type":"Partnership",
+     "desc":"GM adopts Tesla NACS standard — Silverado EV, Equinox EV get Supercharger access",
+     "value":"Royalty and charging fee savings","year":"2023",
+     "details":"In June 2023, GM CEO Mary Barra joined Elon Musk to announce GM's NACS adoption — a major industry validation of Tesla's connector. GM's Ultium-based EVs gain access to Tesla Superchargers via adapter initially, then native NACS ports in 2025. GM was the second major OEM to adopt NACS, accelerating it becoming the US standard."},
+    {"src":"MSFT","dst":"AAPL", "type":"Partnership",
+     "desc":"Microsoft 365 on iOS/Mac — relationship rooted in 1997 rescue investment",
+     "value":"~$5B+ annually (App Store share)","year":"1997",
+     "details":"In 1997, Microsoft invested $150M in near-bankrupt Apple and committed to develop Office for Mac for 5 years. Today, Microsoft 365 (Word, Excel, Teams) is among the top paid apps on the App Store. Microsoft pays Apple's App Store commission. A 2023 update brought Microsoft Copilot to iPhone."},
+    {"src":"GOOGL","dst":"SPOT","type":"Partnership",
+     "desc":"Spotify preferred music partner for Google Assistant; Google Cloud hosting deal",
+     "value":"~$100M+ (cloud contract)","year":"2019",
+     "details":"Spotify and Google announced a partnership in 2019: Spotify became the preferred music streaming partner for Google Assistant, and signed a multi-year commitment to migrate infrastructure to Google Cloud. Spotify is preinstalled on Pixel phones and featured in Google Home devices."},
+    {"src":"ADBE","dst":"MSFT", "type":"Partnership",
+     "desc":"Adobe Firefly AI embedded in Microsoft 365; Adobe Express integrates with Teams",
+     "value":"Revenue sharing (undisclosed)","year":"2023",
+     "details":"Adobe and Microsoft announced a deep AI integration in 2023: Adobe Firefly generative AI is embedded into Microsoft 365 apps (Word, PowerPoint), and Adobe Express integrates with Teams. Users can create design assets without leaving Microsoft apps. The partnership also includes joint enterprise sales motions."},
+    {"src":"GOOGL","dst":"UBER","type":"Partnership",
+     "desc":"Google Maps powers all Uber routing, ETA, and navigation globally",
+     "value":"~$50-100M annually (estimated)","year":"2012",
+     "details":"Google Maps has been the core mapping infrastructure in Uber's app since its early days, providing routing, ETA calculations, and street-level navigation. Uber is one of Google Maps' largest commercial API customers. Uber has evaluated alternatives (HERE Maps, Mapbox) for parts of its stack, but Google Maps remains the primary rider-experience mapping layer."},
+    {"src":"MSFT","dst":"GILD", "type":"Partnership",
+     "desc":"Gilead Sciences uses Microsoft Azure AI for antiviral drug discovery",
+     "value":"~$50M+ (estimated)","year":"2020",
+     "details":"Gilead Sciences and Microsoft partnered in 2020 to apply AI to antiviral drug discovery and COVID-19 research. Gilead uses Azure Machine Learning and Microsoft AI tools to analyze large molecular datasets and run protein-folding simulations. The partnership accelerated Gilead's computational chemistry capabilities."},
 
-    # ── Ownership / Investment ─────────────────────────────────────────────────
-    ("BRK-B","AAPL",  "Ownership",    "Berkshire owns ~5.5% of Apple ($170B+ position)"),
-    ("BRK-B","BAC",   "Ownership",    "Berkshire owns ~13% of Bank of America"),
-    ("BRK-B","KO",    "Ownership",    "Berkshire owns ~9.3% of Coca-Cola since 1988"),
-    ("BRK-B","AXP",   "Ownership",    "Berkshire owns ~21% of American Express"),
-    ("BRK-B","OXY",   "Ownership",    "Berkshire owns ~28% of Occidental Petroleum"),
-    ("BRK-B","MCO",   "Ownership",    "Berkshire owns ~13% of Moody's"),
-    ("BRK-B","CVX",   "Ownership",    "Berkshire owns ~9% of Chevron"),
-    ("AMZN", "RIVN",  "Ownership",    "Amazon owns ~16% of Rivian + 100,000 EV van order"),
-    ("GOOGL","UBER",  "Ownership",    "Alphabet holds equity stake via early GV investment"),
+    # ── Ownership ─────────────────────────────────────────────────────────────
+    {"src":"BRK-B","dst":"AAPL","type":"Ownership",
+     "desc":"Berkshire Hathaway ~5.5% stake in Apple — was Berkshire's single largest holding",
+     "value":"~$155-177B (peak 2023)","year":"2016",
+     "details":"Berkshire began buying Apple in Q1 2016, initially driven by investment managers Ted Weschler and Todd Combs. Warren Buffett later called it Berkshire's best investment. At peak in mid-2023, Berkshire held 915M shares (~$177B). Berkshire sold ~50% of the position in 2023-24, retaining 400M+ shares. Apple paid Berkshire ~$900M+ annually in dividends."},
+    {"src":"BRK-B","dst":"BAC", "type":"Ownership",
+     "desc":"Berkshire holds ~13% of Bank of America — second-largest equity position",
+     "value":"~$34B (2024)","year":"2011",
+     "details":"Berkshire acquired $5B in Bank of America warrants in 2011 during BofA's post-crisis capital raise. Buffett called then-CEO Brian Moynihan from his bathtub to propose the deal. Berkshire converted warrants to 700M shares in 2017. Berkshire began selling shares in 2024, reducing from 13% toward 10%+."},
+    {"src":"BRK-B","dst":"KO",  "type":"Ownership",
+     "desc":"Berkshire holds ~9.3% of Coca-Cola — held for 35+ years without selling a share",
+     "value":"~$24B (2024)","year":"1988",
+     "details":"Berkshire bought 6.2% of Coca-Cola in 1988-89 for ~$1.3B after the 1987 stock crash. This grew to 400M shares worth ~$24B — an 18x+ return. Berkshire has never sold a single share in 35+ years. KO pays Berkshire ~$776M in annual dividends, a 60% yield on Berkshire's original cost basis."},
+    {"src":"BRK-B","dst":"AXP", "type":"Ownership",
+     "desc":"Berkshire holds ~21% of American Express — relationship dating to the 1960s",
+     "value":"~$38B (2024)","year":"1964",
+     "details":"Buffett first invested in American Express during the 1963 'Salad Oil Scandal' when Amex stock fell 50%. Berkshire built its current position from 1994-1998 averaging ~$8.50/share. The 151.6M-share position was worth $38B in 2024. Buffett frequently praises Amex's customer loyalty and premium-card competitive moat."},
+    {"src":"BRK-B","dst":"OXY", "type":"Ownership",
+     "desc":"Berkshire holds ~28% of Occidental Petroleum — has SEC approval to buy up to 50%",
+     "value":"~$14B (2024)","year":"2019",
+     "details":"Berkshire first invested during OXY's 2019 bid for Anadarko, providing $10B in preferred stock financing. Berkshire then accumulated common shares on the open market. By 2024, Berkshire held 27.8% of OXY common stock with SEC approval to buy up to 50%. Buffett has called OXY a potential full acquisition target, attracted by its Permian Basin assets and direct-air carbon capture technology."},
+    {"src":"BRK-B","dst":"MCO", "type":"Ownership",
+     "desc":"Berkshire holds ~13% of Moody's — received shares at Dun & Bradstreet spinoff",
+     "value":"~$11B (2024)","year":"2000",
+     "details":"Berkshire received Moody's shares when Dun & Bradstreet split in 2000. Berkshire's ~24.6M-share position has never been sold. Buffett considers Moody's a business with significant pricing power and high barriers to entry — rating agencies Moody's and S&P control ~80% of the global credit-rating market."},
+    {"src":"BRK-B","dst":"CVX", "type":"Ownership",
+     "desc":"Berkshire holds ~9% of Chevron — major energy sector position since 2020",
+     "value":"~$18B (2024)","year":"2020",
+     "details":"Berkshire began buying Chevron during COVID's oil price collapse in 2020. By Q4 2021 it was Berkshire's fourth-largest position at $4.5B, expanding to ~$26B by 2022 during the oil surge. Berkshire has since reduced the position but remains a ~9% owner, reflecting Buffett's view that oil will remain essential for decades."},
+    {"src":"AMZN","dst":"RIVN", "type":"Ownership",
+     "desc":"Amazon owns ~16% of Rivian + 100,000-van EV delivery purchase order",
+     "value":"~$4.4B investment + $10B van contract","year":"2019",
+     "details":"Amazon led a $700M Series E funding round for Rivian in 2019. Amazon also committed to purchase 100,000 electric delivery vans by 2030 as part of its Climate Pledge. At Rivian's November 2021 IPO, Amazon's stake was worth ~$17B. The first R1 vans began Amazon deliveries in 2022. Amazon has since reduced its stake as Rivian's share price fell."},
+    {"src":"GOOGL","dst":"UBER","type":"Ownership",
+     "desc":"Alphabet (GV) early investor in Uber — holds equity since Series B in 2013",
+     "value":"~$250M initial (2013); ~$3B+ unrealized","year":"2013",
+     "details":"Google Ventures (now GV) led Uber's $258M Series B in 2013, valuing Uber at $3.76B. Alphabet retained a significant equity stake through Uber's 2019 IPO, generating multi-billion dollar returns. Despite building Waymo to compete in autonomous ride-hailing, Alphabet maintains its Uber equity position."},
 
     # ── Joint Venture ─────────────────────────────────────────────────────────
-    ("PFE",  "BNTX",  "Joint Venture","BioNTech-Pfizer COVID-19 mRNA vaccine co-development"),
-    ("JNJ",  "ABBV",  "Joint Venture","Imbruvica (ibrutinib) co-development & royalty deal"),
-    ("BA",   "LMT",   "Joint Venture","United Launch Alliance (ULA) rocket JV"),
-    ("XOM",  "CVX",   "Joint Venture","Tengizchevroil Kazakhstan upstream oil JV"),
-    ("GM",   "PLUG",  "Joint Venture","Hydrogen fuel cell technology partnership for trucks"),
-    ("LLY",  "ABBV",  "Joint Venture","Botox-competitive neuromodulator licensing agreement"),
-    ("MRK",  "ABBV",  "Joint Venture","Imbruvica global commercialization co-promotion"),
-    ("GOOGL","MSFT",  "Joint Venture","Joint industry AI safety & interoperability standards"),
+    {"src":"PFE", "dst":"BNTX", "type":"Joint Venture",
+     "desc":"Pfizer-BioNTech co-developed Comirnaty, the world's first authorized mRNA COVID vaccine",
+     "value":"~$37B+ combined revenue (2021-22)","year":"2020",
+     "details":"In March 2020, Pfizer and BioNTech signed a co-development and commercialization agreement for a COVID-19 mRNA vaccine. BioNTech provided the mRNA technology; Pfizer provided manufacturing scale and commercial infrastructure. The vaccine (BNT162b2/Comirnaty) received emergency authorization in December 2020. The partnership generated over $37B combined in 2021. BioNTech received 50% of profits; Pfizer handled manufacturing and non-German sales."},
+    {"src":"JNJ", "dst":"ABBV", "type":"Joint Venture",
+     "desc":"Imbruvica co-development: Janssen/Pharmacyclics partnership acquired by AbbVie in 2015",
+     "value":"~$2B annually in royalties to JNJ","year":"2015",
+     "details":"J&J's Janssen subsidiary co-developed Imbruvica with Pharmacyclics for blood cancers (CLL, MCL). When AbbVie acquired Pharmacyclics in 2015 for $21B, AbbVie inherited the Imbruvica partnership with J&J. AbbVie commercializes Imbruvica globally while paying J&J substantial royalties (~$2B/yr). Imbruvica peaked at ~$9B in annual sales before next-generation BTK inhibitors eroded market share."},
+    {"src":"BA",  "dst":"LMT",  "type":"Joint Venture",
+     "desc":"United Launch Alliance (ULA) — 50/50 rocket launch JV for government payloads",
+     "value":"~$2-3B annually (gov. launches)","year":"2006",
+     "details":"Boeing and Lockheed Martin formed United Launch Alliance in 2006 by merging their respective government launch businesses (Delta and Atlas rockets). ULA has an exceptional track record with 100% mission success for national security satellites. SpaceX's competition from 2016 onward pressured ULA, leading both partners to explore strategic alternatives including a potential sale."},
+    {"src":"XOM", "dst":"CVX",  "type":"Joint Venture",
+     "desc":"Tengizchevroil (TCO) — $45B+ Kazakhstan upstream oil production JV since 1993",
+     "value":"~$6B+ annually (combined)","year":"1993",
+     "details":"Tengizchevroil is a production-sharing JV in Kazakhstan's Tengiz oil field: Chevron 50%, ExxonMobil 25%, KazMunayGas 20%, Lukoil 5%. The JV was formed in 1993 post-Soviet Union dissolution. TCO's Future Growth Project ($45B+) is one of the largest oil developments in history, producing ~700,000 barrels/day in 2023. Both XOM and CVX count TCO among their top-10 production assets."},
+    {"src":"GM",  "dst":"PLUG", "type":"Joint Venture",
+     "desc":"GM-Plug Power hydrogen fuel cell JV (Hydrotec) for commercial trucks and aviation",
+     "value":"$300M equity investment (2021)","year":"2021",
+     "details":"General Motors and Plug Power formed a strategic partnership in 2021. GM licensed its Hydrotec hydrogen fuel cell technology to Plug Power for manufacturing and integration into commercial vehicles, aviation, and locomotives. GM received a $300M equity stake in Plug Power. The collaboration targets clean hydrogen for heavy transport as hydrogen infrastructure expands."},
+    {"src":"MRK", "dst":"BNTX", "type":"Joint Venture",
+     "desc":"Merck-BioNTech personalized mRNA cancer vaccine co-development (V940/mRNA-4157)",
+     "value":"$250M upfront + ~$4B+ milestone potential","year":"2022",
+     "details":"In 2022, Merck exercised its option to co-develop BioNTech's personalized mRNA cancer vaccine (mRNA-4157/V940) with Keytruda (pembrolizumab). The Phase 2b KEYNOTE-942 trial showed a 44% reduction in melanoma recurrence. Merck paid $250M upfront with $4B+ in potential milestones. This partnership targets individualized mRNA vaccines tailored to each patient's tumor mutations."},
+    {"src":"F",   "dst":"RIVN", "type":"Joint Venture",
+     "desc":"Ford invested $1.2B in Rivian at IPO; planned EV platform JV was cancelled April 2022",
+     "value":"$1.2B investment (2021 IPO)","year":"2021",
+     "details":"Ford invested $500M in Rivian in 2019 and held ~12% at IPO (November 2021, peak value ~$100B+). Ford and Rivian planned to co-develop a Lincoln EV on Rivian's platform. Ford cancelled the JV in April 2022, citing platform differences. Ford retained ~11M Rivian shares, selling gradually at a loss from the peak. The investment peaked at ~$12B in value."},
+    {"src":"GOOGL","dst":"MSFT","type":"Joint Venture",
+     "desc":"Co-signed White House AI safety pledge; joint Partnership on AI founding members",
+     "value":"Regulatory goodwill investment","year":"2023",
+     "details":"Google and Microsoft both signed the White House voluntary AI safety commitments in 2023 alongside Anthropic, Meta, Amazon, and others, pledging pre-deployment safety testing and information sharing. Both are founding members of the Partnership on AI (2016). Despite fierce cloud AI competition, they cooperate on safety watermarking (SynthID), red-teaming coordination, and AI interoperability standards."},
 ]
+
+# Fast lookup: (src, dst) → edge dict, also keyed (dst, src) for undirected access
+_EDGE_LOOKUP: dict[tuple[str, str], dict] = {}
+for _e in _NETWORK_EDGES:
+    _EDGE_LOOKUP[(_e["src"], _e["dst"])] = _e
+    _EDGE_LOOKUP[(_e["dst"], _e["src"])] = _e
 
 _SECTOR_COLORS: dict[str, str] = {
     "Technology":             "#1A6DFF",
@@ -2641,107 +2851,110 @@ _REL_COLORS: dict[str, str] = {
 
 @st.cache_data(show_spinner=False)
 def _build_network_layout() -> dict[str, tuple[float, float]]:
-    """Compute and cache a stable spring layout for the corporate network."""
     G = nx.Graph()
     for ticker in _NETWORK_COMPANIES:
         G.add_node(ticker)
-    for src, dst, _, _ in _NETWORK_EDGES:
-        if src in _NETWORK_COMPANIES and dst in _NETWORK_COMPANIES:
-            G.add_edge(src, dst)
+    for e in _NETWORK_EDGES:
+        if e["src"] in _NETWORK_COMPANIES and e["dst"] in _NETWORK_COMPANIES:
+            G.add_edge(e["src"], e["dst"])
     return nx.spring_layout(G, seed=42, k=2.2, iterations=80)
 
 
 def _build_network_figure(
     pos: dict[str, tuple[float, float]],
-    selected: str | None,
+    highlighted_nodes: set[str] | None,  # None = all full opacity
+    highlighted_edge: tuple[str, str] | None,  # (src, dst) of selected edge
     rel_types: set[str],
     sector_filter: set[str],
 ) -> go.Figure:
-    """Build a Plotly figure for the corporate network graph."""
     fig = go.Figure()
 
-    # Determine which nodes are "active" given filters
+    # Active edges after type + sector filters
     active_edges = [
-        (s, d, rt, desc) for s, d, rt, desc in _NETWORK_EDGES
-        if rt in rel_types
-        and _NETWORK_COMPANIES.get(s, {}).get("sector", "") not in (
-            sector_filter - {"All"} if sector_filter != {"All"} else set()
-        )
+        e for e in _NETWORK_EDGES
+        if e["type"] in rel_types
     ]
-
     if sector_filter and "All" not in sector_filter:
         active_edges = [
-            (s, d, rt, desc) for s, d, rt, desc in active_edges
-            if (_NETWORK_COMPANIES.get(s, {}).get("sector", "") in sector_filter
-                or _NETWORK_COMPANIES.get(d, {}).get("sector", "") in sector_filter)
+            e for e in active_edges
+            if (_NETWORK_COMPANIES.get(e["src"], {}).get("sector", "") in sector_filter
+                or _NETWORK_COMPANIES.get(e["dst"], {}).get("sector", "") in sector_filter)
         ]
 
-    connected_to_selected: set[str] = set()
-    if selected:
-        for s, d, rt, _ in active_edges:
-            if s == selected:
-                connected_to_selected.add(d)
-            if d == selected:
-                connected_to_selected.add(s)
-        connected_to_selected.add(selected)
-
-    # Draw edges grouped by relationship type
+    # ── Edge lines + midpoint hit-area markers ────────────────────────────────
     for rel_type, color in _REL_COLORS.items():
         if rel_type not in rel_types:
             continue
-        edges_of_type = [(s, d, desc) for s, d, rt, desc in active_edges if rt == rel_type]
+        edges_of_type = [e for e in active_edges if e["type"] == rel_type]
         if not edges_of_type:
             continue
 
-        for s, d, desc in edges_of_type:
+        mid_x_list, mid_y_list, mid_cd = [], [], []
+
+        for e in edges_of_type:
+            s, d = e["src"], e["dst"]
             if s not in pos or d not in pos:
                 continue
             x0, y0 = pos[s]
             x1, y1 = pos[d]
             mid_x, mid_y = (x0 + x1) / 2, (y0 + y1) / 2
 
-            # Dim edges not connected to selected node
-            opacity = 1.0
-            if selected and not (s in connected_to_selected and d in connected_to_selected):
-                opacity = 0.06
+            is_this_edge_sel = highlighted_edge and (
+                (s == highlighted_edge[0] and d == highlighted_edge[1]) or
+                (d == highlighted_edge[0] and s == highlighted_edge[1])
+            )
+            involves_highlighted = (highlighted_nodes is None or
+                                    s in (highlighted_nodes or set()) or
+                                    d in (highlighted_nodes or set()))
+
+            if highlighted_nodes is not None and not involves_highlighted and not is_this_edge_sel:
+                line_opacity = 0.05
+            elif is_this_edge_sel:
+                line_opacity = 1.0
+            else:
+                line_opacity = 0.75
+
+            lw = 3 if is_this_edge_sel else 2
 
             fig.add_trace(go.Scatter(
-                x=[x0, x1, None],
-                y=[y0, y1, None],
+                x=[x0, x1, None], y=[y0, y1, None],
                 mode="lines",
-                line=dict(color=color, width=2 if opacity > 0.5 else 1),
-                opacity=opacity,
+                line=dict(color=color, width=lw),
+                opacity=line_opacity,
                 hoverinfo="skip",
                 showlegend=False,
             ))
-            # Edge label at midpoint (only if highlighted or nothing selected)
-            if opacity > 0.5:
-                fig.add_annotation(
-                    x=mid_x, y=mid_y,
-                    text=f"<span style='font-size:8px'>{rel_type}</span>",
-                    showarrow=False,
-                    font=dict(size=8, color=color),
-                    opacity=0.75,
-                    bgcolor="rgba(11,14,26,0.6)",
-                )
 
-    # Determine visible node set
+            # Midpoint marker — clickable hit area
+            mid_x_list.append(mid_x)
+            mid_y_list.append(mid_y)
+            mid_cd.append(["edge", s, d, rel_type, e["desc"]])
+
+        if mid_x_list:
+            fig.add_trace(go.Scatter(
+                x=mid_x_list, y=mid_y_list,
+                mode="markers",
+                marker=dict(
+                    symbol="diamond",
+                    size=9,
+                    color=color,
+                    opacity=0.55,
+                    line=dict(color="#fff", width=0.5),
+                ),
+                customdata=mid_cd,
+                hovertemplate=(
+                    "<b>%{customdata[1]} ↔ %{customdata[2]}</b><br>"
+                    "%{customdata[3]}<br>"
+                    "<i>%{customdata[4]}</i><br>"
+                    "<span style='color:#aaa'>Click for deal details</span>"
+                    "<extra></extra>"
+                ),
+                showlegend=False,
+            ))
+
+    # ── Nodes per sector ──────────────────────────────────────────────────────
     visible_nodes = set(_NETWORK_COMPANIES.keys())
-    if sector_filter and "All" not in sector_filter:
-        # Still show all nodes but dim those not in sector filter
-        pass
-
-    # Collect nodes with edges in current filter
-    nodes_with_edges: set[str] = set()
-    for s, d, *_ in active_edges:
-        nodes_with_edges.add(s)
-        nodes_with_edges.add(d)
-
-    # Draw nodes per sector for legend grouping
-    sectors_present = sorted({_NETWORK_COMPANIES[t]["sector"]
-                              for t in visible_nodes if t in pos})
-
-    for sector in sectors_present:
+    for sector in sorted({_NETWORK_COMPANIES[t]["sector"] for t in visible_nodes if t in pos}):
         tickers_in_sector = [
             t for t in visible_nodes
             if _NETWORK_COMPANIES.get(t, {}).get("sector") == sector and t in pos
@@ -2749,45 +2962,42 @@ def _build_network_figure(
         if not tickers_in_sector:
             continue
 
-        node_x, node_y, node_text, customdata, sizes, opacities, borders = (
-            [], [], [], [], [], [], []
-        )
+        node_x, node_y, node_text, customdata, sizes, opacities, borders = [], [], [], [], [], [], []
         for t in tickers_in_sector:
             x, y = pos[t]
-            node_x.append(x)
-            node_y.append(y)
+            node_x.append(x); node_y.append(y)
             info = _NETWORK_COMPANIES[t]
             mc = info["mktcap_b"]
-            size = max(10, min(40, 8 + 12 * math.log10(max(mc, 1) + 1)))
-            sizes.append(size)
+            sizes.append(max(10, min(40, 8 + 12 * math.log10(max(mc, 1) + 1))))
             node_text.append(t)
-            customdata.append([t, info["name"], info["sector"], mc])
+            customdata.append(["node", t, info["name"], info["sector"], mc])
 
-            # Opacity: dim if selected and not in connected set
-            if selected:
-                op = 1.0 if t in connected_to_selected else 0.15
+            if highlighted_nodes is not None:
+                op = 1.0 if t in highlighted_nodes else 0.12
             elif sector_filter and "All" not in sector_filter:
                 op = 1.0 if info["sector"] in sector_filter else 0.25
             else:
                 op = 1.0
-
             opacities.append(op)
+
+            is_edge_endpoint = (highlighted_edge and
+                                (t == highlighted_edge[0] or t == highlighted_edge[1]))
             borders.append(
-                "#FFD700" if t == selected else
-                "#FFFFFF" if t in connected_to_selected and selected else
-                "#333"
+                "#FFD700" if (highlighted_nodes and t == next(iter(highlighted_nodes), None)
+                              and len(highlighted_nodes) == 1) else
+                "#FFD700" if is_edge_endpoint else
+                "#FFFFFF" if (highlighted_nodes and t in highlighted_nodes) else
+                "#2a2a2a"
             )
 
-        color = _SECTOR_COLORS.get(sector, "#888")
-        # Draw nodes (split by opacity group for visual clarity, but use single trace with per-point styling via marker)
         fig.add_trace(go.Scatter(
             x=node_x, y=node_y,
             mode="markers+text",
             name=sector,
             marker=dict(
-                color=[color] * len(node_x),
+                color=[_SECTOR_COLORS.get(sector, "#888")] * len(node_x),
                 size=sizes,
-                line=dict(color=borders, width=[3 if b != "#333" else 1 for b in borders]),
+                line=dict(color=borders, width=[2 if b != "#2a2a2a" else 0.5 for b in borders]),
                 opacity=opacities,
             ),
             text=node_text,
@@ -2795,205 +3005,338 @@ def _build_network_figure(
             textfont=dict(size=9, color="#E2E8F0"),
             customdata=customdata,
             hovertemplate=(
-                "<b>%{customdata[0]}</b> · %{customdata[1]}<br>"
-                "Sector: %{customdata[2]}<br>"
-                "Market Cap: ~$%{customdata[3]:.0f}B<extra></extra>"
+                "<b>%{customdata[1]}</b> · %{customdata[2]}<br>"
+                "Sector: %{customdata[3]}<br>"
+                "Market Cap: ~$%{customdata[4]:.0f}B<br>"
+                "<span style='color:#aaa'>Click for all relationships</span>"
+                "<extra></extra>"
             ),
             showlegend=True,
             legendgroup=sector,
         ))
 
-    # Relationship type legend entries (invisible scatter traces)
+    # Legend entries for relationship types
     for rel_type, color in _REL_COLORS.items():
         fig.add_trace(go.Scatter(
-            x=[None], y=[None],
-            mode="lines",
+            x=[None], y=[None], mode="lines",
             name=rel_type,
             line=dict(color=color, width=3),
-            showlegend=True,
-            legendgroup=rel_type,
+            showlegend=True, legendgroup=rel_type,
         ))
 
     dark = st.session_state.get("dark_mode", True)
-    bg = "#0B0E1A" if dark else "#F2F5FA"
-    paper_bg = "#141927" if dark else "#FFFFFF"
-    txt_color = "#E2E8F0" if dark else "#0B1628"
-
     fig.update_layout(
-        height=700,
-        margin=dict(t=20, l=10, r=10, b=10),
-        paper_bgcolor=paper_bg,
-        plot_bgcolor=bg,
-        font=dict(color=txt_color, family="sans-serif"),
+        height=680,
+        margin=dict(t=10, l=5, r=5, b=5),
+        paper_bgcolor="#141927" if dark else "#FFFFFF",
+        plot_bgcolor="#0B0E1A" if dark else "#F2F5FA",
+        font=dict(color="#E2E8F0" if dark else "#0B1628", family="sans-serif"),
         xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
         yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
         hovermode="closest",
         legend=dict(
-            orientation="v",
-            x=1.01, y=0.99,
-            bgcolor="rgba(20,25,39,0.85)" if dark else "rgba(255,255,255,0.85)",
+            orientation="v", x=1.01, y=0.99,
+            bgcolor="rgba(20,25,39,0.9)" if dark else "rgba(255,255,255,0.9)",
             bordercolor="#1E2C42" if dark else "#CDD5E0",
-            borderwidth=1,
-            font=dict(size=10),
-            tracegroupgap=4,
+            borderwidth=1, font=dict(size=10), tracegroupgap=4,
         ),
         dragmode="pan",
     )
     return fig
 
 
+def _render_node_panel(ticker: str, rel_types: set[str]) -> None:
+    """Structured panel for a clicked company node — shows all its relationships."""
+    info = _NETWORK_COMPANIES[ticker]
+    dark = st.session_state.get("dark_mode", True)
+    badge_bg  = "rgba(26,109,255,0.15)"
+    badge_txt = "#4D94FF"
+
+    # ── Header ────────────────────────────────────────────────────────────────
+    hcol, vcol = st.columns([5, 2])
+    with hcol:
+        sector_color = _SECTOR_COLORS.get(info["sector"], "#888")
+        st.markdown(
+            f"<h3 style='margin:0'>{ticker} &nbsp;"
+            f"<span style='font-size:1rem;font-weight:400;color:var(--txt2)'>{info['name']}</span>"
+            f"</h3>"
+            f"<span style='font-size:0.78rem;background:{sector_color}22;color:{sector_color};"
+            f"border:1px solid {sector_color}44;border-radius:4px;padding:2px 8px;"
+            f"margin-right:8px'>{info['sector']}</span>"
+            f"<span style='font-size:0.78rem;color:var(--txt2)'>~${info['mktcap_b']:,}B market cap</span>",
+            unsafe_allow_html=True,
+        )
+    with vcol:
+        st.write(" ")
+        if st.button(f"📈 View {ticker} Stock Profile", key="net_view_stock",
+                     use_container_width=True):
+            st.session_state["net_detail_ticker"] = ticker
+            st.rerun()
+
+    # ── Relationship cards ────────────────────────────────────────────────────
+    node_edges = [
+        e for e in _NETWORK_EDGES
+        if (e["src"] == ticker or e["dst"] == ticker) and e["type"] in rel_types
+    ]
+    if not node_edges:
+        st.caption("No relationships match the current filter.")
+        return
+
+    st.markdown(f"**{len(node_edges)} relationship{'s' if len(node_edges) != 1 else ''} found**")
+
+    # Group by relationship type for visual organisation
+    by_type: dict[str, list[dict]] = {}
+    for e in node_edges:
+        by_type.setdefault(e["type"], []).append(e)
+
+    for rel_type in _REL_COLORS:
+        edges_of_type = by_type.get(rel_type, [])
+        if not edges_of_type:
+            continue
+        color = _REL_COLORS[rel_type]
+        st.markdown(
+            f"<div style='font-size:0.7rem;font-weight:800;text-transform:uppercase;"
+            f"letter-spacing:0.1em;color:{color};margin:14px 0 6px'>"
+            f"● {rel_type} ({len(edges_of_type)})</div>",
+            unsafe_allow_html=True,
+        )
+
+        cols_per_row = 2
+        for row_start in range(0, len(edges_of_type), cols_per_row):
+            row_edges = edges_of_type[row_start:row_start + cols_per_row]
+            cols = st.columns(len(row_edges))
+            for col, e in zip(cols, row_edges):
+                other = e["dst"] if e["src"] == ticker else e["src"]
+                direction = "→" if e["src"] == ticker else "←"
+                other_info = _NETWORK_COMPANIES.get(other, {})
+                other_sector = other_info.get("sector", "")
+                other_color  = _SECTOR_COLORS.get(other_sector, "#888")
+                with col:
+                    with st.container(border=True):
+                        st.markdown(
+                            f"<div style='font-size:1rem;font-weight:800;margin-bottom:2px'>"
+                            f"{ticker} {direction} {other}</div>"
+                            f"<div style='font-size:0.78rem;color:var(--txt2);margin-bottom:8px'>"
+                            f"{other_info.get('name', other)} &nbsp;"
+                            f"<span style='font-size:0.7rem;background:{other_color}22;"
+                            f"color:{other_color};border:1px solid {other_color}44;"
+                            f"border-radius:3px;padding:1px 5px'>{other_sector}</span>"
+                            f"</div>",
+                            unsafe_allow_html=True,
+                        )
+                        st.markdown(f"**{e['desc']}**")
+                        m1c, m2c = st.columns(2)
+                        m1c.metric("Deal Value", e.get("value", "N/A"))
+                        m2c.metric("Established", e.get("year", "—"))
+                        with st.expander("Full Details", expanded=False):
+                            st.markdown(e.get("details", "No additional details."))
+                        if st.button(f"View {other}", key=f"net_goto_{other}_{e['src']}_{e['dst']}",
+                                     use_container_width=True):
+                            st.session_state["net_click_type"] = "node"
+                            st.session_state["net_selected"] = other
+                            st.rerun()
+
+
+def _render_edge_panel(src: str, dst: str) -> None:
+    """Structured panel for a clicked edge — shows the specific deal between two companies."""
+    e = _EDGE_LOOKUP.get((src, dst)) or _EDGE_LOOKUP.get((dst, src))
+    if not e:
+        st.warning(f"No deal data found for {src} ↔ {dst}.")
+        return
+
+    src_info = _NETWORK_COMPANIES.get(e["src"], {})
+    dst_info = _NETWORK_COMPANIES.get(e["dst"], {})
+    rel_color = _REL_COLORS.get(e["type"], "#888")
+    src_color = _SECTOR_COLORS.get(src_info.get("sector", ""), "#888")
+    dst_color = _SECTOR_COLORS.get(dst_info.get("sector", ""), "#888")
+
+    with st.container(border=True):
+        # Header row
+        st.markdown(
+            f"<div style='display:flex;align-items:center;gap:12px;margin-bottom:10px'>"
+            f"<span style='font-size:1.4rem;font-weight:900'>{e['src']}</span>"
+            f"<span style='font-size:1rem;color:{rel_color};font-weight:700'>↔</span>"
+            f"<span style='font-size:1.4rem;font-weight:900'>{e['dst']}</span>"
+            f"<span style='font-size:0.72rem;font-weight:800;text-transform:uppercase;"
+            f"letter-spacing:0.1em;background:{rel_color}22;color:{rel_color};"
+            f"border:1px solid {rel_color}55;border-radius:4px;padding:2px 10px'>"
+            f"{e['type']}</span>"
+            f"</div>"
+            f"<div style='font-size:0.82rem;color:var(--txt2);margin-bottom:6px'>"
+            f"<span style='background:{src_color}22;color:{src_color};"
+            f"border:1px solid {src_color}44;border-radius:3px;padding:1px 6px;margin-right:6px'>"
+            f"{src_info.get('name', e['src'])} · {src_info.get('sector','')}</span>"
+            f"<span style='background:{dst_color}22;color:{dst_color};"
+            f"border:1px solid {dst_color}44;border-radius:3px;padding:1px 6px'>"
+            f"{dst_info.get('name', e['dst'])} · {dst_info.get('sector','')}</span>"
+            f"</div>",
+            unsafe_allow_html=True,
+        )
+
+        st.markdown(f"### {e['desc']}")
+
+        c1, c2 = st.columns(2)
+        c1.metric("Deal Value", e.get("value", "N/A"))
+        c2.metric("Established", e.get("year", "—"))
+
+        st.markdown("**Deal Details**")
+        st.markdown(e.get("details", "No additional details available."))
+
+        st.divider()
+        b1, b2, b3 = st.columns([2, 2, 1])
+        with b1:
+            if st.button(f"📈 View {e['src']} Stock Profile", key="net_edge_view_src",
+                         use_container_width=True):
+                st.session_state["net_detail_ticker"] = e["src"]
+                st.rerun()
+        with b2:
+            if st.button(f"📈 View {e['dst']} Stock Profile", key="net_edge_view_dst",
+                         use_container_width=True):
+                st.session_state["net_detail_ticker"] = e["dst"]
+                st.rerun()
+        with b3:
+            if st.button("✕ Close", key="net_edge_close", use_container_width=True):
+                st.session_state.pop("net_click_type", None)
+                st.session_state.pop("net_edge_sel", None)
+                st.rerun()
+
+
 def render_network_page() -> None:
     st.title("🕸 Corporate Network")
     st.caption(
-        "Interactive graph of corporate relationships across the S&P 500 · "
-        "nodes sized by market cap · colored by sector · "
-        "**click a node to highlight its connections and open the stock panel**"
+        "Interactive corporate relationship graph · nodes sized by market cap · colored by sector · "
+        "**click a node** to see all its relationships · "
+        "**click a diamond ◆ on an edge** to see that specific deal"
     )
 
     # ── Controls ──────────────────────────────────────────────────────────────
     ctrl1, ctrl2, ctrl3 = st.columns([2, 2, 1])
-
     all_rel_types = list(_REL_COLORS.keys())
     all_sectors   = sorted({v["sector"] for v in _NETWORK_COMPANIES.values()})
 
     with ctrl1:
         rel_filter = st.multiselect(
-            "Relationship types",
-            all_rel_types,
-            default=all_rel_types,
-            key="net_rel_filter",
+            "Relationship types", all_rel_types, default=all_rel_types, key="net_rel_filter",
         )
     with ctrl2:
         sector_filter_list = st.multiselect(
-            "Sectors (filter nodes/edges)",
-            all_sectors,
-            default=[],
-            key="net_sector_filter",
+            "Sectors", all_sectors, default=[], key="net_sector_filter",
             placeholder="All sectors",
         )
     with ctrl3:
         st.write(" ")
-        if st.button("✕ Clear selection", key="net_clear", use_container_width=True):
-            st.session_state.pop("net_selected", None)
-            st.session_state.pop("net_detail_ticker", None)
+        if st.button("✕ Clear", key="net_clear", use_container_width=True):
+            for k in ("net_click_type", "net_selected", "net_edge_sel", "net_detail_ticker"):
+                st.session_state.pop(k, None)
             st.rerun()
 
-    # Company dropdown for explicit selection
+    # Company dropdown
     ticker_opts = ["— (none)"] + sorted(_NETWORK_COMPANIES.keys())
-    current_sel = st.session_state.get("net_selected")
+    current_sel = st.session_state.get("net_selected") \
+                  if st.session_state.get("net_click_type") == "node" else None
     dropdown_idx = ticker_opts.index(current_sel) if current_sel in ticker_opts else 0
     chosen = st.selectbox(
-        "Select a company to highlight its connections",
-        ticker_opts,
-        index=dropdown_idx,
-        key="net_company_dropdown",
+        "Jump to company",
+        ticker_opts, index=dropdown_idx, key="net_company_dropdown",
         format_func=lambda t: (
             f"{t} — {_NETWORK_COMPANIES[t]['name']}" if t in _NETWORK_COMPANIES else t
         ),
     )
-    if chosen != "— (none)":
-        st.session_state["net_selected"] = chosen
-        st.session_state["net_detail_ticker"] = chosen
-    elif st.session_state.get("net_selected") and chosen == "— (none)":
-        # Only clear if user explicitly chose none from dropdown
-        pass  # preserve node-click selection
+    if chosen and chosen != "— (none)":
+        if chosen != st.session_state.get("net_selected") or \
+                st.session_state.get("net_click_type") != "node":
+            st.session_state["net_click_type"] = "node"
+            st.session_state["net_selected"] = chosen
+            st.session_state.pop("net_edge_sel", None)
+            st.rerun()
 
-    selected = st.session_state.get("net_selected")
-    rel_types = set(rel_filter) if rel_filter else set(all_rel_types)
+    rel_types     = set(rel_filter) if rel_filter else set(all_rel_types)
     sector_filter = set(sector_filter_list) if sector_filter_list else {"All"}
+    click_type    = st.session_state.get("net_click_type")
+    net_selected  = st.session_state.get("net_selected")
+    net_edge_sel  = st.session_state.get("net_edge_sel")  # (src, dst)
 
-    # ── Build & display graph ─────────────────────────────────────────────────
+    # Compute highlighted nodes for dimming
+    highlighted_nodes: set[str] | None = None
+    highlighted_edge: tuple[str, str] | None = None
+    if click_type == "node" and net_selected:
+        neighbors = {
+            (e["dst"] if e["src"] == net_selected else e["src"])
+            for e in _NETWORK_EDGES
+            if (e["src"] == net_selected or e["dst"] == net_selected)
+            and e["type"] in rel_types
+        }
+        highlighted_nodes = neighbors | {net_selected}
+    elif click_type == "edge" and net_edge_sel:
+        highlighted_edge = net_edge_sel
+        highlighted_nodes = set(net_edge_sel)
+
+    # ── Graph ─────────────────────────────────────────────────────────────────
     pos = _build_network_layout()
-    fig = _build_network_figure(pos, selected, rel_types, sector_filter)
+    fig = _build_network_figure(pos, highlighted_nodes, highlighted_edge, rel_types, sector_filter)
 
-    all_tickers_in_graph = set(_NETWORK_COMPANIES.keys())
     event = st.plotly_chart(
         fig, use_container_width=True, key="network_graph", on_select="rerun",
         config=dict(scrollZoom=True, displayModeBar=True,
                     modeBarButtonsToRemove=["lasso2d", "select2d"]),
     )
 
-    # Handle node click
+    # Handle clicks
     if event and event.selection:
         for pt in event.selection.get("points", []):
             cd = pt.get("customdata")
-            if cd and len(cd) > 0:
-                clicked_ticker = str(cd[0])
-                if clicked_ticker in all_tickers_in_graph:
-                    st.session_state["net_selected"] = clicked_ticker
-                    st.session_state["net_detail_ticker"] = clicked_ticker
-                    st.rerun()
+            if not cd or len(cd) < 2:
+                continue
+            if cd[0] == "node" and str(cd[1]) in _NETWORK_COMPANIES:
+                st.session_state["net_click_type"] = "node"
+                st.session_state["net_selected"] = str(cd[1])
+                st.session_state.pop("net_edge_sel", None)
+                st.rerun()
+            elif cd[0] == "edge" and len(cd) >= 3:
+                st.session_state["net_click_type"] = "edge"
+                st.session_state["net_edge_sel"] = (str(cd[1]), str(cd[2]))
+                st.session_state.pop("net_selected", None)
+                st.rerun()
 
-    # ── Legend / stats strip ──────────────────────────────────────────────────
-    active_edges = [
-        (s, d, rt, desc) for s, d, rt, desc in _NETWORK_EDGES
-        if rt in rel_types
-    ]
-    if sector_filter and "All" not in sector_filter:
-        active_edges = [
-            (s, d, rt, desc) for s, d, rt, desc in active_edges
-            if (_NETWORK_COMPANIES.get(s, {}).get("sector", "") in sector_filter
-                or _NETWORK_COMPANIES.get(d, {}).get("sector", "") in sector_filter)
-        ]
-
+    # ── Stats strip ───────────────────────────────────────────────────────────
+    active_edge_count = sum(
+        1 for e in _NETWORK_EDGES
+        if e["type"] in rel_types and (
+            "All" in sector_filter or
+            _NETWORK_COMPANIES.get(e["src"], {}).get("sector", "") in sector_filter or
+            _NETWORK_COMPANIES.get(e["dst"], {}).get("sector", "") in sector_filter
+        )
+    )
     m1, m2, m3, m4 = st.columns(4)
     m1.metric("Companies", len(_NETWORK_COMPANIES))
-    m2.metric("Connections shown", len(active_edges))
-    m3.metric("Relationship types", len(rel_types))
-    if selected and selected in _NETWORK_COMPANIES:
-        neighbors = set()
-        for s, d, rt, _ in active_edges:
-            if s == selected: neighbors.add(d)
-            if d == selected: neighbors.add(s)
-        m4.metric(f"{selected} direct links", len(neighbors))
+    m2.metric("Connections", active_edge_count)
+    m3.metric("Rel. types shown", len(rel_types))
+    if click_type == "node" and net_selected and net_selected in _NETWORK_COMPANIES:
+        cnt = sum(1 for e in _NETWORK_EDGES
+                  if (e["src"] == net_selected or e["dst"] == net_selected)
+                  and e["type"] in rel_types)
+        m4.metric(f"{net_selected} relationships", cnt)
+    elif click_type == "edge" and net_edge_sel:
+        m4.metric("Selected edge", f"{net_edge_sel[0]} ↔ {net_edge_sel[1]}")
     else:
-        m4.metric("Selected", "None")
+        m4.metric("Click a node or ◆", "to see details")
 
-    # ── Connection table for selected node ────────────────────────────────────
-    if selected and selected in _NETWORK_COMPANIES:
-        st.divider()
-        sel_info = _NETWORK_COMPANIES[selected]
-        st.markdown(f"**{selected} — {sel_info['name']}** · Sector: {sel_info['sector']} "
-                    f"· Market Cap: ~${sel_info['mktcap_b']:,}B")
+    st.divider()
 
-        conn_rows = []
-        for s, d, rt, desc in _NETWORK_EDGES:
-            if s == selected or d == selected:
-                other = d if s == selected else s
-                direction = "→" if s == selected else "←"
-                other_info = _NETWORK_COMPANIES.get(other, {})
-                conn_rows.append({
-                    "Dir": direction,
-                    "Company": f"{other} — {other_info.get('name', other)}",
-                    "Sector": other_info.get("sector", ""),
-                    "Type": rt,
-                    "Description": desc,
-                })
+    # ── Detail panel ──────────────────────────────────────────────────────────
+    if click_type == "node" and net_selected and net_selected in _NETWORK_COMPANIES:
+        _render_node_panel(net_selected, rel_types)
+    elif click_type == "edge" and net_edge_sel:
+        _render_edge_panel(net_edge_sel[0], net_edge_sel[1])
 
-        if conn_rows:
-            conn_df = pd.DataFrame(conn_rows)
-            conn_event = st.dataframe(
-                conn_df, use_container_width=True, hide_index=True,
-                on_select="rerun", selection_mode="single-row",
-                key="net_conn_table",
-            )
-            conn_sel = (conn_event.selection or {}).get("rows", [])
-            if conn_sel and conn_sel[0] < len(conn_df):
-                raw_company = conn_df.iloc[conn_sel[0]]["Company"]
-                nav_ticker = raw_company.split(" — ")[0].strip()
-                if nav_ticker in _NETWORK_COMPANIES:
-                    st.session_state["net_selected"] = nav_ticker
-                    st.session_state["net_detail_ticker"] = nav_ticker
-                    st.rerun()
-
-    # ── Stock detail panel ────────────────────────────────────────────────────
+    # ── Stock profile panel (opened via button inside node/edge panels) ────────
     detail_ticker = st.session_state.get("net_detail_ticker")
     if detail_ticker:
         st.divider()
         hdr_c, clr_c = st.columns([6, 1])
         hdr_c.markdown(f"**Stock Profile: {detail_ticker}**")
         with clr_c:
-            if st.button("✕ Close", key="net_close_detail"):
+            if st.button("✕ Close", key="net_close_stock"):
                 st.session_state.pop("net_detail_ticker", None)
                 st.rerun()
         with st.container(border=True):
