@@ -18,6 +18,9 @@ from __future__ import annotations
 import concurrent.futures
 from datetime import datetime, timezone
 
+import math
+
+import networkx as nx
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -2465,6 +2468,538 @@ def render_equities_page() -> None:
             render_single_ticker(detail_ticker)
 
 
+# ──────────────────────────────────────────────────────────────────────────────
+# Corporate Network page
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Curated corporate relationship dataset
+_NETWORK_COMPANIES: dict[str, dict] = {
+    # Ticker: {name, sector, mktcap_b (billions)}
+    "AAPL":  {"name": "Apple",              "sector": "Technology",              "mktcap_b": 3000},
+    "MSFT":  {"name": "Microsoft",          "sector": "Technology",              "mktcap_b": 3200},
+    "GOOGL": {"name": "Alphabet",           "sector": "Communication Services",  "mktcap_b": 2200},
+    "META":  {"name": "Meta Platforms",     "sector": "Communication Services",  "mktcap_b": 1400},
+    "AMZN":  {"name": "Amazon",             "sector": "Consumer Cyclical",       "mktcap_b": 1900},
+    "NVDA":  {"name": "NVIDIA",             "sector": "Technology",              "mktcap_b": 3000},
+    "AMD":   {"name": "Advanced Micro Devices","sector": "Technology",           "mktcap_b": 250},
+    "QCOM":  {"name": "Qualcomm",           "sector": "Technology",              "mktcap_b": 170},
+    "AVGO":  {"name": "Broadcom",           "sector": "Technology",              "mktcap_b": 600},
+    "TSM":   {"name": "TSMC",               "sector": "Technology",              "mktcap_b": 900},
+    "SWKS":  {"name": "Skyworks Solutions", "sector": "Technology",              "mktcap_b": 15},
+    "INTC":  {"name": "Intel",              "sector": "Technology",              "mktcap_b": 130},
+    "CRM":   {"name": "Salesforce",         "sector": "Technology",              "mktcap_b": 280},
+    "ORCL":  {"name": "Oracle",             "sector": "Technology",              "mktcap_b": 350},
+    "ADBE":  {"name": "Adobe",              "sector": "Technology",              "mktcap_b": 240},
+    "TSLA":  {"name": "Tesla",              "sector": "Consumer Cyclical",       "mktcap_b": 700},
+    "RIVN":  {"name": "Rivian",             "sector": "Consumer Cyclical",       "mktcap_b": 15},
+    "GM":    {"name": "General Motors",     "sector": "Consumer Cyclical",       "mktcap_b": 50},
+    "F":     {"name": "Ford Motor",         "sector": "Consumer Cyclical",       "mktcap_b": 50},
+    "UBER":  {"name": "Uber Technologies",  "sector": "Technology",              "mktcap_b": 155},
+    "SPOT":  {"name": "Spotify",            "sector": "Communication Services",  "mktcap_b": 80},
+    "JPM":   {"name": "JPMorgan Chase",     "sector": "Financial Services",      "mktcap_b": 580},
+    "BAC":   {"name": "Bank of America",    "sector": "Financial Services",      "mktcap_b": 320},
+    "WFC":   {"name": "Wells Fargo",        "sector": "Financial Services",      "mktcap_b": 220},
+    "GS":    {"name": "Goldman Sachs",      "sector": "Financial Services",      "mktcap_b": 160},
+    "BRK-B": {"name": "Berkshire Hathaway", "sector": "Financial Services",      "mktcap_b": 900},
+    "V":     {"name": "Visa",               "sector": "Financial Services",      "mktcap_b": 560},
+    "MA":    {"name": "Mastercard",         "sector": "Financial Services",      "mktcap_b": 450},
+    "AXP":   {"name": "American Express",   "sector": "Financial Services",      "mktcap_b": 200},
+    "PYPL":  {"name": "PayPal",             "sector": "Financial Services",      "mktcap_b": 65},
+    "MCO":   {"name": "Moody's",            "sector": "Financial Services",      "mktcap_b": 80},
+    "OXY":   {"name": "Occidental Petroleum","sector": "Energy",                 "mktcap_b": 55},
+    "XOM":   {"name": "ExxonMobil",         "sector": "Energy",                  "mktcap_b": 490},
+    "CVX":   {"name": "Chevron",            "sector": "Energy",                  "mktcap_b": 290},
+    "SLB":   {"name": "SLB (Schlumberger)", "sector": "Energy",                  "mktcap_b": 60},
+    "HAL":   {"name": "Halliburton",        "sector": "Energy",                  "mktcap_b": 30},
+    "JNJ":   {"name": "Johnson & Johnson",  "sector": "Healthcare",              "mktcap_b": 380},
+    "PFE":   {"name": "Pfizer",             "sector": "Healthcare",              "mktcap_b": 180},
+    "MRK":   {"name": "Merck",              "sector": "Healthcare",              "mktcap_b": 270},
+    "LLY":   {"name": "Eli Lilly",          "sector": "Healthcare",              "mktcap_b": 750},
+    "ABBV":  {"name": "AbbVie",             "sector": "Healthcare",              "mktcap_b": 300},
+    "UNH":   {"name": "UnitedHealth",       "sector": "Healthcare",              "mktcap_b": 490},
+    "BNTX":  {"name": "BioNTech",           "sector": "Healthcare",              "mktcap_b": 25},
+    "GILD":  {"name": "Gilead Sciences",    "sector": "Healthcare",              "mktcap_b": 100},
+    "MCD":   {"name": "McDonald's",         "sector": "Consumer Defensive",      "mktcap_b": 220},
+    "WMT":   {"name": "Walmart",            "sector": "Consumer Defensive",      "mktcap_b": 700},
+    "TGT":   {"name": "Target",             "sector": "Consumer Defensive",      "mktcap_b": 70},
+    "KO":    {"name": "Coca-Cola",          "sector": "Consumer Defensive",      "mktcap_b": 260},
+    "PEP":   {"name": "PepsiCo",            "sector": "Consumer Defensive",      "mktcap_b": 220},
+    "SBUX":  {"name": "Starbucks",          "sector": "Consumer Defensive",      "mktcap_b": 90},
+    "PG":    {"name": "Procter & Gamble",   "sector": "Consumer Defensive",      "mktcap_b": 380},
+    "YUM":   {"name": "Yum! Brands",        "sector": "Consumer Defensive",      "mktcap_b": 40},
+    "BA":    {"name": "Boeing",             "sector": "Industrials",             "mktcap_b": 140},
+    "GE":    {"name": "GE Aerospace",       "sector": "Industrials",             "mktcap_b": 200},
+    "RTX":   {"name": "RTX Corporation",    "sector": "Industrials",             "mktcap_b": 150},
+    "LMT":   {"name": "Lockheed Martin",    "sector": "Industrials",             "mktcap_b": 120},
+    "HON":   {"name": "Honeywell",          "sector": "Industrials",             "mktcap_b": 140},
+    "UPS":   {"name": "United Parcel Service","sector": "Industrials",           "mktcap_b": 130},
+    "FDX":   {"name": "FedEx",              "sector": "Industrials",             "mktcap_b": 70},
+    "PLUG":  {"name": "Plug Power",         "sector": "Industrials",             "mktcap_b": 2},
+    "SAP":   {"name": "SAP SE",             "sector": "Technology",              "mktcap_b": 250},
+}
+
+# Edge list: (source, target, relationship_type, description)
+_NETWORK_EDGES: list[tuple[str, str, str, str]] = [
+    # ── Supply Chain ──────────────────────────────────────────────────────────
+    ("AAPL", "TSM",   "Supply Chain", "TSMC manufactures Apple silicon chips"),
+    ("AAPL", "QCOM",  "Supply Chain", "Qualcomm modems & wireless chips for iPhone"),
+    ("AAPL", "AVGO",  "Supply Chain", "Broadcom wireless & Bluetooth chips"),
+    ("AAPL", "SWKS",  "Supply Chain", "Skyworks RF components for iPhone"),
+    ("NVDA", "TSM",   "Supply Chain", "TSMC manufactures NVIDIA GPUs"),
+    ("AMD",  "TSM",   "Supply Chain", "TSMC manufactures AMD CPUs & GPUs"),
+    ("QCOM", "TSM",   "Supply Chain", "TSMC manufactures Qualcomm SoCs"),
+    ("AVGO", "TSM",   "Supply Chain", "TSMC manufactures Broadcom networking chips"),
+    ("INTC", "TSM",   "Supply Chain", "TSMC manufactures Intel foundry chips"),
+    ("MCD",  "KO",    "Supply Chain", "Coca-Cola exclusive beverage supplier to McDonald's"),
+    ("YUM",  "PEP",   "Supply Chain", "PepsiCo exclusive beverage partner for KFC/Pizza Hut"),
+    ("WMT",  "PG",    "Supply Chain", "P&G largest US retail distribution relationship"),
+    ("TGT",  "PG",    "Supply Chain", "P&G major product distribution through Target"),
+    ("AMZN", "UPS",   "Supply Chain", "UPS major shipping & logistics partner"),
+    ("AMZN", "FDX",   "Supply Chain", "FedEx shipping & air freight partner"),
+    ("BA",   "GE",    "Supply Chain", "GE Aviation engines on 737, 777, 787"),
+    ("BA",   "RTX",   "Supply Chain", "Pratt & Whitney engines on Boeing aircraft"),
+    ("LMT",  "RTX",   "Supply Chain", "F-35 powered by Pratt & Whitney F135 engines"),
+    ("LMT",  "GE",    "Supply Chain", "GE F110 engines for F-16 fleet"),
+    ("XOM",  "SLB",   "Supply Chain", "SLB provides oilfield services to ExxonMobil"),
+    ("CVX",  "SLB",   "Supply Chain", "SLB provides oilfield services to Chevron"),
+    ("XOM",  "HAL",   "Supply Chain", "Halliburton drilling & completion services"),
+    ("CVX",  "HAL",   "Supply Chain", "Halliburton drilling services for Chevron wells"),
+    ("META", "QCOM",  "Supply Chain", "Qualcomm Snapdragon chips power Meta Quest VR"),
+
+    # ── Partnership ───────────────────────────────────────────────────────────
+    ("GOOGL","AAPL",  "Partnership",  "Google pays Apple for default iOS search (~$20B/yr)"),
+    ("MSFT", "NVDA",  "Partnership",  "Azure AI supercomputer cluster with NVIDIA GPUs"),
+    ("GOOGL","NVDA",  "Partnership",  "Google Cloud AI compute partnership"),
+    ("META", "NVDA",  "Partnership",  "Meta AI training infrastructure on NVIDIA"),
+    ("AMZN", "NVDA",  "Partnership",  "AWS AI GPU instances partnership"),
+    ("ORCL", "NVDA",  "Partnership",  "Oracle Cloud AI infrastructure with NVIDIA"),
+    ("TSLA", "NVDA",  "Partnership",  "Tesla uses NVIDIA for FSD AI training workloads"),
+    ("V",    "PYPL",  "Partnership",  "Visa-PayPal strategic payment network agreement"),
+    ("MA",   "PYPL",  "Partnership",  "Mastercard-PayPal digital wallet network deal"),
+    ("AAPL", "V",     "Partnership",  "Apple Pay operates on Visa network"),
+    ("AAPL", "MA",    "Partnership",  "Apple Card issued on Mastercard network"),
+    ("MSFT", "CRM",   "Partnership",  "Salesforce + Microsoft 365 deep integration"),
+    ("GOOGL","CRM",   "Partnership",  "Salesforce + Google Cloud strategic partnership"),
+    ("WMT",  "MSFT",  "Partnership",  "Walmart 5-year Azure cloud transformation deal"),
+    ("MSFT", "SAP",   "Partnership",  "SAP enterprise apps run on Microsoft Azure"),
+    ("META", "MSFT",  "Partnership",  "Meta AI Llama models on Azure Marketplace"),
+    ("JPM",  "V",     "Partnership",  "JPMorgan Chase Sapphire Visa card portfolio"),
+    ("BAC",  "MA",    "Partnership",  "Bank of America Mastercard co-brand cards"),
+    ("WFC",  "V",     "Partnership",  "Wells Fargo Visa consumer card partnership"),
+    ("AMZN", "SBUX",  "Partnership",  "Alexa voice ordering & Amazon HQ Starbucks stores"),
+    ("TSLA", "F",     "Partnership",  "Ford adopts Tesla NACS EV charging standard"),
+    ("TSLA", "GM",    "Partnership",  "GM adopts Tesla NACS EV charging standard"),
+    ("MSFT", "AAPL",  "Partnership",  "Microsoft 365 & Teams on iOS and macOS"),
+    ("GOOGL","SPOT",  "Partnership",  "Spotify + Google Assistant integration"),
+    ("ADBE", "MSFT",  "Partnership",  "Adobe Creative Cloud + Microsoft 365 integration"),
+    ("GOOGL","UBER",  "Partnership",  "Google Maps powers Uber navigation globally"),
+    ("MSFT", "GILD",  "Partnership",  "Gilead uses Azure AI for drug discovery"),
+
+    # ── Ownership / Investment ─────────────────────────────────────────────────
+    ("BRK-B","AAPL",  "Ownership",    "Berkshire owns ~5.5% of Apple ($170B+ position)"),
+    ("BRK-B","BAC",   "Ownership",    "Berkshire owns ~13% of Bank of America"),
+    ("BRK-B","KO",    "Ownership",    "Berkshire owns ~9.3% of Coca-Cola since 1988"),
+    ("BRK-B","AXP",   "Ownership",    "Berkshire owns ~21% of American Express"),
+    ("BRK-B","OXY",   "Ownership",    "Berkshire owns ~28% of Occidental Petroleum"),
+    ("BRK-B","MCO",   "Ownership",    "Berkshire owns ~13% of Moody's"),
+    ("BRK-B","CVX",   "Ownership",    "Berkshire owns ~9% of Chevron"),
+    ("AMZN", "RIVN",  "Ownership",    "Amazon owns ~16% of Rivian + 100,000 EV van order"),
+    ("GOOGL","UBER",  "Ownership",    "Alphabet holds equity stake via early GV investment"),
+
+    # ── Joint Venture ─────────────────────────────────────────────────────────
+    ("PFE",  "BNTX",  "Joint Venture","BioNTech-Pfizer COVID-19 mRNA vaccine co-development"),
+    ("JNJ",  "ABBV",  "Joint Venture","Imbruvica (ibrutinib) co-development & royalty deal"),
+    ("BA",   "LMT",   "Joint Venture","United Launch Alliance (ULA) rocket JV"),
+    ("XOM",  "CVX",   "Joint Venture","Tengizchevroil Kazakhstan upstream oil JV"),
+    ("GM",   "PLUG",  "Joint Venture","Hydrogen fuel cell technology partnership for trucks"),
+    ("LLY",  "ABBV",  "Joint Venture","Botox-competitive neuromodulator licensing agreement"),
+    ("MRK",  "ABBV",  "Joint Venture","Imbruvica global commercialization co-promotion"),
+    ("GOOGL","MSFT",  "Joint Venture","Joint industry AI safety & interoperability standards"),
+]
+
+_SECTOR_COLORS: dict[str, str] = {
+    "Technology":             "#1A6DFF",
+    "Communication Services": "#9C27B0",
+    "Consumer Cyclical":      "#FF9800",
+    "Consumer Defensive":     "#4CAF50",
+    "Financial Services":     "#26C6DA",
+    "Energy":                 "#FF5722",
+    "Healthcare":             "#E91E63",
+    "Industrials":            "#78909C",
+    "Real Estate":            "#8D6E63",
+    "Utilities":              "#FFEE58",
+    "Basic Materials":        "#66BB6A",
+}
+
+_REL_COLORS: dict[str, str] = {
+    "Supply Chain": "#FF9800",
+    "Partnership":  "#1A6DFF",
+    "Ownership":    "#00CC66",
+    "Joint Venture":"#E91E63",
+}
+
+
+@st.cache_data(show_spinner=False)
+def _build_network_layout() -> dict[str, tuple[float, float]]:
+    """Compute and cache a stable spring layout for the corporate network."""
+    G = nx.Graph()
+    for ticker in _NETWORK_COMPANIES:
+        G.add_node(ticker)
+    for src, dst, _, _ in _NETWORK_EDGES:
+        if src in _NETWORK_COMPANIES and dst in _NETWORK_COMPANIES:
+            G.add_edge(src, dst)
+    return nx.spring_layout(G, seed=42, k=2.2, iterations=80)
+
+
+def _build_network_figure(
+    pos: dict[str, tuple[float, float]],
+    selected: str | None,
+    rel_types: set[str],
+    sector_filter: set[str],
+) -> go.Figure:
+    """Build a Plotly figure for the corporate network graph."""
+    fig = go.Figure()
+
+    # Determine which nodes are "active" given filters
+    active_edges = [
+        (s, d, rt, desc) for s, d, rt, desc in _NETWORK_EDGES
+        if rt in rel_types
+        and _NETWORK_COMPANIES.get(s, {}).get("sector", "") not in (
+            sector_filter - {"All"} if sector_filter != {"All"} else set()
+        )
+    ]
+
+    if sector_filter and "All" not in sector_filter:
+        active_edges = [
+            (s, d, rt, desc) for s, d, rt, desc in active_edges
+            if (_NETWORK_COMPANIES.get(s, {}).get("sector", "") in sector_filter
+                or _NETWORK_COMPANIES.get(d, {}).get("sector", "") in sector_filter)
+        ]
+
+    connected_to_selected: set[str] = set()
+    if selected:
+        for s, d, rt, _ in active_edges:
+            if s == selected:
+                connected_to_selected.add(d)
+            if d == selected:
+                connected_to_selected.add(s)
+        connected_to_selected.add(selected)
+
+    # Draw edges grouped by relationship type
+    for rel_type, color in _REL_COLORS.items():
+        if rel_type not in rel_types:
+            continue
+        edges_of_type = [(s, d, desc) for s, d, rt, desc in active_edges if rt == rel_type]
+        if not edges_of_type:
+            continue
+
+        for s, d, desc in edges_of_type:
+            if s not in pos or d not in pos:
+                continue
+            x0, y0 = pos[s]
+            x1, y1 = pos[d]
+            mid_x, mid_y = (x0 + x1) / 2, (y0 + y1) / 2
+
+            # Dim edges not connected to selected node
+            opacity = 1.0
+            if selected and not (s in connected_to_selected and d in connected_to_selected):
+                opacity = 0.06
+
+            fig.add_trace(go.Scatter(
+                x=[x0, x1, None],
+                y=[y0, y1, None],
+                mode="lines",
+                line=dict(color=color, width=2 if opacity > 0.5 else 1),
+                opacity=opacity,
+                hoverinfo="skip",
+                showlegend=False,
+            ))
+            # Edge label at midpoint (only if highlighted or nothing selected)
+            if opacity > 0.5:
+                fig.add_annotation(
+                    x=mid_x, y=mid_y,
+                    text=f"<span style='font-size:8px'>{rel_type}</span>",
+                    showarrow=False,
+                    font=dict(size=8, color=color),
+                    opacity=0.75,
+                    bgcolor="rgba(11,14,26,0.6)",
+                )
+
+    # Determine visible node set
+    visible_nodes = set(_NETWORK_COMPANIES.keys())
+    if sector_filter and "All" not in sector_filter:
+        # Still show all nodes but dim those not in sector filter
+        pass
+
+    # Collect nodes with edges in current filter
+    nodes_with_edges: set[str] = set()
+    for s, d, *_ in active_edges:
+        nodes_with_edges.add(s)
+        nodes_with_edges.add(d)
+
+    # Draw nodes per sector for legend grouping
+    sectors_present = sorted({_NETWORK_COMPANIES[t]["sector"]
+                              for t in visible_nodes if t in pos})
+
+    for sector in sectors_present:
+        tickers_in_sector = [
+            t for t in visible_nodes
+            if _NETWORK_COMPANIES.get(t, {}).get("sector") == sector and t in pos
+        ]
+        if not tickers_in_sector:
+            continue
+
+        node_x, node_y, node_text, customdata, sizes, opacities, borders = (
+            [], [], [], [], [], [], []
+        )
+        for t in tickers_in_sector:
+            x, y = pos[t]
+            node_x.append(x)
+            node_y.append(y)
+            info = _NETWORK_COMPANIES[t]
+            mc = info["mktcap_b"]
+            size = max(10, min(40, 8 + 12 * math.log10(max(mc, 1) + 1)))
+            sizes.append(size)
+            node_text.append(t)
+            customdata.append([t, info["name"], info["sector"], mc])
+
+            # Opacity: dim if selected and not in connected set
+            if selected:
+                op = 1.0 if t in connected_to_selected else 0.15
+            elif sector_filter and "All" not in sector_filter:
+                op = 1.0 if info["sector"] in sector_filter else 0.25
+            else:
+                op = 1.0
+
+            opacities.append(op)
+            borders.append(
+                "#FFD700" if t == selected else
+                "#FFFFFF" if t in connected_to_selected and selected else
+                "#333"
+            )
+
+        color = _SECTOR_COLORS.get(sector, "#888")
+        # Draw nodes (split by opacity group for visual clarity, but use single trace with per-point styling via marker)
+        fig.add_trace(go.Scatter(
+            x=node_x, y=node_y,
+            mode="markers+text",
+            name=sector,
+            marker=dict(
+                color=[color] * len(node_x),
+                size=sizes,
+                line=dict(color=borders, width=[3 if b != "#333" else 1 for b in borders]),
+                opacity=opacities,
+            ),
+            text=node_text,
+            textposition="top center",
+            textfont=dict(size=9, color="#E2E8F0"),
+            customdata=customdata,
+            hovertemplate=(
+                "<b>%{customdata[0]}</b> · %{customdata[1]}<br>"
+                "Sector: %{customdata[2]}<br>"
+                "Market Cap: ~$%{customdata[3]:.0f}B<extra></extra>"
+            ),
+            showlegend=True,
+            legendgroup=sector,
+        ))
+
+    # Relationship type legend entries (invisible scatter traces)
+    for rel_type, color in _REL_COLORS.items():
+        fig.add_trace(go.Scatter(
+            x=[None], y=[None],
+            mode="lines",
+            name=rel_type,
+            line=dict(color=color, width=3),
+            showlegend=True,
+            legendgroup=rel_type,
+        ))
+
+    dark = st.session_state.get("dark_mode", True)
+    bg = "#0B0E1A" if dark else "#F2F5FA"
+    paper_bg = "#141927" if dark else "#FFFFFF"
+    txt_color = "#E2E8F0" if dark else "#0B1628"
+
+    fig.update_layout(
+        height=700,
+        margin=dict(t=20, l=10, r=10, b=10),
+        paper_bgcolor=paper_bg,
+        plot_bgcolor=bg,
+        font=dict(color=txt_color, family="sans-serif"),
+        xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+        yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+        hovermode="closest",
+        legend=dict(
+            orientation="v",
+            x=1.01, y=0.99,
+            bgcolor="rgba(20,25,39,0.85)" if dark else "rgba(255,255,255,0.85)",
+            bordercolor="#1E2C42" if dark else "#CDD5E0",
+            borderwidth=1,
+            font=dict(size=10),
+            tracegroupgap=4,
+        ),
+        dragmode="pan",
+    )
+    return fig
+
+
+def render_network_page() -> None:
+    st.title("🕸 Corporate Network")
+    st.caption(
+        "Interactive graph of corporate relationships across the S&P 500 · "
+        "nodes sized by market cap · colored by sector · "
+        "**click a node to highlight its connections and open the stock panel**"
+    )
+
+    # ── Controls ──────────────────────────────────────────────────────────────
+    ctrl1, ctrl2, ctrl3 = st.columns([2, 2, 1])
+
+    all_rel_types = list(_REL_COLORS.keys())
+    all_sectors   = sorted({v["sector"] for v in _NETWORK_COMPANIES.values()})
+
+    with ctrl1:
+        rel_filter = st.multiselect(
+            "Relationship types",
+            all_rel_types,
+            default=all_rel_types,
+            key="net_rel_filter",
+        )
+    with ctrl2:
+        sector_filter_list = st.multiselect(
+            "Sectors (filter nodes/edges)",
+            all_sectors,
+            default=[],
+            key="net_sector_filter",
+            placeholder="All sectors",
+        )
+    with ctrl3:
+        st.write(" ")
+        if st.button("✕ Clear selection", key="net_clear", use_container_width=True):
+            st.session_state.pop("net_selected", None)
+            st.session_state.pop("net_detail_ticker", None)
+            st.rerun()
+
+    # Company dropdown for explicit selection
+    ticker_opts = ["— (none)"] + sorted(_NETWORK_COMPANIES.keys())
+    current_sel = st.session_state.get("net_selected")
+    dropdown_idx = ticker_opts.index(current_sel) if current_sel in ticker_opts else 0
+    chosen = st.selectbox(
+        "Select a company to highlight its connections",
+        ticker_opts,
+        index=dropdown_idx,
+        key="net_company_dropdown",
+        format_func=lambda t: (
+            f"{t} — {_NETWORK_COMPANIES[t]['name']}" if t in _NETWORK_COMPANIES else t
+        ),
+    )
+    if chosen != "— (none)":
+        st.session_state["net_selected"] = chosen
+        st.session_state["net_detail_ticker"] = chosen
+    elif st.session_state.get("net_selected") and chosen == "— (none)":
+        # Only clear if user explicitly chose none from dropdown
+        pass  # preserve node-click selection
+
+    selected = st.session_state.get("net_selected")
+    rel_types = set(rel_filter) if rel_filter else set(all_rel_types)
+    sector_filter = set(sector_filter_list) if sector_filter_list else {"All"}
+
+    # ── Build & display graph ─────────────────────────────────────────────────
+    pos = _build_network_layout()
+    fig = _build_network_figure(pos, selected, rel_types, sector_filter)
+
+    all_tickers_in_graph = set(_NETWORK_COMPANIES.keys())
+    event = st.plotly_chart(
+        fig, use_container_width=True, key="network_graph", on_select="rerun",
+        config=dict(scrollZoom=True, displayModeBar=True,
+                    modeBarButtonsToRemove=["lasso2d", "select2d"]),
+    )
+
+    # Handle node click
+    if event and event.selection:
+        for pt in event.selection.get("points", []):
+            cd = pt.get("customdata")
+            if cd and len(cd) > 0:
+                clicked_ticker = str(cd[0])
+                if clicked_ticker in all_tickers_in_graph:
+                    st.session_state["net_selected"] = clicked_ticker
+                    st.session_state["net_detail_ticker"] = clicked_ticker
+                    st.rerun()
+
+    # ── Legend / stats strip ──────────────────────────────────────────────────
+    active_edges = [
+        (s, d, rt, desc) for s, d, rt, desc in _NETWORK_EDGES
+        if rt in rel_types
+    ]
+    if sector_filter and "All" not in sector_filter:
+        active_edges = [
+            (s, d, rt, desc) for s, d, rt, desc in active_edges
+            if (_NETWORK_COMPANIES.get(s, {}).get("sector", "") in sector_filter
+                or _NETWORK_COMPANIES.get(d, {}).get("sector", "") in sector_filter)
+        ]
+
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("Companies", len(_NETWORK_COMPANIES))
+    m2.metric("Connections shown", len(active_edges))
+    m3.metric("Relationship types", len(rel_types))
+    if selected and selected in _NETWORK_COMPANIES:
+        neighbors = set()
+        for s, d, rt, _ in active_edges:
+            if s == selected: neighbors.add(d)
+            if d == selected: neighbors.add(s)
+        m4.metric(f"{selected} direct links", len(neighbors))
+    else:
+        m4.metric("Selected", "None")
+
+    # ── Connection table for selected node ────────────────────────────────────
+    if selected and selected in _NETWORK_COMPANIES:
+        st.divider()
+        sel_info = _NETWORK_COMPANIES[selected]
+        st.markdown(f"**{selected} — {sel_info['name']}** · Sector: {sel_info['sector']} "
+                    f"· Market Cap: ~${sel_info['mktcap_b']:,}B")
+
+        conn_rows = []
+        for s, d, rt, desc in _NETWORK_EDGES:
+            if s == selected or d == selected:
+                other = d if s == selected else s
+                direction = "→" if s == selected else "←"
+                other_info = _NETWORK_COMPANIES.get(other, {})
+                conn_rows.append({
+                    "Dir": direction,
+                    "Company": f"{other} — {other_info.get('name', other)}",
+                    "Sector": other_info.get("sector", ""),
+                    "Type": rt,
+                    "Description": desc,
+                })
+
+        if conn_rows:
+            conn_df = pd.DataFrame(conn_rows)
+            conn_event = st.dataframe(
+                conn_df, use_container_width=True, hide_index=True,
+                on_select="rerun", selection_mode="single-row",
+                key="net_conn_table",
+            )
+            conn_sel = (conn_event.selection or {}).get("rows", [])
+            if conn_sel and conn_sel[0] < len(conn_df):
+                raw_company = conn_df.iloc[conn_sel[0]]["Company"]
+                nav_ticker = raw_company.split(" — ")[0].strip()
+                if nav_ticker in _NETWORK_COMPANIES:
+                    st.session_state["net_selected"] = nav_ticker
+                    st.session_state["net_detail_ticker"] = nav_ticker
+                    st.rerun()
+
+    # ── Stock detail panel ────────────────────────────────────────────────────
+    detail_ticker = st.session_state.get("net_detail_ticker")
+    if detail_ticker:
+        st.divider()
+        hdr_c, clr_c = st.columns([6, 1])
+        hdr_c.markdown(f"**Stock Profile: {detail_ticker}**")
+        with clr_c:
+            if st.button("✕ Close", key="net_close_detail"):
+                st.session_state.pop("net_detail_ticker", None)
+                st.rerun()
+        with st.container(border=True):
+            render_single_ticker(detail_ticker)
+
+
 def main() -> None:
     st.set_page_config(
         page_title="Market Screener", page_icon="📈",
@@ -2482,7 +3017,7 @@ def main() -> None:
     with nav_col:
         nav_page = st.radio(
             "Page",
-            ["📈 Equities", "🛢 Commodities", "₿ Crypto", "📊 ETFs"],
+            ["📈 Equities", "🛢 Commodities", "₿ Crypto", "📊 ETFs", "🕸 Network"],
             horizontal=True,
             key="nav_page",
             label_visibility="collapsed",
@@ -2503,8 +3038,10 @@ def main() -> None:
         render_commodities_page()
     elif nav_page == "₿ Crypto":
         render_crypto_page()
-    else:
+    elif nav_page == "📊 ETFs":
         render_etf_page()
+    else:
+        render_network_page()
 
 
 if __name__ == "__main__":
