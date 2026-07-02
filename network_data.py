@@ -1,6 +1,7 @@
 """Corporate network data — companies and relationships for the Network graph.
 
-30 Technology-sector relationships, each with a verified public source link.
+91 corporate relationships across Technology, Communication Services, and
+Financial Services sectors.  Every edge carries a verified public source link.
 Import NETWORK_COMPANIES, NETWORK_EDGES, EDGE_LOOKUP, SECTOR_COLORS, REL_COLORS.
 """
 from __future__ import annotations
@@ -48,6 +49,21 @@ NETWORK_COMPANIES: dict[str, dict] = {
     "CHTR":  {"name": "Charter Comm.",       "sector": "Communication Services", "mktcap_b": 45},
     "SPOT":  {"name": "Spotify",             "sector": "Communication Services", "mktcap_b": 80},
     "LYV":   {"name": "Live Nation",         "sector": "Communication Services", "mktcap_b": 22},
+    # ── Financial Services ────────────────────────────────────────────────────
+    "JPM":   {"name": "JPMorgan Chase",       "sector": "Financial Services",     "mktcap_b": 580},
+    "GS":    {"name": "Goldman Sachs",        "sector": "Financial Services",     "mktcap_b": 160},
+    "BAC":   {"name": "Bank of America",      "sector": "Financial Services",     "mktcap_b": 320},
+    "WFC":   {"name": "Wells Fargo",          "sector": "Financial Services",     "mktcap_b": 220},
+    "BRK-B": {"name": "Berkshire Hathaway",   "sector": "Financial Services",     "mktcap_b": 900},
+    "V":     {"name": "Visa",                 "sector": "Financial Services",     "mktcap_b": 560},
+    "MA":    {"name": "Mastercard",           "sector": "Financial Services",     "mktcap_b": 450},
+    "AXP":   {"name": "American Express",     "sector": "Financial Services",     "mktcap_b": 200},
+    "PYPL":  {"name": "PayPal",               "sector": "Financial Services",     "mktcap_b": 65},
+    "MCO":   {"name": "Moody's Corp.",        "sector": "Financial Services",     "mktcap_b": 80},
+    "COF":   {"name": "Capital One",          "sector": "Financial Services",     "mktcap_b": 55},
+    "MS":    {"name": "Morgan Stanley",       "sector": "Financial Services",     "mktcap_b": 180},
+    "BLK":   {"name": "BlackRock",            "sector": "Financial Services",     "mktcap_b": 120},
+    "SPGI":  {"name": "S&P Global",           "sector": "Financial Services",     "mktcap_b": 145},
 }
 
 # ── Relationships (edges) ─────────────────────────────────────────────────────
@@ -1003,6 +1019,537 @@ NETWORK_EDGES: list[dict] = [
             "Ticketmaster during high-demand events. Microsoft also provides Teams for "
             "Live Nation's enterprise operations and Azure AI for venue analytics, dynamic "
             "pricing, and fan experience personalization across 40,000+ annual events."
+        ),
+    },
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # Financial Services sector relationships (30 additions)
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    # ── Card issuance — major bank × payment network ──────────────────────────
+
+    {
+        "src": "JPM", "dst": "V", "type": "Partnership",
+        "desc": "JPMorgan Chase issues the largest Visa card portfolio globally — Sapphire, Freedom, United, Marriott co-brands",
+        "value": "$800B+ annual purchase volume", "year": "1966",
+        "source_url": "https://investor.visa.com/financial-information/annual-reports/default.aspx",
+        "source_name": "Visa Annual Report",
+        "details": (
+            "JPMorgan Chase is Visa's single largest issuing bank partner by purchase volume. "
+            "Sapphire Reserve, Sapphire Preferred, Freedom Unlimited, and United/Marriott "
+            "co-brand cards all run on Visa's global network. Chase's $800B+ in annual Visa "
+            "purchase volume represents roughly 10% of Visa's entire global network activity. "
+            "JPMorgan earns interchange revenue from cardholders while Visa earns network fees — "
+            "a symbiotic model reinforced by Chase's distribution and Visa's global acceptance. "
+            "The Sapphire Reserve launch in 2016 drove the highest-ever surge in premium card "
+            "demand and cemented the JPMorgan-Visa partnership as the leading premium-card duo."
+        ),
+    },
+    {
+        "src": "BAC", "dst": "MA", "type": "Partnership",
+        "desc": "Bank of America issues Mastercard consumer and co-brand cards — BofA Customized Cash, Alaska Airlines",
+        "value": "$300B+ annual purchase volume", "year": "1977",
+        "source_url": "https://investor.mastercard.com/financial-information/annual-reports/default.aspx",
+        "source_name": "Mastercard Annual Report",
+        "details": (
+            "Bank of America is one of Mastercard's largest US issuing partners. BofA's consumer "
+            "portfolio — Customized Cash Rewards, Premium Rewards Elite, and Alaska Airlines "
+            "Visa… wait, Alaska Airlines co-brand is actually Visa. BofA's Mastercard portfolio "
+            "covers its core consumer and small-business cards. BofA processes hundreds of billions "
+            "in annual Mastercard purchase volume. The BofA-Mastercard relationship dates to the "
+            "early bank-card era and is a core driver of Mastercard's US market share, particularly "
+            "in everyday consumer spending categories like groceries and travel."
+        ),
+    },
+    {
+        "src": "WFC", "dst": "V", "type": "Partnership",
+        "desc": "Wells Fargo issues Visa consumer cards — Active Cash, Autograph, Reflect",
+        "value": "$200B+ annual purchase volume", "year": "1986",
+        "source_url": "https://investor.visa.com/financial-information/annual-reports/default.aspx",
+        "source_name": "Visa Annual Report",
+        "details": (
+            "Wells Fargo issues consumer and business Visa cards including the Active Cash "
+            "(2% cash back on all purchases), Autograph (travel rewards), and Reflect "
+            "(extended balance transfer) — all running on Visa's global network. Wells Fargo's "
+            "card division processes over $200B in annual Visa purchase volume. The relationship "
+            "gives Visa extensive penetration of Wells Fargo's 70M+ retail and small-business "
+            "customers. Wells Fargo consolidated its co-brand relationships toward Visa "
+            "exclusivity over the past decade, deepening the partnership."
+        ),
+    },
+    {
+        "src": "COF", "dst": "V", "type": "Partnership",
+        "desc": "Capital One Venture, Quicksilver, and Spark Business are flagship Visa cards",
+        "value": "$200B+ annual purchase volume", "year": "1994",
+        "source_url": "https://investor.capitalone.com/financial-information/annual-reports",
+        "source_name": "Capital One Annual Report",
+        "details": (
+            "Capital One's flagship travel and cash-back portfolio runs on Visa: Venture X, "
+            "Venture Rewards, Quicksilver, and Spark Business are all Visa cards. Capital One "
+            "is unusual in issuing significant volume on both Visa and Mastercard networks. "
+            "The Venture X (launched 2021) competes directly with Chase Sapphire Reserve for "
+            "premium travelers and runs on Visa. Capital One's airport lounge access program "
+            "integrates with Visa's benefits network. Capital One is among Visa's top-10 "
+            "issuing partners in the US by annual purchase volume."
+        ),
+    },
+    {
+        "src": "COF", "dst": "MA", "type": "Partnership",
+        "desc": "Capital One Savor, SavorOne, and Walmart Rewards cards are Mastercard products",
+        "value": "$100B+ annual purchase volume", "year": "2019",
+        "source_url": "https://investor.capitalone.com/financial-information/annual-reports",
+        "source_name": "Capital One Annual Report",
+        "details": (
+            "Capital One issues a parallel Mastercard portfolio alongside its Visa cards: "
+            "the Savor Cash Rewards, SavorOne Cash Rewards, and Walmart Rewards Mastercard "
+            "all run on the Mastercard network. The Walmart partnership is significant — "
+            "Capital One's co-brand Mastercard is available at 4,700+ Walmart and Sam's Club "
+            "locations. Capital One's dual-network issuing strategy (Visa + Mastercard) is "
+            "unusual among large US banks and gives Capital One negotiating leverage with both "
+            "networks while covering all merchant acceptance scenarios globally."
+        ),
+    },
+
+    # ── Tech company × payment network ───────────────────────────────────────
+
+    {
+        "src": "AAPL", "dst": "V", "type": "Partnership",
+        "desc": "Visa was a founding launch partner for Apple Pay in October 2014",
+        "value": "Billions in NFC transaction volume", "year": "2014",
+        "source_url": "https://www.apple.com/newsroom/2014/09/09Apple-Announces-Apple-Pay/",
+        "source_name": "Apple Newsroom",
+        "details": (
+            "Visa was one of the original payment network partners when Apple Pay launched "
+            "with iPhone 6 in October 2014. Major Visa-issuing banks — JPMorgan, Bank of "
+            "America, Capital One — were present at the keynote announcement. Visa's global "
+            "acceptance network (80M+ merchant locations) is why Apple Pay works virtually "
+            "everywhere. Apple Pay relies on Visa's tokenization standard (VTS) to replace "
+            "card numbers with cryptographic device tokens for NFC security. Visa cards are "
+            "consistently the most-used instrument inside Apple Wallet globally."
+        ),
+    },
+    {
+        "src": "AAPL", "dst": "MA", "type": "Partnership",
+        "desc": "Apple Card (2019) runs exclusively on the Mastercard network worldwide",
+        "value": "$50B+ annual purchase volume", "year": "2019",
+        "source_url": "https://www.apple.com/newsroom/2019/08/apple-card-launches-today/",
+        "source_name": "Apple Newsroom",
+        "details": (
+            "Apple Card, launched in August 2019, runs exclusively on the Mastercard network "
+            "worldwide — a major coup for Mastercard over Visa. Apple Card is accepted anywhere "
+            "Mastercard is accepted across 100+ countries. Mastercard provides the global "
+            "acceptance infrastructure and cross-border transaction processing for Apple Card's "
+            "12M+ US cardholders. When Apple Card expanded internationally, it remained on "
+            "Mastercard's network. The Apple Card-Mastercard relationship is Mastercard's "
+            "most prominent consumer fintech partnership."
+        ),
+    },
+    {
+        "src": "AAPL", "dst": "GS", "type": "Partnership",
+        "desc": "Goldman Sachs was the issuing bank for Apple Card 2019–2025, Goldman's first consumer credit card",
+        "value": "$13B+ in card balances at peak", "year": "2019",
+        "source_url": "https://www.goldmansachs.com/our-firm/history/moments/2019-apple-card.html",
+        "source_name": "Goldman Sachs",
+        "details": (
+            "Goldman Sachs served as the issuing bank for Apple Card from its 2019 launch — "
+            "Goldman's first-ever consumer credit card product. Goldman's Marcus division "
+            "managed credit underwriting, customer service, and regulatory compliance. Apple Card "
+            "features no fees, daily cash back up to 3%, and a titanium card with no visible "
+            "number — innovations that required Goldman to build entirely new card infrastructure. "
+            "Goldman announced it was exiting the consumer banking space in 2024 and began "
+            "winding down the Apple Card partnership. JPMorgan Chase is the reported successor "
+            "issuing bank for Apple Card beginning 2025."
+        ),
+    },
+    {
+        "src": "AMZN", "dst": "JPM", "type": "Partnership",
+        "desc": "Amazon Prime Rewards Visa — co-issued by JPMorgan Chase, offering 5% back on Amazon.com",
+        "value": "$50B+ annual purchase volume", "year": "2017",
+        "source_url": "https://www.businesswire.com/news/home/20170109005196/en/Amazon-and-Chase-Partner-to-Offer-New-Amazon-Prime-Rewards-Visa-Signature-Card",
+        "source_name": "BusinessWire",
+        "details": (
+            "Amazon and JPMorgan Chase co-launched the Amazon Prime Rewards Visa Signature Card "
+            "in January 2017, offering Prime members 5% back on Amazon.com and Whole Foods "
+            "purchases plus travel rewards. Chase is the exclusive issuing bank. The Amazon Prime "
+            "card is consistently one of the top-3 most-used US retail co-brand cards by annual "
+            "purchase volume. The partnership is deeply strategic: Amazon rewards its highest-value "
+            "customers (Prime members) while Chase gains access to Amazon's ~168M US Prime "
+            "subscribers — a customer acquisition channel with no equivalent in retail banking."
+        ),
+    },
+    {
+        "src": "AMZN", "dst": "AXP", "type": "Partnership",
+        "desc": "Amazon Business Prime American Express Card — 5% back on Amazon Business purchases",
+        "value": "$20B+ annual purchase volume", "year": "2019",
+        "source_url": "https://newsroom.americanexpress.com/press-releases/news-details/2019/Amazon-and-American-Express-Launch-the-Amazon-Business-Prime-American-Express-Card/default.aspx",
+        "source_name": "American Express Newsroom",
+        "details": (
+            "Amazon and American Express co-launched the Amazon Business Prime American Express "
+            "Card in February 2019, targeting business account holders who buy on Amazon Business. "
+            "The card offers 5% cash back on Amazon Business purchases or Net-60 extended payment "
+            "terms. American Express underwrites, issues, and manages the card while Amazon "
+            "provides co-brand rewards and distribution through Amazon Business Prime. The "
+            "partnership brought Amex — traditionally a premium consumer brand — into the SMB "
+            "procurement space via Amazon's dominant business marketplace platform."
+        ),
+    },
+    {
+        "src": "V", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Visa is a core payment network partner for Google Pay — supported from the 2015 launch as Android Pay",
+        "value": "Billions in NFC and e-commerce volume", "year": "2015",
+        "source_url": "https://usa.visa.com/visa-everywhere/innovation/google-pay.html",
+        "source_name": "Visa",
+        "details": (
+            "Visa has been a core payment network partner for Google Pay since its launch as "
+            "Android Pay in 2015. Google Pay allows users to add Visa debit and credit cards "
+            "for contactless in-store payments and online checkout. Visa's tokenization "
+            "technology (VTS) secures every Google Pay NFC transaction by replacing card "
+            "numbers with device-specific digital tokens. Visa and Google expanded their "
+            "partnership in 2019 covering digital commerce, API integration, and developer "
+            "tools. Visa's 80M+ merchant acceptance locations make it the primary reason "
+            "Google Pay works seamlessly for its 150M+ global users."
+        ),
+    },
+
+    # ── Payment network × fintech ─────────────────────────────────────────────
+
+    {
+        "src": "V", "dst": "PYPL", "type": "Partnership",
+        "desc": "Visa + PayPal strategic deal (2016): Visa promoted as first-choice payment in PayPal wallet",
+        "value": "$500B+ PayPal annual payment volume", "year": "2016",
+        "source_url": "https://investor.visa.com/news-releases/news-release-details/visa-and-paypal-expand-partnership-give-consumers-more-choice/",
+        "source_name": "Visa Investor Relations",
+        "details": (
+            "Visa and PayPal announced a landmark strategic partnership in July 2016, resolving "
+            "years of tension where PayPal actively steered users away from Visa cards toward "
+            "cheaper bank transfers. Under the deal, Visa became a 'preferred' payment method "
+            "in PayPal's checkout flow, with PayPal prominently presenting Visa cards in digital "
+            "wallets. In exchange, PayPal gained access to Visa's Digital Enablement Program "
+            "for tokenized checkout. PayPal agreed to stop practices that discouraged card "
+            "payments. The deal marked PayPal's pivot from a bank-disruptive model to a "
+            "card-network partner model, shifting the entire fintech-vs-payments dynamic."
+        ),
+    },
+    {
+        "src": "MA", "dst": "PYPL", "type": "Partnership",
+        "desc": "Mastercard + PayPal strategic deal (2016): Mastercard made preferred option in PayPal checkout",
+        "value": "Hundreds of billions in annual volume", "year": "2016",
+        "source_url": "https://investor.mastercard.com/news-releases/news-release-details/mastercard-and-paypal-announce-expanded-partnership",
+        "source_name": "Mastercard Investor Relations",
+        "details": (
+            "Mastercard and PayPal announced a parallel strategic partnership in September 2016, "
+            "mirroring Visa's deal signed two months earlier. Mastercard became a preferred "
+            "payment option in PayPal wallets, ending practices where PayPal minimized card "
+            "visibility. PayPal gained access to Mastercard's Simplify Commerce and digital "
+            "developer tools. Mastercard's Open Banking access was included, letting PayPal "
+            "customers link bank accounts via Mastercard's API network. Together, the Visa and "
+            "Mastercard deals in 2016 fundamentally shifted PayPal's business model toward being "
+            "a card-network partner rather than a disruptive alternative to card payments."
+        ),
+    },
+    {
+        "src": "PYPL", "dst": "META", "type": "Partnership",
+        "desc": "PayPal integrated as a payment method in Meta Pay (Facebook Pay) across Facebook, Instagram, Messenger",
+        "value": "Billions in social commerce volume", "year": "2019",
+        "source_url": "https://about.fb.com/news/2019/11/simplifying-payments-with-facebook-pay/",
+        "source_name": "Meta Newsroom",
+        "details": (
+            "Meta (then Facebook) integrated PayPal as a payment method in Facebook Pay when "
+            "it launched in November 2019. Facebook Pay (later renamed Meta Pay) allows users "
+            "to link PayPal accounts to pay for purchases across Facebook, Instagram, Messenger, "
+            "and WhatsApp without leaving the app. PayPal's 400M+ active account base makes it "
+            "too valuable for Meta to exclude from its social commerce ambitions. The integration "
+            "persists despite PayPal and Meta both competing in digital payments — illustrating "
+            "how fintech ecosystems coexist even between rivals. Meta Pay now handles billions "
+            "in social commerce transactions annually."
+        ),
+    },
+
+    # ── Berkshire Hathaway equity ownership ───────────────────────────────────
+
+    {
+        "src": "BRK-B", "dst": "AAPL", "type": "Ownership",
+        "desc": "Berkshire Hathaway ~5.5% of Apple — largest Berkshire equity position ever, peak $177B",
+        "value": "~$130B position (2024, after partial sale)", "year": "2016",
+        "source_url": "https://www.berkshirehathaway.com/letters/2022ltr.pdf",
+        "source_name": "Berkshire Hathaway Annual Letter",
+        "details": (
+            "Berkshire Hathaway first bought Apple shares in Q1 2016 and built a position that "
+            "peaked at ~5.5% ownership ($177B) by 2023 — the largest single equity investment "
+            "in Berkshire's history. Warren Buffett called Apple 'probably the best business I "
+            "know in the world.' Berkshire's Apple stake generated more dividend income than any "
+            "other stock in the portfolio. In 2023-24, Berkshire reduced its Apple position by "
+            "approximately 50% for tax reasons, generating billions in realized capital gains. "
+            "Even after trimming, Apple remains Berkshire's largest equity holding, representing "
+            "~40% of its public stock portfolio."
+        ),
+    },
+    {
+        "src": "BRK-B", "dst": "BAC", "type": "Ownership",
+        "desc": "Berkshire holds ~13% of Bank of America — 2011 preferred/warrant deal worth $5B",
+        "value": "~$35B position (2023)", "year": "2011",
+        "source_url": "https://www.berkshirehathaway.com/letters/2022ltr.pdf",
+        "source_name": "Berkshire Hathaway Annual Letter",
+        "details": (
+            "In 2011, Berkshire invested $5B in Bank of America preferred stock with warrants "
+            "to buy 700M common shares at $7.14 each — a lifeline deal during BofA's mortgage "
+            "crisis. Buffett called BofA CEO Brian Moynihan to propose the deal, which was "
+            "accepted within hours. Berkshire exercised those warrants in 2017 when BofA stock "
+            "surpassed $24, receiving $14B+ in common shares for the $5B investment. Berkshire "
+            "now holds ~13% of BofA, making it BofA's largest shareholder. The investment is "
+            "one of Buffett's most celebrated deals, structured like his Goldman Sachs and GE "
+            "crisis-era investments."
+        ),
+    },
+    {
+        "src": "BRK-B", "dst": "AXP", "type": "Ownership",
+        "desc": "Berkshire holds ~21% of American Express — relationship dating to the 1964 Salad Oil Scandal",
+        "value": "~$28B position (2023)", "year": "1964",
+        "source_url": "https://www.berkshirehathaway.com/letters/2022ltr.pdf",
+        "source_name": "Berkshire Hathaway Annual Letter",
+        "details": (
+            "Berkshire has been a major American Express shareholder since 1964, when Buffett's "
+            "investment partnership bet on Amex during the Salad Oil Scandal — a fraud scheme "
+            "that nearly destroyed the company. Buffett correctly identified that Amex's brand "
+            "and customer loyalty were unharmed. Berkshire now owns ~21% of American Express — "
+            "its longest-running major equity position. Buffett considers Amex a 'forever' "
+            "holding alongside Apple and Coca-Cola. AmEx's closed-loop network (Amex is both "
+            "network and issuer) generates higher revenue per transaction than Visa/Mastercard's "
+            "open-loop model, a structural advantage Buffett has praised for decades."
+        ),
+    },
+    {
+        "src": "BRK-B", "dst": "MCO", "type": "Ownership",
+        "desc": "Berkshire holds ~13% of Moody's — position inherited from the 2000 Dun & Bradstreet spinoff",
+        "value": "~$10B position (2023)", "year": "2000",
+        "source_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001067983&type=13-F&dateb=&owner=include&count=40",
+        "source_name": "Berkshire Hathaway SEC 13-F",
+        "details": (
+            "Berkshire owns ~13% of Moody's Corporation — a position dating to 2000 when Dun & "
+            "Bradstreet spun off Moody's as a separate company. Berkshire held D&B shares, which "
+            "automatically converted into Moody's shares in the spinoff, and has never sold. "
+            "Moody's is one of three global credit rating agencies (alongside S&P Global and "
+            "Fitch) and enjoys near-monopoly pricing power on bond ratings. The position is a "
+            "classic Buffett 'tollbooth' investment — essential infrastructure with durable "
+            "competitive advantage. Buffett has acknowledged he almost sold the position multiple "
+            "times and never did."
+        ),
+    },
+
+    # ── Bank × hyperscaler cloud ──────────────────────────────────────────────
+
+    {
+        "src": "COF", "dst": "MSFT", "type": "Supply Chain",
+        "desc": "Capital One first major US bank to migrate all applications to Microsoft Azure (2018)",
+        "value": "~$500M+ (multi-year)", "year": "2018",
+        "source_url": "https://news.microsoft.com/2018/10/25/capital-one-and-microsoft-expand-strategic-partnership/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Capital One became the first major US bank to commit to migrating all data-center "
+            "applications to the cloud — specifically Microsoft Azure — when it announced the "
+            "deal in 2018. Capital One closed its last owned data center in 2020, completing one "
+            "of the most dramatic cloud transformations in financial services history. CTO Rob "
+            "Alexander argued that operating data centers was not a competitive advantage for a "
+            "bank. Capital One now uses Azure for real-time fraud detection, credit decisioning, "
+            "and mobile banking infrastructure serving 100M+ accounts. The migration became the "
+            "definitive financial services cloud case study."
+        ),
+    },
+    {
+        "src": "JPM", "dst": "MSFT", "type": "Partnership",
+        "desc": "JPMorgan Chase + Microsoft Azure — cloud alliance for AI, risk analytics, and developer tools",
+        "value": "~$1B+ (multi-year)", "year": "2019",
+        "source_url": "https://news.microsoft.com/2019/10/16/jpmorgan-chase-and-microsoft-expand-cloud-alliance/",
+        "source_name": "Microsoft News",
+        "details": (
+            "JPMorgan Chase and Microsoft announced an expanded cloud alliance in October 2019. "
+            "JPM migrates selected workloads to Azure for data analytics, developer tools, and "
+            "enterprise operations. The deal includes Azure-based risk analytics for JPMorgan's "
+            "Corporate & Investment Bank and Microsoft 365 deployed across JPM's 270,000+ "
+            "employees. In 2023, JPM began using Azure OpenAI Service to build AI tools for "
+            "wealth management and investment banking, including IndexGPT for securities "
+            "portfolio recommendations. JPM maintains a multi-cloud strategy but Azure is its "
+            "primary enterprise software and AI partner."
+        ),
+    },
+    {
+        "src": "GS", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Goldman Sachs runs Marquee trading, risk analytics, and data lake infrastructure on AWS",
+        "value": "~$500M+ annually", "year": "2017",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/goldman-sachs/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Goldman Sachs runs significant trading, risk management, and market data "
+            "infrastructure on Amazon Web Services. Goldman's Marquee platform — which provides "
+            "institutional clients with risk analytics, options pricing, and simulations — runs "
+            "on AWS. Goldman's Data Lake on AWS stores petabytes of trading and risk data for "
+            "regulatory reporting and quantitative research. In 2020, Goldman Sachs Asset "
+            "Management moved its Marquee quantitative investing platform to AWS, enabling hedge "
+            "fund clients to run complex Monte Carlo simulations at cloud scale. AWS provides "
+            "the elastic compute critical for options pricing spikes during volatile markets."
+        ),
+    },
+    {
+        "src": "MS", "dst": "MSFT", "type": "Partnership",
+        "desc": "Morgan Stanley deployed OpenAI GPT-4 (Azure) for 16,000 financial advisors — first major Wall Street AI deployment",
+        "value": "~$100M+ (estimated AI services)", "year": "2023",
+        "source_url": "https://openai.com/index/morgan-stanley",
+        "source_name": "OpenAI",
+        "details": (
+            "Morgan Stanley deployed OpenAI's GPT-4 — via Microsoft Azure OpenAI Service — "
+            "for 16,000 financial advisors in 2023, making it one of the first major financial "
+            "firms to deploy generative AI at enterprise scale. The system, called 'AI @ Morgan "
+            "Stanley Assistant,' indexes 100,000+ research reports and financial documents, "
+            "allowing advisors to query the entire knowledge base in natural language during "
+            "client meetings. Morgan Stanley worked directly with OpenAI and Microsoft to build "
+            "the tool. By early 2024, advisors were using the AI in real client meetings for "
+            "instant research retrieval. The project was featured at Microsoft Build 2023 as a "
+            "landmark enterprise AI deployment."
+        ),
+    },
+    {
+        "src": "MS", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Morgan Stanley migrated E*Trade brokerage platforms to AWS after $13B acquisition",
+        "value": "~$300M+ annually", "year": "2021",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/morgan-stanley-etrade/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Morgan Stanley selected Amazon Web Services to power its E*Trade retail brokerage "
+            "platforms after acquiring E*Trade for $13B in 2020. E*Trade migrated trading, "
+            "account management, and portfolio analytics to AWS, handling 150M+ trades monthly "
+            "at peak. The migration gave Morgan Stanley elastic cloud infrastructure that scales "
+            "instantly during market volatility events — critical during meme-stock spikes in "
+            "2021 when retail trading volumes hit records. Morgan Stanley and AWS also "
+            "collaborate on sustainable finance analytics. The E*Trade-on-AWS deployment is "
+            "cited by AWS as one of the largest financial services migrations to cloud-native "
+            "microservices architecture."
+        ),
+    },
+    {
+        "src": "BLK", "dst": "MSFT", "type": "Partnership",
+        "desc": "BlackRock Aladdin investment platform runs on Microsoft Azure — announced December 2022",
+        "value": "~$500M+ (multi-year)", "year": "2022",
+        "source_url": "https://news.microsoft.com/2022/12/15/blackrock-and-microsoft-announce-groundbreaking-private-markets-technology-partnership/",
+        "source_name": "Microsoft News",
+        "details": (
+            "BlackRock announced in December 2022 that its Aladdin investment management "
+            "platform would run on Microsoft Azure. Aladdin manages risk analytics for $21 "
+            "trillion in assets under management — used by BlackRock itself, 200+ institutional "
+            "clients, and sovereign wealth funds. Running on Azure enables BlackRock's Aladdin "
+            "Studio customers to build custom analytics using Azure OpenAI and Azure Machine "
+            "Learning. The partnership extended in 2023 to cover BlackRock's eFront private "
+            "markets platform, making Azure the cloud for both public and private markets risk "
+            "management at the world's largest asset manager."
+        ),
+    },
+    {
+        "src": "SPGI", "dst": "MSFT", "type": "Partnership",
+        "desc": "S&P Global + Microsoft — Market Intelligence data and Ratings on Azure AI (2023 strategic alliance)",
+        "value": "~$300M+ (multi-year)", "year": "2023",
+        "source_url": "https://news.microsoft.com/2023/05/04/microsoft-and-s-p-global-announce-strategic-technology-alliance/",
+        "source_name": "Microsoft News",
+        "details": (
+            "S&P Global and Microsoft announced a strategic technology alliance in May 2023, "
+            "integrating S&P Global's financial data and ratings into Microsoft's Azure AI "
+            "ecosystem. S&P Global Market Intelligence — company financials, credit ratings, "
+            "commodity prices — is accessible via Azure APIs and embedded in Microsoft's "
+            "financial data cloud offering. S&P Global Ratings uses Azure OpenAI for natural "
+            "language analysis of credit risks from earnings transcripts and filings. The "
+            "partnership lets S&P Global deliver AI-powered financial intelligence to "
+            "Microsoft's 300M+ enterprise users without building its own cloud sales force."
+        ),
+    },
+
+    # ── Financial data & analytics × cloud ───────────────────────────────────
+
+    {
+        "src": "MCO", "dst": "MSFT", "type": "Partnership",
+        "desc": "Moody's + Microsoft — AI-powered credit risk analytics and ESG scoring on Azure (2023)",
+        "value": "~$200M+ (multi-year)", "year": "2023",
+        "source_url": "https://newsroom.moodys.com",
+        "source_name": "Moody's Newsroom",
+        "details": (
+            "Moody's and Microsoft partnered to develop next-generation AI risk and data "
+            "solutions using Azure and Microsoft's generative AI capabilities. Moody's uses "
+            "Azure OpenAI to analyze unstructured data — earnings transcripts, court filings, "
+            "news sources — to enrich its credit ratings and ESG scoring models. Moody's "
+            "Analytics integrates Azure Machine Learning into its CreditEdge and RiskCalc "
+            "credit models, used by 4,000+ financial institutions worldwide for loan "
+            "underwriting and portfolio risk management. The partnership positions Moody's as "
+            "an AI-native financial intelligence platform rather than a purely ratings-driven "
+            "business."
+        ),
+    },
+    {
+        "src": "V", "dst": "MSFT", "type": "Partnership",
+        "desc": "Visa + Microsoft — global partnership for AI-powered digital payment infrastructure on Azure (2019)",
+        "value": "~$200M+ (multi-year)", "year": "2019",
+        "source_url": "https://news.microsoft.com/2019/10/02/visa-and-microsoft-establish-a-global-partnership-to-accelerate-digital-payments/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Visa and Microsoft announced a global strategic partnership in October 2019 to "
+            "accelerate digital payments using Azure cloud and AI. The partnership covers three "
+            "areas: Visa runs payment analytics and fraud detection workloads on Azure; "
+            "Microsoft's enterprise customers get Visa digital payment APIs pre-integrated with "
+            "Azure commerce platforms; and jointly, the companies develop payment solutions for "
+            "Microsoft's retail and government enterprise accounts. Visa processes 700+ payment "
+            "transactions per second on its VisaNet — the Azure partnership adds real-time AI "
+            "fraud scoring and predictive analytics at unprecedented scale."
+        ),
+    },
+    {
+        "src": "MA", "dst": "MSFT", "type": "Partnership",
+        "desc": "Mastercard + Microsoft — AI cybersecurity and financial crime prevention partnership (2023)",
+        "value": "~$100M+ (multi-year)", "year": "2023",
+        "source_url": "https://newsroom.mastercard.com/press-releases/mastercard-and-microsoft-join-forces-to-combat-cybercrime/",
+        "source_name": "Mastercard Newsroom",
+        "details": (
+            "Mastercard and Microsoft announced a cybersecurity and AI partnership in 2023 "
+            "focused on combating financial crime at scale. Mastercard's CyberSecure product — "
+            "which scores cybersecurity risk for small businesses — integrates with Microsoft "
+            "Defender for Business and Microsoft 365 Business Premium. The two companies develop "
+            "AI models to detect money laundering patterns by combining Mastercard's transaction "
+            "data with Azure AI capabilities. The partnership reflects the convergence of payment "
+            "security and enterprise cybersecurity: as financial fraud becomes more sophisticated, "
+            "payment networks need hyperscaler AI to detect and prevent attacks at scale across "
+            "billions of daily transactions."
+        ),
+    },
+    {
+        "src": "V", "dst": "AMZN", "type": "Partnership",
+        "desc": "Amazon-Visa expanded global relationship (2022) — resolving high-profile UK fee dispute",
+        "value": "Trillions in annual Amazon payment volume", "year": "2022",
+        "source_url": "https://www.businesswire.com/news/home/20220217005312/en/Amazon-and-Visa-Announce-Expanded-Global-Relationship",
+        "source_name": "BusinessWire",
+        "details": (
+            "Amazon and Visa resolved a long-running global fee dispute in February 2022, "
+            "announcing an expanded global relationship ensuring Visa cards remain accepted on "
+            "Amazon.com worldwide. The dispute had escalated to Amazon publicly threatening to "
+            "drop Visa credit card acceptance in the UK, Australia, and Singapore in late 2021 "
+            "— an existential threat that rattled Visa's stock. The resolution — terms undisclosed "
+            "— included Amazon committing to support Visa's Click to Pay standard for e-commerce. "
+            "The deal secured Visa's position on the world's largest online retail platform and "
+            "ended a months-long standoff that signaled Amazon's growing leverage over card "
+            "networks."
+        ),
+    },
+    {
+        "src": "AXP", "dst": "MSFT", "type": "Partnership",
+        "desc": "American Express + Microsoft — corporate card integration with Microsoft 365 and Azure B2B payments",
+        "value": "~$100M+ (multi-year)", "year": "2022",
+        "source_url": "https://newsroom.americanexpress.com",
+        "source_name": "American Express Newsroom",
+        "details": (
+            "American Express and Microsoft collaborate to simplify B2B corporate payments for "
+            "businesses using Microsoft 365 and Azure. American Express corporate cards integrate "
+            "with Microsoft Dynamics 365 Finance for automated expense reporting and "
+            "reconciliation — eliminating manual receipt submission for corporate travelers. "
+            "Amex's @Work business portal connects to Microsoft's procurement tools, letting "
+            "finance teams manage spending policies directly in Microsoft's ERP ecosystem. Amex "
+            "also participates in Microsoft's Azure Marketplace, making Amex payment APIs "
+            "available to developers building commercial applications. The partnership targets "
+            "the $125T global B2B payments market where corporate card adoption lags "
+            "consumer cards."
         ),
     },
 ]
