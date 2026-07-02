@@ -2850,6 +2850,15 @@ _REL_COLORS: dict[str, str] = {
 
 
 @st.cache_data(show_spinner=False)
+@st.cache_data(ttl=3600 * 12, show_spinner=False)
+def _load_sp500_tickers() -> list[str]:
+    try:
+        from universe import get_sp500
+        return get_sp500()
+    except Exception:
+        return sorted(_NETWORK_COMPANIES.keys())
+
+
 def _build_network_layout() -> dict[str, tuple[float, float]]:
     G = nx.Graph()
     for ticker in _NETWORK_COMPANIES:
@@ -3130,6 +3139,8 @@ def _render_node_panel(ticker: str, rel_types: set[str]) -> None:
                         m2c.metric("Established", e.get("year", "—"))
                         with st.expander("Full Details", expanded=False):
                             st.markdown(e.get("details", "No additional details."))
+                            if e.get("source_url"):
+                                st.markdown(f"📰 **Source:** [{e.get('source_name', 'Reference')}]({e['source_url']})")
                         if st.button(f"View {other}", key=f"net_goto_{other}_{e['src']}_{e['dst']}",
                                      use_container_width=True):
                             st.session_state["net_click_type"] = "node"
@@ -3181,6 +3192,8 @@ def _render_edge_panel(src: str, dst: str) -> None:
 
         st.markdown("**Deal Details**")
         st.markdown(e.get("details", "No additional details available."))
+        if e.get("source_url"):
+            st.markdown(f"📰 **Source:** [{e.get('source_name', 'Reference')}]({e['source_url']})")
 
         st.divider()
         b1, b2, b3 = st.columns([2, 2, 1])
@@ -3230,13 +3243,15 @@ def render_network_page() -> None:
                 st.session_state.pop(k, None)
             st.rerun()
 
-    # Company dropdown
-    ticker_opts = ["— (none)"] + sorted(_NETWORK_COMPANIES.keys())
+    # Company dropdown — all S&P 500 companies + any curated network companies
+    sp500 = _load_sp500_tickers()
+    all_dropdown_tickers = sorted(set(sp500) | set(_NETWORK_COMPANIES.keys()))
+    ticker_opts = ["— (none)"] + all_dropdown_tickers
     current_sel = st.session_state.get("net_selected") \
                   if st.session_state.get("net_click_type") == "node" else None
     dropdown_idx = ticker_opts.index(current_sel) if current_sel in ticker_opts else 0
     chosen = st.selectbox(
-        "Jump to company",
+        "Search any S&P 500 company",
         ticker_opts, index=dropdown_idx, key="net_company_dropdown",
         format_func=lambda t: (
             f"{t} — {_NETWORK_COMPANIES[t]['name']}" if t in _NETWORK_COMPANIES else t
@@ -3311,7 +3326,7 @@ def render_network_page() -> None:
     m1.metric("Companies", len(_NETWORK_COMPANIES))
     m2.metric("Connections", active_edge_count)
     m3.metric("Rel. types shown", len(rel_types))
-    if click_type == "node" and net_selected and net_selected in _NETWORK_COMPANIES:
+    if click_type == "node" and net_selected:
         cnt = sum(1 for e in _NETWORK_EDGES
                   if (e["src"] == net_selected or e["dst"] == net_selected)
                   and e["type"] in rel_types)
@@ -3324,8 +3339,17 @@ def render_network_page() -> None:
     st.divider()
 
     # ── Detail panel ──────────────────────────────────────────────────────────
-    if click_type == "node" and net_selected and net_selected in _NETWORK_COMPANIES:
-        _render_node_panel(net_selected, rel_types)
+    if click_type == "node" and net_selected:
+        if net_selected in _NETWORK_COMPANIES:
+            _render_node_panel(net_selected, rel_types)
+        else:
+            st.info(
+                f"**{net_selected}** is in the S&P 500 but has no curated relationship data yet. "
+                f"The graph currently maps ~{len(_NETWORK_COMPANIES)} companies with verified connections."
+            )
+            if st.button(f"📈 View {net_selected} Stock Profile", key="net_sp500_view"):
+                st.session_state["net_detail_ticker"] = net_selected
+                st.rerun()
     elif click_type == "edge" and net_edge_sel:
         _render_edge_panel(net_edge_sel[0], net_edge_sel[1])
 
