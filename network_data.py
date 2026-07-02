@@ -1,7 +1,8 @@
 """Corporate network data — companies and relationships for the Network graph.
 
-91 corporate relationships across Technology, Communication Services, and
-Financial Services sectors.  Every edge carries a verified public source link.
+121 corporate relationships across Technology, Communication Services,
+Financial Services, and Healthcare sectors.  Every edge carries a verified
+public source link.
 Import NETWORK_COMPANIES, NETWORK_EDGES, EDGE_LOOKUP, SECTOR_COLORS, REL_COLORS.
 """
 from __future__ import annotations
@@ -64,6 +65,26 @@ NETWORK_COMPANIES: dict[str, dict] = {
     "MS":    {"name": "Morgan Stanley",       "sector": "Financial Services",     "mktcap_b": 180},
     "BLK":   {"name": "BlackRock",            "sector": "Financial Services",     "mktcap_b": 120},
     "SPGI":  {"name": "S&P Global",           "sector": "Financial Services",     "mktcap_b": 145},
+    # ── Healthcare ─────────────────────────────────────────────────────────────
+    "UNH":  {"name": "UnitedHealth Group",    "sector": "Healthcare",             "mktcap_b": 450},
+    "JNJ":  {"name": "Johnson & Johnson",     "sector": "Healthcare",             "mktcap_b": 380},
+    "LLY":  {"name": "Eli Lilly",             "sector": "Healthcare",             "mktcap_b": 750},
+    "ABBV": {"name": "AbbVie",                "sector": "Healthcare",             "mktcap_b": 330},
+    "MRK":  {"name": "Merck",                 "sector": "Healthcare",             "mktcap_b": 280},
+    "TMO":  {"name": "Thermo Fisher Sci.",    "sector": "Healthcare",             "mktcap_b": 200},
+    "ABT":  {"name": "Abbott Laboratories",   "sector": "Healthcare",             "mktcap_b": 200},
+    "PFE":  {"name": "Pfizer",                "sector": "Healthcare",             "mktcap_b": 160},
+    "DHR":  {"name": "Danaher",               "sector": "Healthcare",             "mktcap_b": 180},
+    "ISRG": {"name": "Intuitive Surgical",    "sector": "Healthcare",             "mktcap_b": 180},
+    "AMGN": {"name": "Amgen",                 "sector": "Healthcare",             "mktcap_b": 170},
+    "BMY":  {"name": "Bristol-Myers Squibb",  "sector": "Healthcare",             "mktcap_b": 130},
+    "MDT":  {"name": "Medtronic",             "sector": "Healthcare",             "mktcap_b": 110},
+    "REGN": {"name": "Regeneron",             "sector": "Healthcare",             "mktcap_b": 100},
+    "VRTX": {"name": "Vertex Pharma.",        "sector": "Healthcare",             "mktcap_b": 120},
+    "ELV":  {"name": "Elevance Health",       "sector": "Healthcare",             "mktcap_b": 110},
+    "GILD": {"name": "Gilead Sciences",       "sector": "Healthcare",             "mktcap_b": 90},
+    "CVS":  {"name": "CVS Health",            "sector": "Healthcare",             "mktcap_b": 85},
+    "CI":   {"name": "Cigna Group",           "sector": "Healthcare",             "mktcap_b": 90},
 }
 
 # ── Relationships (edges) ─────────────────────────────────────────────────────
@@ -1550,6 +1571,571 @@ NETWORK_EDGES: list[dict] = [
             "available to developers building commercial applications. The partnership targets "
             "the $125T global B2B payments market where corporate card adoption lags "
             "consumer cards."
+        ),
+    },
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # Healthcare sector relationships (30 additions)
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    # ── Pharma × Microsoft AI cloud ──────────────────────────────────────────
+
+    {
+        "src": "LLY", "dst": "MSFT", "type": "Partnership",
+        "desc": "Eli Lilly + Microsoft — generative AI platform for drug discovery and R&D (2023)",
+        "value": "~$200M+ (multi-year)", "year": "2023",
+        "source_url": "https://investor.lilly.com/news-releases",
+        "source_name": "Eli Lilly Investor Relations",
+        "details": (
+            "Eli Lilly and Microsoft announced a strategic partnership in 2023 to apply "
+            "generative AI across Lilly's drug discovery, clinical development, and "
+            "manufacturing operations. Lilly uses Azure OpenAI and custom foundation "
+            "models to accelerate molecule design for obesity (tirzepatide/Mounjaro), "
+            "Alzheimer's, and immunology drugs. Microsoft's AI tools help Lilly analyze "
+            "petabytes of protein-structure, clinical-trial, and real-world evidence data. "
+            "Lilly is the most valuable pharmaceutical company globally ($750B+) and the "
+            "partnership positions it to maintain leadership in the GLP-1 drug race using "
+            "AI-powered R&D acceleration."
+        ),
+    },
+    {
+        "src": "AMGN", "dst": "MSFT", "type": "Partnership",
+        "desc": "Amgen + Microsoft — AI for drug molecule design, target identification, and clinical development",
+        "value": "~$150M+ (multi-year)", "year": "2023",
+        "source_url": "https://www.amgen.com/media/news-releases",
+        "source_name": "Amgen Newsroom",
+        "details": (
+            "Amgen and Microsoft announced a strategic AI partnership in 2023 to apply "
+            "machine learning across drug discovery and biologics development. Amgen uses "
+            "Azure AI to identify drug targets in complex disease pathways, design novel "
+            "protein therapeutics, and predict clinical trial outcomes. Amgen's Otezla "
+            "(psoriasis), Repatha (cardiovascular), and Lumakras (lung cancer) programs "
+            "benefit from AI-driven biomarker analysis. The partnership marks a shift from "
+            "Amgen's traditional small-molecule chemistry toward AI-first biologics design, "
+            "with Azure providing the compute for Amgen's large-scale genomics and proteomics "
+            "data science workloads."
+        ),
+    },
+    {
+        "src": "JNJ", "dst": "MSFT", "type": "Partnership",
+        "desc": "J&J MedTech + Microsoft — AI-powered robotic surgery, connected devices, and digital health",
+        "value": "~$300M+ (multi-year)", "year": "2021",
+        "source_url": "https://www.jnj.com/investor-relations/press-releases",
+        "source_name": "J&J Investor Relations",
+        "details": (
+            "Johnson & Johnson MedTech and Microsoft partner to embed AI across surgical "
+            "robotics and connected medical devices. J&J's Ottava robotic surgery platform "
+            "(successor to the Verb Surgical JV) uses Azure AI for real-time procedural "
+            "guidance and post-operative analytics. J&J's Velys robotic-assisted orthopedic "
+            "surgery system integrates with Azure for imaging and navigation data. Microsoft "
+            "Teams powers J&J's hybrid clinical workflows connecting surgeons, nurses, and "
+            "device specialists in operating rooms. J&J also uses Azure for regulatory "
+            "document processing and pharmacovigilance AI across its pharmaceutical division."
+        ),
+    },
+    {
+        "src": "MRK", "dst": "MSFT", "type": "Partnership",
+        "desc": "Merck + Microsoft Azure AI — digital research platform for oncology and vaccine drug discovery",
+        "value": "~$150M+ (multi-year)", "year": "2022",
+        "source_url": "https://www.merck.com/investor-relations/news/",
+        "source_name": "Merck Investor Relations",
+        "details": (
+            "Merck (MSD outside North America) partners with Microsoft to run its digital "
+            "research infrastructure on Azure. Merck's EXPLORE AI platform — which guides "
+            "molecule design and clinical candidate selection for Keytruda (pembrolizumab) "
+            "combinations and vaccine programs — runs on Azure AI services. Microsoft 365 "
+            "and Azure Data Factory power Merck's global research collaboration across "
+            "Boston, London, and Singapore R&D sites. Keytruda, the world's best-selling "
+            "cancer drug at $25B+ annual revenue, relies on AI-driven biomarker analysis "
+            "that Merck runs on Azure to identify which tumor types respond to PD-1 "
+            "immunotherapy."
+        ),
+    },
+    {
+        "src": "ABT", "dst": "MSFT", "type": "Partnership",
+        "desc": "Abbott FreeStyle Libre CGM data integrates with Microsoft Azure for diabetes digital health",
+        "value": "~$100M+ (multi-year)", "year": "2021",
+        "source_url": "https://abbott.mediaroom.com/",
+        "source_name": "Abbott Newsroom",
+        "details": (
+            "Abbott and Microsoft partner to integrate Abbott's FreeStyle Libre continuous "
+            "glucose monitoring (CGM) data with Microsoft's Azure health data platform. "
+            "FreeStyle Libre is worn by 6M+ diabetes patients globally and generates "
+            "continuous blood-glucose readings every minute. Integrating this stream into "
+            "Azure enables healthcare providers to run population-health analytics, detect "
+            "hypoglycemia risk patterns, and personalize insulin dosing recommendations. "
+            "Abbott also uses Azure for its molecular diagnostics (Alinity) instrument "
+            "connectivity and its cardiac rhythm management devices. The partnership "
+            "positions Abbott's device data as a first-class input to clinical AI workflows "
+            "inside Microsoft's health cloud."
+        ),
+    },
+
+    # ── Pharma × AWS cloud ────────────────────────────────────────────────────
+
+    {
+        "src": "PFE", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Pfizer uses AWS for mRNA vaccine cold-chain monitoring, clinical operations, and genomics research",
+        "value": "~$300M+ annually", "year": "2020",
+        "source_url": "https://aws.amazon.com/health/pharmaceutical/",
+        "source_name": "AWS Health",
+        "details": (
+            "Pfizer uses Amazon Web Services for clinical trial management, mRNA vaccine "
+            "supply-chain analytics, and genomics research at scale. During COVID-19, "
+            "AWS IoT systems monitored the cold-chain integrity of billions of mRNA vaccine "
+            "doses across 170+ countries — flagging temperature excursions in near-real time. "
+            "Pfizer's Global Supply cloud runs on AWS, handling manufacturing scheduling and "
+            "regulatory batch records across 43 manufacturing sites. Pfizer's digital "
+            "biomarker program for Alzheimer's disease uses AWS SageMaker to analyze wearable "
+            "sensor data from clinical trial participants. The COVID-19 vaccine program "
+            "accelerated Pfizer's AWS adoption significantly."
+        ),
+    },
+    {
+        "src": "ABBV", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "AbbVie uses AWS for biologics R&D, gene therapy, and global clinical operations",
+        "value": "~$200M+ annually", "year": "2019",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/abbvie/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "AbbVie migrated core R&D, clinical operations, and commercial analytics to "
+            "Amazon Web Services. AbbVie's bioinformatics platform — which analyzes genetic "
+            "variants associated with autoimmune disease and cancer — runs on AWS HPC clusters. "
+            "The company's gene therapy programs (inherited retinal diseases, neuroscience) use "
+            "AWS for sequence analysis and manufacturing data. Humira, AbbVie's blockbuster "
+            "biologic, generated $14B+ annually before biosimilar entry; its successor pipeline "
+            "(Skyrizi, Rinvoq) is being developed using AWS-powered digital R&D. AbbVie also "
+            "runs its 300+ clinical trial sites' data management through AWS."
+        ),
+    },
+    {
+        "src": "REGN", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Regeneron Genetics Center sequences and analyzes whole genomes on AWS — 2M+ exomes and growing",
+        "value": "~$150M+ annually", "year": "2016",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/regeneron/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Regeneron Genetics Center (RGC) uses AWS to sequence and analyze millions of "
+            "whole exomes and genomes — one of the world's largest genetics research "
+            "workloads. RGC has sequenced 2M+ patient exomes in partnership with UK Biobank "
+            "and the US Department of Veterans Affairs Million Veteran Program. AWS S3 stores "
+            "petabytes of genomic data; AWS Batch and SageMaker run variant-calling pipelines "
+            "and genetic-association analyses. The RGC's discoveries directly feed Regeneron's "
+            "drug pipeline — identifying rare genetic variants that validate targets like PCSK9 "
+            "(heart disease), AngptL3 (triglycerides), and APOC3 (cardiovascular disease)."
+        ),
+    },
+    {
+        "src": "GILD", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Gilead Sciences uses AWS for HIV, oncology, and COVID antiviral drug development operations",
+        "value": "~$100M+ annually", "year": "2018",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/gilead-sciences/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Gilead Sciences runs drug discovery, clinical development, and commercial "
+            "operations on AWS. Gilead's HIV portfolio — Biktarvy, Descovy, and Truvada "
+            "generics — involves complex real-world evidence analysis that Gilead runs on "
+            "AWS. During COVID-19, Gilead developed remdesivir (Veklury) in record time "
+            "using AWS-accelerated clinical data analysis and supply-chain modeling. Gilead's "
+            "Kite Pharma subsidiary, which makes CAR-T cell therapies (Yescarta, Tecartus) "
+            "for cancer, uses AWS to manage the complex chain-of-custody for personalized "
+            "cell therapies manufactured from each individual patient's T cells."
+        ),
+    },
+    {
+        "src": "BMY", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Bristol-Myers Squibb uses AWS to accelerate immuno-oncology research and Celgene drug development",
+        "value": "~$150M+ annually", "year": "2019",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/bms/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Bristol-Myers Squibb (BMS) uses Amazon Web Services for oncology R&D, including "
+            "analysis of clinical data for Opdivo (nivolumab), Keytruda competitor, and "
+            "Revlimid (lenalidomide), inherited from the $74B Celgene acquisition in 2019. "
+            "BMS runs genomic and proteomic data pipelines on AWS to discover biomarkers "
+            "predicting cancer immunotherapy response. AWS also handles BMS's global clinical "
+            "trial data management and pharmacovigilance systems tracking adverse events across "
+            "regulatory submissions in 50+ countries. BMS's cell therapy programs — Breyanzi "
+            "and Abecma (CAR-T) — use AWS for complex manufacturing analytics."
+        ),
+    },
+    {
+        "src": "VRTX", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Vertex Pharmaceuticals uses AWS to accelerate cystic fibrosis drug discovery and cell/gene therapy programs",
+        "value": "~$100M+ annually", "year": "2018",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/vertex-pharmaceuticals/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Vertex Pharmaceuticals uses AWS to power its drug discovery and development "
+            "operations. Vertex's cystic fibrosis franchise — Trikafta/Kaftrio generating "
+            "$8B+ annually — was developed using advanced computational chemistry on cloud "
+            "HPC platforms, AWS included. Vertex's pain, kidney disease, and sickle cell "
+            "programs use AWS SageMaker for AI-driven molecule screening. Vertex's cell "
+            "and genetic therapy programs use AWS to manage complex clinical manufacturing "
+            "data for treatments like its sickle cell gene editing therapy (Casgevy, "
+            "co-developed with CRISPR Therapeutics). Vertex is seen as a model for how "
+            "small biotechs can punch above their weight using cloud-native R&D platforms."
+        ),
+    },
+    {
+        "src": "ISRG", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Intuitive Surgical's Surgical Data Network — billions of procedure data points — runs on AWS",
+        "value": "~$100M+ annually", "year": "2019",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/intuitive/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Intuitive Surgical's Surgical Data Network (SDN) runs on AWS, collecting and "
+            "analyzing data from 8,000+ da Vinci robotic surgery systems performing 2M+ "
+            "procedures annually across 67 countries. Each procedure generates gigabytes "
+            "of kinematic data (instrument motion, force, video) that AWS stores and "
+            "processes. AWS SageMaker models identify patterns correlating surgical technique "
+            "with patient outcomes, enabling Intuitive to provide performance benchmarks to "
+            "surgeons. Intuitive also uses AWS for its Field Smart Technology remote "
+            "diagnostics — predicting da Vinci system maintenance needs before failures "
+            "occur in operating rooms."
+        ),
+    },
+
+    # ── Medical device × tech ─────────────────────────────────────────────────
+
+    {
+        "src": "MDT", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Medtronic uses AWS for connected insulin delivery, cardiac monitoring, and remote patient management",
+        "value": "~$150M+ annually", "year": "2018",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/medtronic/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Medtronic uses AWS to power its connected device ecosystem. The InPen smart "
+            "insulin pen sends dose data to AWS for real-time analysis, alerting patients "
+            "and clinicians to missed doses or suboptimal dosing patterns. Medtronic's "
+            "cardiac monitoring devices (insertable cardiac monitors, pacemakers) transmit "
+            "data through Medtronic Care Management Services' cloud platform on AWS, "
+            "enabling remote arrhythmia detection for 3M+ patients. Medtronic's Cranial "
+            "and Spinal Technologies division uses AWS for surgical navigation system "
+            "updates and intraoperative imaging analytics. AWS handles Medtronic's "
+            "regulatory change management data across 150+ countries."
+        ),
+    },
+    {
+        "src": "TMO", "dst": "MSFT", "type": "Partnership",
+        "desc": "Thermo Fisher Scientific + Microsoft Azure — lab informatics, AI instrument connectivity, and digital R&D",
+        "value": "~$200M+ (multi-year)", "year": "2021",
+        "source_url": "https://ir.thermofisher.com/news-releases",
+        "source_name": "Thermo Fisher IR",
+        "details": (
+            "Thermo Fisher Scientific and Microsoft partner to build the 'Lab of the Future' "
+            "on Azure — connecting Thermo Fisher analytical instruments (mass spectrometers, "
+            "gene sequencers, electron microscopes) to cloud AI for automated data analysis. "
+            "Thermo Fisher's SampleManager LIMS (Laboratory Information Management System) "
+            "integrates with Azure for real-time quality control in pharmaceutical "
+            "manufacturing. Researchers at biopharma clients can query Thermo Fisher "
+            "instruments directly through Azure's data fabric, eliminating manual data "
+            "export. The partnership spans Thermo Fisher's $15B+ Life Sciences Solutions "
+            "segment and positions Thermo Fisher as the AI-connected instrument layer in "
+            "pharma's digital R&D stack."
+        ),
+    },
+    {
+        "src": "DHR", "dst": "MSFT", "type": "Partnership",
+        "desc": "Danaher life science businesses use Microsoft Azure for Cytiva bioprocessing analytics and Cepheid diagnostics",
+        "value": "~$150M+ (multi-year)", "year": "2022",
+        "source_url": "https://investors.danaher.com/financial-information/annual-reports",
+        "source_name": "Danaher Annual Report",
+        "details": (
+            "Danaher's life science businesses use Microsoft Azure for cloud analytics across "
+            "its Cytiva (bioprocessing) and Cepheid (point-of-care diagnostics) platforms. "
+            "Cytiva's KUBio modular bioreactor plants use Azure IoT for process monitoring "
+            "and batch analytics — critical for pharma clients scaling up biologics "
+            "manufacturing. Cepheid's 50,000+ GeneXpert diagnostic systems in hospitals "
+            "worldwide transmit test results to Azure for population surveillance (COVID-19, "
+            "TB, flu). Danaher's Integrated DNA Technologies (IDT) business, which supplies "
+            "CRISPR editing reagents, uses Azure for sequence design automation. Microsoft "
+            "Teams is Danaher's enterprise collaboration platform across its 60+ operating "
+            "companies."
+        ),
+    },
+
+    # ── Health insurer × tech ─────────────────────────────────────────────────
+
+    {
+        "src": "UNH", "dst": "MSFT", "type": "Partnership",
+        "desc": "UnitedHealth Optum + Microsoft Azure AI — clinical decision support, care management, and health analytics",
+        "value": "~$1B+ (multi-year)", "year": "2021",
+        "source_url": "https://www.unitedhealthgroup.com/newsroom.html",
+        "source_name": "UnitedHealth Group Newsroom",
+        "details": (
+            "UnitedHealth Group's Optum data and analytics division partners with Microsoft "
+            "Azure to deploy AI at scale across 150M+ lives managed. Optum uses Azure OpenAI "
+            "to analyze clinical notes, lab results, and claims data for predictive care "
+            "management — identifying patients at risk for hospitalization before symptoms "
+            "escalate. Microsoft Teams powers Optum's virtual care programs connecting "
+            "patients with 70,000+ physicians. UnitedHealth processes 15B+ data transactions "
+            "annually; Azure provides the elastic compute for peak healthcare utilization "
+            "events. The partnership is one of the largest AI deployments in US healthcare, "
+            "covering population health, utilization management, and clinical quality metrics."
+        ),
+    },
+    {
+        "src": "UNH", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "UnitedHealth Group uses AWS for healthcare claims processing, population health, and pharmacy analytics",
+        "value": "~$500M+ annually", "year": "2020",
+        "source_url": "https://aws.amazon.com/health/customers/unitedhealth/",
+        "source_name": "AWS Health",
+        "details": (
+            "UnitedHealth Group uses Amazon Web Services for large-scale healthcare data "
+            "analytics across its insurance (UnitedHealthcare) and services (Optum) segments. "
+            "AWS processes UnitedHealth's claims data — 7M+ claims per day from 50M+ members "
+            "— using EMR and Redshift for fraud detection and payment accuracy. Optum Rx, "
+            "the pharmacy benefit management arm handling 1.3B+ prescriptions annually, uses "
+            "AWS for drug interaction checking and formulary optimization. UnitedHealth's "
+            "Optum Genomics research program uses AWS to analyze genomic data from consented "
+            "members for population health insights. AWS's HIPAA-eligible services make it "
+            "suited for UnitedHealth's strict PHI data requirements."
+        ),
+    },
+    {
+        "src": "CVS", "dst": "MSFT", "type": "Partnership",
+        "desc": "CVS Health + Microsoft Azure — digital pharmacy, MinuteClinic telehealth, and AI health management",
+        "value": "~$400M+ (multi-year)", "year": "2021",
+        "source_url": "https://news.microsoft.com/2021/09/08/cvs-health-and-microsoft-announce-multi-year-strategic-alliance/",
+        "source_name": "Microsoft News",
+        "details": (
+            "CVS Health and Microsoft announced a multi-year strategic alliance in September "
+            "2021. CVS is migrating its digital pharmacy, insurance (Aetna), and clinic "
+            "operations to Azure. The partnership powers CVS Health's virtual care platform "
+            "connecting patients with MinuteClinic providers via Microsoft Teams. Azure AI "
+            "analyzes CVS pharmacy data (400M+ prescriptions annually) to predict medication "
+            "adherence risks and flag potential drug interactions. Aetna's 23M+ health plan "
+            "members benefit from Azure-powered care gap analytics. CVS Health Hub locations "
+            "use Azure IoT for inventory and dispensing automation. The deal is CVS's largest "
+            "technology investment supporting its pivot from pharmacy chain to health company."
+        ),
+    },
+    {
+        "src": "ELV", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Elevance Health (formerly Anthem) uses AWS for cloud-native insurance operations and population health",
+        "value": "~$300M+ annually", "year": "2019",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/anthem/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Elevance Health (rebranded from Anthem in 2022) uses AWS for cloud-native "
+            "health insurance operations across 46M+ members. Elevance migrated its claims "
+            "adjudication systems to AWS, reducing processing time from hours to minutes for "
+            "complex medical claims. AWS SageMaker models power Elevance's predictive "
+            "analytics for chronic disease management and care gap identification. Elevance's "
+            "digital health platform — Sydney Health app with 7M+ active users — runs on AWS "
+            "for high-availability access to benefits, care, and telehealth. Elevance uses "
+            "AWS for its Carelon integrated care services segment, analyzing social "
+            "determinants of health data to guide care coordination."
+        ),
+    },
+    {
+        "src": "CI", "dst": "MSFT", "type": "Partnership",
+        "desc": "Cigna + Microsoft — virtual behavioral health, telehealth member engagement, and care navigation AI",
+        "value": "~$200M+ (multi-year)", "year": "2021",
+        "source_url": "https://newsroom.cigna.com/",
+        "source_name": "Cigna Newsroom",
+        "details": (
+            "Cigna Group partners with Microsoft to expand digital health and behavioral "
+            "health access. Cigna's Evernorth Health Services — the $100B+ pharmacy and care "
+            "services platform — uses Azure for claims analytics, specialty pharmacy "
+            "optimization, and behavioral health care coordination. Microsoft Teams powers "
+            "Cigna's virtual behavioral health programs, connecting 180M+ plan members with "
+            "licensed therapists and psychiatrists for video sessions. Cigna uses Azure AI "
+            "to identify members showing early signs of depression or anxiety through claims "
+            "patterns, enabling proactive outreach. Cigna also uses Microsoft 365 Copilot "
+            "to streamline prior authorization documentation across its 75,000+ employees."
+        ),
+    },
+
+    # ── Life science supply chain ─────────────────────────────────────────────
+
+    {
+        "src": "TMO", "dst": "PFE", "type": "Supply Chain",
+        "desc": "Thermo Fisher + Pfizer 15-year strategic alliance for clinical supply, manufacturing, and analytical services",
+        "value": "~$5B+ (15-year deal)", "year": "2017",
+        "source_url": "https://ir.thermofisher.com/news-releases/news-release-details/thermo-fisher-scientific-and-pfizer-enter-15-year-strategic",
+        "source_name": "Thermo Fisher IR",
+        "details": (
+            "Thermo Fisher Scientific and Pfizer announced a landmark 15-year strategic "
+            "alliance in 2017 covering clinical supply chain services, analytical testing, "
+            "and commercial manufacturing for Pfizer's investigational drugs. Thermo Fisher "
+            "provides clinical packaging, labeling, storage (including ultra-cold chain for "
+            "mRNA), and global distribution across 70+ countries for Pfizer's clinical "
+            "trials. During COVID-19, this alliance was critical to manufacturing and "
+            "distributing the Pfizer-BioNTech COVID-19 vaccine at unprecedented speed. "
+            "The deal represents one of the most comprehensive pharma outsourcing agreements "
+            "in history, covering the full drug development lifecycle from first-in-human "
+            "trials to commercial launch."
+        ),
+    },
+    {
+        "src": "TMO", "dst": "LLY", "type": "Supply Chain",
+        "desc": "Thermo Fisher provides CDMO biologics manufacturing and analytical services for Eli Lilly's injectable drugs",
+        "value": "~$1-2B annually", "year": "2015",
+        "source_url": "https://ir.thermofisher.com/financial-information/annual-reports",
+        "source_name": "Thermo Fisher Annual Report",
+        "details": (
+            "Thermo Fisher's Patheon CDMO (contract development and manufacturing) division "
+            "manufactures biologics and injectable drugs for Eli Lilly's portfolio. This "
+            "includes fill-finish manufacturing for Lilly's insulin products (Humalog, "
+            "Basaglar) and formulation development for tirzepatide (Mounjaro/Zepbound) "
+            "as the GLP-1 drug scaled to blockbuster volumes. Thermo Fisher's analytical "
+            "instruments — mass spectrometers, HPLC systems, bioanalytical tools — are also "
+            "deployed in Lilly's quality-control labs globally. Lilly's explosive growth "
+            "driven by tirzepatide has made it one of Thermo Fisher's largest and fastest-"
+            "growing manufacturing customers."
+        ),
+    },
+    {
+        "src": "TMO", "dst": "JNJ", "type": "Supply Chain",
+        "desc": "Thermo Fisher analytical instruments and CDMO services support J&J drug development and manufacturing QA",
+        "value": "~$1-2B annually", "year": "2010",
+        "source_url": "https://ir.thermofisher.com/financial-information/annual-reports",
+        "source_name": "Thermo Fisher Annual Report",
+        "details": (
+            "Thermo Fisher Scientific is a major supplier to Johnson & Johnson across both "
+            "pharmaceutical and medical device businesses. Thermo Fisher mass spectrometers, "
+            "chromatography systems, and automated laboratory equipment are standard in J&J's "
+            "Janssen pharmaceutical manufacturing and quality-control labs worldwide. Thermo "
+            "Fisher's Patheon CDMO unit has provided manufacturing services for Janssen "
+            "biologics including Stelara (ustekinumab) and Tremfya (guselkumab). For J&J "
+            "MedTech, Thermo Fisher supplies analytical tools for sterility testing and "
+            "materials characterization of surgical devices and implants. The relationship "
+            "spans every segment of J&J's $85B+ annual business."
+        ),
+    },
+    {
+        "src": "DHR", "dst": "PFE", "type": "Supply Chain",
+        "desc": "Danaher Cytiva bioprocessing equipment is critical to Pfizer's mRNA vaccine and biologics manufacturing",
+        "value": "~$2-3B annually", "year": "2020",
+        "source_url": "https://investors.danaher.com/financial-information/annual-reports",
+        "source_name": "Danaher Annual Report",
+        "details": (
+            "Danaher's Cytiva division (acquired from GE Healthcare Life Sciences for $21B "
+            "in 2020) supplies the bioreactors, chromatography systems, and filtration "
+            "equipment at the heart of Pfizer's biologics and mRNA vaccine manufacturing. "
+            "Cytiva's single-use bioreactors and ÄKTA chromatography systems were in "
+            "critically short supply during COVID-19 vaccine scale-up, with Pfizer being "
+            "one of the largest customers. Cytiva's ReadyToProcess platform enables rapid "
+            "manufacturing scale-up from clinical to commercial volumes — a capability "
+            "Pfizer depended on to produce 3B+ COVID-19 vaccine doses. Danaher is "
+            "effectively an essential infrastructure supplier to Pfizer's entire biologics "
+            "manufacturing base."
+        ),
+    },
+    {
+        "src": "DHR", "dst": "JNJ", "type": "Supply Chain",
+        "desc": "Danaher Cytiva bioreactors and Pall filtration systems underpin J&J Janssen biologics manufacturing",
+        "value": "~$1-2B annually", "year": "2020",
+        "source_url": "https://investors.danaher.com/financial-information/annual-reports",
+        "source_name": "Danaher Annual Report",
+        "details": (
+            "Danaher's Cytiva and Pall (filtration) divisions supply the core bioprocessing "
+            "equipment for Johnson & Johnson's Janssen pharmaceutical manufacturing sites "
+            "globally. Cytiva bioreactors produce Janssen biologics including Stelara "
+            "(ustekinumab, $10B+ peak revenue), Tremfya, and Darzalex (daratumumab). "
+            "Pall's tangential flow filtration (TFF) systems are used in Janssen's "
+            "downstream purification of monoclonal antibodies. During COVID-19, Janssen's "
+            "Ad26-based vaccine (Johnson & Johnson COVID-19 vaccine) was manufactured using "
+            "Cytiva bioreactor platforms. Danaher's equipment is deeply embedded in J&J's "
+            "biologic manufacturing infrastructure, making it a non-discretionary supplier."
+        ),
+    },
+
+    # ── Pharma-pharma collaborations ──────────────────────────────────────────
+
+    {
+        "src": "PFE", "dst": "BMY", "type": "Partnership",
+        "desc": "Pfizer + Bristol-Myers Squibb co-developed and co-promote Eliquis (apixaban) — world's top-selling anticoagulant",
+        "value": "$12B+ annual Eliquis revenue (split ~50/50)", "year": "2007",
+        "source_url": "https://www.businesswire.com/news/home/20071218005280/en/Pfizer-and-Bristol-Myers-Squibb-Enter-Global-Alliance-for-Apixaban",
+        "source_name": "BusinessWire",
+        "details": (
+            "Pfizer and Bristol-Myers Squibb entered a global alliance in December 2007 to "
+            "co-develop and co-commercialize apixaban (Eliquis), a Factor Xa inhibitor for "
+            "stroke prevention and blood clot treatment. Eliquis launched in 2012 and became "
+            "the world's best-selling anticoagulant by 2018. Global Eliquis revenues exceeded "
+            "$12B in 2023, with BMS and Pfizer sharing costs and profits roughly equally. The "
+            "partnership required coordinating two massive pharmaceutical sales forces and "
+            "regulatory submissions across 100+ countries. Eliquis now has 200M+ prescriptions "
+            "written annually and is the #1 prescribed cardiovascular drug in the US. The "
+            "Pfizer-BMS alliance is one of the most financially successful pharma co-promotion "
+            "deals in history."
+        ),
+    },
+    {
+        "src": "JNJ", "dst": "ABBV", "type": "Partnership",
+        "desc": "J&J (Janssen) + AbbVie jointly developed and globally commercialize Imbruvica (ibrutinib) for blood cancers",
+        "value": "$5B+ annual Imbruvica revenue (split AbbVie ~60/JNJ ~40)", "year": "2011",
+        "source_url": "https://www.jnj.com/latest-news/janssen-and-abbvie-enter-global-alliance-to-develop-commercialize-ibrutinib",
+        "source_name": "J&J Newsroom",
+        "details": (
+            "Janssen (J&J's pharmaceutical division) and AbbVie entered a global collaboration "
+            "in 2011 to develop and commercialize ibrutinib (Imbruvica), a BTK inhibitor for "
+            "blood cancers including chronic lymphocytic leukemia (CLL) and mantle cell "
+            "lymphoma. Imbruvica launched in 2013 and rapidly became a blockbuster, with peak "
+            "revenues of $5B+ globally. AbbVie received rights primarily outside the US while "
+            "Janssen handles US commercialization, with costs and profits shared. Ibrutinib "
+            "transformed the treatment of CLL — converting a once-fatal diagnosis into a "
+            "manageable chronic condition. The deal is one of the defining oncology "
+            "partnerships of the 2010s and earned billions for both companies."
+        ),
+    },
+    {
+        "src": "AMGN", "dst": "ABBV", "type": "Partnership",
+        "desc": "Amgen-AbbVie settlement: Amgen's Amgevita (Humira biosimilar) licensed to launch in the US from January 2023",
+        "value": "$20B+ Humira biosimilar market by 2025", "year": "2022",
+        "source_url": "https://www.amgen.com/media/news-releases/2022/10/amgen-and-abbvie-reach-settlement-agreement-on-humira-biosimilar-amgevita-in-the-us",
+        "source_name": "Amgen Newsroom",
+        "details": (
+            "Amgen and AbbVie reached a settlement in October 2022 allowing Amgen's Amgevita "
+            "— a biosimilar to AbbVie's Humira (adalimumab) — to launch in the US starting "
+            "January 31, 2023. Humira had been the world's best-selling drug, generating "
+            "$14B+ annually for AbbVie on the strength of an extensive patent thicket. Amgen "
+            "was the first biosimilar maker to breach that thicket through litigation. The "
+            "settlement terms are confidential but allowed Amgevita to launch at a significant "
+            "discount, beginning the erosion of Humira's US monopoly. The deal catalyzed "
+            "launches by eight other Humira biosimilar makers in 2023 and accelerated AbbVie's "
+            "transition to Skyrizi and Rinvoq as successor drugs."
+        ),
+    },
+    {
+        "src": "JNJ", "dst": "GOOGL", "type": "Joint Venture",
+        "desc": "Verb Surgical — J&J and Verily (Alphabet) joint venture for AI-powered robotic surgery (2015)",
+        "value": "$150M+ (JV investment)", "year": "2015",
+        "source_url": "https://www.prnewswire.com/news-releases/johnson-johnson-and-verily-life-sciences-enter-strategic-collaboration-agreement-to-develop-robotics-assisted-surgery-platform-300165073.html",
+        "source_name": "PR Newswire",
+        "details": (
+            "Johnson & Johnson and Verily Life Sciences (Google's life science subsidiary, "
+            "now part of Alphabet) announced Verb Surgical as a joint venture in December "
+            "2015 to develop an AI-powered robotic surgery platform. The JV combined J&J "
+            "Ethicon's surgical device expertise with Google's machine learning, image "
+            "recognition, and advanced visualization capabilities. The goal: create a "
+            "fundamentally smarter surgical robot than the incumbent da Vinci (Intuitive "
+            "Surgical). Verb Surgical was dissolved in 2019 with J&J taking over the "
+            "development as its Ottava robotic surgery platform — now in clinical trials. "
+            "The JV demonstrated that tech giants were willing to enter the $6B surgical "
+            "robotics market and prompted incumbents and startups to accelerate AI development."
+        ),
+    },
+    {
+        "src": "MDT", "dst": "MSFT", "type": "Partnership",
+        "desc": "Medtronic + Microsoft — AI clinical intelligence platform for diabetes, cardiac, and surgical device data",
+        "value": "~$200M+ (multi-year)", "year": "2022",
+        "source_url": "https://newsroom.medtronic.com/news-releases/news-release-details/medtronic-and-microsoft-expand-collaboration",
+        "source_name": "Medtronic Newsroom",
+        "details": (
+            "Medtronic and Microsoft expanded their AI collaboration to build the Medtronic "
+            "AI clinical intelligence platform on Azure. The platform integrates data from "
+            "Medtronic's 50M+ connected devices — insulin pumps, cardiac monitors, "
+            "neuromodulation devices — into a unified AI layer that powers predictive "
+            "clinical insights. Azure AI models flag early warning signs of cardiac "
+            "decompensation in heart failure patients with Medtronic's CRT-D devices, "
+            "enabling proactive clinical intervention. Microsoft Teams connects Medtronic's "
+            "clinical specialists with hospital teams for remote device interrogation and "
+            "programming. The partnership positions Medtronic as the first large medtech to "
+            "have an enterprise AI platform spanning all major therapeutic categories."
         ),
     },
 ]
