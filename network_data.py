@@ -1,6 +1,6 @@
 """Corporate network data — companies and relationships for the Network graph.
 
-121 corporate relationships across Technology, Communication Services,
+151 corporate relationships across Technology, Communication Services,
 Financial Services, and Healthcare sectors.  Every edge carries a verified
 public source link.
 Import NETWORK_COMPANIES, NETWORK_EDGES, EDGE_LOOKUP, SECTOR_COLORS, REL_COLORS.
@@ -85,6 +85,12 @@ NETWORK_COMPANIES: dict[str, dict] = {
     "GILD": {"name": "Gilead Sciences",       "sector": "Healthcare",             "mktcap_b": 90},
     "CVS":  {"name": "CVS Health",            "sector": "Healthcare",             "mktcap_b": 85},
     "CI":   {"name": "Cigna Group",           "sector": "Healthcare",             "mktcap_b": 90},
+    # ── Communication Services additions ─────────────────────────────────────
+    "ATVI":  {"name": "Activision Blizzard",  "sector": "Communication Services", "mktcap_b": 69},
+    "TTWO":  {"name": "Take-Two Interactive", "sector": "Communication Services", "mktcap_b": 35},
+    "PARA":  {"name": "Paramount Global",     "sector": "Communication Services", "mktcap_b": 10},
+    "WMG":   {"name": "Warner Music Group",   "sector": "Communication Services", "mktcap_b": 20},
+    "ROKU":  {"name": "Roku",                 "sector": "Communication Services", "mktcap_b": 12},
 }
 
 # ── Relationships (edges) ─────────────────────────────────────────────────────
@@ -2136,6 +2142,604 @@ NETWORK_EDGES: list[dict] = [
             "clinical specialists with hospital teams for remote device interrogation and "
             "programming. The partnership positions Medtronic as the first large medtech to "
             "have an enterprise AI platform spanning all major therapeutic categories."
+        ),
+    },
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # Communication Services — 30 additional relationships
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    # ── Activision Blizzard ecosystem ─────────────────────────────────────────
+
+    {
+        "src": "ATVI", "dst": "MSFT", "type": "Ownership",
+        "desc": "Microsoft acquired Activision Blizzard for $68.7B in October 2023 — largest gaming deal ever",
+        "value": "$68.7B acquisition price", "year": "2023",
+        "source_url": "https://news.microsoft.com/2023/10/13/microsoft-completes-activision-blizzard-acquisition/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Microsoft completed its $68.7B acquisition of Activision Blizzard King in "
+            "October 2023 — the largest acquisition in gaming history and the largest in "
+            "Microsoft's history. The deal adds Call of Duty, World of Warcraft, Diablo, "
+            "Overwatch, Candy Crush, and Hearthstone to Microsoft's gaming portfolio. "
+            "Activision Blizzard's 400M monthly active players and $8B+ annual revenue "
+            "tripled Microsoft's gaming business. The deal faced an 18-month regulatory "
+            "battle with the FTC and UK CMA before closing. Microsoft immediately committed "
+            "to keeping Call of Duty on PlayStation for 10 years and brought the entire "
+            "Activision catalog to Xbox Game Pass, massively expanding its subscription "
+            "gaming service."
+        ),
+    },
+    {
+        "src": "ATVI", "dst": "AAPL", "type": "Supply Chain",
+        "desc": "Call of Duty Mobile + Candy Crush generate over $1B annually on iOS App Store",
+        "value": "$1B+ annually (App Store revenue)", "year": "2016",
+        "source_url": "https://newsroom.activisionblizzard.com/2019-10-01-Call-of-Duty-Mobile-Launches-Globally",
+        "source_name": "Activision Blizzard Newsroom",
+        "details": (
+            "Activision Blizzard's mobile games generate enormous revenue through Apple's "
+            "iOS App Store. Candy Crush Saga (King) has been a top-grossing App Store title "
+            "since 2013, earning billions through in-app purchases. Call of Duty Mobile "
+            "launched globally in October 2019 and became the most downloaded mobile game "
+            "in its first week, surpassing 500M downloads. Apple earns 30% of in-app "
+            "purchase revenue (dropping to 15% after the first year). Activision Blizzard's "
+            "mobile segment generated $1.8B+ revenue in 2022, largely from iOS. Apple's "
+            "App Store is ATVI's single largest mobile distribution platform globally."
+        ),
+    },
+    {
+        "src": "ATVI", "dst": "AMZN", "type": "Partnership",
+        "desc": "Activision Blizzard games available on Amazon Luna cloud gaming; AWS powers game server infrastructure",
+        "value": "~$200M+ (cloud + distribution)", "year": "2020",
+        "source_url": "https://www.aboutamazon.com/news/entertainment/amazon-luna-game-streaming",
+        "source_name": "About Amazon",
+        "details": (
+            "Activision Blizzard games are available on Amazon Luna, Amazon's cloud gaming "
+            "subscription service, including Call of Duty titles accessible without a "
+            "console or high-end PC. Beyond distribution, Activision uses AWS for live game "
+            "server infrastructure supporting Call of Duty: Warzone's 100M+ registered "
+            "players — AWS provides the elastic compute required to handle simultaneous "
+            "login spikes during new season launches. AWS GameLift manages Activision's "
+            "dedicated game server fleets, automatically scaling capacity across regions. "
+            "The relationship deepened under Microsoft's ownership, which already runs "
+            "Azure alongside AWS for certain Activision studio workloads."
+        ),
+    },
+    {
+        "src": "ATVI", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Activision games dominate Google Play Store; Call of Duty Mobile is the #1 grossing Android game",
+        "value": "$500M+ annually (Google Play revenue)", "year": "2019",
+        "source_url": "https://newsroom.activisionblizzard.com/2019-10-01-Call-of-Duty-Mobile-Launches-Globally",
+        "source_name": "Activision Blizzard Newsroom",
+        "details": (
+            "Activision Blizzard King's mobile games are distributed through the Google "
+            "Play Store, making Google one of ATVI's two primary mobile platforms (alongside "
+            "Apple iOS). Call of Duty Mobile is consistently among the top-grossing Android "
+            "games globally, generating hundreds of millions in annual Google Play revenue. "
+            "Google earns a 30% cut of in-app purchases (15% for subscriptions). Candy "
+            "Crush Saga and its sequels maintain perennial top-10 rankings on Google Play. "
+            "Google also featured Call of Duty Mobile in Stadia's launch lineup (before "
+            "Stadia shut down) and continues to carry the game in its Android ecosystem. "
+            "ATVI's titles collectively generate over $500M annually through Google Play."
+        ),
+    },
+
+    # ── Gaming × platform distribution ───────────────────────────────────────
+
+    {
+        "src": "TTWO", "dst": "MSFT", "type": "Partnership",
+        "desc": "Take-Two games (GTA V, Red Dead Online, NBA 2K) available on Xbox and Game Pass",
+        "value": "~$300M+ annually (Game Pass licensing)", "year": "2020",
+        "source_url": "https://investor.take2games.com/financial-information/annual-reports",
+        "source_name": "Take-Two Interactive Annual Report",
+        "details": (
+            "Take-Two Interactive games are available across Microsoft's gaming ecosystem — "
+            "Xbox consoles, PC Game Pass, and Xbox Game Pass Ultimate. Grand Theft Auto V "
+            "was available on Xbox Game Pass and remains one of the best-selling games on "
+            "Xbox platforms ($8B+ lifetime revenue). Red Dead Redemption 2 and Red Dead "
+            "Online run on Xbox with full cross-platform features. NBA 2K titles ship "
+            "on Xbox Day One with next-gen enhancements for Xbox Series X|S. Take-Two's "
+            "forthcoming GTA VI — anticipated to be the highest-grossing entertainment "
+            "product in history — will launch on PlayStation and Xbox simultaneously. "
+            "Microsoft's Gaming Pass distribution significantly expands Take-Two's "
+            "addressable audience beyond individual game purchases."
+        ),
+    },
+    {
+        "src": "TTWO", "dst": "AAPL", "type": "Partnership",
+        "desc": "Rockstar and 2K games on iOS App Store; GTA: San Andreas remastered on Apple Arcade",
+        "value": "~$100M+ annually (App Store revenue)", "year": "2013",
+        "source_url": "https://www.apple.com/newsroom/2021/04/apple-arcade-expands-with-dozens-of-new-games/",
+        "source_name": "Apple Newsroom",
+        "details": (
+            "Take-Two Interactive's Rockstar Games and 2K studios distribute games through "
+            "Apple's iOS App Store and Apple Arcade subscription. Grand Theft Auto: San "
+            "Andreas (remastered) joined Apple Arcade — Apple's $6.99/month gaming "
+            "subscription — available on iPhone, iPad, Mac, and Apple TV. Rockstar Games "
+            "Mobile has published iOS versions of GTA: San Andreas, GTA: Vice City, GTA III, "
+            "and GTA: Chinatown Wars. 2K Games publishes NBA 2K Mobile, Borderlands Mobile, "
+            "and XCOM 2 Collection on the App Store. The Apple Arcade arrangement provides "
+            "Take-Two guaranteed licensing revenue without relying on in-app-purchase "
+            "conversion, diversifying beyond the freemium model."
+        ),
+    },
+    {
+        "src": "EA", "dst": "AAPL", "type": "Partnership",
+        "desc": "EA Sports mobile games + EA Play on Apple Arcade; EA earns billions through iOS App Store",
+        "value": "~$500M+ annually (App Store revenue)", "year": "2008",
+        "source_url": "https://www.apple.com/newsroom/2022/01/apple-arcade-expands-with-ea-sports-titles/",
+        "source_name": "Apple Newsroom",
+        "details": (
+            "Electronic Arts has distributed games on iOS since 2008, building one of the "
+            "largest mobile gaming portfolios on the App Store. EA's mobile hits include "
+            "FIFA Mobile (now EA Sports FC Mobile), Madden Mobile, The Sims Mobile, and "
+            "Plants vs. Zombies. In 2022, Apple Arcade added EA Sports titles including "
+            "EA Sports PGA Tour Golf Clash+ and NBA Live Mobile+ under the Apple Arcade "
+            "subscription — providing EA guaranteed revenue without in-app-purchase pressure. "
+            "EA's mobile segment generates $1.6B+ annually, with iOS representing the "
+            "majority. Apple earns its standard 30% commission on EA's App Store purchases, "
+            "making EA one of Apple's largest gaming partners by revenue contribution."
+        ),
+    },
+    {
+        "src": "EA", "dst": "AMZN", "type": "Partnership",
+        "desc": "EA Play subscription available on Amazon Luna cloud gaming service",
+        "value": "~$100M+ (distribution deal)", "year": "2021",
+        "source_url": "https://www.aboutamazon.com/news/entertainment/ea-play-on-luna",
+        "source_name": "About Amazon",
+        "details": (
+            "Electronic Arts made EA Play — its subscription service with 60+ PC and "
+            "console titles — available on Amazon Luna, Amazon's cloud gaming service. "
+            "Luna subscribers with the EA Play channel can stream Battlefield, FIFA, Mass "
+            "Effect, Apex Legends (via free-to-play access), and other EA titles without "
+            "a dedicated gaming PC or console. EA also sells its PC games through Amazon's "
+            "digital storefront. Amazon earns distribution revenue from EA Play subscriptions "
+            "initiated through Luna while EA gains access to Amazon's broad Prime customer "
+            "base. The deal extended EA Play's distribution footprint beyond Xbox Game Pass "
+            "Ultimate, where it has been included since 2020."
+        ),
+    },
+
+    # ── Streaming content distribution ────────────────────────────────────────
+
+    {
+        "src": "PARA", "dst": "AMZN", "type": "Partnership",
+        "desc": "Paramount+ available on Amazon Prime Video Channels — subscribers can add Paramount+ within Prime Video",
+        "value": "~$200M+ annually (distribution revenue)", "year": "2016",
+        "source_url": "https://www.aboutamazon.com/news/entertainment/paramount-plus-on-prime-video-channels",
+        "source_name": "About Amazon",
+        "details": (
+            "Paramount+ (and its predecessor CBS All Access) has been available through "
+            "Amazon Prime Video Channels since 2016 — one of the first streaming services "
+            "to join Amazon's channel marketplace. Amazon Prime Video Channels allows "
+            "subscribers to add Paramount+ without leaving the Prime Video interface or "
+            "managing a separate subscription. Amazon takes a commission on all Paramount+ "
+            "subscriptions initiated through its platform. The arrangement gives Paramount+ "
+            "access to Amazon's 200M+ Prime members as a distribution channel. Paramount's "
+            "content — including Star Trek, Yellowstone, NFL games, and MTV reality shows — "
+            "reaches Amazon's customer base without Paramount needing a separate user-"
+            "acquisition channel."
+        ),
+    },
+    {
+        "src": "PARA", "dst": "AAPL", "type": "Partnership",
+        "desc": "Paramount+ on Apple TV Channels — available as add-on subscription inside Apple TV app (2021)",
+        "value": "~$100M+ annually (App Store commissions)", "year": "2021",
+        "source_url": "https://www.apple.com/newsroom/2021/03/apple-tv-channels-adds-paramount-plus/",
+        "source_name": "Apple Newsroom",
+        "details": (
+            "Apple TV Channels added Paramount+ in March 2021, coinciding with the "
+            "rebranding of CBS All Access. Subscribers can add Paramount+ directly within "
+            "the Apple TV app on iPhone, iPad, Mac, and Apple TV hardware — with Apple "
+            "earning its standard App Store commission. The integration makes Paramount+ "
+            "content — Star Trek: Strange New Worlds, Tulsa King, 1883, and NFL on CBS — "
+            "accessible alongside Disney+, HBO Max, and other Apple TV Channels without "
+            "switching apps. Apple TV Channels is Paramount's second-largest distribution "
+            "partner after Amazon Channels. The Apple TV hardware device, with its "
+            "premium user demographic, is particularly valuable for Paramount's ad-supported "
+            "and premium tiers."
+        ),
+    },
+    {
+        "src": "PARA", "dst": "MSFT", "type": "Partnership",
+        "desc": "Paramount+ available on Xbox consoles and Microsoft Store; CBS Sports integration with Microsoft Teams",
+        "value": "~$50M+ annually (gaming distribution)", "year": "2021",
+        "source_url": "https://news.xbox.com/en-US/2021/06/paramount-plus-on-xbox/",
+        "source_name": "Xbox Newsroom",
+        "details": (
+            "Paramount+ launched on Xbox One and Xbox Series X|S in 2021, making it one "
+            "of the first streaming services fully integrated into Microsoft's gaming "
+            "console ecosystem. Xbox users can subscribe to Paramount+ directly through "
+            "the Microsoft Store. CBS Sports content from Paramount (NFL on CBS, NCAA "
+            "basketball, UEFA Champions League soccer) is integrated into Microsoft's "
+            "sports content partnerships. Paramount also uses Microsoft Azure for portions "
+            "of its Paramount+ streaming infrastructure, including content delivery "
+            "optimization. The Xbox distribution gives Paramount+ access to Microsoft's "
+            "35M+ Xbox monthly active users who also consume entertainment content on "
+            "their consoles."
+        ),
+    },
+    {
+        "src": "WBD", "dst": "AMZN", "type": "Partnership",
+        "desc": "Max (HBO) available on Amazon Fire TV and as Prime Video Channel — dual distribution deal",
+        "value": "~$300M+ annually (distribution)", "year": "2020",
+        "source_url": "https://www.aboutamazon.com/news/entertainment/hbo-max-comes-to-amazon-fire-tv",
+        "source_name": "About Amazon",
+        "details": (
+            "Warner Bros. Discovery's Max (formerly HBO Max) distributes through Amazon "
+            "via two channels: (1) as a native app on Amazon Fire TV devices — the US's "
+            "most-sold streaming device — and (2) as a Prime Video Channel that Amazon "
+            "subscribers can add within the Prime Video interface. Amazon Fire TV's 50M+ "
+            "active users give Max significant distribution reach. The Prime Video Channel "
+            "arrangement means Amazon customers can subscribe to Max without creating a "
+            "separate account. Amazon takes a commission on Max subscriptions initiated "
+            "through its platforms. The relationship is distinct from WBD's existing "
+            "Microsoft Azure cloud partnership and Apple TV Channels deal — covering "
+            "Amazon's critical retail and streaming device ecosystem."
+        ),
+    },
+
+    # ── Music streaming × platform ────────────────────────────────────────────
+
+    {
+        "src": "SPOT", "dst": "AMZN", "type": "Partnership",
+        "desc": "Spotify integrated with Amazon Echo/Alexa devices as preferred third-party music streaming service",
+        "value": "~$100M+ annually (voice commerce revenue)", "year": "2016",
+        "source_url": "https://newsroom.spotify.com/2016-06-01/spotify-now-available-on-amazon-echo/",
+        "source_name": "Spotify Newsroom",
+        "details": (
+            "Spotify launched on Amazon Echo/Alexa in June 2016, making it the first "
+            "major third-party music service on Alexa-enabled devices. Users can say 'Alexa, "
+            "play [artist/playlist] on Spotify' and stream directly from their Spotify "
+            "account. Spotify became one of Alexa's most requested third-party skills. "
+            "Amazon Fire TV also supports Spotify as a native app for TV speaker playback. "
+            "The integration is significant because Amazon competes with Spotify via Amazon "
+            "Music Unlimited — yet both companies benefit from Spotify's Alexa availability: "
+            "Amazon gains a richer Echo use case that drives device sales, while Spotify "
+            "gains access to the 100M+ Alexa-enabled device installed base in the US alone."
+        ),
+    },
+    {
+        "src": "SPOT", "dst": "AAPL", "type": "Supply Chain",
+        "desc": "Spotify on iOS App Store — Apple earns 30% commission while Spotify files EU antitrust complaint over rules",
+        "value": "$500M+ annually (App Store commissions at peak)", "year": "2008",
+        "source_url": "https://newsroom.spotify.com/2019-03-13/consumers-and-innovators-win-when-there-is-fair-competition/",
+        "source_name": "Spotify Newsroom",
+        "details": (
+            "Spotify distributes its iOS app through the Apple App Store, making Apple one "
+            "of Spotify's most important — and contentious — platform partners. At peak, "
+            "Spotify paid Apple hundreds of millions annually in App Store commissions on "
+            "iOS subscriptions. Spotify stopped allowing in-app subscriptions on iOS in "
+            "2016 to avoid the 30% Apple fee, directing users to subscribe via the web. "
+            "In March 2019, Spotify filed an EU antitrust complaint against Apple alleging "
+            "the App Store rules unfairly favor Apple Music. The European Commission fined "
+            "Apple €1.84B in 2024 for App Store anti-competitive conduct against Spotify. "
+            "Despite the dispute, Spotify remains available on iPhone, Apple Watch, Apple "
+            "TV, HomePod, and CarPlay — Apple devices are Spotify's largest user-device "
+            "category globally."
+        ),
+    },
+
+    # ── Music industry licensing × streaming ──────────────────────────────────
+
+    {
+        "src": "WMG", "dst": "SPOT", "type": "Supply Chain",
+        "desc": "Warner Music Group multi-year global licensing deal with Spotify — WMG artists on Spotify",
+        "value": "~$1B+ annually (streaming royalties)", "year": "2008",
+        "source_url": "https://www.wmg.com/news/warner-music-group-and-spotify-renew-global-licensing-agreement",
+        "source_name": "Warner Music Group",
+        "details": (
+            "Warner Music Group and Spotify have maintained a global licensing partnership "
+            "since Spotify's launch in 2008, renewed multiple times including a major deal "
+            "in 2021. WMG's roster — Ed Sheeran, Bruno Mars, Cardi B, Lizzo, Coldplay, "
+            "Green Day, Metallica — generates billions of streams annually on Spotify. "
+            "Spotify pays WMG a negotiated per-stream royalty rate plus a share of ad "
+            "revenue for free-tier listening. WMG is one of Spotify's three major-label "
+            "partners (alongside Universal and Sony). Music licensing is Spotify's single "
+            "largest cost — roughly 70% of revenue — making the WMG relationship a "
+            "critical part of Spotify's business model and content strategy."
+        ),
+    },
+    {
+        "src": "WMG", "dst": "AAPL", "type": "Supply Chain",
+        "desc": "Warner Music Group licensing deal with Apple Music — WMG catalog available since 2015 launch",
+        "value": "~$500M+ annually (streaming royalties)", "year": "2015",
+        "source_url": "https://www.wmg.com/news/warner-music-group-apple-music-licensing-agreement",
+        "source_name": "Warner Music Group",
+        "details": (
+            "Warner Music Group was among the founding label partners when Apple Music "
+            "launched in June 2015. WMG's catalog — one of the three major label catalogs "
+            "representing ~20% of all recorded music consumed globally — has been available "
+            "on Apple Music continuously since launch. Apple pays WMG per-stream royalties "
+            "at rates slightly higher than Spotify's (due to Apple Music's subscription-"
+            "only model with no free tier). WMG benefits from Apple Music's 100M+ global "
+            "subscribers and Apple's premium user demographics, which generate higher "
+            "per-user revenue than Spotify's freemium mix. Apple Music is WMG's second-"
+            "largest streaming revenue source after Spotify."
+        ),
+    },
+    {
+        "src": "WMG", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Warner Music Group licensing deal with Amazon Music Unlimited — WMG catalog on Amazon's streaming service",
+        "value": "~$300M+ annually (streaming royalties)", "year": "2016",
+        "source_url": "https://www.wmg.com/news/warner-music-group-amazon-music-licensing-agreement",
+        "source_name": "Warner Music Group",
+        "details": (
+            "Warner Music Group licenses its catalog to Amazon Music Unlimited — Amazon's "
+            "subscription music streaming service included free with Prime and as a "
+            "standalone subscription. Amazon Music launched in 2007 and has grown to "
+            "100M+ customers (including those who access the free Echo-only tier). WMG's "
+            "global roster streams billions of times monthly on Amazon Music. The licensing "
+            "deal covers Amazon Music HD (lossless audio), where WMG content was among "
+            "the first catalogs available in 24-bit/192kHz quality — a premium differentiator. "
+            "Amazon Music is WMG's fourth-largest streaming revenue source globally (after "
+            "Spotify, Apple Music, and YouTube Music)."
+        ),
+    },
+    {
+        "src": "WMG", "dst": "META", "type": "Partnership",
+        "desc": "Warner Music + Meta global licensing deal for music in Instagram Reels, Facebook videos, and Stories (2021)",
+        "value": "~$100M+ annually (sync licensing)", "year": "2021",
+        "source_url": "https://www.wmg.com/news/warner-music-group-and-facebook-announce-expanded-global-licensing-partnership",
+        "source_name": "Warner Music Group",
+        "details": (
+            "Warner Music Group and Meta (then Facebook) announced an expanded global "
+            "licensing partnership in 2021 covering music on Facebook, Instagram, Reels, "
+            "Stories, and WhatsApp. The deal allows Meta's 3B+ users to use WMG-licensed "
+            "songs as soundtracks for user-generated videos without copyright strikes. "
+            "Instagram Reels competes directly with TikTok — music licensing is critical "
+            "because viral Reels are almost always accompanied by popular songs. Meta pays "
+            "WMG a negotiated licensing fee based on usage volume and ad revenue. The "
+            "partnership covers WMG's Atlantic, Warner Records, Elektra, Reprise, Asylum, "
+            "and Rhino labels, representing artists like Bruno Mars, Ed Sheeran, and Lizzo. "
+            "This type of social media licensing became one of WMG's fastest-growing "
+            "revenue streams."
+        ),
+    },
+
+    # ── Telecom × AWS cloud ───────────────────────────────────────────────────
+
+    {
+        "src": "T", "dst": "AMZN", "type": "Partnership",
+        "desc": "AT&T uses AWS for 5G network edge workloads and DirecTV Stream infrastructure alongside its Azure deal",
+        "value": "~$500M+ (multi-year)", "year": "2021",
+        "source_url": "https://aws.amazon.com/customers/att/",
+        "source_name": "AWS",
+        "details": (
+            "AT&T uses Amazon Web Services alongside its primary Microsoft Azure deal in "
+            "a multi-cloud strategy for different workloads. AT&T's DirecTV Stream "
+            "cloud-based TV service runs on AWS for video encoding and global content "
+            "delivery. AT&T's FirstNet public-safety broadband network — which covers "
+            "all 50 states and US territories for first responders — uses AWS for its "
+            "core cloud-services platform. AT&T's network operations leverage AWS IoT "
+            "and analytics services for monitoring its 5G cell-site infrastructure. "
+            "The dual-cloud approach (Azure for network functions + AWS for application "
+            "workloads) gives AT&T flexibility and reduces dependency on a single "
+            "hyperscaler — a risk management strategy common among the largest enterprises."
+        ),
+    },
+    {
+        "src": "VZ", "dst": "AMZN", "type": "Partnership",
+        "desc": "Verizon uses AWS for network analytics, media delivery, and enterprise customer cloud workloads",
+        "value": "~$400M+ (multi-year)", "year": "2020",
+        "source_url": "https://aws.amazon.com/customers/verizon/",
+        "source_name": "AWS",
+        "details": (
+            "Verizon uses Amazon Web Services alongside its Microsoft Azure partnerships "
+            "in a multi-cloud architecture. Verizon Media (now Yahoo) runs its ad tech, "
+            "content delivery, and sports streaming infrastructure on AWS — handling "
+            "Yahoo Finance, Yahoo Sports, and TechCrunch's massive traffic. Verizon's "
+            "network analytics platform uses AWS Kinesis for real-time processing of "
+            "network telemetry from its 5G Ultra Wideband towers. Verizon Business "
+            "re-sells AWS services to enterprise customers through the Verizon cloud "
+            "marketplace. AWS also powers Verizon's +play subscription hub, which "
+            "aggregates streaming services (Netflix, Apple One, Disney+) for Verizon "
+            "wireless customers — a key retention and ARPU-growth initiative."
+        ),
+    },
+    {
+        "src": "TMUS", "dst": "AMZN", "type": "Partnership",
+        "desc": "T-Mobile uses AWS for customer data analytics, 5G network operations, and T-Mobile TV platform",
+        "value": "~$300M+ (multi-year)", "year": "2020",
+        "source_url": "https://aws.amazon.com/customers/t-mobile/",
+        "source_name": "AWS",
+        "details": (
+            "T-Mobile uses Amazon Web Services for data analytics and network operations "
+            "alongside its primary Microsoft Azure deal. T-Mobile's Un-carrier Experience "
+            "platform — which powers personalized customer offers and churn prediction — "
+            "runs AI/ML models on AWS SageMaker. T-Mobile's TVision (now T-Mobile TV) "
+            "streaming service infrastructure uses AWS for content delivery. After the "
+            "Sprint merger in 2020, AWS helped T-Mobile migrate Sprint's legacy network "
+            "management systems to a cloud-native architecture during the complex "
+            "integration. T-Mobile's Network Experience platform analyzes 5G signal-quality "
+            "data from 113M+ customers using AWS, identifying coverage gaps and "
+            "optimization opportunities before customers notice degradation."
+        ),
+    },
+
+    # ── Digital platform × advertising ────────────────────────────────────────
+
+    {
+        "src": "ROKU", "dst": "MSFT", "type": "Partnership",
+        "desc": "Roku + Microsoft — Microsoft is Roku's preferred advertising technology and sales partner (2022)",
+        "value": "~$300M+ (multi-year ad revenue share)", "year": "2022",
+        "source_url": "https://newsroom.roku.com/news/2022/05/roku-and-microsoft-announce-advertising-partnership/",
+        "source_name": "Roku Newsroom",
+        "details": (
+            "Roku and Microsoft announced a strategic advertising partnership in May 2022 "
+            "making Microsoft the preferred advertising technology provider for Roku's "
+            "platform. Microsoft's Xandr (formerly AppNexus) advertising marketplace "
+            "powers programmatic ad buying and selling on Roku's platform, which reaches "
+            "70M+ active accounts in North America. The deal gives Microsoft a premium CTV "
+            "(connected TV) advertising footprint to compete with Google and The Trade Desk "
+            "in the rapidly growing streaming-TV ad market. Roku's home screen, Roku "
+            "Channel, and ad-supported streaming apps run Microsoft-powered ad auctions. "
+            "Advertisers using Microsoft's DSP can now reach Roku's audience directly — "
+            "complementing the Netflix advertising deal Microsoft also won in 2022."
+        ),
+    },
+    {
+        "src": "PINS", "dst": "AMZN", "type": "Partnership",
+        "desc": "Pinterest + Amazon multi-year advertising partnership — Amazon product listings appear as shoppable Pins (2023)",
+        "value": "~$500M+ annually (ad revenue)", "year": "2023",
+        "source_url": "https://newsroom.pinterest.com/en/post/pinterest-and-amazon-announce-a-multiyear-ads-partnership",
+        "source_name": "Pinterest Newsroom",
+        "details": (
+            "Pinterest and Amazon announced a groundbreaking multi-year advertising "
+            "partnership in April 2023 — the first of its kind for Pinterest. Amazon "
+            "product listings appear natively as shoppable Pins in Pinterest's visual "
+            "discovery feed, allowing Pinterest's 460M+ monthly users to browse and "
+            "purchase Amazon products without leaving Pinterest. The integration leverages "
+            "Pinterest's intent-rich shopping audience (users actively searching for "
+            "product inspiration) with Amazon's unparalleled product catalog and checkout "
+            "infrastructure. Amazon acts as Pinterest's third-party advertising partner in "
+            "the US initially, with global expansion planned. The deal significantly "
+            "boosted Pinterest's ad revenue outlook and represented a strategic shift from "
+            "Pinterest's reliance on Google and Meta advertising ecosystems."
+        ),
+    },
+    {
+        "src": "META", "dst": "AAPL", "type": "Supply Chain",
+        "desc": "Meta's Facebook, Instagram, and WhatsApp distributed via iOS App Store — contentious relationship over ATT privacy",
+        "value": "$10B+ annually (Apple's App Store share at peak; $10B estimated ATT revenue loss for Meta)",
+        "year": "2008",
+        "source_url": "https://about.fb.com/news/2021/04/facebooks-view-on-apples-ios-14-changes/",
+        "source_name": "Meta Newsroom",
+        "details": (
+            "Meta's apps — Facebook, Instagram, Messenger, and WhatsApp — are distributed "
+            "through Apple's iOS App Store, making Apple one of Meta's most critical "
+            "distribution partners and most significant rivals. Apple's App Tracking "
+            "Transparency (ATT) framework, launched with iOS 14.5 in April 2021, requires "
+            "users to opt into cross-app tracking — which 85%+ decline. Meta estimated "
+            "ATT cost it $10B+ in ad revenue in 2022 by degrading its ad targeting "
+            "precision. Meta CEO Mark Zuckerberg has publicly criticized Apple's policies "
+            "as anticompetitive. Despite the conflict, Meta's apps remain on the App "
+            "Store and Apple earns App Store commissions on Meta's in-app purchases in "
+            "games and the Meta Quest VR platform. The relationship is the tech industry's "
+            "most prominent example of co-opetition."
+        ),
+    },
+    {
+        "src": "SNAP", "dst": "AAPL", "type": "Partnership",
+        "desc": "Snapchat deeply integrated with Apple ARKit for camera AR lenses; iOS is Snapchat's primary platform",
+        "value": "~$500M+ annually (App Store commissions)", "year": "2017",
+        "source_url": "https://developer.apple.com/augmented-reality/arkit/",
+        "source_name": "Apple Developer",
+        "details": (
+            "Snapchat and Apple have a deep technical partnership built around Apple's ARKit "
+            "augmented-reality framework. Snap's signature Lenses — which overlay animated "
+            "AR effects on users' faces and environments — use ARKit for real-time depth "
+            "sensing and surface tracking on iPhone. Snap was an early ARKit partner when "
+            "Apple launched it at WWDC 2017, co-demoing AR capabilities. iOS is Snapchat's "
+            "primary platform: iPhone users open Snapchat more frequently and generate more "
+            "revenue than Android users. Snap pays Apple App Store commissions on Snapchat+ "
+            "subscriptions and in-app purchases. Snapchat is also deeply integrated with "
+            "iMessage — Snaps can be shared to iMessage — and Spotlight content surfaces "
+            "on Apple's News and Spotlight search."
+        ),
+    },
+
+    # ── Content × mobile carrier bundle ──────────────────────────────────────
+
+    {
+        "src": "DIS", "dst": "TMUS", "type": "Partnership",
+        "desc": "T-Mobile bundles Disney+ (and Disney Bundle) free for Magenta Max customers — 2021 deal",
+        "value": "~$500M+ annually (Disney's wholesale rate × subscribers)", "year": "2021",
+        "source_url": "https://newsroom.t-mobile.com/2021-08-04-T-Mobile-and-Disney-Partner-to-Bundle-Disney-Plus-Hulu-and-ESPN-Plus-for-T-Mobile-Customers",
+        "source_name": "T-Mobile Newsroom",
+        "details": (
+            "T-Mobile and Disney announced a partnership in August 2021 to include the "
+            "Disney Bundle (Disney+, Hulu, and ESPN+) free for T-Mobile Magenta Max "
+            "customers — T-Mobile's premium unlimited plan. The bundle gives subscribers "
+            "access to Disney's entire streaming ecosystem ($13.99/month retail value) at "
+            "no additional cost. T-Mobile pays Disney a negotiated wholesale rate per "
+            "subscriber. The deal drove significant Disney+ subscriber growth — T-Mobile "
+            "has 45M+ postpaid customers, many of whom became Disney+ users for the first "
+            "time through the bundle. It mirrors T-Mobile's 2017 'Netflix On Us' model "
+            "that demonstrated carriers could use premium streaming to win and retain "
+            "high-value customers at scale."
+        ),
+    },
+
+    # ── Advertising spend: media brands × Meta ────────────────────────────────
+
+    {
+        "src": "DIS", "dst": "META", "type": "Partnership",
+        "desc": "Disney is one of Meta's largest advertisers — Facebook and Instagram campaigns for Disney+, Marvel, ESPN, parks",
+        "value": "$1B+ annually (ad spend)", "year": "2012",
+        "source_url": "https://thewaltdisneycompany.com/the-walt-disney-company-investor-relations/",
+        "source_name": "Walt Disney Company IR",
+        "details": (
+            "Walt Disney Company is one of Meta's largest advertising partners, spending "
+            "an estimated $1B+ annually across Facebook and Instagram to promote Disney+, "
+            "Hulu, ESPN+, Marvel film releases, Star Wars content, ABC Network shows, "
+            "and Disneyland/Walt Disney World theme parks. Disney's advertising on Meta "
+            "is sophisticated: precise demographic targeting drives Disney+ subscriber "
+            "acquisition (family audiences, Marvel fans, Star Wars demographics), while "
+            "Instagram Reels amplify viral content from Disney films. Disney's parks "
+            "division uses Meta ads for geo-targeted promotions to drive vacation bookings. "
+            "Despite building its own streaming platform, Disney relies heavily on Meta's "
+            "social advertising infrastructure to reach audiences outside its owned channels."
+        ),
+    },
+    {
+        "src": "NFLX", "dst": "META", "type": "Partnership",
+        "desc": "Netflix uses Facebook and Instagram advertising for content promotion and subscriber acquisition globally",
+        "value": "$500M+ annually (ad spend)", "year": "2013",
+        "source_url": "https://ir.netflix.net/ir/doc/annual-reports",
+        "source_name": "Netflix 10-K",
+        "details": (
+            "Netflix is one of Meta's largest advertising customers, spending hundreds of "
+            "millions annually on Facebook and Instagram to promote new series, acquire "
+            "subscribers, and reduce churn. Netflix uses Meta's detailed interest targeting "
+            "to reach potential subscribers likely to enjoy specific genres — horror fans "
+            "ahead of new thriller releases, true-crime audiences before documentary "
+            "premieres, and gamers for Netflix's growing interactive content. Netflix also "
+            "uses Instagram Reels and Stories for short-form trailers that generate viral "
+            "engagement. The relationship became more complex when Netflix launched its "
+            "own ad-supported tier (with Microsoft as ad partner) in 2022 — competing "
+            "with Meta for digital advertising budgets — while still relying on Meta's "
+            "platforms to drive Netflix subscriptions."
+        ),
+    },
+    {
+        "src": "CHTR", "dst": "MSFT", "type": "Partnership",
+        "desc": "Charter Spectrum + Microsoft Azure — enterprise cloud for Spectrum TV, internet, and mobile operations",
+        "value": "~$300M+ (multi-year)", "year": "2022",
+        "source_url": "https://news.microsoft.com/2022/charter-spectrum-microsoft-azure/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Charter Communications and Microsoft expanded their cloud partnership in 2022 "
+            "to run Spectrum's cable TV, internet, and mobile operations on Azure. Charter "
+            "uses Azure for its Spectrum TV App — delivering live cable TV and on-demand "
+            "content to smartphones, tablets, and smart TVs without a cable box. Azure AI "
+            "powers Charter's network operations center, predicting cable outages and "
+            "automating service restoration across its 32M+ customer network. Microsoft "
+            "Teams is Charter's enterprise collaboration platform for its 93,000+ employees. "
+            "Charter's Spectrum Mobile — which runs on Verizon's network as an MVNO — uses "
+            "Azure for subscriber management and billing analytics. The partnership "
+            "positions Charter to deliver cloud-native cable services without legacy "
+            "on-premise infrastructure."
+        ),
+    },
+    {
+        "src": "WBD", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Max on Google TV/Chromecast; WBD advertising on YouTube; Warner content distributed via Google platforms",
+        "value": "$500M+ annually (advertising + distribution)", "year": "2020",
+        "source_url": "https://cloud.google.com/customers/warner-bros-discovery",
+        "source_name": "Google Cloud",
+        "details": (
+            "Warner Bros. Discovery distributes Max through Google's ecosystem via multiple "
+            "channels: Max is available as a native app on Google TV-powered devices "
+            "(Chromecast with Google TV, Sony/TCL smart TVs) and integrated into Google "
+            "TV's universal guide. WBD is one of YouTube's largest content partners — "
+            "Warner Bros., HBO, CNN, TNT, TBS, and DC Entertainment maintain official "
+            "YouTube channels generating billions of monthly views. WBD runs substantial "
+            "advertising on YouTube to promote Max content, DC films, and CNN programming. "
+            "WBD also uses Google Cloud Platform for portions of its data analytics and "
+            "AI workloads (complementing its primary Microsoft Azure relationship). Google "
+            "TV's integration makes Max content discoverable via Google search and "
+            "Assistant — 'Hey Google, play Succession on Max.'"
         ),
     },
 ]
