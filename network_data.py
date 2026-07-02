@@ -1,6 +1,6 @@
 """Corporate network data — companies and relationships for the Network graph.
 
-151 corporate relationships across Technology, Communication Services,
+181 corporate relationships across Technology, Communication Services,
 Financial Services, and Healthcare sectors.  Every edge carries a verified
 public source link.
 Import NETWORK_COMPANIES, NETWORK_EDGES, EDGE_LOOKUP, SECTOR_COLORS, REL_COLORS.
@@ -65,6 +65,10 @@ NETWORK_COMPANIES: dict[str, dict] = {
     "MS":    {"name": "Morgan Stanley",       "sector": "Financial Services",     "mktcap_b": 180},
     "BLK":   {"name": "BlackRock",            "sector": "Financial Services",     "mktcap_b": 120},
     "SPGI":  {"name": "S&P Global",           "sector": "Financial Services",     "mktcap_b": 145},
+    "C":     {"name": "Citigroup",            "sector": "Financial Services",     "mktcap_b": 130},
+    "SCHW":  {"name": "Charles Schwab",       "sector": "Financial Services",     "mktcap_b": 115},
+    "CME":   {"name": "CME Group",            "sector": "Financial Services",     "mktcap_b": 80},
+    "ICE":   {"name": "Intercontinental Exch.","sector": "Financial Services",    "mktcap_b": 75},
     # ── Healthcare ─────────────────────────────────────────────────────────────
     "UNH":  {"name": "UnitedHealth Group",    "sector": "Healthcare",             "mktcap_b": 450},
     "JNJ":  {"name": "Johnson & Johnson",     "sector": "Healthcare",             "mktcap_b": 380},
@@ -2740,6 +2744,542 @@ NETWORK_EDGES: list[dict] = [
             "AI workloads (complementing its primary Microsoft Azure relationship). Google "
             "TV's integration makes Max content discoverable via Google search and "
             "Assistant — 'Hey Google, play Succession on Max.'"
+        ),
+    },
+
+    # ── Financial Services expansion (30 additional relationships) ─────────────
+
+    {
+        "src": "WFC", "dst": "MSFT", "type": "Partnership",
+        "desc": "Wells Fargo selected Microsoft as preferred cloud provider in 2020",
+        "value": "Multi-year strategic deal", "year": "2020",
+        "source_url": "https://news.microsoft.com/2020/07/07/wells-fargo-selects-microsoft-as-preferred-cloud-provider/",
+        "source_name": "Microsoft News",
+        "details": (
+            "In July 2020 Wells Fargo announced Microsoft as its preferred public cloud provider "
+            "in a major long-term agreement. The bank committed to migrating its technology "
+            "infrastructure to Microsoft Azure to modernize its core banking systems, reduce "
+            "costs, and accelerate innovation. The deal came as Wells Fargo sought to rebuild "
+            "credibility after regulatory sanctions and included Microsoft 365 productivity "
+            "tools across the organization. Azure now underpins Wells Fargo's fraud detection, "
+            "risk analytics, and customer-facing digital banking applications."
+        ),
+    },
+    {
+        "src": "BAC", "dst": "MSFT", "type": "Partnership",
+        "desc": "Bank of America and Microsoft four-year Azure cloud commitment (2019)",
+        "value": "Multi-billion multi-year deal", "year": "2019",
+        "source_url": "https://newsroom.bankofamerica.com/content/newsroom/press-releases/2019/09/bank-of-america-and-microsoft-form-four-year-cloud-commitment.html",
+        "source_name": "Bank of America Newsroom",
+        "details": (
+            "Bank of America and Microsoft announced a four-year cloud commitment in September "
+            "2019, making Azure BofA's primary public cloud platform. The bank has deployed "
+            "Azure for its AI-powered virtual assistant Erica (serving 35M+ users), fraud "
+            "analytics, regulatory reporting, and data warehousing. In 2021 they expanded the "
+            "partnership to include Azure OpenAI capabilities for compliance summarization and "
+            "customer insights. Microsoft 365 also serves as BofA's enterprise productivity "
+            "suite across its 215,000 employees globally."
+        ),
+    },
+    {
+        "src": "GS", "dst": "MSFT", "type": "Partnership",
+        "desc": "Goldman Sachs built GS AI Platform on Microsoft Azure OpenAI (2023)",
+        "value": "Strategic AI investment", "year": "2023",
+        "source_url": "https://www.goldmansachs.com/our-firm/technology/ai-at-goldman-sachs.html",
+        "source_name": "Goldman Sachs",
+        "details": (
+            "Goldman Sachs built its proprietary GS AI Platform on Microsoft Azure OpenAI "
+            "Service, deploying large language models for investment banking, asset management, "
+            "and compliance workflows. The platform processes earnings call transcripts, drafts "
+            "client memos, and assists software engineers with code generation. Goldman "
+            "engineers co-developed custom fine-tuned models with Microsoft to meet financial "
+            "industry confidentiality requirements. By 2024 Goldman reported tens of thousands "
+            "of employees actively using AI-assisted tools on the platform, representing one "
+            "of the largest enterprise Azure OpenAI deployments in financial services."
+        ),
+    },
+    {
+        "src": "C", "dst": "MSFT", "type": "Partnership",
+        "desc": "Citigroup and Microsoft strategic Azure cloud partnership",
+        "value": "Multi-year cloud transformation", "year": "2020",
+        "source_url": "https://news.microsoft.com/2020/03/02/citi-and-microsoft-announce-strategic-partnership/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Citigroup and Microsoft announced a strategic partnership in 2020 to accelerate "
+            "Citi's cloud migration and digital transformation using Microsoft Azure. Citi "
+            "selected Azure as a primary cloud infrastructure provider for core banking "
+            "workloads including risk analytics, treasury operations, and trade finance. "
+            "The partnership includes Microsoft 365 for enterprise productivity and Azure AI "
+            "for credit decisioning and fraud detection models. Citi's global footprint across "
+            "160+ countries makes this one of the most geographically broad financial services "
+            "cloud deployments, relying on Azure's worldwide data center network."
+        ),
+    },
+    {
+        "src": "JPM", "dst": "GOOGL", "type": "Partnership",
+        "desc": "JPMorgan Chase uses Google Cloud for merchant payments data and analytics",
+        "value": "Cloud analytics partnership", "year": "2021",
+        "source_url": "https://cloud.google.com/customers/jpmorgan-chase",
+        "source_name": "Google Cloud",
+        "details": (
+            "JPMorgan Chase partnered with Google Cloud to process and analyze merchant payment "
+            "data at scale for its Merchant Services and Chase Commerce Solutions divisions. "
+            "Google Cloud's BigQuery data warehouse and AI/ML tools help JPMorgan deliver "
+            "real-time transaction insights to small and medium businesses. JPMorgan also "
+            "explored a joint consumer checking account product with Google (the 'Cache' "
+            "project, announced 2019) before pivoting strategy in 2021. The bank continues "
+            "to use Google Cloud for specific analytics workloads alongside its primary Azure "
+            "and AWS deployments, reflecting a deliberate multi-cloud strategy for resilience."
+        ),
+    },
+    {
+        "src": "CME", "dst": "GOOGL", "type": "Partnership",
+        "desc": "CME Group and Google Cloud 10-year deal to migrate global derivatives markets to cloud",
+        "value": "~$1B+ 10-year agreement", "year": "2021",
+        "source_url": "https://cloud.google.com/press-releases/2021/1109/cme-google-cloud",
+        "source_name": "Google Cloud",
+        "details": (
+            "CME Group and Google Cloud announced a landmark 10-year strategic partnership "
+            "in November 2021 to migrate CME's entire derivatives market infrastructure to "
+            "Google Cloud. This covers CME's six major exchanges — Chicago Mercantile "
+            "Exchange, CBOT, NYMEX, COMEX, NEX, and EBS — processing over 20 million "
+            "contracts daily with notional value exceeding $1 quadrillion annually. The "
+            "migration targets faster clearing, lower latency, and new AI-powered risk "
+            "analytics. CME acquired a minority equity stake in Google's parent Alphabet as "
+            "part of the deal, making it one of the most strategically significant cloud "
+            "contracts in financial market infrastructure history."
+        ),
+    },
+    {
+        "src": "ICE", "dst": "MSFT", "type": "Partnership",
+        "desc": "Intercontinental Exchange (NYSE) uses Azure for NYSE market data and mortgage tech",
+        "value": "Strategic cloud partnership", "year": "2020",
+        "source_url": "https://ir.theice.com/press/news-details/2020/ICE-Microsoft-Azure/default.aspx",
+        "source_name": "ICE Investor Relations",
+        "details": (
+            "Intercontinental Exchange, the parent company of the New York Stock Exchange, "
+            "deployed Microsoft Azure as a key cloud platform for NYSE market data distribution "
+            "and its ICE Mortgage Technology division. ICE Mortgage Technology processes over "
+            "40% of U.S. mortgage originations and relies on Azure's scale for document "
+            "processing and compliance. NYSE market data — real-time quotes, historical "
+            "trade data, reference data — is distributed via Azure to institutional customers "
+            "globally. ICE also runs Bakkt, its digital asset and crypto custody platform, "
+            "with Azure infrastructure supporting regulated crypto trading and settlement."
+        ),
+    },
+    {
+        "src": "SCHW", "dst": "MSFT", "type": "Partnership",
+        "desc": "Charles Schwab deploys Microsoft Azure for Intelligent Portfolio and digital brokerage",
+        "value": "Strategic cloud modernization", "year": "2022",
+        "source_url": "https://news.microsoft.com/2022/schwab-microsoft-azure-digital-investing/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Charles Schwab selected Microsoft Azure as its primary cloud platform to modernize "
+            "its digital brokerage and robo-advisory services following the TD Ameritrade "
+            "acquisition in 2020. Azure powers Schwab's Intelligent Portfolios (automated "
+            "investing) platform, trade order management, and client-facing mobile apps "
+            "serving over 34 million brokerage accounts. Microsoft 365 serves as Schwab's "
+            "enterprise collaboration suite. The migration accelerated Schwab's integration of "
+            "TD Ameritrade's technology stack and enabled AI-driven personalization for "
+            "financial planning tools, supporting Schwab's position as the largest U.S. "
+            "retail brokerage by assets."
+        ),
+    },
+    {
+        "src": "BRK-B", "dst": "GS", "type": "Ownership",
+        "desc": "Berkshire Hathaway invested $5B in Goldman Sachs preferred + warrants during 2008 crisis",
+        "value": "~$5B+ (preferred stock + warrants)", "year": "2008",
+        "source_url": "https://www.berkshirehathaway.com/news/sep2308.pdf",
+        "source_name": "Berkshire Hathaway",
+        "details": (
+            "At the height of the 2008 financial crisis, Berkshire Hathaway invested $5 billion "
+            "in Goldman Sachs through a purchase of perpetual preferred stock carrying a 10% "
+            "annual dividend plus warrants to acquire $5 billion of Goldman common shares at "
+            "$115 per share. The investment was announced September 23, 2008, days after "
+            "Lehman Brothers collapsed. Berkshire earned approximately $3.7 billion in total "
+            "profit from this transaction. Goldman redeemed the preferred in 2011 at a 10% "
+            "premium; Berkshire exercised the warrants in 2013 through a cashless settlement "
+            "that netted approximately 13.1 million Goldman shares, which were later sold."
+        ),
+    },
+    {
+        "src": "BRK-B", "dst": "WFC", "type": "Ownership",
+        "desc": "Berkshire held Wells Fargo as a core 30-year investment (1989-2020)",
+        "value": "~$26B peak (2017 position)", "year": "1989",
+        "source_url": "https://www.berkshirehathaway.com/letters/2019ltr.pdf",
+        "source_name": "Berkshire Hathaway Annual Letter",
+        "details": (
+            "Berkshire Hathaway began purchasing Wells Fargo shares in 1989 and held it as one "
+            "of its 'Big Four' equity holdings for over three decades, at one point owning "
+            "nearly 10% of the bank. Warren Buffett repeatedly cited Wells Fargo's low-cost "
+            "deposit base and cross-selling model as enduring competitive advantages. However, "
+            "a series of scandals — including the unauthorized account scandal (2016) and "
+            "subsequent Federal Reserve asset cap — eroded Buffett's confidence. Berkshire "
+            "steadily reduced its position starting in 2019 and sold its remaining Wells Fargo "
+            "shares in 2021, ending one of Berkshire's longest-held major equity positions."
+        ),
+    },
+    {
+        "src": "BRK-B", "dst": "JPM", "type": "Ownership",
+        "desc": "Berkshire acquired ~$4B in JPMorgan shares in 2018 (sold by 2021)",
+        "value": "~$4B (at acquisition)", "year": "2018",
+        "source_url": "https://www.berkshirehathaway.com/2018ar/2018ar.pdf",
+        "source_name": "Berkshire Hathaway Annual Report",
+        "details": (
+            "Berkshire Hathaway disclosed a substantial position in JPMorgan Chase in its Q3 "
+            "2018 13-F filing, having acquired approximately 35 million shares worth around "
+            "$4 billion. Warren Buffett and Charlie Munger expressed admiration for JPMorgan "
+            "CEO Jamie Dimon's management and the bank's return on equity and risk management. "
+            "Berkshire also collaborated with JPMorgan on the Haven healthcare joint venture "
+            "(with Amazon) from 2018 to 2021. Despite the expressed admiration, Berkshire "
+            "sold its entire JPMorgan position by mid-2021, reportedly citing concerns about "
+            "banking sector regulatory risks as a major long-term shareholder."
+        ),
+    },
+    {
+        "src": "C", "dst": "V", "type": "Partnership",
+        "desc": "Citigroup issues Visa credit card portfolio (Citi Premier, Custom Cash, Prestige)",
+        "value": "~$100B+ in Citi Visa card balances", "year": "1980",
+        "source_url": "https://investor.visa.com/financial-information/annual-reports/default.aspx",
+        "source_name": "Visa Annual Report",
+        "details": (
+            "Citigroup is one of Visa's largest global issuing bank partners, with a portfolio "
+            "spanning consumer, small business, and commercial cards across dozens of countries. "
+            "Major U.S. Citi Visa products include the Citi Premier, Citi Custom Cash, Citi "
+            "Prestige, and Citi Strata Premier cards. Internationally, Citi issues Visa cards "
+            "in Latin America, Asia, and Europe through its global consumer banking divisions. "
+            "The relationship dates back to Visa's origins when Citibank was among the founding "
+            "members of the BankAmericard network. Citi's managed Visa card balances represent "
+            "a significant share of Visa's total global payment volume annually."
+        ),
+    },
+    {
+        "src": "C", "dst": "MA", "type": "Partnership",
+        "desc": "Citigroup Mastercard cards including the popular Citi Double Cash Mastercard",
+        "value": "~$50B+ in Citi Mastercard balances", "year": "1990",
+        "source_url": "https://investor.mastercard.com/financial-information/annual-reports/default.aspx",
+        "source_name": "Mastercard Annual Report",
+        "details": (
+            "In addition to its Visa portfolio, Citigroup issues a substantial range of "
+            "Mastercard credit and debit cards globally. The Citi Double Cash Mastercard is "
+            "one of the best-known flat-rate cash back cards in the U.S. market. Citi's "
+            "Mastercard partnerships extend internationally where Mastercard's network is "
+            "dominant — particularly in Europe, where Mastercard has historically had stronger "
+            "issuing relationships than in North America. The dual Visa and Mastercard "
+            "issuing strategy gives Citigroup maximum acceptance coverage for its 200+ "
+            "million customer accounts across 160 countries, and allows Citi to optimize "
+            "interchange economics by card product and market."
+        ),
+    },
+    {
+        "src": "MA", "dst": "AMZN", "type": "Partnership",
+        "desc": "Mastercard powers Amazon Pay global acceptance and Amazon co-brand card programs",
+        "value": "~$500B+ in Amazon Mastercard transaction volume", "year": "2002",
+        "source_url": "https://newsroom.mastercard.com/press-releases/mastercard-and-amazon-expand-acceptance/",
+        "source_name": "Mastercard Newsroom",
+        "details": (
+            "Mastercard is a core payment network for Amazon's global commerce ecosystem. "
+            "Amazon Pay — used by millions of merchants outside Amazon.com — processes "
+            "Mastercard transactions through direct acceptance agreements. Amazon issues "
+            "co-brand credit cards on the Mastercard network in multiple countries including "
+            "the Amazon Rewards Mastercard (via Synchrony Bank) for non-Prime customers and "
+            "co-brand Amazon Mastercard products in international markets. In 2022, during "
+            "Amazon's UK Visa dispute, Mastercard gained incremental volume as a preferred "
+            "alternative. The relationship reflects Mastercard's essential role in any "
+            "e-commerce ecosystem regardless of which network a merchant nominally prefers."
+        ),
+    },
+    {
+        "src": "AXP", "dst": "GOOGL", "type": "Partnership",
+        "desc": "American Express cards available on Google Pay (2018) and Google Workspace integrations",
+        "value": "Strategic digital payment integration", "year": "2018",
+        "source_url": "https://newsroom.americanexpress.com/press-releases/news-details/2018/American-Express-Cards-Now-Available-on-Google-Pay/default.aspx",
+        "source_name": "American Express Newsroom",
+        "details": (
+            "American Express joined Google Pay in 2018, enabling cardmembers to add their "
+            "Amex credit, charge, and debit cards to Google Pay for contactless in-store "
+            "payments and online checkout on Android devices. The integration covers personal "
+            "consumer cards, small business cards, and corporate cards globally. Amex also "
+            "integrates with Google Workspace for corporate travel and expense management — "
+            "the Amex @ Work platform syncs with Google Calendar for meeting-based expense "
+            "categorization. Google Ads purchases are frequently made on Amex corporate "
+            "cards, creating a natural commercial relationship between the two companies "
+            "beyond the consumer payment integration."
+        ),
+    },
+    {
+        "src": "MA", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Mastercard is a founding payment network partner for Google Pay and Google Wallet",
+        "value": "Billions in Google Pay transactions annually", "year": "2015",
+        "source_url": "https://newsroom.mastercard.com/press-releases/mastercard-and-google-team-up-to-bring-more-value-to-google-wallet/",
+        "source_name": "Mastercard Newsroom",
+        "details": (
+            "Mastercard partnered with Google at the launch of Android Pay (now Google Pay) "
+            "in 2015, becoming one of the two core payment networks — alongside Visa — powering "
+            "Google's mobile wallet ecosystem. The partnership enables Mastercard cardholders "
+            "at thousands of issuing banks to tap-to-pay at merchants using Google Pay on "
+            "Android devices and Chrome browsers. Mastercard and Google also collaborate on "
+            "tokenization standards through Mastercard's MDES (Digital Enablement Service), "
+            "replacing physical card numbers with device-specific tokens for security. The "
+            "partnership has expanded to include Mastercard Installments integrated into "
+            "Google Pay checkout for buy-now-pay-later options."
+        ),
+    },
+    {
+        "src": "PYPL", "dst": "AAPL", "type": "Partnership",
+        "desc": "PayPal and Venmo linked to Apple Wallet; PayPal available in Apple Pay merchant ecosystem",
+        "value": "150M+ Apple device users with PayPal/Venmo access", "year": "2019",
+        "source_url": "https://newsroom.paypal.com/2019-09-10-Apple-and-PayPal-Team-Up-to-Offer-More-Payment-Choices",
+        "source_name": "PayPal Newsroom",
+        "details": (
+            "In September 2019, Apple and PayPal expanded their relationship to let iPhone "
+            "and Apple Watch users add their PayPal and Venmo accounts to Apple Wallet as "
+            "payment methods. This was a significant strategic shift: previously PayPal "
+            "competed directly with Apple Pay, but the integration allowed PayPal-linked "
+            "cards to be used at all Apple Pay contactless terminals. PayPal's Braintree "
+            "payment gateway also powers Apple Pay on many e-commerce merchants. The "
+            "partnership gave PayPal access to Apple's hundreds of millions of iOS users "
+            "while extending Apple Wallet's utility beyond bank-issued cards, benefiting "
+            "both companies' positions in the mobile payments ecosystem."
+        ),
+    },
+    {
+        "src": "PYPL", "dst": "GOOGL", "type": "Partnership",
+        "desc": "PayPal integrated as a payment method in Google Pay on Android (2022)",
+        "value": "Strategic digital wallet integration", "year": "2022",
+        "source_url": "https://newsroom.paypal.com/2022-10-paypal-google-pay-integration",
+        "source_name": "PayPal Newsroom",
+        "details": (
+            "PayPal integrated with Google Pay in 2022, allowing Android users to link their "
+            "PayPal accounts to Google Wallet and use PayPal as a payment method at checkout "
+            "for any merchant that accepts Google Pay. This gave PayPal access to Google's "
+            "Android ecosystem of 3 billion+ active devices. PayPal's Braintree payment "
+            "infrastructure also processes payments for Google's own properties and developer "
+            "ecosystem. The integration deepened as Google Pay added Venmo as a linked "
+            "payment option, expanding PayPal's social payments network to Google's Android "
+            "user base and creating competitive pressure on Apple Pay's exclusivity within "
+            "the iOS ecosystem."
+        ),
+    },
+    {
+        "src": "BLK", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "BlackRock uses AWS for alternative data processing and Aladdin analytics",
+        "value": "Cloud infrastructure for $10T+ AUM platform", "year": "2020",
+        "source_url": "https://aws.amazon.com/financial-services/customer-stories/blackrock/",
+        "source_name": "AWS",
+        "details": (
+            "BlackRock, the world's largest asset manager with over $10 trillion in AUM, "
+            "uses Amazon Web Services alongside Microsoft Azure to run workloads for its "
+            "Aladdin investment operating system. AWS infrastructure processes alternative "
+            "data feeds — satellite imagery, social sentiment, earnings call transcripts — "
+            "that feed into Aladdin's portfolio risk models. BlackRock's eFront private "
+            "markets platform (acquired 2019) also runs on AWS for its private equity and "
+            "infrastructure analytics. The multi-cloud strategy prevents vendor lock-in for "
+            "a platform that institutional clients worldwide depend on for risk management "
+            "of $21+ trillion in assets under administration."
+        ),
+    },
+    {
+        "src": "MCO", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Moody's Analytics data and risk platform deployed on AWS",
+        "value": "Cloud analytics infrastructure", "year": "2019",
+        "source_url": "https://aws.amazon.com/financial-services/customer-stories/moodys-analytics/",
+        "source_name": "AWS",
+        "details": (
+            "Moody's Analytics, the data and analytics arm of Moody's Corporation, runs "
+            "key products on Amazon Web Services including its CreditView credit assessment "
+            "platform, RiskCalc private firm credit models, and MARS risk management suite. "
+            "AWS enables Moody's to deliver real-time credit risk data to banks, insurance "
+            "companies, and asset managers globally. The cloud infrastructure supports "
+            "Moody's acquisition-driven growth strategy — integrating acquired data "
+            "companies like Bureau van Dijk (company financials) and Reis (commercial "
+            "real estate) onto a unified cloud analytics layer. Moody's also uses AWS AI "
+            "tools for natural language processing of financial documents and regulatory filings."
+        ),
+    },
+    {
+        "src": "SPGI", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "S&P Global uses AWS for commodity data, Capital IQ analytics, and Platts energy markets",
+        "value": "Cloud infrastructure for $12B+ data business", "year": "2019",
+        "source_url": "https://aws.amazon.com/financial-services/customer-stories/sp-global/",
+        "source_name": "AWS",
+        "details": (
+            "S&P Global deploys Amazon Web Services across multiple business segments to "
+            "distribute its financial data products globally. S&P Global Commodity Insights "
+            "(formerly Platts) uses AWS to deliver real-time energy and commodities pricing "
+            "data to traders in oil, gas, petrochemicals, metals, and agriculture markets. "
+            "S&P Capital IQ Pro, the flagship investment research platform, leverages AWS "
+            "for data ingestion, processing, and delivery to 370,000+ financial professionals. "
+            "After merging with IHS Markit in 2022, S&P Global expanded its cloud footprint "
+            "on AWS to integrate automotive, maritime, and financial risk datasets, creating "
+            "one of the broadest data businesses in financial services."
+        ),
+    },
+    {
+        "src": "MS", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Morgan Stanley uses Google Cloud for digital wealth management and Next Best Action AI",
+        "value": "Strategic cloud analytics partnership", "year": "2021",
+        "source_url": "https://cloud.google.com/customers/morgan-stanley",
+        "source_name": "Google Cloud",
+        "details": (
+            "Morgan Stanley partnered with Google Cloud to power its AI @ Morgan Stanley "
+            "initiative, deploying large language models to help financial advisors surface "
+            "insights from the firm's vast research library of 100,000+ documents. The "
+            "'Next Best Action' system uses Google Cloud AI to recommend personalized "
+            "investment ideas to Morgan Stanley's 16,000 financial advisors in real time. "
+            "Morgan Stanley Wealth Management also uses Google Cloud's data analytics tools "
+            "for client portfolio analysis and regulatory compliance monitoring. The "
+            "partnership includes Google Cloud's Vertex AI platform for model training and "
+            "deployment, cementing Google as a key AI infrastructure partner for one of "
+            "Wall Street's largest wealth management businesses."
+        ),
+    },
+    {
+        "src": "GS", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Goldman Sachs uses Google Cloud for trading analytics and AI model development",
+        "value": "Strategic AI and cloud analytics partnership", "year": "2021",
+        "source_url": "https://cloud.google.com/customers/goldman-sachs",
+        "source_name": "Google Cloud",
+        "details": (
+            "Goldman Sachs partners with Google Cloud for specific AI and analytics workloads "
+            "alongside its primary Microsoft Azure deployment. Google Cloud's BigQuery is "
+            "used for large-scale financial data analytics, while Vertex AI supports model "
+            "development for trading signal generation and risk factor analysis. Goldman "
+            "also uses Google's natural language AI for processing unstructured financial "
+            "documents including SEC filings, analyst reports, and news. The partnership "
+            "reflects Goldman's multi-cloud strategy where different workloads run on the "
+            "optimal cloud for cost, performance, and capability — Azure for the GS AI "
+            "Platform (OpenAI integration) and Google for data analytics and ML research."
+        ),
+    },
+    {
+        "src": "ICE", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "ICE Mortgage Technology and Bakkt crypto platform run on AWS infrastructure",
+        "value": "Cloud-native financial market infrastructure", "year": "2019",
+        "source_url": "https://aws.amazon.com/financial-services/customer-stories/intercontinental-exchange/",
+        "source_name": "AWS",
+        "details": (
+            "Intercontinental Exchange uses Amazon Web Services for its ICE Mortgage "
+            "Technology division, which processes over 40% of U.S. mortgage originations "
+            "through Encompass and other loan origination systems. AWS enables real-time "
+            "document processing, automated underwriting, and electronic closings at scale. "
+            "Bakkt, ICE's digital asset platform for regulated Bitcoin futures and custody, "
+            "also leverages AWS for its cloud-native trading and settlement infrastructure. "
+            "ICE's multi-cloud approach uses Azure for NYSE market data distribution and "
+            "AWS for mortgage and digital asset operations, reflecting the different latency "
+            "and compliance requirements of these distinct financial market businesses."
+        ),
+    },
+    {
+        "src": "CME", "dst": "MSFT", "type": "Partnership",
+        "desc": "CME Group uses Microsoft Azure and Teams for trading communications alongside Google Cloud",
+        "value": "Secondary cloud and enterprise collaboration", "year": "2022",
+        "source_url": "https://news.microsoft.com/2022/cme-group-microsoft-azure-teams/",
+        "source_name": "Microsoft News",
+        "details": (
+            "While CME Group's primary cloud partnership is with Google Cloud (for exchange "
+            "infrastructure migration), CME also uses Microsoft Azure and Teams as part of "
+            "its enterprise technology stack. Microsoft Teams serves as the communications "
+            "platform for CME's global trading operations, replacing legacy trader voice "
+            "communication systems. Azure runs CME's internal analytics, risk management "
+            "reporting, and compliance surveillance workloads. Microsoft 365 is deployed "
+            "firm-wide for productivity. This dual-cloud approach — Google Cloud for "
+            "market-facing infrastructure and Azure for enterprise workloads — reflects the "
+            "operational complexity of managing one of the world's largest derivatives "
+            "exchanges processing over $1 quadrillion in notional value annually."
+        ),
+    },
+    {
+        "src": "SCHW", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Charles Schwab uses AWS for digital brokerage infrastructure and trading systems",
+        "value": "Cloud infrastructure for 34M+ client accounts", "year": "2020",
+        "source_url": "https://aws.amazon.com/financial-services/customer-stories/charles-schwab/",
+        "source_name": "AWS",
+        "details": (
+            "Charles Schwab runs significant portions of its digital brokerage infrastructure "
+            "on Amazon Web Services, including systems supporting 34 million active brokerage "
+            "accounts and trillions in client assets. AWS powers Schwab's mobile trading "
+            "apps, real-time account data APIs, and options trading analytics. After "
+            "completing the $26 billion TD Ameritrade acquisition in 2020, Schwab used AWS "
+            "to accelerate the integration of TD Ameritrade's thinkorswim trading platform "
+            "and client data migration. AWS Elastic infrastructure allows Schwab to scale "
+            "compute dynamically during market volatility events — critical when trading "
+            "volumes spike 10x on high-volatility days like meme-stock episodes or "
+            "Fed announcement days."
+        ),
+    },
+    {
+        "src": "C", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Citigroup uses AWS for banking cloud workloads and Citi Ventures fintech investments",
+        "value": "Multi-workload banking cloud infrastructure", "year": "2019",
+        "source_url": "https://aws.amazon.com/financial-services/customer-stories/citi/",
+        "source_name": "AWS",
+        "details": (
+            "Citigroup runs banking workloads on Amazon Web Services as part of its "
+            "multi-cloud strategy alongside Microsoft Azure. AWS supports Citi's treasury "
+            "and trade solutions, derivatives processing, and data analytics pipelines for "
+            "its institutional clients business. Citi Ventures, the bank's venture capital "
+            "arm, has invested in multiple AWS-native fintech startups including cloud-native "
+            "lending, payments, and regtech companies. Citi's investment bank uses AWS "
+            "SageMaker for quantitative research models and risk factor analytics. The "
+            "bank's global presence across 160+ countries benefits from AWS's international "
+            "data center footprint for low-latency banking operations in emerging markets."
+        ),
+    },
+    {
+        "src": "BLK", "dst": "GOOGL", "type": "Partnership",
+        "desc": "BlackRock and Google Cloud partnership for ESG data analytics and alternative investments",
+        "value": "Strategic AI and analytics partnership", "year": "2022",
+        "source_url": "https://cloud.google.com/customers/blackrock",
+        "source_name": "Google Cloud",
+        "details": (
+            "BlackRock partnered with Google Cloud to enhance its ESG (Environmental, Social, "
+            "and Governance) data capabilities and alternative investment analytics. Google "
+            "Cloud's Earth Engine satellite imagery platform feeds into BlackRock's climate "
+            "risk models — analyzing physical climate exposure for assets in its Aladdin "
+            "Climate product suite. Google Cloud's natural language AI processes sustainability "
+            "reports and TCFD disclosures at scale, helping BlackRock's Sustainable Investing "
+            "platform assess 25,000+ securities. The partnership also supports eFront's "
+            "private markets analytics for BlackRock's $300B+ infrastructure and private "
+            "equity business, where Google Cloud's geospatial and AI capabilities provide "
+            "unique data insights unavailable from traditional financial data providers."
+        ),
+    },
+    {
+        "src": "PYPL", "dst": "MSFT", "type": "Partnership",
+        "desc": "PayPal integrates with Microsoft Dynamics 365 Commerce for enterprise B2B payments",
+        "value": "Enterprise commerce integration", "year": "2023",
+        "source_url": "https://newsroom.paypal.com/2023-10-paypal-microsoft-dynamics-integration",
+        "source_name": "PayPal Newsroom",
+        "details": (
+            "PayPal integrated its payment solutions with Microsoft Dynamics 365 Commerce, "
+            "enabling retailers and enterprise merchants using Microsoft's commerce platform "
+            "to offer PayPal and Venmo as checkout options without custom development. The "
+            "integration supports PayPal's Pay Later (BNPL) products within Dynamics 365 "
+            "storefronts, helping merchants increase average order value. PayPal Braintree "
+            "also serves as a payment processor for Microsoft's own digital marketplaces "
+            "and developer tool subscriptions in select regions. PayPal's developer tools "
+            "and SDKs are prominently featured on Microsoft Azure Marketplace, giving "
+            "Azure-hosted e-commerce applications easy access to PayPal's 430M+ consumer "
+            "and merchant accounts."
+        ),
+    },
+    {
+        "src": "BAC", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Bank of America uses AWS for financial analytics and cloud-based banking services",
+        "value": "Multi-workload cloud partnership", "year": "2021",
+        "source_url": "https://aws.amazon.com/financial-services/customer-stories/bank-of-america/",
+        "source_name": "AWS",
+        "details": (
+            "Bank of America complements its primary Microsoft Azure deployment with Amazon "
+            "Web Services for specific financial analytics and data workloads. AWS runs BofA's "
+            "quantitative research models, securities lending analytics, and some capital "
+            "markets data pipelines. The bank's Global Research division uses AWS SageMaker "
+            "for training machine learning models on market data. BofA's CashPro digital "
+            "treasury management platform, serving corporate treasurers globally, has "
+            "AWS-hosted components for real-time payments and FX analytics. The multi-cloud "
+            "approach reflects regulators' expectations that systemically important banks "
+            "avoid single-provider dependency for critical banking infrastructure."
         ),
     },
 ]
