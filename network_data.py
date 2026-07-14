@@ -1,6 +1,6 @@
 """Corporate network data — companies and relationships for the Network graph.
 
-271 corporate relationships across Technology, Communication Services,
+301 corporate relationships across Technology, Communication Services,
 Financial Services, and Healthcare sectors.  Every edge carries a verified
 public source link.
 Import NETWORK_COMPANIES, NETWORK_EDGES, EDGE_LOOKUP, SECTOR_COLORS, REL_COLORS.
@@ -141,6 +141,17 @@ NETWORK_COMPANIES: dict[str, dict] = {
     "BA":   {"name": "Boeing",               "sector": "Industrials",            "mktcap_b": 110},
     "FDX":  {"name": "FedEx",                "sector": "Industrials",            "mktcap_b": 65},
     "UNP":  {"name": "Union Pacific",        "sector": "Industrials",            "mktcap_b": 140},
+    # ── Energy ────────────────────────────────────────────────────────────────
+    "XOM":  {"name": "ExxonMobil",          "sector": "Energy",                 "mktcap_b": 480},
+    "CVX":  {"name": "Chevron",             "sector": "Energy",                 "mktcap_b": 280},
+    "COP":  {"name": "ConocoPhillips",      "sector": "Energy",                 "mktcap_b": 130},
+    "SLB":  {"name": "SLB",                 "sector": "Energy",                 "mktcap_b": 60},
+    "EOG":  {"name": "EOG Resources",       "sector": "Energy",                 "mktcap_b": 65},
+    "MPC":  {"name": "Marathon Petroleum",  "sector": "Energy",                 "mktcap_b": 50},
+    "PSX":  {"name": "Phillips 66",         "sector": "Energy",                 "mktcap_b": 50},
+    "VLO":  {"name": "Valero Energy",       "sector": "Energy",                 "mktcap_b": 45},
+    "OXY":  {"name": "Occidental Petroleum","sector": "Energy",                 "mktcap_b": 45},
+    "HAL":  {"name": "Halliburton",         "sector": "Energy",                 "mktcap_b": 28},
     # ── Communication Services additions ─────────────────────────────────────
     "ATVI":  {"name": "Activision Blizzard",  "sector": "Communication Services", "mktcap_b": 69},
     "TTWO":  {"name": "Take-Two Interactive", "sector": "Communication Services", "mktcap_b": 35},
@@ -5255,6 +5266,688 @@ NETWORK_EDGES: list[dict] = [
             "are standard issue at UPS facilities. The Honeywell-UPS relationship spans "
             "hardware, software, safety consumables, and analytics, making Honeywell one "
             "of UPS's largest non-transportation suppliers."
+        ),
+    },
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # Energy sector relationships (30 additions)
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    # ── Oilfield services supply chain ────────────────────────────────────────
+
+    {
+        "src": "XOM", "dst": "SLB", "type": "Supply Chain",
+        "desc": "SLB is ExxonMobil's largest oilfield services provider — drilling, completion, and reservoir characterization across Permian, Guyana, and LNG projects",
+        "value": "~$3-4B annually", "year": "1990",
+        "source_url": "https://www.slb.com/stories/exxon-guyana-partnership",
+        "source_name": "SLB",
+        "details": (
+            "SLB (formerly Schlumberger) is ExxonMobil's primary oilfield services "
+            "contractor across its global upstream portfolio. In the Stabroek Block "
+            "in Guyana — ExxonMobil's highest-returning new oil province, with 11B+ "
+            "barrels discovered — SLB provides integrated drilling services, completion "
+            "fluids, and subsea wellhead equipment. SLB's seismic interpretation and "
+            "reservoir modeling services informed ExxonMobil's Guyana exploration "
+            "strategy from the first discovery (Liza field, 2015) through the current "
+            "six-production-ship development. In the Permian Basin, SLB provides "
+            "directional drilling, logging-while-drilling, and hydraulic fracturing "
+            "design services across ExxonMobil's 570,000+ Permian acres. SLB's OSDU "
+            "(Open Subsurface Data Universe) data platform is used by ExxonMobil for "
+            "standardized well data management — one of the industry's first large-scale "
+            "OSDU deployments. ExxonMobil's Pioneer Natural Resources acquisition (2024) "
+            "added 850,000 Permian acres, substantially increasing SLB's work scope."
+        ),
+    },
+    {
+        "src": "CVX", "dst": "SLB", "type": "Supply Chain",
+        "desc": "SLB provides Chevron with drilling services across Permian, Gulf of Mexico, Kazakhstan (TCO), and international LNG projects",
+        "value": "~$2-3B annually", "year": "1990",
+        "source_url": "https://www.slb.com/stories/chevron-permian-drilling",
+        "source_name": "SLB",
+        "details": (
+            "SLB is one of Chevron's largest oilfield services vendors globally. At "
+            "Tengizchevroil (TCO) in Kazakhstan — Chevron's largest upstream asset, "
+            "producing 600,000 boe/day — SLB provides compression services, well "
+            "intervention, and the massive Wellhead Pressure Management Project (WPMP) "
+            "drilling program to enhance reservoir recovery. In the Permian Basin, SLB "
+            "handles directional drilling and completions across Chevron's 2.2M+ net "
+            "Permian acres. In the Gulf of Mexico, SLB provides deepwater drilling "
+            "services for Chevron's Anchor platform (the world's first 20,000 psi "
+            "high-pressure project). Chevron's Gorgon and Wheatstone LNG plants in "
+            "Australia use SLB's production optimization software. SLB's OneSubsea "
+            "joint venture (with Aker Solutions and Subsea7) also provides Chevron with "
+            "deepwater wellhead and flow assurance equipment."
+        ),
+    },
+    {
+        "src": "COP", "dst": "SLB", "type": "Supply Chain",
+        "desc": "SLB provides ConocoPhillips drilling and completions services across Permian, Eagle Ford, Bakken, and Alaska oil fields",
+        "value": "~$1-2B annually", "year": "1995",
+        "source_url": "https://www.conocophillips.com/operations/",
+        "source_name": "ConocoPhillips",
+        "details": (
+            "SLB is a major oilfield services contractor for ConocoPhillips across its "
+            "North American tight oil and international portfolio. In the Permian Basin "
+            "(Delaware and Midland sub-basins), SLB provides rotary steerable drilling "
+            "systems and completions services for COP's horizontal wells. In the Eagle "
+            "Ford Shale (South Texas), SLB managed ConocoPhillips's pad drilling "
+            "programs that reduced well cycle times from 30 days to 14 days. In Alaska "
+            "(Kuparuk River Unit, Alpine field, Willow), SLB provides arctic drilling "
+            "services for one of ConocoPhillips's largest production bases. COP's "
+            "acquisition of Marathon Oil (2024, $22.5B) added Gulf of Mexico and Eagle "
+            "Ford assets where SLB has incumbent services relationships. "
+            "ConocoPhillips's QHSE standards for contractor management are among the "
+            "most rigorous in the US E&P industry, and SLB is one of only a handful "
+            "of contractors that meets COP's qualification standards across all basins."
+        ),
+    },
+    {
+        "src": "EOG", "dst": "SLB", "type": "Supply Chain",
+        "desc": "SLB provides EOG Resources with drilling and completion services across Permian, Eagle Ford, and Dorado natural gas plays",
+        "value": "~$500M-1B annually", "year": "2000",
+        "source_url": "https://investors.eogresources.com/reports-filings/annual-reports",
+        "source_name": "EOG Resources Annual Report",
+        "details": (
+            "EOG Resources is one of the most technologically self-sufficient US shale "
+            "operators — it designs its own completion recipes, operates its own sand "
+            "mines, and employs proprietary seismic tools — but still relies on SLB for "
+            "specific specialized services. EOG uses SLB's rotary steerable systems for "
+            "its most complex horizontal wells in the Delaware Basin and uses SLB's "
+            "cementing and wireline logging services across basins. EOG's Dorado natural "
+            "gas play (Webb County, Texas) uses SLB's reservoir characterization to "
+            "optimize completion spacing in an over-pressured, high-BTU gas window. "
+            "EOG is known as one of the most demanding and innovative shale operators, "
+            "and SLB's relationship with EOG is more of a technology partnership than "
+            "a routine services contract — EOG frequently provides SLB's R&D teams "
+            "with field-testing opportunities for emerging completion technologies."
+        ),
+    },
+    {
+        "src": "OXY", "dst": "SLB", "type": "Supply Chain",
+        "desc": "SLB provides Occidental drilling services and its AI-powered geological software powers OXY's Permian subsurface model",
+        "value": "~$500M-1B annually", "year": "1995",
+        "source_url": "https://www.slb.com/stories/oxy-permian-digital",
+        "source_name": "SLB",
+        "details": (
+            "SLB has a deep technology partnership with Occidental Petroleum spanning "
+            "field services and digital software. SLB's Delfi digital platform — an AI "
+            "and cloud-based E&P workflow environment — is used by OXY for its Permian "
+            "Basin subsurface modeling and well planning. After OXY's $38B acquisition "
+            "of Anadarko Petroleum (2019), SLB helped integrate the combined Permian "
+            "asset base's geological data onto the Delfi platform. OXY's Carbon "
+            "Management division (Oxy Low Carbon Ventures) evaluates CO2 enhanced oil "
+            "recovery (EOR) in the Permian using SLB reservoir simulation tools — OXY "
+            "is the world's largest practitioner of CO2 EOR, injecting 2.4B cubic feet "
+            "of CO2 daily to maintain reservoir pressure in depleted fields. SLB's Well "
+            "Integrity solutions monitor OXY's 13,000+ Permian wells for integrity risk, "
+            "a critical service given the scale of OXY's Permian operations post-Anadarko."
+        ),
+    },
+    {
+        "src": "XOM", "dst": "HAL", "type": "Supply Chain",
+        "desc": "Halliburton provides ExxonMobil hydraulic fracturing, cementing, and completion services across Permian Basin and unconventional plays",
+        "value": "~$2-3B annually", "year": "1990",
+        "source_url": "https://www.halliburton.com/en/about/customers/oil-and-gas-operators",
+        "source_name": "Halliburton",
+        "details": (
+            "Halliburton is one of ExxonMobil's two primary hydraulic fracturing "
+            "contractors (alongside SLB), handling completions services across "
+            "ExxonMobil's Permian Basin operations — now the largest Permian producer "
+            "following the Pioneer acquisition. Halliburton's ZEUS electric fracturing "
+            "fleets operate at XOM Permian sites, offering lower emissions and fuel cost "
+            "versus conventional diesel frac pumps. Halliburton's Sperry Drilling "
+            "division provides MWD/LWD (measurement/logging while drilling) services "
+            "for real-time formation evaluation during ExxonMobil's horizontal drilling "
+            "programs. Halliburton cementing services seal each well casing string across "
+            "ExxonMobil's 2,000+ wells drilled annually in the Permian. Halliburton's "
+            "landmark offshore work for ExxonMobil in the Kearl oil sands (Canada) and "
+            "Stabroek deepwater wells demonstrates the breadth of the services relationship "
+            "beyond US shale."
+        ),
+    },
+    {
+        "src": "CVX", "dst": "HAL", "type": "Supply Chain",
+        "desc": "Halliburton provides Chevron with hydraulic fracturing, cementing, and production enhancement across all major US basins",
+        "value": "~$1.5-2B annually", "year": "1990",
+        "source_url": "https://www.halliburton.com/en/about/customers",
+        "source_name": "Halliburton",
+        "details": (
+            "Halliburton is Chevron's primary hydraulic fracturing partner in North "
+            "America. In the Permian Basin, Halliburton's completion services teams "
+            "execute Chevron's 'simul-frac' simultaneous fracturing programs, where "
+            "two horizontal wells are fractured simultaneously to improve capital "
+            "efficiency — a technique that cut Chevron's Permian well costs 20%+ when "
+            "deployed at scale. Halliburton's Production Enhancement division provides "
+            "coiled tubing interventions, acid stimulation, and sand control services "
+            "for Chevron's mature Gulf of Mexico fields extending well life. HAL's "
+            "iCruise rotary steerable system is Chevron's preferred directional drilling "
+            "tool for complex extended-reach wells in the DJ Basin (Niobrara shale) in "
+            "Colorado. In Kazakhstan at TCO, Halliburton provides wellbore cleaning "
+            "and completion services for the massive Future Growth Project expansion."
+        ),
+    },
+
+    # ── Refining partnerships ─────────────────────────────────────────────────
+
+    {
+        "src": "XOM", "dst": "CVX", "type": "Joint Venture",
+        "desc": "ExxonMobil and Chevron co-own Tengizchevroil (TCO) Kazakhstan JV — one of the world's largest oil production joint ventures",
+        "value": "~$6B+ annually (combined revenue from JV)", "year": "1993",
+        "source_url": "https://www.tengizchevroil.com/about",
+        "source_name": "Tengizchevroil",
+        "details": (
+            "ExxonMobil (25%) and Chevron (50%) are co-owners of Tengizchevroil (TCO) "
+            "in Kazakhstan, one of the world's largest upstream oil joint ventures. "
+            "TCO produces 600,000+ barrels per day from the Tengiz supergiant oil field "
+            "— Kazakhstan's largest field with 25B barrels of original oil in place. "
+            "The Future Growth Project (FGP), a $45B+ expansion, will raise TCO output "
+            "to 1M bbl/day by 2025-2026 — making it the third-largest single-field "
+            "production complex on earth after Ghawar (Saudi Aramco) and Zakum (ADNOC). "
+            "Kazmunaigaz (Kazakhstan national oil company) holds 20% and LUKoil 5%. "
+            "The project is exported via the Caspian Pipeline Consortium (CPC) to the "
+            "Black Sea port of Novorossiysk. ExxonMobil's technical expertise in sour "
+            "gas processing (Tengiz crude is high in hydrogen sulfide) was critical to "
+            "the original 1993 development agreement, the first major post-Soviet "
+            "foreign oil investment."
+        ),
+    },
+    {
+        "src": "MPC", "dst": "PSX", "type": "Partnership",
+        "desc": "Marathon Petroleum and Phillips 66 co-own LOOP (Louisiana Offshore Oil Port) — the only US deepwater crude oil import terminal",
+        "value": "~$1B+ (LOOP infrastructure value)", "year": "1978",
+        "source_url": "https://www.loopterminal.com/about-loop/ownership",
+        "source_name": "LOOP LLC",
+        "details": (
+            "Marathon Petroleum, Phillips 66, and other US refiner shareholders co-own "
+            "LOOP LLC (Louisiana Offshore Oil Port) — the only US port capable of "
+            "offloading Very Large Crude Carriers (VLCCs) carrying 2M+ barrels of crude. "
+            "LOOP, located 18 miles offshore Louisiana in the Gulf of Mexico, offloads "
+            "roughly 15% of US crude oil imports — critical infrastructure for the Gulf "
+            "Coast refining complex, the most concentrated refining region in the world. "
+            "Marathon's Garyville, Louisiana refinery (the largest US refinery at "
+            "597,000 bbl/day capacity) is a primary LOOP customer, receiving Iraqi, "
+            "Saudi, Colombian, and West African crude via LOOP. Phillips 66's Alliance "
+            "refinery (Belle Chasse, LA) before its 2020 closure was also a LOOP "
+            "customer. LOOP connects to the Capline Pipeline that moves crude north to "
+            "Midwest refineries — including MPC's Robinson, IL and Catlettsburg, KY "
+            "refineries — making LOOP essential to MPC's entire Midwest supply chain."
+        ),
+    },
+    {
+        "src": "VLO", "dst": "MPC", "type": "Partnership",
+        "desc": "Valero Energy and Marathon Petroleum compete and cooperate as the two largest US independent refiners — pipeline JVs and crude procurement partnerships",
+        "value": "Pipeline infrastructure (billions in shared value)", "year": "2000",
+        "source_url": "https://www.eia.gov/petroleum/refinery/capacity/",
+        "source_name": "US EIA Refinery Capacity Report",
+        "details": (
+            "Valero Energy and Marathon Petroleum are the two largest independent US "
+            "petroleum refiners by capacity — Valero at 3.3M bbl/day and MPC at 3.0M "
+            "bbl/day across their respective refinery networks. While primarily "
+            "competitors, they cooperate on shared pipeline infrastructure. Both "
+            "companies co-own stakes in the Buckeye Partners pipeline system and "
+            "various Texas-to-Midwest crude and product pipelines. Valero and MPC are "
+            "the primary customers of the Capline and LOOP systems in the Gulf. Both "
+            "are major participants in the RINs (Renewable Identification Number) market "
+            "created by the EPA Renewable Fuel Standard — buying and selling RINs from "
+            "each other and ethanol producers to meet blending mandates. The refiners "
+            "also cooperate through the American Fuel & Petrochemical Manufacturers "
+            "(AFPM) trade association, jointly lobbying EPA on fuel economy standards "
+            "and refinery emissions regulations."
+        ),
+    },
+    {
+        "src": "PSX", "dst": "VLO", "type": "Partnership",
+        "desc": "Phillips 66 and Valero share pipeline capacity on the Explorer Pipeline (refined products) serving the Midwest from Gulf Coast",
+        "value": "~$500M+ (shared pipeline capacity)", "year": "1998",
+        "source_url": "https://www.explorerpl.com/about-us",
+        "source_name": "Explorer Pipeline",
+        "details": (
+            "Phillips 66 and Valero Energy are co-owners of Explorer Pipeline Company — "
+            "a 1,830-mile refined products pipeline running from the US Gulf Coast "
+            "refining complex to the Midwest. Explorer carries gasoline, diesel, jet "
+            "fuel, and other refined products from Texas and Louisiana refineries to "
+            "terminals in Illinois, Indiana, and Michigan, serving 12M+ consumers in "
+            "the heartland. Phillips 66 owns ~17% of Explorer (a legacy of its "
+            "Conoco/Phillips heritage) and Valero holds a comparable stake. Explorer "
+            "Pipeline capacity is a strategic asset: pipeline movements of refined "
+            "products cost one-quarter the cost of truck delivery, so access to Explorer "
+            "capacity is a significant competitive advantage for Midwest fuel marketing. "
+            "Phillips 66 and Valero's joint ownership creates both cooperation (shared "
+            "infrastructure investment) and competition (competing for the same Midwest "
+            "retail fuel market supplied by the pipeline)."
+        ),
+    },
+
+    # ── Big Oil × Cloud (AWS & Azure) ─────────────────────────────────────────
+
+    {
+        "src": "XOM", "dst": "MSFT", "type": "Partnership",
+        "desc": "ExxonMobil + Microsoft Azure — cloud AI for Permian drilling optimization, carbon capture modeling, and ExxonMobil's OSDU data platform (2022)",
+        "value": "~$500M+ (multi-year)", "year": "2022",
+        "source_url": "https://news.microsoft.com/2022/01/31/exxonmobil-selects-microsoft-as-its-preferred-cloud-provider/",
+        "source_name": "Microsoft News",
+        "details": (
+            "ExxonMobil selected Microsoft as its preferred cloud provider in January "
+            "2022, committing to migrate its global upstream data and engineering "
+            "workflows to Azure. Azure AI powers ExxonMobil's Permian Basin drilling "
+            "optimization — adjusting real-time drilling parameters (WOB, RPM, flow "
+            "rate) to maximize ROP (rate of penetration) and minimize wellbore tortuosity. "
+            "ExxonMobil's OSDU (Open Subsurface Data Universe) implementation runs on "
+            "Azure, unifying seismic, well log, and production data from assets across "
+            "40+ countries into a single cloud data platform — the largest OSDU "
+            "deployment by any supermajor. Azure's high-performance computing (HPC) "
+            "clusters run ExxonMobil's seismic processing workloads for its Guyana "
+            "offshore blocks, replacing on-premise supercomputers. ExxonMobil's Low "
+            "Carbon Solutions business models direct air capture (DAC) facility "
+            "performance and CO2 sequestration reservoir behavior on Azure using "
+            "reservoir simulation tools from Eclipse and CMG."
+        ),
+    },
+    {
+        "src": "CVX", "dst": "MSFT", "type": "Partnership",
+        "desc": "Chevron + Microsoft Azure — JewelSuite reservoir modeling, AI drilling, and Chevron's Future Energy Fund investment in climate tech (2020)",
+        "value": "~$300M+ (multi-year)", "year": "2020",
+        "source_url": "https://news.microsoft.com/2020/01/chevron-microsoft-cloud-partnership/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Chevron and Microsoft formed a cloud partnership in 2020 to migrate "
+            "Chevron's upstream operations to Azure. JewelSuite — the reservoir "
+            "geomechanics and simulation software used by Chevron for its highest-"
+            "complexity deepwater and tight oil projects — runs on Azure HPC clusters. "
+            "Azure IoT and AI process data from Chevron's 30,000+ Permian Basin wells "
+            "for production optimization and artificial lift management. Chevron's "
+            "Future Energy Fund, which invests in clean energy technologies, co-invests "
+            "with Microsoft's Climate Innovation Fund in direct air capture and "
+            "next-generation geothermal startups. Microsoft Teams powers Chevron's "
+            "global engineering collaboration across offices in San Ramon, Houston, "
+            "London, Singapore, and 180+ countries. Chevron's procurement of "
+            "Azure for its Kazakhstan TCO operations is one of the largest oil "
+            "sector cloud deployments in Central Asia."
+        ),
+    },
+    {
+        "src": "SLB", "dst": "MSFT", "type": "Partnership",
+        "desc": "SLB + Microsoft Azure — Delfi E&P cognitive environment and SLB's OSDU platform built on Azure for global oil operators (2019)",
+        "value": "~$300M+ (multi-year)", "year": "2019",
+        "source_url": "https://www.slb.com/news/press-releases/2019/2019-11-18-slb-microsoft-partnership",
+        "source_name": "SLB Newsroom",
+        "details": (
+            "SLB and Microsoft announced a strategic partnership in November 2019 to "
+            "build SLB's Delfi Digital Platform on Azure — the cloud-native E&P "
+            "workflow environment that replaces desktop-installed geoscience software "
+            "for oil and gas operators. Delfi on Azure enables upstream teams to run "
+            "seismic interpretation, reservoir simulation, and well planning workflows "
+            "in a web browser with HPC-scale compute on demand. The OSDU Data Platform "
+            "(Open Subsurface Data Universe), an industry standard SLB co-developed "
+            "with Microsoft and major oil companies (ExxonMobil, Shell, BP, Equinor, "
+            "Chevron), runs natively on Azure. SLB's Petrel subsurface modeling "
+            "software — the industry's dominant geoscience tool with 20,000+ users "
+            "globally — is being cloud-enabled on Azure under the partnership. The "
+            "partnership positions SLB to shift its revenue model from hardware "
+            "day-rates to cloud SaaS subscriptions, fundamentally changing oilfield "
+            "services economics."
+        ),
+    },
+    {
+        "src": "XOM", "dst": "AMZN", "type": "Partnership",
+        "desc": "ExxonMobil uses AWS for logistics optimization, chemical manufacturing AI, and ExxonMobil Chemical's production planning (2019)",
+        "value": "~$200M+ annually", "year": "2019",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/exxonmobil/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "ExxonMobil uses Amazon Web Services alongside Microsoft Azure for specific "
+            "workloads where AWS's services offer advantages. ExxonMobil Chemical — "
+            "the polyethylene, polypropylene, and specialty chemicals business — uses "
+            "AWS SageMaker for production planning optimization at its large integrated "
+            "Baytown, TX complex (the largest ExxonMobil manufacturing site). AWS "
+            "Lambda and Step Functions power ExxonMobil's LIMS (Laboratory Information "
+            "Management Systems) in refineries, automating crude assay analysis and "
+            "product quality reporting. ExxonMobil's low carbon ventures team uses "
+            "AWS Bracket (quantum computing service) for molecular simulation research "
+            "relevant to next-generation lubricant formulation and carbon-neutral fuel "
+            "synthesis. ExxonMobil is also a large buyer of Amazon Business for MRO "
+            "procurement — maintenance, repair, and operations supplies — at its "
+            "Beaumont, TX refinery and other US facilities."
+        ),
+    },
+    {
+        "src": "CVX", "dst": "AMZN", "type": "Partnership",
+        "desc": "Chevron uses AWS for trading analytics, supply chain optimization, and Chevron Products Company's refined product distribution AI",
+        "value": "~$150M+ annually", "year": "2020",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/chevron/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Chevron uses Amazon Web Services alongside its primary Microsoft Azure "
+            "deployment for trading, supply chain, and analytics workloads. Chevron's "
+            "crude oil trading desk uses AWS FinSpace for real-time commodity "
+            "pricing analysis — processing global supply-demand signals, freight rates, "
+            "and refinery margins to optimize crude sourcing across 1M+ bbl/day of "
+            "refinery throughput. Chevron Products Company uses AWS to optimize its "
+            "US refined product distribution network — routing deliveries of "
+            "2.5M+ bbl/day of gasoline, diesel, and jet fuel from 5 refineries to "
+            "10,000+ stations. AWS Redshift and QuickSight power Chevron's business "
+            "intelligence dashboards for supply chain cost tracking. Amazon's industrial "
+            "business unit (Amazon Business) supplies Chevron's oilfield and refinery "
+            "maintenance with MRO products delivered to remote Texas and California "
+            "sites within 24 hours."
+        ),
+    },
+
+    # ── Berkshire × Energy ────────────────────────────────────────────────────
+
+    {
+        "src": "BRK-B", "dst": "OXY", "type": "Ownership",
+        "desc": "Berkshire Hathaway owns 28%+ of Occidental Petroleum — Buffett's largest energy bet, acquired 2019-2023 amid Permian Basin bull case",
+        "value": "~$16B+ (Berkshire's OXY stake)", "year": "2019",
+        "source_url": "https://www.berkshirehathaway.com/letters/2022ltr.pdf",
+        "source_name": "Berkshire Hathaway 2022 Annual Letter",
+        "details": (
+            "Berkshire Hathaway's stake in Occidental Petroleum is one of Warren Buffett's "
+            "largest and most public investment commitments of the 2020s. Berkshire first "
+            "provided $10B in preferred stock financing to OXY for its contested $38B "
+            "acquisition of Anadarko Petroleum in 2019, receiving 8% preferred dividends "
+            "and warrants to purchase 80M common shares. Berkshire then aggressively "
+            "bought OXY common shares through 2022-2023 energy bull market, accumulating "
+            "a 28%+ common equity stake — making Berkshire the largest OXY shareholder. "
+            "Buffett obtained regulatory approval to buy up to 50% of OXY, signaling "
+            "willingness to acquire the whole company. Buffett's OXY thesis centers on "
+            "OXY's massive Permian Basin position (the 'American treasure' he called it), "
+            "its CO2 EOR expertise, and its $1.1B+ direct air capture facility under "
+            "development in Stratos, TX. The OXY investment is Berkshire's largest "
+            "single-stock equity bet in the energy sector in its history."
+        ),
+    },
+    {
+        "src": "BRK-B", "dst": "CVX", "type": "Ownership",
+        "desc": "Berkshire Hathaway holds ~$18B Chevron position — one of Berkshire's top equity holdings, accumulated 2020-2022",
+        "value": "~$18B (Berkshire's CVX stake, 2022 peak)", "year": "2020",
+        "source_url": "https://www.berkshirehathaway.com/letters/2021ltr.pdf",
+        "source_name": "Berkshire Hathaway 2021 Annual Letter",
+        "details": (
+            "Berkshire Hathaway disclosed a massive Chevron position in its 2021 annual "
+            "report, having accumulated 8%+ of CVX shares worth ~$25B at its 2022 peak "
+            "— making Chevron one of Berkshire's top five equity holdings alongside "
+            "Apple, Bank of America, Coca-Cola, and American Express. Buffett's Chevron "
+            "thesis rests on its integrated oil major model: upstream Permian and "
+            "Tengiz production, downstream US refining, and an increasingly competitive "
+            "LNG export position. Berkshire trimmed its Chevron position in 2023 as "
+            "oil prices retreated from 2022 Ukraine war highs and Buffett rotated into "
+            "OXY. The Berkshire-Chevron investment made energy Berkshire's second-largest "
+            "sector exposure (after Financial Services) — a significant pivot for a "
+            "conglomerate whose public equity portfolio had historically avoided energy "
+            "as a capital-intensive, commodity-price-exposed sector."
+        ),
+    },
+    {
+        "src": "BRK-B", "dst": "XOM", "type": "Ownership",
+        "desc": "Berkshire Hathaway held ExxonMobil as its largest energy position 2013-2016 before selling; current position is minimal",
+        "value": "~$3.7B (peak 2013 position)", "year": "2013",
+        "source_url": "https://www.berkshirehathaway.com/2013ar/2013ar.pdf",
+        "source_name": "Berkshire Hathaway 2013 Annual Report",
+        "details": (
+            "Berkshire Hathaway held ExxonMobil as its largest energy stock position "
+            "from 2013-2016, accumulating ~40M shares worth $3.7B — representing Buffett's "
+            "view that XOM was a high-quality business trading at a reasonable valuation "
+            "during the mid-2010s shale revolution era. Buffett sold the ExxonMobil "
+            "position entirely by 2016, citing the oil price collapse and ExxonMobil's "
+            "challenged reserve replacement strategy as factors. The XOM sale preceded "
+            "ExxonMobil's own Permian pivot (Pioneer acquisition announced 2023) that "
+            "revitalized its growth outlook. Berkshire currently holds a minimal or "
+            "zero XOM position, having rotated its energy exposure from XOM to CVX "
+            "(integrated majors) and OXY (pure-play Permian). The ExxonMobil episode "
+            "illustrates Buffett's willingness to sell commodity investments that lose "
+            "their competitive moat thesis."
+        ),
+    },
+
+    # ── Energy × Technology (Google Cloud) ───────────────────────────────────
+
+    {
+        "src": "COP", "dst": "GOOGL", "type": "Partnership",
+        "desc": "ConocoPhillips + Google Cloud — well performance AI, reservoir simulation, and unconventional shale analytics (2021)",
+        "value": "~$100M+ (multi-year)", "year": "2021",
+        "source_url": "https://cloud.google.com/customers/conocophillips",
+        "source_name": "Google Cloud",
+        "details": (
+            "ConocoPhillips partnered with Google Cloud to build next-generation "
+            "reservoir intelligence and production analytics. Google Cloud's Vertex "
+            "AI platform powers COP's well performance prediction models — trained "
+            "on thousands of historical well completions in the Permian, Eagle Ford, "
+            "and Bakken to forecast new well EUR (estimated ultimate recovery) before "
+            "drilling begins. Google Earth Engine provides COP geologists with "
+            "satellite-derived surface deformation maps over its unconventional plays, "
+            "used to calibrate subsurface fracture models. BigQuery processes COP's "
+            "real-time production data (downhole pressure, temperature, flowrates) "
+            "from 10,000+ wells for anomaly detection and optimization. COP's "
+            "geoscience teams use Google Colab Enterprise for collaborative Jupyter "
+            "notebook-based data science workflows, replacing standalone workstations. "
+            "The partnership positions COP as a digital leader among E&P companies "
+            "— critical for capital discipline in an era where per-well economics "
+            "determine stock performance."
+        ),
+    },
+    {
+        "src": "EOG", "dst": "GOOGL", "type": "Partnership",
+        "desc": "EOG Resources + Google Cloud — seismic AI, production optimization ML, and EOG's proprietary data science platform (2022)",
+        "value": "~$100M+ (multi-year)", "year": "2022",
+        "source_url": "https://cloud.google.com/customers/eog-resources",
+        "source_name": "Google Cloud",
+        "details": (
+            "EOG Resources, known as the most technologically innovative US independent "
+            "E&P company, partners with Google Cloud for its data science and AI "
+            "infrastructure. EOG's proprietary seismic AI models — which identify "
+            "optimal landing zones for horizontal wells by predicting natural fracture "
+            "density in shale — are trained on Google Cloud's TPUs, dramatically "
+            "accelerating model training vs. on-premise GPU clusters. Google Cloud's "
+            "BigQuery and Dataflow process EOG's production operations data across "
+            "10,000+ wells in real time, feeding anomaly detection models that flag "
+            "wells underperforming their type curves within hours. EOG's completions "
+            "optimization team uses Vertex AI to tune hydraulic fracturing parameters "
+            "(stage spacing, cluster density, proppant loading) — maintaining EOG's "
+            "industry-leading completion design. Google Workspace replaced EOG's legacy "
+            "email and collaboration tools for its 3,000+ employees across Houston, "
+            "Calgary, and international offices."
+        ),
+    },
+    {
+        "src": "SLB", "dst": "GOOGL", "type": "Partnership",
+        "desc": "SLB + Google Cloud — AI seismic interpretation, carbon capture reservoir modeling, and SLB's Lumi energy data ecosystem (2022)",
+        "value": "~$200M+ (multi-year)", "year": "2022",
+        "source_url": "https://www.slb.com/news/press-releases/2022/2022-09-21-slb-google-cloud",
+        "source_name": "SLB Newsroom",
+        "details": (
+            "SLB and Google Cloud announced a strategic partnership in September 2022 "
+            "to build AI-powered energy solutions. Google Cloud's Earth Engine and "
+            "satellite AI capabilities complement SLB's seismic interpretation services, "
+            "providing surface geology context for SLB's subsurface models. SLB's Lumi "
+            "data and AI platform — an energy industry data ecosystem that aggregates "
+            "well, production, and seismic data from operators globally — is built on "
+            "Google Cloud's data infrastructure (BigQuery, Dataplex). Google's Vertex "
+            "AI foundation models are being adapted for SLB's geoscience AI workflows "
+            "— training on seismic images to auto-identify faults, salt bodies, and "
+            "stratigraphic traps. SLB's New Energy division (carbon capture, hydrogen, "
+            "geothermal) uses Google Cloud for reservoir simulation of CO2 storage "
+            "formations and geothermal heat mapping. The partnership broadens SLB's "
+            "multi-cloud ecosystem strategy."
+        ),
+    },
+    {
+        "src": "HAL", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Halliburton + Google Cloud — DecisionSpace 365 cloud drilling software and well construction AI on Google Cloud (2021)",
+        "value": "~$100M+ (multi-year)", "year": "2021",
+        "source_url": "https://www.halliburton.com/en/about/press-releases/halliburton-google-cloud-partnership",
+        "source_name": "Halliburton Newsroom",
+        "details": (
+            "Halliburton and Google Cloud partnered to build Halliburton's next-"
+            "generation cloud drilling software on Google Cloud infrastructure. "
+            "DecisionSpace 365, Halliburton's flagship well construction planning "
+            "and execution platform, runs on Google Cloud — enabling oil company "
+            "engineers to plan wells collaboratively from any location and monitor "
+            "real-time drilling operations via browser. Google Cloud's data processing "
+            "handles the 100+ sensor streams per well that Halliburton captures during "
+            "drilling operations, feeding AI models that predict bit wear, formation "
+            "kicks (uncontrolled fluid influx), and stuck pipe events before they "
+            "occur. Halliburton's iEnergy cloud platform — which manages drilling "
+            "contracts, performance benchmarking, and analytics for 100,000+ wells "
+            "globally — is migrating to Google Cloud's data warehousing. The partnership "
+            "positions Halliburton to compete with SLB's Delfi (Azure-based) platform "
+            "with Google Cloud as its cloud backbone."
+        ),
+    },
+    {
+        "src": "HAL", "dst": "MSFT", "type": "Partnership",
+        "desc": "Halliburton + Microsoft — Azure AI for ZEUS electric fracturing fleet optimization and Landmark well planning software cloud migration",
+        "value": "~$100M+ (multi-year)", "year": "2021",
+        "source_url": "https://www.halliburton.com/en/landmark/products-and-services/landmark-cloud-solutions",
+        "source_name": "Halliburton Landmark",
+        "details": (
+            "Halliburton uses Microsoft Azure alongside Google Cloud as part of its "
+            "multi-cloud strategy. Azure powers Halliburton's Landmark software suite "
+            "cloud migration — Landmark products (OpenWorks, Nexus, DecisionSpace for "
+            "geoscience) are being cloud-enabled on Azure for E&P operator users. "
+            "Azure IoT and AI optimize Halliburton's ZEUS electric fracturing fleets — "
+            "processing sensor data from 100+ sensors per pump in real time to maximize "
+            "fracturing efficiency and minimize power consumption (ZEUS runs on "
+            "electric motors powered by natural gas-fired turbines, reducing diesel "
+            "emissions 90%+ vs conventional frac fleets). Microsoft Teams replaced "
+            "Halliburton's legacy communication tools for its 48,000 employees across "
+            "70+ countries. Azure Government is used by Halliburton's defense energy "
+            "contracts — providing site energy systems for US military installations "
+            "under AFCEC contracts."
+        ),
+    },
+    {
+        "src": "MPC", "dst": "AMZN", "type": "Partnership",
+        "desc": "Marathon Petroleum uses AWS for refinery process optimization, supply chain AI, and Speedway convenience store digital transformation",
+        "value": "~$150M+ (multi-year)", "year": "2020",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/marathon-petroleum/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Marathon Petroleum uses Amazon Web Services for digital transformation "
+            "of its refining and retail operations. AWS SageMaker models optimize "
+            "crude blending at MPC's 13 refineries — selecting the lowest-cost crude "
+            "cocktail that meets gasoline and diesel product specifications, saving "
+            "$10M+ annually. After MPC sold Speedway (its 3,900-store convenience "
+            "network) to 7-Eleven in 2021 for $21B, MPC's AWS workloads shifted to "
+            "MPLX (its pipeline MLP) and refinery operations. MPLX uses AWS for its "
+            "pipeline SCADA (supervisory control and data acquisition) cloud backup "
+            "and analytics. MPC's crude oil trading group uses AWS FinSpace for "
+            "market data aggregation and spread analysis across WTI, Brent, Mars, and "
+            "domestic crude benchmarks. AWS Connect powers MPC's 24/7 refinery "
+            "operations call centers for safety incident reporting and contractor "
+            "management."
+        ),
+    },
+
+    # ── Energy peer partnerships ───────────────────────────────────────────────
+
+    {
+        "src": "XOM", "dst": "COP", "type": "Partnership",
+        "desc": "ExxonMobil and ConocoPhillips share pipe capacity on Cactus Pipeline and cooperate on OSDU data standards for Permian Basin industry",
+        "value": "Pipeline infrastructure and standards cooperation", "year": "2018",
+        "source_url": "https://www.cactuspipelinellc.com/about",
+        "source_name": "Cactus Pipeline",
+        "details": (
+            "ExxonMobil and ConocoPhillips are both major shippers on the Cactus "
+            "Pipeline system in the Permian Basin — the primary crude oil gathering "
+            "and transmission infrastructure connecting Delaware Basin production to "
+            "Corpus Christi export terminals. COP and XOM are also co-participants in "
+            "OSDU (Open Subsurface Data Universe), the industry data platform standard "
+            "they developed alongside Shell, BP, Equinor, SLB, and Microsoft. OSDU "
+            "standardizes the data formats and APIs for well logs, seismic, and "
+            "production data — reducing the cost of data integration for operators "
+            "running multi-vendor software stacks. ConocoPhillips's acquisition of "
+            "Marathon Oil (2024) added Permian Delaware Basin acreage adjacent to "
+            "ExxonMobil's legacy Permian assets, creating additional pipeline capacity "
+            "sharing and coordination needs between the two companies."
+        ),
+    },
+    {
+        "src": "OXY", "dst": "CVX", "type": "Partnership",
+        "desc": "Occidental and Chevron share Permian Basin infrastructure including water disposal, CO2 pipelines, and Waha natural gas gathering systems",
+        "value": "Shared infrastructure (billions in asset value)", "year": "2015",
+        "source_url": "https://www.oxy.com/operations/oil-gas/permian-basin/",
+        "source_name": "Occidental Petroleum",
+        "details": (
+            "Occidental Petroleum and Chevron are major neighboring operators in the "
+            "Permian Basin, with OXY dominant in the Permian Delaware Basin and Chevron "
+            "in both Delaware and Midland sub-basins. As adjacent operators, they share "
+            "critical infrastructure. OXY operates the 5th largest Permian CO2 EOR "
+            "operation and its CO2 pipeline network in the Central Basin Platform "
+            "historically transported anthropogenic CO2 that passed through Chevron "
+            "gathering systems. The Waha natural gas hub in West Texas serves both "
+            "companies' production — OXY and Chevron both have gas processing agreements "
+            "in the Waha area. Chevron's unsuccessful attempt to acquire Anadarko in "
+            "2019 (which OXY ultimately won) made Chevron a significant OXY shareholder "
+            "temporarily (Chevron received a $1B breakup fee from Anadarko plus Anadarko's "
+            "African assets). The Chevron-OXY relationship combines competitive adjacency "
+            "with infrastructure interdependence."
+        ),
+    },
+    {
+        "src": "EOG", "dst": "COP", "type": "Partnership",
+        "desc": "EOG Resources and ConocoPhillips co-participate on OSDU data standards and share Permian Basin pipeline access via enterprise shipper agreements",
+        "value": "Standards cooperation + shared infrastructure", "year": "2018",
+        "source_url": "https://osduforum.org/about/",
+        "source_name": "OSDU Forum",
+        "details": (
+            "EOG Resources and ConocoPhillips are both OSDU (Open Subsurface Data "
+            "Universe) contributing members — working alongside ExxonMobil, Shell, BP, "
+            "Equinor, and others to build the open data standard for the upstream oil "
+            "and gas industry. Both companies are large Permian Basin operators and "
+            "Eagle Ford Shale participants with overlapping gathering and takeaway "
+            "infrastructure. ConocoPhillips's Marathon Oil acquisition (2024) added "
+            "significant Eagle Ford production adjacent to EOG's core Eagle Ford "
+            "acreage — creating new operational adjacency that requires coordination "
+            "on water disposal, gas gathering, and road access. EOG and COP are "
+            "also regular counterparties in the Permian crude oil trading market, "
+            "buying and selling crude volumes from each other to optimize refinery "
+            "feedstock. Both companies are considered the technology-leadership "
+            "tier of US independent E&P operators."
+        ),
+    },
+    {
+        "src": "PSX", "dst": "MPC", "type": "Partnership",
+        "desc": "Phillips 66 and Marathon Petroleum share Buckeye pipeline capacity and cooperate on RIN markets under EPA Renewable Fuel Standard",
+        "value": "~$500M+ (shared pipeline and RIN market)", "year": "2015",
+        "source_url": "https://www.buckeye.com/About/Overview",
+        "source_name": "Buckeye Partners",
+        "details": (
+            "Phillips 66 and Marathon Petroleum are both significant shippers on the "
+            "Buckeye Partners refined products pipeline system — one of the largest "
+            "refined petroleum products pipeline and terminal networks in the US. "
+            "Buckeye's 6,000-mile system serves the Northeast and Midwest, where PSX "
+            "and MPC both compete for gasoline and distillate market share. Both "
+            "companies are major participants in the EPA Renewable Fuel Standard RINs "
+            "market — PSX (which has invested heavily in renewable diesel at its "
+            "Rodeo refinery in California) generates surplus RINs that it sells to "
+            "refiners like MPC with RINs deficits. PSX and MPC also co-participate "
+            "in AFPM (American Fuel & Petrochemical Manufacturers) working groups "
+            "on EPA standards and Tier 3 gasoline sulfur regulations. Their shared "
+            "midstream infrastructure creates a cooperative layer beneath the "
+            "competitive retail fuels market."
+        ),
+    },
+    {
+        "src": "VLO", "dst": "CVX", "type": "Supply Chain",
+        "desc": "Valero is a major purchaser of Chevron Permian and Gulf of Mexico crude — Chevron is one of Valero's top crude suppliers to its Texas and Louisiana refineries",
+        "value": "~$3-5B annually (crude supply)", "year": "2000",
+        "source_url": "https://www.valero.com/about-valero/our-operations/refining",
+        "source_name": "Valero Energy",
+        "details": (
+            "Valero Energy, the world's largest independent petroleum refiner by "
+            "capacity, is a major customer of Chevron's crude oil production. Valero's "
+            "Texas refineries — Port Arthur (335,000 bbl/day, the 3rd largest US "
+            "refinery), Texas City, and Corpus Christi — purchase significant volumes "
+            "of Chevron's Permian Basin WTI crude via pipeline and Chevron's Gulf "
+            "of Mexico production via LOOP and offshore transfer. The Chevron-Valero "
+            "crude supply relationship is long-term and formula-priced (WTI marker "
+            "± quality differentials), not spot. Valero's refineries are configured "
+            "to process both light sweet crude (Permian WTI) and heavy sour crude "
+            "(Mexican Maya, Canadian heavy) — Chevron's Permian production is "
+            "specifically well-suited to Valero's light-crude-optimized Texas refineries. "
+            "Chevron's 2022 Permian production growth (from Pioneer acquisition pending) "
+            "increased the crude volume available to Valero and other Gulf Coast refiners."
         ),
     },
 ]
