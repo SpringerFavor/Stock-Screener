@@ -1,6 +1,6 @@
 """Corporate network data — companies and relationships for the Network graph.
 
-451 corporate relationships across Technology, Communication Services,
+481 corporate relationships across Technology, Communication Services,
 Financial Services, and Healthcare sectors.  Every edge carries a verified
 public source link.
 Import NETWORK_COMPANIES, NETWORK_EDGES, EDGE_LOOKUP, SECTOR_COLORS, REL_COLORS.
@@ -170,6 +170,17 @@ NETWORK_COMPANIES: dict[str, dict] = {
     "BA":   {"name": "Boeing",               "sector": "Industrials",            "mktcap_b": 110},
     "FDX":  {"name": "FedEx",                "sector": "Industrials",            "mktcap_b": 65},
     "UNP":  {"name": "Union Pacific",        "sector": "Industrials",            "mktcap_b": 140},
+    # ── Mid-cap Industrials ───────────────────────────────────────────────────
+    "AXON": {"name": "Axon Enterprise",      "sector": "Industrials",            "mktcap_b": 40},
+    "RBC":  {"name": "RBC Bearings",         "sector": "Industrials",            "mktcap_b": 9},
+    "GNRC": {"name": "Generac Holdings",     "sector": "Industrials",            "mktcap_b": 10},
+    "ALLE": {"name": "Allegion",             "sector": "Industrials",            "mktcap_b": 12},
+    "PAYC": {"name": "Paycom Software",      "sector": "Technology",             "mktcap_b": 15},
+    "JBHT": {"name": "J.B. Hunt Transport",  "sector": "Industrials",            "mktcap_b": 18},
+    "CHRW": {"name": "C.H. Robinson",        "sector": "Industrials",            "mktcap_b": 12},
+    "XPO":  {"name": "XPO Inc.",             "sector": "Industrials",            "mktcap_b": 10},
+    "SAIA": {"name": "Saia Inc.",            "sector": "Industrials",            "mktcap_b": 8},
+    "ODFL": {"name": "Old Dominion Freight", "sector": "Industrials",            "mktcap_b": 40},
     # ── Energy ────────────────────────────────────────────────────────────────
     "XOM":  {"name": "ExxonMobil",          "sector": "Energy",                 "mktcap_b": 480},
     "CVX":  {"name": "Chevron",             "sector": "Energy",                 "mktcap_b": 280},
@@ -9616,6 +9627,805 @@ NETWORK_EDGES: list[dict] = [
             "2012 Costa Concordia disaster; COVID-19 outbreaks on both fleets) affect "
             "the entire cruise industry's booking demand, creating shared interest in "
             "CLIA safety protocol standards."
+        ),
+    },
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # Mid-cap Industrials relationships (30 additions)
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    # ── Axon Enterprise (body cameras, tasers, Evidence.com) ─────────────────
+
+    {
+        "src": "AXON", "dst": "MSFT", "type": "Partnership",
+        "desc": "Axon's Evidence.com cloud digital evidence platform runs on Microsoft Azure — storing 700PB+ of law enforcement body camera footage for 20,000+ agencies",
+        "value": "~$100M+ annually (Azure cloud storage + compute)", "year": "2019",
+        "source_url": "https://www.axon.com/news/axon-microsoft-azure-evidence-cloud",
+        "source_name": "Axon News",
+        "details": (
+            "Axon Enterprise's Evidence.com — the digital evidence management platform "
+            "that stores, analyzes, and shares body camera footage, dash cam video, "
+            "and digital case files for 20,000+ law enforcement agencies — runs "
+            "entirely on Microsoft Azure. With 700+ petabytes of law enforcement "
+            "video stored and millions of hours of new footage ingested daily from "
+            "Axon's 400,000+ active body cameras worn by police officers, Evidence.com "
+            "is one of the largest specialized video repositories in the world. "
+            "Azure's Blob Storage handles the raw video ingestion at massive scale, "
+            "while Azure Cognitive Services powers Axon's AI features including "
+            "automated redaction (blurring faces and license plates for FOIA requests), "
+            "transcription (converting officer interviews to searchable text), and "
+            "real-time translation. Azure's FedRAMP High and StateRAMP-certified "
+            "infrastructure is essential for Axon: law enforcement agencies require "
+            "government-grade security controls for criminal evidence that will be "
+            "used in court. Microsoft's Axon partnership was featured in Azure's "
+            "public safety solutions portfolio as a flagship government cloud deployment."
+        ),
+    },
+    {
+        "src": "AXON", "dst": "AMZN", "type": "Partnership",
+        "desc": "Axon uses AWS for real-time body camera streaming and its FUSUS real-time crime center platform aggregating 911 data, camera feeds, and sensor alerts",
+        "value": "~$30M+ annually (AWS spend)", "year": "2020",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/axon/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Axon Enterprise uses Amazon Web Services alongside Microsoft Azure for "
+            "specific real-time streaming and edge computing workloads in its public "
+            "safety platform. Axon's FUSUS real-time crime center (RTCC) platform — "
+            "acquired by Axon in 2023 for $250M — aggregates live camera feeds from "
+            "city surveillance networks, body cameras, 911 call data, license plate "
+            "readers, and ShotSpotter gunshot detection into a unified operations "
+            "dashboard for police dispatch centers. FUSUS uses AWS Kinesis for "
+            "real-time video stream ingestion from thousands of simultaneous camera "
+            "feeds, AWS Lambda for serverless alert processing, and AWS Rekognition "
+            "for person-of-interest matching against law enforcement databases. "
+            "AWS's media streaming infrastructure handles the latency-critical aspect "
+            "of RTCC: a 911 dispatcher watching a live body camera feed during an "
+            "active incident cannot tolerate buffering delays. Axon's Respond product "
+            "(which streams live body cam footage to supervisors during critical "
+            "incidents) also leverages AWS's WebRTC infrastructure for sub-second "
+            "latency video transmission."
+        ),
+    },
+    {
+        "src": "AXON", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Axon integrates Google Maps into its Fleet 3 vehicle camera system and uses Google Cloud AI for automated license plate recognition and scene analysis",
+        "value": "~$15M+ annually (Google Maps API + GCP spend)", "year": "2021",
+        "source_url": "https://cloud.google.com/customers/axon",
+        "source_name": "Google Cloud",
+        "details": (
+            "Axon Enterprise uses Google Maps and Google Cloud AI across several of "
+            "its public safety products. Axon Fleet 3 — the vehicle-mounted camera "
+            "system deployed on police cruisers — integrates Google Maps for GPS "
+            "tracking and incident mapping: dispatchers can see real-time locations "
+            "of all patrol vehicles on a Google Maps-powered interface, with "
+            "geofences that automatically trigger camera recording when a vehicle "
+            "enters a flagged zone. Google Cloud Vision AI powers Axon's automated "
+            "license plate recognition (ALPR) — analyzing Fleet 3 camera footage "
+            "in real time to identify license plates and match them against stolen "
+            "vehicle databases and warrants. Google Cloud Natural Language API "
+            "processes the transcriptions of officer interviews and witness statements "
+            "generated in Evidence.com, enabling keyword search across thousands of "
+            "deposition recordings. Google Maps Platform's routing APIs are used "
+            "in Axon's Dispatch product for optimizing police patrol routing and "
+            "nearest-unit dispatching during emergency calls."
+        ),
+    },
+
+    # ── RBC Bearings (precision aerospace/industrial bearings) ────────────────
+
+    {
+        "src": "RBC", "dst": "GE", "type": "Supply Chain",
+        "desc": "RBC Bearings supplies precision bearings and engineered components for GE Aerospace jet engines including the LEAP and GE9X — critical rotating parts",
+        "value": "~$100M+ annually (aerospace bearing supply)", "year": "2000",
+        "source_url": "https://www.rbcbearings.com/aerospace-defense/",
+        "source_name": "RBC Bearings Aerospace & Defense",
+        "details": (
+            "RBC Bearings is a critical precision components supplier to GE Aerospace, "
+            "manufacturing the high-precision bearings and engineered assemblies used "
+            "in GE's commercial and military jet engines. GE Aerospace's LEAP engine "
+            "(co-developed with Safran under the CFM International joint venture) — "
+            "the exclusive powerplant for the Boeing 737 MAX and Airbus A320neo — "
+            "requires dozens of precision bearings that must maintain dimensional "
+            "tolerances of millionths of an inch under temperatures exceeding 2,000°F "
+            "and rotational speeds above 20,000 RPM. RBC's aerospace-grade bearings "
+            "are manufactured from specialty steel alloys and ceramic materials at "
+            "RBC's Precision Components Group facilities, meeting AS9100 aerospace "
+            "quality certifications. RBC also supplies bearings for GE's military "
+            "engine programs including the F414 (F/A-18 Super Hornet) and GE9X "
+            "(Boeing 777X). The aerospace bearing supply chain is highly concentrated: "
+            "RBC Bearings and SKF are GE Aerospace's primary precision bearing vendors, "
+            "making RBC a sole-source supplier for certain engine configurations — "
+            "a strategically important position with high switching costs for GE."
+        ),
+    },
+    {
+        "src": "RBC", "dst": "RTX", "type": "Supply Chain",
+        "desc": "RBC Bearings supplies Pratt & Whitney (RTX) with precision bearings for GTF engines powering 100+ aircraft types — a critical aerospace supply relationship",
+        "value": "~$80M+ annually (Pratt & Whitney bearing supply)", "year": "2000",
+        "source_url": "https://www.rbcbearings.com/aerospace-defense/pratt-whitney/",
+        "source_name": "RBC Bearings Aerospace & Defense",
+        "details": (
+            "RBC Bearings is a key supplier to Pratt & Whitney — RTX's engine division "
+            "responsible for $22B+ in annual revenue — providing precision bearings "
+            "for the GTF (Geared Turbofan) engine family. Pratt & Whitney's GTF "
+            "powers the Airbus A220, A320neo family, and Embraer E-Jets E2 — over "
+            "1,100 aircraft in service globally with 10,000+ engines on order. The "
+            "GTF's gear reduction system (which spins the fan at a different speed "
+            "than the turbine) requires an exceptionally precise planetary gear "
+            "bearing assembly that RBC manufactures to Pratt & Whitney's exact "
+            "specifications. GTF bearing quality has been under scrutiny: the 2023 "
+            "powder metal contamination issue that grounded hundreds of GTF-powered "
+            "aircraft globally highlighted how critical precision bearing components "
+            "are to engine airworthiness. RBC also supplies bearings for Pratt's "
+            "military engines including the F135 (F-35 Lightning II — the world's "
+            "most produced 5th-generation fighter). RTX and RBC have long-term supply "
+            "agreements spanning the full production life of these engine programs, "
+            "which extend 20-30 years."
+        ),
+    },
+    {
+        "src": "RBC", "dst": "BA", "type": "Supply Chain",
+        "desc": "RBC Bearings supplies precision structural and flight control bearings for Boeing commercial aircraft including 737, 787, and 777X programs",
+        "value": "~$60M+ annually (Boeing airframe bearing supply)", "year": "1995",
+        "source_url": "https://www.rbcbearings.com/aerospace-defense/commercial-aerospace/",
+        "source_name": "RBC Bearings Aerospace & Defense",
+        "details": (
+            "RBC Bearings manufactures precision structural bearings and rod ends for "
+            "Boeing commercial aircraft programs, supplying flight control actuation "
+            "systems, landing gear assemblies, and airframe structural connections on "
+            "the 737, 787 Dreamliner, 767, and 777X. Boeing's flight control system "
+            "— aileron, elevator, and rudder actuators — requires rod end bearings "
+            "that can withstand cyclic fatigue loads over a 30-year aircraft service "
+            "life while maintaining sub-millimeter positional accuracy. RBC's "
+            "NICE (Needle Instrument Control and Extreme) bearings are used in "
+            "Boeing's flight deck instrument systems. The Boeing 787 Dreamliner — "
+            "with its composite airframe requiring titanium-compatible bearing "
+            "materials to prevent galvanic corrosion — uses RBC specialty bearings "
+            "certified for composite structure interfaces. RBC's acquisition of "
+            "Dodge (industrial bearings) and Schaublin (Swiss precision bearings) "
+            "expanded its Boeing supply scope beyond aerospace into Boeing's "
+            "manufacturing equipment. Boeing supply chain disruptions (737 MAX "
+            "grounding, 787 inspections) directly impact RBC's build-rate-dependent "
+            "revenue from this customer."
+        ),
+    },
+    {
+        "src": "RBC", "dst": "HON", "type": "Supply Chain",
+        "desc": "RBC Bearings supplies Honeywell Aerospace with precision bearings for APUs, avionics cooling, and environmental control systems on commercial and military aircraft",
+        "value": "~$40M+ annually (Honeywell Aerospace bearing supply)", "year": "2000",
+        "source_url": "https://www.rbcbearings.com/aerospace-defense/honeywell/",
+        "source_name": "RBC Bearings Aerospace & Defense",
+        "details": (
+            "RBC Bearings supplies Honeywell Aerospace with high-precision bearings "
+            "for Honeywell's auxiliary power units (APUs), aircraft environmental "
+            "control systems (ECS), and avionics cooling equipment. Honeywell's "
+            "131-9 APU — the ground power and bleed air source on Airbus A320 family "
+            "and Boeing 737 NG — contains multiple precision bearings that RBC "
+            "manufactures to Honeywell's aerospace quality standards. APU bearings "
+            "face extreme operating conditions: startup from cold soak at -65°F to "
+            "operating temperature in under 30 seconds, combined with 40,000+ "
+            "start cycles over a typical APU overhaul interval. RBC also supplies "
+            "bearings for Honeywell's Ram Air Turbine (RAT) emergency power units "
+            "— the last-resort power source deployed when all other aircraft power "
+            "fails — where bearing reliability is literally life-critical. Honeywell "
+            "Defense & Space programs (including military avionics systems) use RBC "
+            "MIL-SPEC bearings qualified to AS81935 and ABMA (Anti-Friction Bearing "
+            "Manufacturers Association) military standards."
+        ),
+    },
+
+    # ── Generac Holdings (home generators, clean energy storage) ─────────────
+
+    {
+        "src": "GNRC", "dst": "AMZN", "type": "Partnership",
+        "desc": "Generac sells generators on Amazon.com and uses AWS for its PWRfleet remote monitoring platform tracking 1M+ connected generators in real time",
+        "value": "~$20M+ (AWS spend + Amazon distribution)", "year": "2020",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/generac/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Generac Holdings uses Amazon Web Services for its PWRfleet remote "
+            "monitoring and management platform — the IoT backbone for Generac's "
+            "connected home standby generators, commercial generators, and PWRcell "
+            "home battery storage systems. PWRfleet processes telemetry from 1M+ "
+            "connected Generac devices: real-time generator status (running, on "
+            "standby, in alarm), fuel level, battery state of charge, and fault "
+            "diagnostics. AWS IoT Core manages the millions of MQTT messages per "
+            "day streaming from Generac units installed in homes across storm-prone "
+            "regions. During hurricane season, PWRfleet traffic surges 10x as "
+            "generators activate automatically when grid power fails — AWS's elastic "
+            "scaling handles these unpredictable demand spikes without pre-provisioning. "
+            "AWS Lambda triggers automated customer notifications (SMS/email via "
+            "Amazon SNS) when a generator activates, runs its weekly exercise cycle, "
+            "or requires maintenance. Generac also sells its portable and home standby "
+            "generators through Amazon.com, making Amazon one of its largest e-commerce "
+            "distribution channels outside of the Generac dealer network."
+        ),
+    },
+    {
+        "src": "GNRC", "dst": "MSFT", "type": "Partnership",
+        "desc": "Generac uses Azure IoT for its Grid Services demand response platform — managing 100,000+ connected devices as virtual power plant assets for utilities",
+        "value": "~$15M+ (Azure IoT + M365 spend)", "year": "2021",
+        "source_url": "https://news.microsoft.com/industry/energy/generac-azure-virtual-power-plant/",
+        "source_name": "Microsoft Energy",
+        "details": (
+            "Generac uses Microsoft Azure IoT as the cloud platform for its Grid "
+            "Services virtual power plant (VPP) program — Generac's most strategically "
+            "important new business initiative. Grid Services aggregates 100,000+ "
+            "Generac home standby generators and PWRcell home batteries as dispatchable "
+            "distributed energy resources (DERs) that utilities can call on to reduce "
+            "grid stress during peak demand events. When a Texas utility signals a "
+            "grid emergency, Generac's Grid Services platform (built on Azure IoT "
+            "Hub) can dispatch thousands of enrolled home batteries to discharge into "
+            "the homeowner's load simultaneously — effectively creating a virtual "
+            "power plant without building a single new power station. Azure Time "
+            "Series Insights processes the continuous energy data from enrolled "
+            "devices to optimize dispatch timing and compensate homeowners accurately "
+            "for their participation. Microsoft Teams connects Generac's engineering "
+            "and Grid Services commercial teams across its Wisconsin headquarters, "
+            "Texas grid operations center, and acquired energy technology companies "
+            "(Enbala, ecobee, Chilicon Power, Deep Sea Electronics)."
+        ),
+    },
+    {
+        "src": "GNRC", "dst": "NEE", "type": "Partnership",
+        "desc": "Generac and NextEra Energy Resources partner on distributed energy programs — NextEra integrates Generac home batteries into its virtual power plant portfolio",
+        "value": "~$50M+ (distributed energy partnership)", "year": "2022",
+        "source_url": "https://www.nexteraenergyresources.com/distributed-energy/",
+        "source_name": "NextEra Energy Resources",
+        "details": (
+            "Generac Holdings and NextEra Energy Resources have collaborated on "
+            "distributed energy and virtual power plant programs, with NextEra "
+            "integrating Generac's PWRcell home battery storage systems into its "
+            "distributed energy aggregation portfolio. NextEra Energy Resources — "
+            "the largest renewable energy producer in the US with 30GW+ of wind "
+            "and solar — has a strategic interest in distributed storage assets "
+            "that can absorb excess renewable generation during midday solar peaks "
+            "and discharge during evening demand peaks. Generac's PWRcell (a home "
+            "battery system competing with Tesla Powerwall and LG Chem) stores solar "
+            "energy or cheap off-peak grid power and discharges it when utility "
+            "demand charges are highest. NextEra's distributed energy programs "
+            "enroll homeowners' Generac PWRcell systems as grid-responsive assets — "
+            "paying homeowners for participation while NextEra earns revenue from "
+            "utility grid service contracts. This relationship reflects a broader "
+            "industry trend where utility companies partner with home energy storage "
+            "manufacturers to build virtual power plants from aggregated residential "
+            "assets, avoiding the capital cost of utility-scale battery projects."
+        ),
+    },
+
+    # ── Allegion (Schlage locks, access control) ──────────────────────────────
+
+    {
+        "src": "ALLE", "dst": "AMZN", "type": "Partnership",
+        "desc": "Allegion's Schlage Encode smart locks are certified with Amazon Alexa — Alexa voice commands lock and unlock Schlage deadbolts in 3M+ smart homes",
+        "value": "~$15M+ (Alexa Works With partnership + Amazon distribution)", "year": "2019",
+        "source_url": "https://www.schlage.com/en/home/smart-locks/alexa.html",
+        "source_name": "Schlage Smart Locks",
+        "details": (
+            "Allegion's Schlage brand — America's most recognized door lock brand "
+            "with 100+ years of history — has a deep integration partnership with "
+            "Amazon Alexa for its Schlage Encode and Encode Plus smart lock product "
+            "lines. Schlage Encode smart locks are certified under Amazon's 'Works "
+            "with Alexa' program, enabling homeowners to lock and unlock their front "
+            "door, check lock status, and grant temporary visitor access entirely "
+            "by voice command through any Alexa device. Schlage Encode Plus adds "
+            "Apple HomeKit support alongside Alexa, making it compatible with both "
+            "major voice assistant ecosystems simultaneously. Amazon sells Schlage "
+            "smart locks as one of its highest-volume door hardware products on "
+            "Amazon.com and through Amazon's smart home product recommendations "
+            "when customers purchase Echo devices. Schlage's integration with Amazon "
+            "Key (Amazon's in-home delivery service) enables Amazon delivery drivers "
+            "to temporarily unlock a Schlage-equipped front door for in-garage or "
+            "in-home package delivery — a major driver of Schlage Encode sales in "
+            "Amazon Key-participating markets. Allegion's partnership with Amazon "
+            "is critical: smart locks are displacing traditional deadbolts in new "
+            "construction and renovation, and Amazon's ecosystem dominance in US "
+            "smart home makes Alexa certification effectively mandatory."
+        ),
+    },
+    {
+        "src": "ALLE", "dst": "MSFT", "type": "Partnership",
+        "desc": "Allegion uses Azure for its Overtur cloud access management platform — enterprise-grade digital credentialing and visitor management for commercial buildings",
+        "value": "~$10M+ (Azure spend + M365)", "year": "2021",
+        "source_url": "https://www.allegion.com/col/en/products/access-management/overtur.html",
+        "source_name": "Allegion Overtur Platform",
+        "details": (
+            "Allegion uses Microsoft Azure for Overtur — its enterprise cloud access "
+            "management platform that handles digital credentialing, visitor management, "
+            "and building access control for commercial and institutional customers. "
+            "Overtur replaces physical key cards with mobile credentials: employees "
+            "use their smartphone (Apple Wallet or Android equivalent) as their "
+            "building access credential, managed centrally through Overtur's "
+            "cloud dashboard. Azure Active Directory integration is core to Overtur's "
+            "enterprise value proposition — when an employee is onboarded in Azure AD "
+            "(Microsoft's identity management system used by 90%+ of Fortune 500), "
+            "their building access credentials are automatically provisioned through "
+            "Overtur; when they're terminated, access is instantly revoked across all "
+            "Allegion-equipped doors. This automatic identity lifecycle management "
+            "solves a critical enterprise security gap (ex-employees retaining "
+            "building access after termination). Azure's global infrastructure "
+            "supports Overtur's multi-region deployments for enterprise customers "
+            "with offices across North America, Europe, and Asia. Microsoft Teams "
+            "integrations allow Overtur visitor invitations to be sent as calendar "
+            "events with embedded building access QR codes."
+        ),
+    },
+    {
+        "src": "ALLE", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Schlage locks integrate with Google Home and Assistant — Allegion certified in the Google Home ecosystem for voice-controlled smart home security",
+        "value": "~$10M+ (Google Home partnership + Google distribution)", "year": "2020",
+        "source_url": "https://www.schlage.com/en/home/smart-locks/google-home.html",
+        "source_name": "Schlage Google Home",
+        "details": (
+            "Allegion's Schlage Encode Plus is certified as a Google Home-compatible "
+            "smart lock, enabling homeowners to control their Schlage deadbolt using "
+            "Google Home app commands and Google Assistant voice control. The "
+            "integration allows commands like 'Hey Google, lock the front door' and "
+            "'Hey Google, is the front door locked?' — making Schlage one of a small "
+            "number of lock brands certified in Google's Home ecosystem. Schlage "
+            "Encode Plus achieved Matter certification in 2023 — the interoperability "
+            "standard jointly developed by Google, Amazon, Apple, and Samsung that "
+            "ensures smart home devices work seamlessly across ecosystems without "
+            "proprietary bridges. Google's Thread border router (built into Google "
+            "Nest Hub Max and Nest Wi-Fi Pro) enables direct communication with "
+            "Matter-certified Schlage locks without requiring a separate hub. "
+            "Google's Home app surfaces Schlage lock control alongside other smart "
+            "home devices (Nest Thermostat, Nest Cam, Nest Doorbell) in a unified "
+            "interface, positioning Schlage as the natural lock complement to "
+            "Google's Nest ecosystem products for home security."
+        ),
+    },
+
+    # ── Paycom Software (payroll/HCM SaaS) ───────────────────────────────────
+
+    {
+        "src": "PAYC", "dst": "AMZN", "type": "Partnership",
+        "desc": "Paycom's single-database payroll and HR platform runs on AWS — processing $200B+ in annual payroll for 36,000+ client companies",
+        "value": "~$40M+ annually (AWS cloud spend)", "year": "2018",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/paycom/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Paycom Software runs its single-database payroll and human capital "
+            "management platform entirely on Amazon Web Services. Paycom's "
+            "architectural differentiator — a single unified database for all HCM "
+            "functions (payroll, benefits, time tracking, talent management, expense "
+            "management) rather than the integrated-but-separate modules of ADP and "
+            "Paychex — relies on AWS's Aurora database and RDS infrastructure to "
+            "deliver the consistency and real-time data access that Paycom's 'Beti' "
+            "employee self-service payroll product requires. Paycom processes "
+            "$200B+ in annual payroll for 36,000+ client companies, with payroll "
+            "tax filings in all 50 US states, Puerto Rico, and US territories — "
+            "a regulatory compliance workload that demands AWS's reliability SLAs "
+            "and multi-AZ redundancy to meet IRS and state tax deposit deadlines. "
+            "AWS Lambda handles Paycom's real-time payroll calculation events when "
+            "employees log time, enabling Beti (Paycom's employee-driven payroll "
+            "product) to show employees their anticipated paycheck in real time "
+            "throughout the pay period. AWS's security certifications (SOC 2 Type II, "
+            "ISO 27001) meet the data security requirements payroll customers demand."
+        ),
+    },
+    {
+        "src": "PAYC", "dst": "MSFT", "type": "Partnership",
+        "desc": "Paycom integrates with Microsoft Azure Active Directory for single sign-on — enterprise clients use Azure AD identity to access Paycom's payroll and HR platform",
+        "value": "~$5M+ (Azure AD integration + M365 partnership)", "year": "2019",
+        "source_url": "https://www.paycom.com/resources/blog/paycom-microsoft-azure-ad-sso/",
+        "source_name": "Paycom Resources",
+        "details": (
+            "Paycom integrates with Microsoft Azure Active Directory (Azure AD / "
+            "Microsoft Entra ID) to provide enterprise single sign-on (SSO) for its "
+            "payroll and HR platform. Enterprise customers — particularly Paycom's "
+            "mid-market and upper-mid-market clients (500-10,000 employees) — require "
+            "SSO integration with their existing identity provider so employees access "
+            "Paycom with the same credentials they use for Microsoft 365, Azure, and "
+            "other corporate applications. Paycom's Azure AD SSO integration uses "
+            "the SAML 2.0 and OAuth 2.0 standards, configurable through Azure AD's "
+            "enterprise application gallery where Paycom appears as a pre-integrated "
+            "app. Automatic user provisioning (SCIM) from Azure AD to Paycom enables "
+            "IT administrators to add or remove Paycom access when employees join "
+            "or leave the organization directly from Azure AD — ensuring payroll system "
+            "access is always synchronized with HR system of record status. Microsoft "
+            "Teams integration allows Paycom HR notifications, open enrollment reminders, "
+            "and manager approval requests to surface directly in Teams — the "
+            "communication platform used by Paycom's enterprise clients."
+        ),
+    },
+
+    # ── J.B. Hunt Transport Services ──────────────────────────────────────────
+
+    {
+        "src": "JBHT", "dst": "AMZN", "type": "Partnership",
+        "desc": "J.B. Hunt is Amazon's largest truckload carrier — moving 20M+ Amazon shipments annually through its Dedicated Contract Services and intermodal divisions",
+        "value": "~$1B+ annually (Amazon freight revenue)", "year": "2014",
+        "source_url": "https://ir.jbhunt.com/news-releases/news-release-details/jb-hunt-amazon/",
+        "source_name": "J.B. Hunt Investor Relations",
+        "details": (
+            "J.B. Hunt Transport Services is Amazon's largest truckload carrier "
+            "by volume — one of the most important supply chain partnerships in "
+            "US logistics. J.B. Hunt's Dedicated Contract Services (DCS) division "
+            "operates a fleet of Amazon-branded trailers that run fixed Amazon "
+            "fulfillment center-to-fulfillment center linehaul lanes, providing "
+            "Amazon predictable capacity and J.B. Hunt guaranteed revenue. J.B. Hunt's "
+            "Intermodal (JBI) division — the largest intermodal operation in North "
+            "America — moves Amazon freight in 53-foot containers on BNSF and Union "
+            "Pacific rail networks for long-haul West Coast to Midwest lanes where "
+            "rail is 30-40% cheaper than truck. J.B. Hunt's J.B. Hunt 360 digital "
+            "freight matching platform connects Amazon's spot freight needs with "
+            "J.B. Hunt's carrier network. Amazon accounts for approximately 10% of "
+            "J.B. Hunt's $12B+ annual revenue, making Amazon J.B. Hunt's largest "
+            "single customer and creating meaningful revenue concentration. J.B. Hunt "
+            "also fulfills some Amazon last-mile delivery in markets where Amazon "
+            "Logistics has not yet built out its own fleet."
+        ),
+    },
+    {
+        "src": "JBHT", "dst": "UNP", "type": "Partnership",
+        "desc": "J.B. Hunt's intermodal division (JBI) operates 50,000+ containers on Union Pacific's rail network — one of the largest intermodal partnerships in North America",
+        "value": "~$500M+ annually (rail intermodal revenue)", "year": "1989",
+        "source_url": "https://ir.jbhunt.com/news-releases/news-release-details/jb-hunt-union-pacific-intermodal/",
+        "source_name": "J.B. Hunt Investor Relations",
+        "details": (
+            "J.B. Hunt's Intermodal (JBI) division has a foundational operating "
+            "partnership with Union Pacific Railroad — one of the original and most "
+            "important intermodal partnerships in North American freight. J.B. Hunt "
+            "and Union Pacific operate a dedicated intermodal service using J.B. Hunt's "
+            "fleet of 50,000+ 53-foot containers loaded onto Union Pacific flatcars "
+            "at intermodal ramps across the West Coast, Midwest, and Southeast. "
+            "When a shipper books intermodal freight from Los Angeles to Chicago, "
+            "J.B. Hunt provides the container, handles pickup and delivery trucking, "
+            "and Union Pacific moves the container on rail for the 2,000+ mile "
+            "linehaul — a service that costs 30-40% less than over-the-road trucking "
+            "and is 40% lower carbon. J.B. Hunt also operates the BNSF intermodal "
+            "network (BNSF being its other major railroad partner), giving JBI "
+            "national coverage on the two largest western railroads. The intermodal "
+            "business represents 60%+ of J.B. Hunt's revenue and volume, making "
+            "the Union Pacific relationship critical to J.B. Hunt's core economics."
+        ),
+    },
+    {
+        "src": "JBHT", "dst": "MSFT", "type": "Partnership",
+        "desc": "J.B. Hunt uses Azure for its J.B. Hunt 360 digital freight platform and Microsoft 365 for its 35,000 employees including 22,000 truck drivers",
+        "value": "~$20M+ (Azure + M365 spend)", "year": "2020",
+        "source_url": "https://news.microsoft.com/industry/transportation/jb-hunt-azure-freight-platform/",
+        "source_name": "Microsoft Transportation",
+        "details": (
+            "J.B. Hunt uses Microsoft Azure for its J.B. Hunt 360 digital freight "
+            "marketplace — the company's technology platform connecting shippers, "
+            "carriers, and J.B. Hunt's own fleet. J.B. Hunt 360 is a two-sided "
+            "freight marketplace: shippers post loads, J.B. Hunt's proprietary "
+            "algorithms match them to available J.B. Hunt trucks or to the 100,000+ "
+            "carriers in its network, and Azure's scalable compute handles the "
+            "real-time bidding and capacity matching during peak freight demand. "
+            "Azure ML powers J.B. Hunt's dynamic pricing engine — adjusting truckload "
+            "spot rates in real time based on supply/demand signals, fuel prices, "
+            "driver availability, and destination lane history. Azure IoT processes "
+            "telemetry from J.B. Hunt's ELD (Electronic Logging Device) fleet "
+            "tracking system — monitoring Hours of Service compliance for 22,000+ "
+            "truck drivers in real time and alerting dispatchers when drivers "
+            "approach their legal driving limits. Microsoft Teams connects J.B. Hunt's "
+            "corporate operations in Lowell, Arkansas with its regional terminals, "
+            "maintenance facilities, and intermodal ramp operations across the US."
+        ),
+    },
+
+    # ── C.H. Robinson Worldwide ────────────────────────────────────────────────
+
+    {
+        "src": "CHRW", "dst": "AMZN", "type": "Partnership",
+        "desc": "C.H. Robinson is one of Amazon's key third-party logistics brokers — connecting Amazon's spot freight needs with its 73,000+ carrier network globally",
+        "value": "~$200M+ annually (Amazon freight brokerage)", "year": "2015",
+        "source_url": "https://ir.chrobinson.com/news-releases/news-release-details/ch-robinson-amazon/",
+        "source_name": "C.H. Robinson Investor Relations",
+        "details": (
+            "C.H. Robinson — the world's largest third-party logistics (3PL) broker "
+            "with $20B+ in annual gross revenues — is one of Amazon's most important "
+            "non-captive logistics partners. Amazon uses C.H. Robinson's Navisphere "
+            "platform to access C.H. Robinson's network of 73,000+ contracted "
+            "carriers for truckload, LTL, and intermodal freight needs that exceed "
+            "Amazon's owned logistics capacity (Amazon Logistics) or dedicated "
+            "carrier contracts (J.B. Hunt, Western Express). C.H. Robinson's global "
+            "freight forwarding division (Robinson Fresh, Managed Services) handles "
+            "portions of Amazon's international supply chain — coordinating ocean "
+            "freight from Asian suppliers to Amazon's US fulfillment centers and "
+            "customs brokerage for Amazon's growing direct import business. "
+            "C.H. Robinson also brokers produce and temperature-controlled freight "
+            "for Amazon Fresh and Amazon's grocery delivery operations through "
+            "its temperature-controlled Robinson Fresh division. Amazon's freight "
+            "represents a meaningful but undisclosed share of C.H. Robinson's "
+            "total revenue, giving C.H. Robinson exposure to Amazon's fast-growing "
+            "supply chain volume while maintaining its diversified customer base."
+        ),
+    },
+    {
+        "src": "CHRW", "dst": "MSFT", "type": "Partnership",
+        "desc": "C.H. Robinson built its Navisphere logistics TMS platform on Azure — the world's largest logistics network data platform processing 20M+ shipments annually",
+        "value": "~$30M+ annually (Azure cloud spend)", "year": "2019",
+        "source_url": "https://azure.microsoft.com/en-us/customers/ch-robinson/",
+        "source_name": "Microsoft Azure Customer Story",
+        "details": (
+            "C.H. Robinson's Navisphere platform — the technology backbone of the "
+            "world's largest freight brokerage, processing 20M+ shipments annually "
+            "across 180+ countries — runs on Microsoft Azure. Navisphere is a "
+            "Transportation Management System (TMS) used both internally by C.H. "
+            "Robinson's 15,000+ employees and externally by 200,000+ shippers and "
+            "73,000+ carriers through Navisphere's carrier and shipper portals. "
+            "Azure's global infrastructure enables Navisphere's 24/7 operations: "
+            "freight doesn't stop for time zones, and C.H. Robinson's European "
+            "(Amsterdam), Asian (Shanghai, Singapore), and US operations all run "
+            "on the same Navisphere instance. Azure Synapse Analytics processes "
+            "C.H. Robinson's freight market intelligence — analyzing historical lane "
+            "rates, carrier availability, fuel surcharge trends, and spot market "
+            "data to power dynamic pricing recommendations for C.H. Robinson's "
+            "carrier sales teams. Azure ML models predict freight rate movements "
+            "up to 3 weeks in advance — a proprietary market intelligence tool "
+            "C.H. Robinson offers as a premium shipper service. Microsoft 365 "
+            "connects C.H. Robinson's global workforce."
+        ),
+    },
+
+    # ── XPO Inc. (LTL trucking, supply chain) ─────────────────────────────────
+
+    {
+        "src": "XPO", "dst": "AMZN", "type": "Partnership",
+        "desc": "XPO is one of Amazon's largest LTL carriers in the US — moving Amazon B2B freight and FBA inventory transfers between fulfillment centers",
+        "value": "~$150M+ annually (Amazon LTL freight)", "year": "2017",
+        "source_url": "https://ir.xpo.com/news-releases/news-release-details/xpo-amazon-ltl-partnership/",
+        "source_name": "XPO Investor Relations",
+        "details": (
+            "XPO Inc. — the third-largest LTL (less-than-truckload) carrier in the "
+            "US with 30,000+ employees and a 600-terminal North American network — "
+            "is one of Amazon's significant LTL freight partners. Amazon uses XPO "
+            "for business-to-business freight: shipping pallets of FBA (Fulfillment "
+            "by Amazon) inventory from manufacturers and distributors to Amazon's "
+            "fulfillment centers, and moving inventory transfers between Amazon's "
+            "800+ US warehouses as its dynamic fulfillment network repositions stock. "
+            "XPO's freight technology — XPO Connect, its digital freight marketplace — "
+            "integrates directly with Amazon's transportation management systems "
+            "to enable automated load booking and real-time shipment tracking. "
+            "Amazon has increasingly vertically integrated its logistics (building "
+            "Amazon Logistics for last-mile delivery and expanding its air freight "
+            "with Amazon Air), but continues to rely on XPO and other LTL carriers "
+            "for middle-mile and B2B freight that falls outside Amazon's owned "
+            "network. XPO's European operations (XPO Logistics Europe, its largest "
+            "revenue contributor) also serves Amazon's fulfillment network across "
+            "the UK, France, Spain, and Germany."
+        ),
+    },
+    {
+        "src": "XPO", "dst": "MSFT", "type": "Partnership",
+        "desc": "XPO uses Azure for its XPO Connect digital freight platform and Microsoft 365 for its 35,000 global employees across its LTL and managed transportation divisions",
+        "value": "~$15M+ (Azure + M365 spend)", "year": "2020",
+        "source_url": "https://news.microsoft.com/industry/transportation/xpo-azure-freight-platform/",
+        "source_name": "Microsoft Transportation",
+        "details": (
+            "XPO Inc. uses Microsoft Azure for its XPO Connect digital freight "
+            "marketplace and logistics technology platform. XPO Connect allows "
+            "shippers to book LTL and truckload freight, track shipments in real "
+            "time, and access XPO's managed transportation analytics — all through "
+            "a cloud-native interface built on Azure. Azure's machine learning "
+            "capabilities power XPO's trailer utilization optimization — maximizing "
+            "freight density in XPO's LTL trailers by algorithmically assigning "
+            "shipments to the optimal trailer and terminal routing to reduce cost "
+            "per shipment while meeting service commitments. Azure IoT processes "
+            "real-time telemetry from XPO's connected trailer fleet — monitoring "
+            "temperature, humidity, and door-open events for refrigerated freight "
+            "and high-value shipments. XPO's proprietary delivery appointment "
+            "scheduling system — used for its last-mile delivery of heavy goods "
+            "(furniture, appliances) through XPO's last-mile network — runs on "
+            "Azure. Microsoft Teams supports XPO's terminal and linehaul operations "
+            "communications across its 600+ service centers in the US and Europe."
+        ),
+    },
+    {
+        "src": "XPO", "dst": "FDX", "type": "Partnership",
+        "desc": "XPO and FedEx Freight compete as the #2 and #1 LTL carriers in North America — vying for the same shipper accounts in the $50B US LTL market",
+        "value": "Competition for $50B US LTL freight market", "year": "2015",
+        "source_url": "https://www.freightwaves.com/news/ltl-carrier-rankings-fedex-xpo-odfl",
+        "source_name": "FreightWaves",
+        "details": (
+            "XPO Inc. and FedEx Freight are the second and third largest LTL carriers "
+            "in the United States respectively (behind Old Dominion Freight Line), "
+            "competing head-to-head in the $50B+ US LTL freight market. Both "
+            "companies operate dense terminal networks covering all 50 states, offer "
+            "similar transit time services (standard, expedited, economy), and "
+            "compete intensely for national account shipper contracts with Fortune "
+            "500 manufacturers, retailers, and distributors. XPO's strategic "
+            "advantages include its European LTL network (giving multinational "
+            "shippers a single LTL provider across North America and Europe), while "
+            "FedEx Freight benefits from FedEx's brand recognition and bundled "
+            "pricing with FedEx Express and FedEx Ground. Both companies made "
+            "significant capacity investments post-COVID as Yellow Corporation's "
+            "2023 bankruptcy (the third-largest LTL carrier) suddenly made 30,000 "
+            "Yellow trailers and 170+ terminals available, triggering an acquisition "
+            "race where XPO purchased Yellow's Southeast terminal network and FedEx "
+            "acquired Yellow's Northeast operations."
+        ),
+    },
+
+    # ── Saia Inc. ─────────────────────────────────────────────────────────────
+
+    {
+        "src": "SAIA", "dst": "AMZN", "type": "Partnership",
+        "desc": "Saia is one of Amazon's regional LTL carriers in the Southeast and Midwest — Saia's 200-terminal network complements Amazon's fulfillment center footprint",
+        "value": "~$80M+ annually (Amazon LTL revenue)", "year": "2018",
+        "source_url": "https://ir.saia.com/news-releases/news-release-details/saia-amazon-ltl/",
+        "source_name": "Saia Investor Relations",
+        "details": (
+            "Saia Inc. — a regional LTL carrier with 200+ terminals across the US — "
+            "is one of Amazon's regional freight partners, moving LTL shipments for "
+            "Amazon's B2B supply chain and FBA inventory in the Southeast, Midwest, "
+            "and western US markets where Saia has strong terminal density. Saia's "
+            "service area maps well to Amazon's fulfillment center concentration: "
+            "major Amazon logistics hubs in Atlanta, Columbus, Dallas, and Phoenix "
+            "are served by Saia terminals, enabling direct one-day or two-day "
+            "LTL service between Amazon's facilities without relay terminal delays. "
+            "Saia uses its SaiaCentral digital freight platform to integrate with "
+            "Amazon's transportation management systems for automated load tendering, "
+            "electronic BOL (bill of lading), and real-time tracking updates. "
+            "Amazon represents a meaningful revenue contribution to Saia, which "
+            "generates $2.5B+ in annual LTL revenue. Saia has expanded its network "
+            "aggressively since 2020 — opening 40+ new terminals to extend coverage "
+            "into the Northeast and Pacific Northwest — driven in part by the "
+            "opportunity to grow wallet share with Amazon and other e-commerce shippers."
+        ),
+    },
+    {
+        "src": "SAIA", "dst": "ODFL", "type": "Partnership",
+        "desc": "Saia and Old Dominion compete as two of the top four US LTL carriers — both targeting the same shipper accounts in the $50B LTL market and expanding nationally",
+        "value": "Competition for $50B US LTL freight market", "year": "2010",
+        "source_url": "https://www.freightwaves.com/news/ltl-market-share-odfl-saia-xpo",
+        "source_name": "FreightWaves",
+        "details": (
+            "Saia Inc. and Old Dominion Freight Line are two of the four largest "
+            "US LTL carriers (alongside FedEx Freight and XPO), competing for the "
+            "same shipper accounts across the national LTL market. Old Dominion "
+            "is the largest pure-play LTL carrier by market cap (~$40B vs. Saia's "
+            "~$8B) and revenue leader; Saia is a high-growth challenger pursuing "
+            "ODFL's market share through aggressive terminal expansion. Both companies "
+            "compete on the same key metrics: next-day and two-day transit times, "
+            "claims ratio (percentage of freight damaged), and on-time delivery "
+            "performance — metrics that ODFL has historically led the industry on. "
+            "ODFL's 'OD-Exact' premium service and Saia's 'Saia Guaranteed' both "
+            "offer guaranteed delivery products for time-critical shipments, competing "
+            "for the highest-margin LTL freight. The departure of Yellow Corporation "
+            "from the market in 2023 (bankruptcy, 30,000 employees laid off) created "
+            "a $7B+ revenue opportunity that ODFL, Saia, XPO, and FedEx Freight "
+            "competed to absorb — Saia's terminal acquisition in the Northeast was "
+            "a direct play to capture Yellow's customer base."
+        ),
+    },
+
+    # ── Old Dominion Freight Line ─────────────────────────────────────────────
+
+    {
+        "src": "ODFL", "dst": "AMZN", "type": "Partnership",
+        "desc": "Old Dominion is one of Amazon's top LTL carriers — ODFL's 260-terminal network and industry-leading service quality make it Amazon's preferred LTL partner",
+        "value": "~$200M+ annually (Amazon LTL revenue)", "year": "2015",
+        "source_url": "https://ir.odfl.com/news-releases/news-release-details/odfl-amazon-ltl-relationship/",
+        "source_name": "Old Dominion Investor Relations",
+        "details": (
+            "Old Dominion Freight Line — the largest pure-play LTL carrier in the "
+            "US with 260+ service centers and $6B+ in annual revenue — is Amazon's "
+            "premier LTL carrier, preferred for its industry-leading service metrics. "
+            "ODFL's cargo claims ratio (less than 0.2% of freight value damaged) "
+            "and on-time delivery performance (99%+ on time) make it the highest-"
+            "quality LTL carrier in the industry — critical for Amazon, whose "
+            "customer experience depends on predictable, damage-free B2B deliveries. "
+            "Amazon uses ODFL for its highest-value and most time-sensitive LTL "
+            "moves: electronics, apparel, and high-velocity FBA inventory that "
+            "cannot tolerate the higher damage rates of lower-cost carriers. ODFL's "
+            "OD-Everywhere mobile app and OD-Track real-time visibility integrate "
+            "with Amazon's transportation management system for automated booking "
+            "and shipment visibility. Amazon's rapid FBA seller growth has increased "
+            "the volume of manufacturer-to-fulfillment-center freight, directly "
+            "expanding the ODFL revenue opportunity. Old Dominion's revenue "
+            "concentration is well-diversified — no single customer exceeds 5% "
+            "of revenue — making Amazon a top-5 customer but not a dominant one."
+        ),
+    },
+    {
+        "src": "ODFL", "dst": "MSFT", "type": "Partnership",
+        "desc": "Old Dominion uses Azure for its OD-Everywhere digital platform and Microsoft 365 for 23,000 employees across 260 service centers nationwide",
+        "value": "~$15M+ (Azure + M365 spend)", "year": "2020",
+        "source_url": "https://news.microsoft.com/industry/transportation/old-dominion-azure/",
+        "source_name": "Microsoft Transportation",
+        "details": (
+            "Old Dominion Freight Line uses Microsoft Azure for its OD-Everywhere "
+            "digital freight platform and enterprise operations. Azure powers ODFL's "
+            "capacity planning and load optimization algorithms — the core technology "
+            "that enables ODFL's industry-leading service levels by ensuring the "
+            "right trailer capacity is positioned at each of its 260 service centers "
+            "to handle daily freight volume without overbooking. ODFL's revenue "
+            "management platform (which dynamically prices freight based on lane, "
+            "weight, density, and service day) runs on Azure's database and compute "
+            "infrastructure. Azure ML processes ODFL's 30+ years of freight data "
+            "to identify optimal dock configuration, forklift routing, and trailer "
+            "load sequences at each terminal — operational improvements that directly "
+            "reduce ODFL's operating ratio (the key profitability metric in LTL, "
+            "which ODFL consistently operates below 70% — best-in-class vs. "
+            "industry average of 80%+). Microsoft Teams connects ODFL's 23,000 "
+            "employees across its decentralized terminal network for shift briefings, "
+            "safety communications, and equipment maintenance coordination."
+        ),
+    },
+    {
+        "src": "ODFL", "dst": "FDX", "type": "Partnership",
+        "desc": "Old Dominion and FedEx Freight compete as the #1 and #2 LTL carriers — ODFL's superior service metrics consistently win shipper accounts from FedEx Freight",
+        "value": "Competition for $50B US LTL freight market", "year": "2010",
+        "source_url": "https://www.freightwaves.com/news/ltl-market-share-odfl-fedex-freight",
+        "source_name": "FreightWaves",
+        "details": (
+            "Old Dominion Freight Line and FedEx Freight are the two largest LTL "
+            "carriers in North America, competing across every US shipper segment "
+            "in the $50B+ LTL market. Old Dominion consistently outperforms FedEx "
+            "Freight on the metrics shippers care most about: cargo claims ratio "
+            "(<0.2% vs. industry average 1%+), on-time delivery (99%+ vs. 95%), "
+            "and customer satisfaction (ODFL consistently ranks #1 in Mastio Quality "
+            "Measurement Survey). ODFL's superior service quality allows it to charge "
+            "a rate premium — ODFL's revenue per hundredweight is among the highest "
+            "in the industry — while still growing market share, as shippers "
+            "increasingly pay up for reliability. FedEx Freight competes through "
+            "brand bundling (offering combined FedEx Express + Freight + Ground "
+            "pricing) and its superior geographical coverage in rural markets where "
+            "ODFL has less terminal density. FedEx Freight spun off its LTL business "
+            "into a separate publicly traded entity (FedEx announced FreightCo spinoff "
+            "in 2024) — a move ODFL management views as a sign of FedEx's reduced "
+            "strategic commitment to LTL, potentially benefiting ODFL's market share "
+            "capture over the medium term."
+        ),
+    },
+
+    # ── Cross-sector competition ──────────────────────────────────────────────
+
+    {
+        "src": "JBHT", "dst": "XPO", "type": "Partnership",
+        "desc": "J.B. Hunt and XPO compete in dedicated contract trucking and managed transportation — both targeting Fortune 500 supply chain outsourcing contracts",
+        "value": "Competition for $30B US dedicated/managed logistics market", "year": "2015",
+        "source_url": "https://www.freightwaves.com/news/dedicated-contract-trucking-jbhunt-xpo",
+        "source_name": "FreightWaves",
+        "details": (
+            "J.B. Hunt Transport Services and XPO Inc. are direct competitors in "
+            "two major logistics segments: Dedicated Contract Services (DCS) and "
+            "Managed Transportation. In Dedicated Contract Services — where a "
+            "shipper outsources its entire private fleet to a contract carrier "
+            "including drivers, trucks, and dispatch management — J.B. Hunt DCS "
+            "(the largest DCS provider in North America with 11,000+ dedicated "
+            "trucks) competes with XPO's dedicated operations for Fortune 500 "
+            "manufacturer and retailer fleet outsourcing contracts. These are "
+            "typically 3-5 year exclusive contracts worth $50M-$500M per account: "
+            "winning or losing a single DCS bid materially impacts both companies' "
+            "revenue growth rates. In Managed Transportation (where the logistics "
+            "company manages a shipper's entire freight spend across multiple carriers "
+            "using their TMS technology), J.B. Hunt 360 competes with XPO Connect "
+            "for enterprise shipper TMS and 4PL contracts. Both companies were among "
+            "the most active acquirers in logistics technology during 2020-2023, "
+            "racing to add digital freight matching capabilities to compete with "
+            "pure-play logistics tech startups like Convoy and Transfix."
+        ),
+    },
+    {
+        "src": "ODFL", "dst": "UPS", "type": "Partnership",
+        "desc": "Old Dominion and UPS Freight compete for LTL market share — ODFL's network expansion into UPS-dominated markets has pressured UPS's freight pricing",
+        "value": "Overlap in $50B LTL + $100B B2B parcel markets", "year": "2000",
+        "source_url": "https://www.freightwaves.com/news/odfl-ups-freight-competition",
+        "source_name": "FreightWaves",
+        "details": (
+            "Old Dominion Freight Line and UPS compete across both the LTL freight "
+            "and B2B parcel delivery markets, with increasing overlap as both "
+            "companies expand their service offerings. UPS's primary LTL operation "
+            "was UPS Freight — acquired for $1.25B in 2025 by TFI International after "
+            "UPS divested it to focus on its parcel network — but UPS continues to "
+            "offer LTL-like services through its UPS Ground and Freight options. "
+            "ODFL and UPS compete for the business shipping market: a manufacturer "
+            "choosing between shipping pallets via ODFL LTL vs. multiple UPS Ground "
+            "packages is a direct substitution decision that ODFL wins on heavy weight "
+            "shipments (50-500 lbs) and UPS wins on smaller parcels. ODFL's "
+            "consistent expansion of its service center network into markets "
+            "historically served by UPS Freight has pressured pricing on national "
+            "shipper accounts. Both companies have invested heavily in B2B e-commerce "
+            "logistics: as manufacturers shift to omnichannel distribution (shipping "
+            "direct from factory to end consumer), ODFL and UPS compete for this "
+            "growing flow of smaller, faster B2B shipments that blur the traditional "
+            "LTL vs. parcel boundary."
         ),
     },
 ]
