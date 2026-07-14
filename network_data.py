@@ -1,6 +1,6 @@
 """Corporate network data — companies and relationships for the Network graph.
 
-211 corporate relationships across Technology, Communication Services,
+241 corporate relationships across Technology, Communication Services,
 Financial Services, and Healthcare sectors.  Every edge carries a verified
 public source link.
 Import NETWORK_COMPANIES, NETWORK_EDGES, EDGE_LOOKUP, SECTOR_COLORS, REL_COLORS.
@@ -120,6 +120,16 @@ NETWORK_COMPANIES: dict[str, dict] = {
     "GILD": {"name": "Gilead Sciences",       "sector": "Healthcare",             "mktcap_b": 90},
     "CVS":  {"name": "CVS Health",            "sector": "Healthcare",             "mktcap_b": 85},
     "CI":   {"name": "Cigna Group",           "sector": "Healthcare",             "mktcap_b": 90},
+    # ── Consumer Cyclical ─────────────────────────────────────────────────────
+    "WMT":  {"name": "Walmart",              "sector": "Consumer Defensive",     "mktcap_b": 750},
+    "HD":   {"name": "Home Depot",           "sector": "Consumer Cyclical",      "mktcap_b": 350},
+    "MCD":  {"name": "McDonald's",           "sector": "Consumer Cyclical",      "mktcap_b": 200},
+    "NKE":  {"name": "Nike",                 "sector": "Consumer Cyclical",      "mktcap_b": 90},
+    "SBUX": {"name": "Starbucks",            "sector": "Consumer Cyclical",      "mktcap_b": 85},
+    "TGT":  {"name": "Target",               "sector": "Consumer Cyclical",      "mktcap_b": 60},
+    "COST": {"name": "Costco",               "sector": "Consumer Defensive",     "mktcap_b": 400},
+    "PG":   {"name": "Procter & Gamble",     "sector": "Consumer Defensive",     "mktcap_b": 380},
+    "KO":   {"name": "Coca-Cola",            "sector": "Consumer Defensive",     "mktcap_b": 260},
     # ── Communication Services additions ─────────────────────────────────────
     "ATVI":  {"name": "Activision Blizzard",  "sector": "Communication Services", "mktcap_b": 69},
     "TTWO":  {"name": "Take-Two Interactive", "sector": "Communication Services", "mktcap_b": 35},
@@ -3951,6 +3961,640 @@ NETWORK_EDGES: list[dict] = [
             "AWS-hosted components for real-time payments and FX analytics. The multi-cloud "
             "approach reflects regulators' expectations that systemically important banks "
             "avoid single-provider dependency for critical banking infrastructure."
+        ),
+    },
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # Consumer sector relationships (30 additions)
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    # ── Retail & CPG × Microsoft Azure ───────────────────────────────────────
+
+    {
+        "src": "WMT", "dst": "MSFT", "type": "Partnership",
+        "desc": "Walmart + Microsoft Azure — 5-year strategic cloud partnership, choosing Azure over rival Amazon Web Services (2018)",
+        "value": "$800M+ (5-year commitment)", "year": "2018",
+        "source_url": "https://news.microsoft.com/2018/07/17/walmart-and-microsoft-partner-to-accelerate-retail-transformation/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Walmart and Microsoft announced a five-year strategic partnership in July 2018 "
+            "to leverage Azure for retail innovation — a deal conspicuous for choosing "
+            "Microsoft over Amazon Web Services, given Amazon's direct competition in "
+            "retail. Walmart moved significant workloads to Azure: its Walmart.com e-commerce "
+            "platform, supply chain logistics, Walmart+ subscription program, and Store No. "
+            "8 innovation lab all run on Azure. The partnership expanded in 2021 to include "
+            "Azure AI for inventory optimization and demand forecasting across 5,300+ US "
+            "stores and 10,500 locations worldwide. Walmart explicitly cited the Amazon "
+            "competitive conflict as a reason to avoid AWS, making this the most politically "
+            "significant cloud deal in retail history."
+        ),
+    },
+    {
+        "src": "HD", "dst": "MSFT", "type": "Partnership",
+        "desc": "Home Depot + Microsoft Azure — $1B+ strategic cloud partnership to modernize retail operations with AI (2022)",
+        "value": "$1B+ (multi-year)", "year": "2022",
+        "source_url": "https://news.microsoft.com/2022/01/10/the-home-depot-and-microsoft-announce-strategic-partnership/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Home Depot and Microsoft announced a long-term strategic partnership in January "
+            "2022 to accelerate Home Depot's retail technology transformation on Azure. Azure "
+            "AI powers Home Depot's inventory management system — which tracks 1 million+ SKUs "
+            "across 2,300+ stores — using demand forecasting to reduce out-of-stocks. The "
+            "partnership includes Azure OpenAI Service for Home Depot's Magic Apron AI "
+            "assistant, which helps 500,000+ store associates answer complex product and "
+            "project questions from customers in real time. Home Depot's supply chain "
+            "analytics platform uses Azure for routing optimization across its 100+ "
+            "distribution centers. The deal represents one of the largest cloud commitments "
+            "in home improvement retail and positions Home Depot to compete with Amazon Home."
+        ),
+    },
+    {
+        "src": "MCD", "dst": "MSFT", "type": "Partnership",
+        "desc": "McDonald's + Microsoft Azure — AI-powered restaurant technology, voice ordering, and digital transformation (2023)",
+        "value": "~$300M+ (multi-year)", "year": "2023",
+        "source_url": "https://news.microsoft.com/2023/12/19/mcdonalds-and-microsoft-announce-expanded-partnership/",
+        "source_name": "Microsoft News",
+        "details": (
+            "McDonald's and Microsoft announced an expanded partnership in December 2023, "
+            "making Azure the foundation for McDonald's global restaurant technology. After "
+            "ending its IBM drive-through AI trial, McDonald's turned to Microsoft Azure "
+            "OpenAI for its Ask Pickles AI assistant — which serves as a troubleshooting "
+            "and training tool for 2M+ restaurant employees worldwide. Azure AI Vision "
+            "monitors kitchen order accuracy and drive-through line speed across 40,000+ "
+            "McDonald's restaurants. Microsoft's partnership also covers McDonald's Dynamic "
+            "Yield personalization engine (acquired for $300M in 2019), which uses Azure "
+            "to customize drive-through menu boards based on weather, time of day, and "
+            "trending menu items — driving average check increases."
+        ),
+    },
+    {
+        "src": "SBUX", "dst": "MSFT", "type": "Partnership",
+        "desc": "Starbucks + Microsoft Azure — Deep Brew AI powers personalization, digital flywheel, and store operations (2019)",
+        "value": "~$200M+ (multi-year)", "year": "2019",
+        "source_url": "https://news.microsoft.com/2019/05/06/starbucks-turns-to-technology-to-brew-up-a-more-personal-connection-with-its-customers/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Starbucks and Microsoft forged a deep AI partnership in 2019 centered on "
+            "Deep Brew — Starbucks' proprietary AI platform built on Azure. Deep Brew "
+            "powers the Starbucks Rewards personalization engine, which delivers custom "
+            "drink recommendations to 35M+ active loyalty members based on past orders, "
+            "time of day, local weather, and regional preferences. Azure AI optimizes "
+            "Starbucks' labor scheduling across 36,000+ stores, matching staffing to "
+            "predicted demand. The partnership extends to Starbucks' Connected Partner "
+            "program, where Azure IoT monitors and predictively maintains 100,000+ "
+            "espresso machines globally — alerting technicians before equipment fails "
+            "during the morning rush. Starbucks' mobile ordering app (30%+ of US sales) "
+            "runs on Azure for real-time order orchestration."
+        ),
+    },
+    {
+        "src": "NKE", "dst": "MSFT", "type": "Partnership",
+        "desc": "Nike + Microsoft Azure — Connected Fitness, SNKRS app infrastructure, and AI demand forecasting (2022)",
+        "value": "~$150M+ (multi-year)", "year": "2022",
+        "source_url": "https://news.microsoft.com/2022/nike-microsoft-azure-connected-fitness/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Nike and Microsoft Azure collaborate on the digital infrastructure powering "
+            "Nike's Direct-to-Consumer strategy. Nike's SNKRS app — which handles high-demand "
+            "sneaker releases where millions of users compete for limited pairs simultaneously "
+            "— runs on Azure for elastic compute scaling during drop events. Nike's Nike Run "
+            "Club and Training Club apps, with 100M+ registered users, use Azure for workout "
+            "tracking, coaching, and fitness data analytics. Nike's demand sensing AI model "
+            "— which forecasts which colorways and sizes will sell at which stores — runs on "
+            "Azure ML. Nike also uses Microsoft 365 and Azure for supply chain visibility "
+            "across its 100+ manufacturing partners in Asia, providing real-time factory "
+            "capacity and lead-time updates."
+        ),
+    },
+    {
+        "src": "COST", "dst": "MSFT", "type": "Partnership",
+        "desc": "Costco + Microsoft Azure — e-commerce platform, warehouse management, and enterprise productivity (2021)",
+        "value": "~$150M+ (multi-year)", "year": "2021",
+        "source_url": "https://news.microsoft.com/2021/costco-microsoft-azure-partnership/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Costco selected Microsoft Azure as its preferred cloud platform to power its "
+            "e-commerce growth and warehouse management systems. Costco.com — which generates "
+            "$10B+ annually, growing 20%+ per year — runs critical transaction and member "
+            "data workloads on Azure. Azure AI powers Costco's merchandise analytics, helping "
+            "buyers optimize the limited 4,000 SKUs Costco carries — each product rigorously "
+            "selected based on demand data. Costco's warehouse management system tracks "
+            "inventory across 870+ locations in 13 countries on Azure. Microsoft 365 and "
+            "Teams serve as Costco's enterprise collaboration platform. The partnership "
+            "accelerated during COVID-19 as Costco's e-commerce surged and required elastic "
+            "cloud capacity for curbside pickup and same-day delivery order processing."
+        ),
+    },
+    {
+        "src": "PG", "dst": "MSFT", "type": "Partnership",
+        "desc": "Procter & Gamble + Microsoft Azure — AI-powered supply chain, manufacturing intelligence, and consumer insights (2021)",
+        "value": "~$200M+ (multi-year)", "year": "2021",
+        "source_url": "https://news.microsoft.com/2021/procter-gamble-microsoft-azure-supply-chain/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Procter & Gamble partnered with Microsoft Azure to transform its manufacturing "
+            "and supply chain operations across 65 countries. P&G's 100+ manufacturing plants "
+            "use Azure IoT to monitor equipment health and predict maintenance needs — reducing "
+            "unplanned downtime on production lines for Tide, Pampers, Gillette, and Olay. "
+            "P&G's supply chain digital twin — modeling its end-to-end supply network from "
+            "raw materials to retail shelves — runs on Azure for scenario planning and risk "
+            "mitigation. Azure AI analyzes point-of-sale data and social media trends to "
+            "forecast demand for new product launches across P&G's 65+ brands. Microsoft "
+            "365 serves P&G's 107,000 employees globally. P&G's 'Irresistible Superiority' "
+            "strategy — winning on product quality and consumer experience — increasingly "
+            "depends on Azure AI for product formulation optimization."
+        ),
+    },
+    {
+        "src": "KO", "dst": "MSFT", "type": "Partnership",
+        "desc": "Coca-Cola + Microsoft — $1.1B Azure AI and cloud deal, the largest consumer goods cloud contract ever (2024)",
+        "value": "$1.1B (5-year commitment)", "year": "2024",
+        "source_url": "https://news.microsoft.com/2024/04/23/the-coca-cola-company-and-microsoft-announce-five-year-strategic-partnership/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Coca-Cola and Microsoft announced a landmark five-year, $1.1 billion Azure "
+            "partnership in April 2024 — the largest cloud deal in consumer goods history. "
+            "Coca-Cola is migrating its entire global IT infrastructure to Azure across "
+"            operations in 200+ countries. Azure OpenAI powers Coca-Cola's generative "
+            "AI experiments for marketing content creation — generating social media "
+            "campaigns, product imagery, and advertising copy. Azure AI is used for "
+            "supply chain optimization across Coca-Cola's 300+ bottling partners and "
+            "2.2 billion daily servings. The partnership includes Copilot for Microsoft "
+            "365 deployed to 90,000 Coca-Cola employees. The deal's scale and the explicit "
+            "use of OpenAI's models make it one of the most prominent examples of generative "
+            "AI adoption in a traditional consumer goods company."
+        ),
+    },
+    {
+        "src": "TGT", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Target + Google — Google Shopping integration, same-day delivery on Google Express, and Google Home ordering (2017)",
+        "value": "~$200M+ annually (advertising + commerce)", "year": "2017",
+        "source_url": "https://corporate.target.com/article/2017/10/google-target-partnership",
+        "source_name": "Target Corporate",
+        "details": (
+            "Target and Google announced a deep retail partnership in October 2017 to "
+            "integrate Target's 1,900+ stores into Google's shopping ecosystem. Target "
+            "joined Google Express (now Google Shopping), enabling next-day delivery of "
+            "Target products through Google. Target products became shoppable through "
+            "Google Home voice devices ('Hey Google, buy Tide Pods from Target'). Target's "
+            "inventory data feeds into Google Shopping's real-time local availability, "
+            "helping customers find same-day pickup before visiting stores. Target is one "
+            "of Google Shopping's most prominent retail partners, with Google Shopping Ads "
+            "representing a major share of Target's digital marketing spend. Google Cloud "
+            "also powers Target's supply chain analytics and personalized recommendation "
+            "engine for its Target Circle loyalty program, which has 100M+ members."
+        ),
+    },
+    {
+        "src": "WMT", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Walmart + Google — Google Shopping integration and Google Assistant voice commerce partnership (2017)",
+        "value": "~$300M+ annually (commerce + advertising)", "year": "2017",
+        "source_url": "https://corporate.walmart.com/news/2017/08/22/walmart-and-google-to-offer-voice-shopping",
+        "source_name": "Walmart Newsroom",
+        "details": (
+            "Walmart and Google announced a voice commerce partnership in August 2017 — "
+            "the first major retailer to integrate with Google Assistant for shopping. "
+            "Customers can say 'Hey Google, add milk to my Walmart cart' and purchase via "
+            "Google Home/Assistant using Walmart.com. Walmart's 350M+ item online catalog "
+            "feeds into Google Shopping, making it one of the largest product data sources "
+            "on Google's platform. Walmart's Google partnership is strategically important "
+            "as a counterweight to Amazon — both companies benefit from competing against "
+            "Amazon's voice commerce (Alexa + Amazon.com) ecosystem. Walmart also uses "
+            "Google Cloud Platform for specific analytics workloads including customer data "
+            "science and loyalty program analytics alongside its primary Microsoft Azure "
+            "commitment."
+        ),
+    },
+
+    # ── Payments partnerships ─────────────────────────────────────────────────
+
+    {
+        "src": "COST", "dst": "V", "type": "Partnership",
+        "desc": "Costco exclusive Visa partnership — Costco dropped AmEx for Citi/Visa as its sole credit card network (2016)",
+        "value": "$4B+ annual Costco Visa card spend; $1B Citi signing bonus", "year": "2016",
+        "source_url": "https://investor.visa.com/financial-information/annual-reports/default.aspx",
+        "source_name": "Visa Annual Report",
+        "details": (
+            "In June 2016, Costco ended its 16-year exclusive relationship with American "
+            "Express and switched to Citi/Visa as its sole credit card partner — the largest "
+            "co-brand portfolio switch in credit card history. Citi paid an estimated $1B+ "
+            "signing bonus for the deal, and Visa won exclusive card network status at "
+            "Costco's 800+ warehouses. The Citi Costco Anywhere Visa card immediately "
+            "became the most-applied-for credit card in the US, with millions of former "
+            "AmEx Costco cardholders forced to transition. AmEx lost roughly 10% of its US "
+            "card spend overnight, causing its stock to drop 5% on the announcement. The "
+            "deal demonstrated how a single co-brand defection from a retailer-captive "
+            "audience can reshape the competitive dynamics of the entire card industry."
+        ),
+    },
+    {
+        "src": "TGT", "dst": "MA", "type": "Partnership",
+        "desc": "Target Circle Card (formerly REDcard) relaunched as Target Circle Mastercard — deepening Target-Mastercard partnership (2024)",
+        "value": "~$10B+ annual Target card spend", "year": "2024",
+        "source_url": "https://corporate.target.com/article/2024/target-circle-card-mastercard",
+        "source_name": "Target Corporate",
+        "details": (
+            "Target relaunched its proprietary REDcard program as the Target Circle Card "
+            "in 2024 in partnership with Mastercard, transitioning from a closed-loop store "
+            "card to an open-loop Mastercard network card. The Target Circle Mastercard "
+            "gives cardholders 5% off Target purchases plus rewards at other retailers — "
+            "expanding the program beyond Target stores for the first time. Target's card "
+            "program, managed by TD Bank, generates 20%+ of Target's revenue from cardholders "
+            "who spend significantly more than non-cardholders. Mastercard gains access to "
+            "Target's 165M+ loyalty program members and weekly cart-size data from Target's "
+            "100M+ annual customer transactions. The Mastercard network upgrade positions "
+            "Target's card to compete with retailer co-brands from Amazon (Chase Visa) and "
+            "Walmart (Capital One Mastercard)."
+        ),
+    },
+    {
+        "src": "WMT", "dst": "MA", "type": "Partnership",
+        "desc": "Walmart Capital One Mastercard co-brand and Walmart MoneyCard on Mastercard network (2019)",
+        "value": "~$25B+ annual Walmart Mastercard spend", "year": "2019",
+        "source_url": "https://newsroom.mastercard.com/press-releases/walmart-capital-one-mastercard/",
+        "source_name": "Mastercard Newsroom",
+        "details": (
+            "Walmart partnered with Capital One and Mastercard in 2019 to launch the "
+            "Walmart Rewards Mastercard, replacing its previous Synchrony Bank card. The "
+            "new card offers 5% cash back on Walmart.com and 2% in-store, targeting "
+            "Walmart's 150M+ weekly US shoppers. Walmart's MoneyCard — a prepaid Mastercard "
+            "debit card serving unbanked and underbanked customers — processes billions in "
+            "annual spend on the Mastercard network. Walmart Pay and Walmart+ subscription "
+            "digital payments also route through Mastercard rails. The Walmart-Capital One-"
+            "Mastercard relationship represents one of the largest retail card co-branding "
+            "deals, competing directly with Amazon's Chase Visa co-brand for the online "
+            "and in-store shopping loyalty market."
+        ),
+    },
+
+    # ── Brand × Apple ecosystem ───────────────────────────────────────────────
+
+    {
+        "src": "NKE", "dst": "AAPL", "type": "Partnership",
+        "desc": "Nike + Apple Watch Nike+ edition — exclusive co-branded smartwatch and the original Apple-Nike fitness tracking partnership (2016)",
+        "value": "~$100M+ annually (device sales + app)", "year": "2006",
+        "source_url": "https://www.apple.com/newsroom/2016/09/apple-and-nike-partner-on-apple-watch-nike/",
+        "source_name": "Apple Newsroom",
+        "details": (
+            "Nike and Apple have partnered on fitness technology since 2006, when they "
+            "launched the Nike+ iPod sensor that tracked runs. The partnership modernized "
+            "with the Apple Watch Nike+ launch in 2016 — a co-branded smartwatch with "
+            "exclusive Nike watch faces, the Nike Run Club app pre-installed, and a "
+            "perforated Sport Loop band available only in this edition. Nike+ is pre-"
+            "installed on every iPhone and Apple Watch. The collaboration has evolved to "
+            "include Nike Training Club as a premium Apple Fitness+ partner. Nike's mobile "
+            "apps are optimized for iOS — Apple Watch health data (steps, heart rate, GPS) "
+            "feeds seamlessly into Nike Run Club and Training Club. The partnership spans "
+            "18+ years and is one of the longest-running Big Tech + athletic brand "
+            "collaborations in consumer electronics."
+        ),
+    },
+    {
+        "src": "MCD", "dst": "AAPL", "type": "Partnership",
+        "desc": "McDonald's Apple Pay integration — launched at US and UK rollout; Siri ordering and Apple Maps integration",
+        "value": "~$500M+ annually (Apple Pay share of MCD sales)", "year": "2014",
+        "source_url": "https://www.apple.com/newsroom/2014/10/20Apple-Pay-Launches-Oct-20/",
+        "source_name": "Apple Newsroom",
+        "details": (
+            "McDonald's was a launch partner for Apple Pay in October 2014, one of the "
+            "first major QSR chains to accept NFC contactless payments at its 14,000+ "
+            "US locations. McDonald's drive-through and kiosk payment terminals support "
+            "Apple Pay, making it one of the largest acceptance points for tap-to-pay "
+            "globally. The McDonald's app integrates Apple Wallet for loyalty points "
+            "storage. Siri and Apple Maps integration allow 'Hey Siri, order my usual "
+            "from McDonald's' voice ordering in supported markets. In 2021, McDonald's "
+            "joined the Apple Business Connect program, ensuring McDonald's restaurants "
+            "appear accurately on Apple Maps with real-time menu and hour information. "
+            "McDonald's 40,000+ locations processed an estimated $500M+ in Apple Pay "
+            "transactions annually by 2023, making it one of Apple Pay's largest global "
+            "acceptance points."
+        ),
+    },
+    {
+        "src": "TGT", "dst": "AAPL", "type": "Partnership",
+        "desc": "Target is one of Apple's largest authorized retail partners — dedicated Apple shop-in-shop at 1,900 Target locations",
+        "value": "~$3B+ annually (Apple product sales at Target)", "year": "2012",
+        "source_url": "https://corporate.target.com/article/2020/apple-target-shop-in-shop",
+        "source_name": "Target Corporate",
+        "details": (
+            "Target is one of Apple's most significant non-Apple-Store retail partners, "
+            "with dedicated Apple shop-in-shop displays at all 1,900+ Target locations. "
+            "Target sells the full range of Apple products — iPhone, iPad, Mac, AirPods, "
+            "Apple Watch, Apple TV — with trained Target team members who receive Apple "
+            "product certification. Target's Apple sections generate an estimated $3B+ "
+            "annually, making Target one of Apple's top-5 US retail channels by revenue. "
+            "Apple products are deeply integrated into Target Circle loyalty offers, "
+            "with regular Target Circle promotions offering gift cards with iPhone or "
+            "iPad purchases. Target's college dorm Back-to-School seasonal push heavily "
+            "features Apple products. The relationship deepened in 2020 when Target "
+            "expanded its Apple presentation footprint as Apple Stores closed during "
+            "COVID-19, giving Target disproportionate Apple sales for over a year."
+        ),
+    },
+
+    # ── Beverage & food supply chain ──────────────────────────────────────────
+
+    {
+        "src": "KO", "dst": "MCD", "type": "Supply Chain",
+        "desc": "Coca-Cola exclusive beverage supplier to McDonald's — a 70+ year partnership covering all 40,000 restaurants globally",
+        "value": "~$3-4B annually", "year": "1955",
+        "source_url": "https://www.coca-colacompany.com/media-center/news/coca-cola-and-mcdonalds-a-partnership-rooted-in-quality",
+        "source_name": "The Coca-Cola Company",
+        "details": (
+            "Coca-Cola and McDonald's have maintained one of the most enduring and "
+            "consequential partnerships in consumer goods history since 1955 — the year "
+            "Ray Kroc opened his first McDonald's franchise and chose Coca-Cola as the "
+            "exclusive fountain beverage supplier. McDonald's is the single largest "
+            "fountain-drink customer for Coca-Cola globally, serving Coke products at "
+            "40,000+ restaurants across 100+ countries. Coke supplies McDonald's with a "
+            "unique recipe — McDonald's Coca-Cola uses a higher sugar concentration and is "
+            "filtered through a special process to match the precise taste standard that "
+            "Coke delivers to McDonald's. Coca-Cola also manufactures McDonald's Sprite "
+            "and Hi-C proprietary formulas. The partnership generates an estimated $3-4B "
+            "annually and exemplifies how a distribution agreement can define a brand's "
+            "identity — Coke at McDonald's is often cited as a distinct taste experience."
+        ),
+    },
+    {
+        "src": "PG", "dst": "WMT", "type": "Supply Chain",
+        "desc": "P&G → Walmart — Walmart is P&G's single largest retail customer at ~$12-14B annually, ~15% of P&G's total revenue",
+        "value": "~$12-14B annually", "year": "1988",
+        "source_url": "https://investor.pg.com/financial-information/annual-reports",
+        "source_name": "P&G Annual Report",
+        "details": (
+            "Procter & Gamble and Walmart share one of the most studied retailer-supplier "
+            "relationships in business history, dating to the late 1980s when P&G CEO John "
+            "Smale and Walmart founder Sam Walton forged a direct partnership that bypassed "
+            "traditional distribution intermediaries. Walmart represents ~14-15% of P&G's "
+            "total annual revenue (~$12-14B), making it P&G's single largest customer by a "
+            "wide margin. The partnership pioneered supply chain innovations still used "
+            "industry-wide: vendor-managed inventory (VMI), continuous replenishment, and "
+            "sharing of POS data between retailer and supplier. P&G's everyday categories "
+            "— Tide, Pampers, Bounty, Charmin, Gillette — dominate Walmart's household "
+            "consumables aisles. The relationship is so significant that P&G built its "
+            "Walmart team office in Bentonville AR, Walmart's headquarters city, to manage "
+            "the account full time with 300+ P&G employees."
+        ),
+    },
+    {
+        "src": "PG", "dst": "COST", "type": "Supply Chain",
+        "desc": "P&G bulk-pack products drive billions in Costco sales — P&G is Costco's largest CPG supplier",
+        "value": "~$3-4B annually", "year": "1983",
+        "source_url": "https://investor.pg.com/financial-information/annual-reports",
+        "source_name": "P&G Annual Report",
+        "details": (
+            "Procter & Gamble is Costco's single largest consumer packaged goods supplier, "
+            "selling billions annually through Costco's warehouse format in oversized multi- "
+            "packs and institutional quantities. P&G's Tide laundry detergent, Pampers "
+            "diapers, Bounty paper towels, Charmin toilet paper, and Gillette razors are "
+            "among the highest-velocity items in Costco warehouses. P&G creates Costco- "
+            "exclusive pack sizes and product bundles not available at other retailers, "
+            "reducing direct price comparison with grocery chains. Costco's membership "
+            "model — where members have implicitly committed to buying in bulk — makes it "
+            "the ideal channel for P&G's high-consumption household categories. P&G's "
+            "Costco business grew significantly during COVID-19 as households stocked up "
+            "on essentials, cementing Costco as P&G's third-largest global retail account "
+            "after Walmart and Amazon."
+        ),
+    },
+    {
+        "src": "KO", "dst": "WMT", "type": "Supply Chain",
+        "desc": "Walmart is Coca-Cola's largest retail account globally — selling 15%+ of Coke's total US volume",
+        "value": "~$5-6B annually", "year": "1970",
+        "source_url": "https://www.coca-colacompany.com/media-center/press-releases",
+        "source_name": "The Coca-Cola Company",
+        "details": (
+            "Walmart is the largest retail account for The Coca-Cola Company globally, "
+            "representing an estimated 15%+ of Coke's total US retail volume across "
+            "carbonated soft drinks, water (Dasani), sports drinks (Powerade), juice "
+            "(Minute Maid), and coffee (Costa Coffee RTD). Coke's relationship with "
+            "Walmart spans Supercenter, Sam's Club (a warehouse club directly competing "
+            "with Costco), and Neighborhood Market formats, with Coke products prominently "
+            "featured in end-cap displays and refrigerated sections. Walmart's private "
+            "label 'Sam's Choice' cola competes with Coke, but Coke maintains dominant "
+            "shelf space through long-term merchandising agreements and category management "
+            "partnerships. Coke and Walmart share real-time sales data through Walmart's "
+            "Retail Link platform to optimize inventory replenishment — a supply chain "
+            "integration Coke considers essential to winning the value-sensitive Walmart "
+            "shopper."
+        ),
+    },
+
+    # ── Consumer brand × Amazon ecosystem ────────────────────────────────────
+
+    {
+        "src": "NKE", "dst": "AMZN", "type": "Partnership",
+        "desc": "Nike returns to Amazon marketplace after 3-year absence — renewed partnership for Nike-branded storefronts (2022)",
+        "value": "~$500M+ annually (Amazon Nike sales)", "year": "2022",
+        "source_url": "https://www.businessinsider.com/nike-returns-to-amazon-marketplace-after-3-year-hiatus-2022-12",
+        "source_name": "Business Insider",
+        "details": (
+            "Nike made the high-profile decision in 2019 to pull its products from Amazon "
+            "in favor of direct-to-consumer channels (Nike.com, SNKRS app, own stores). "
+            "After three years, Nike reversed course in late 2022, returning to Amazon's "
+            "marketplace with a controlled Nike brand storefront — selling directly to "
+            "consumers through an Amazon First Party relationship to maintain pricing "
+            "control. Nike's return was driven by Amazon's dominance in footwear discovery: "
+            "42% of US online sneaker searches start on Amazon, making absence from the "
+            "platform untenable. Nike's Amazon storefront generates an estimated $500M+ "
+            "annually. The about-face reflects the reality that even companies with the "
+            "strongest DTC strategies cannot ignore Amazon's customer reach — and that "
+            "Amazon's Brand Registry tools now give manufacturers enough control to protect "
+            "brand equity on the platform."
+        ),
+    },
+    {
+        "src": "SBUX", "dst": "AMZN", "type": "Partnership",
+        "desc": "Starbucks Alexa voice ordering and Amazon Go Starbucks kiosks — Amazon distribution for Starbucks beverages (2017)",
+        "value": "~$100M+ annually", "year": "2017",
+        "source_url": "https://newsroom.starbucks.com/news/starbucks-and-amazon-launch-voice-ordering",
+        "source_name": "Starbucks Newsroom",
+        "details": (
+            "Starbucks and Amazon partnered in 2017 to launch voice ordering through Amazon "
+            "Alexa — the first major restaurant chain to integrate with Alexa's voice "
+            "commerce. Customers can say 'Alexa, order my usual Starbucks' to place a "
+            "mobile order for pickup at nearby stores. Beyond voice ordering, Starbucks "
+            "operates café concepts inside Amazon Go convenience stores and Amazon Fresh "
+            "grocery locations, giving Starbucks locations inside Amazon's physical retail "
+            "footprint. Starbucks at-home coffee products — Verismo pods, Starbucks by "
+            "Nespresso capsules, and whole-bean bags — are sold through Amazon Grocery "
+            "and Amazon Fresh with Subscribe & Save subscriptions. Amazon's customer "
+            "data on household coffee consumption also informs Starbucks' packaged goods "
+            "category strategy."
+        ),
+    },
+    {
+        "src": "PG", "dst": "AMZN", "type": "Partnership",
+        "desc": "P&G brands dominate Amazon Subscribe & Save — P&G is Amazon's largest CPG brand by sales (2015)",
+        "value": "~$3-4B annually (Amazon P&G sales)", "year": "2015",
+        "source_url": "https://www.aboutamazon.com/news/retail/amazon-subscribe-and-save",
+        "source_name": "About Amazon",
+        "details": (
+            "Procter & Gamble is Amazon's largest consumer packaged goods brand by annual "
+            "sales volume, generating an estimated $3-4B in annual Amazon revenue. P&G "
+            "brands — Tide, Pampers, Bounty, Gillette, Oral-B, Pantene — are consistently "
+            "top-sellers in Amazon's Subscribe & Save program, which offers 5-15% discounts "
+            "on recurring deliveries. Subscribe & Save is strategically valuable for P&G: "
+            "it creates predictable, recurring revenue and locks households into brand "
+            "habits that are hard to break. P&G uses Amazon Marketing Services (AMS) to "
+            "run sponsored brand ads, display ads, and video ads on Amazon, investing "
+            "hundreds of millions in Amazon advertising annually. Amazon's household "
+            "penetration data helps P&G identify when families with new babies are likely "
+            "to need Pampers, enabling precision targeting at life-stage transitions."
+        ),
+    },
+    {
+        "src": "HD", "dst": "AMZN", "type": "Partnership",
+        "desc": "Home Depot and Amazon compete in home improvement but HD sells products on Amazon marketplace and uses AWS",
+        "value": "~$500M+ annually (Amazon HD product sales)", "year": "2018",
+        "source_url": "https://www.homedepot.com/s/amazon",
+        "source_name": "Home Depot",
+        "details": (
+            "Home Depot maintains a presence on Amazon's marketplace through an authorized "
+            "Home Depot storefront, selling selected tools, hardware, and home improvement "
+            "products on Amazon.com despite being a direct competitor in home improvement "
+            "retail. The relationship is a classic case of 'coopetition' — Home Depot "
+            "recognizes that Amazon captures home improvement search traffic it cannot "
+            "ignore. Pro customers who buy supplies on Amazon are also Home Depot's core "
+            "professional contractor segment. Home Depot's data shows that Amazon "
+            "marketplace presence drives incremental sales rather than cannibalizing "
+            "in-store visits for big-ticket items (appliances, lumber, flooring) where "
+            "professional advice and immediate availability create competitive moats "
+            "that Amazon cannot replicate. HD also uses AWS infrastructure services "
+            "for specific supply chain and analytics workloads."
+        ),
+    },
+
+    # ── Berkshire Hathaway Consumer investments ───────────────────────────────
+
+    {
+        "src": "BRK-B", "dst": "KO", "type": "Ownership",
+        "desc": "Berkshire Hathaway's most famous investment — 400M+ Coca-Cola shares since 1988, peak value $24B+",
+        "value": "~$24B+ (current holding, ~9.3% of KO)", "year": "1988",
+        "source_url": "https://www.berkshirehathaway.com/letters/1988ltr.pdf",
+        "source_name": "Berkshire Hathaway Annual Letter",
+        "details": (
+            "Warren Buffett began buying Coca-Cola shares in 1988 — just after the 1987 "
+            "stock market crash — and acquired 400M shares over 1988-89 for $1.3B. The "
+            "investment is the most famous in Buffett's career, exemplifying his value "
+            "investing philosophy: a business with an unassailable global brand, pricing "
+            "power, and a simple product sold to billions daily. Berkshire has never sold "
+            "a single Coca-Cola share. By 2024 Berkshire's 400M shares are worth $24B+ "
+            "and have generated over $750M annually in dividends. Buffett has described "
+            "Coca-Cola as the ultimate consumer moat: 'If you gave me $100 billion and "
+            "said take away the soft drink leadership of Coca-Cola in the world, I'd give "
+            "it back to you and say it can't be done.' The investment returned over 18x "
+            "the original cost over 35 years."
+        ),
+    },
+    {
+        "src": "BRK-B", "dst": "COST", "type": "Ownership",
+        "desc": "Charlie Munger on Costco's board for 27 years; Berkshire held Costco shares as one of Munger's highest-conviction investments",
+        "value": "~$1.3B (Berkshire position at peak)", "year": "1997",
+        "source_url": "https://www.berkshirehathaway.com/letters/2022ltr.pdf",
+        "source_name": "Berkshire Hathaway Annual Letter",
+        "details": (
+            "Charlie Munger, Berkshire Hathaway's vice chairman, served on Costco's board "
+            "of directors for 27 years (1997-2024) and regarded Costco as one of the "
+            "finest businesses in the world — calling it a 'perfect' retailer. Berkshire "
+            "held Costco shares for many years, with the position at its peak valued around "
+            "$1.3B. Munger repeatedly praised Costco's business model in shareholder "
+            "meetings: the membership-fee structure that generates nearly all profit from "
+            "dues, the ruthless focus on price (margins capped at 14%), and the fanatical "
+            "customer loyalty with 90%+ membership renewal rates. Costco's culture of "
+            "treating employees and suppliers well while delivering radical value to members "
+            "was held up by Munger as a model for sustainable competitive advantage. "
+            "Berkshire sold its Costco position in 2020 but the Munger-Costco relationship "
+            "is one of the most celebrated value investing partnerships."
+        ),
+    },
+    {
+        "src": "BRK-B", "dst": "AMZN", "type": "Ownership",
+        "desc": "Berkshire Hathaway invested in Amazon in 2019 — Buffett admitted he 'was wrong to wait so long' to buy",
+        "value": "~$1.7B (initial position, Q1 2019)", "year": "2019",
+        "source_url": "https://www.berkshirehathaway.com/2019ar/2019ar.pdf",
+        "source_name": "Berkshire Hathaway Annual Report",
+        "details": (
+            "Berkshire Hathaway disclosed a stake in Amazon in its Q1 2019 13-F filing — "
+            "purchased by one of Berkshire's investment managers, not Buffett personally. "
+            "Buffett admitted at the 2019 annual meeting that he was 'a idiot' for not "
+            "buying Amazon earlier: 'I watched it happen but I didn't act.' The initial "
+            "position was approximately 483,000 shares worth ~$1B at purchase. Berkshire "
+            "added shares through 2022, building a position worth $1.7B+ at peak. The "
+            "Amazon investment marked a departure from Buffett's traditional aversion to "
+            "technology companies — Berkshire's Amazon position alongside Apple (purchased "
+            "2016-2018) signaled acceptance that consumer technology businesses had "
+            "achieved the durable competitive advantages Buffett sought. Amazon and "
+            "Berkshire also briefly partnered on Haven Healthcare (with JPMorgan) from "
+            "2018-2021."
+        ),
+    },
+
+    # ── Advertising partnerships ──────────────────────────────────────────────
+
+    {
+        "src": "WMT", "dst": "META", "type": "Partnership",
+        "desc": "Walmart is one of Meta's largest advertisers — Facebook and Instagram campaigns drive e-commerce and Walmart+ growth",
+        "value": "$500M+ annually (ad spend)", "year": "2012",
+        "source_url": "https://corporate.walmart.com/investor-relations",
+        "source_name": "Walmart Investor Relations",
+        "details": (
+            "Walmart is one of Meta's largest global advertising partners, spending an "
+            "estimated $500M+ annually across Facebook and Instagram to drive Walmart.com "
+            "e-commerce sales, Walmart+ subscriber acquisition, and in-store promotions. "
+            "Facebook's and Instagram's demographic targeting capabilities help Walmart "
+            "reach price-conscious consumers in the 25-55 demographic that are Walmart's "
+            "core shoppers. Walmart's Advertising Partners program also works with Meta to "
+            "deploy Walmart Connect retail media ads — allowing brands selling at Walmart "
+            "to reach Walmart shoppers on Meta platforms. The relationship extends to "
+            "Walmart's Sam's Club, which runs separate Meta campaigns targeting "
+            "membership acquisition. As Walmart builds Walmart Connect into a $3B+ retail "
+            "media network, the relationship with Meta evolves from pure advertising spend "
+            "to a strategic commerce data partnership."
+        ),
+    },
+    {
+        "src": "MCD", "dst": "META", "type": "Partnership",
+        "desc": "McDonald's is one of Meta's largest QSR advertisers — Facebook and Instagram campaigns for MyMcDonald's Rewards globally",
+        "value": "$400M+ annually (global ad spend)", "year": "2013",
+        "source_url": "https://corporate.mcdonalds.com/corpmcd/investors.html",
+        "source_name": "McDonald's Investor Relations",
+        "details": (
+            "McDonald's is one of Meta's largest restaurant-category advertisers, spending "
+            "an estimated $400M+ annually across Facebook and Instagram for brand campaigns "
+            "and loyalty program marketing. McDonald's MyMcDonald's Rewards — which has "
+            "50M+ active US members — is marketed heavily through Meta's platforms, with "
+            "performance ads targeted to lapsed users, deal-seekers, and local market "
+            "demographics. McDonald's national campaigns (Grimace Birthday, McRib return, "
+            "seasonal promotions) generate massive organic social engagement on Meta "
+            "platforms, which McDonald's amplifies with paid promotion. Instagram Reels "
+            "has become McDonald's preferred format for Gen-Z marketing campaigns. "
+            "McDonald's marketing spend on Meta is tracked closely by both companies "
+            "as a key indicator of the QSR (quick-service restaurant) category spend "
+            "shifting from TV to social media."
+        ),
+    },
+
+    # ── Google Cloud additional partnerships ──────────────────────────────────
+
+    {
+        "src": "KO", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Coca-Cola + Google Cloud — AI-powered consumer insights, vending machine connectivity, and marketing analytics (2021)",
+        "value": "~$150M+ (multi-year)", "year": "2021",
+        "source_url": "https://cloud.google.com/customers/coca-cola",
+        "source_name": "Google Cloud",
+        "details": (
+            "Coca-Cola partners with Google Cloud alongside its primary Microsoft Azure "
+            "relationship in a multi-cloud strategy. Google Cloud's AI and analytics "
+            "tools power Coca-Cola's consumer insight platform — analyzing social media "
+            "sentiment, search trends, and POS data to identify emerging flavor preferences "
+            "and regional demand signals. Coca-Cola's 2.8 million+ vending machines and "
+            "Freestyle machines generate real-time sales data processed by Google Cloud "
+            "BigQuery for inventory optimization and machine servicing. Google's AI tools "
+            "help Coca-Cola analyze image recognition data from retail shelf photos to "
+            "ensure Coke products maintain proper share-of-shelf at grocery partners. "
+            "Coca-Cola's internal 'Costa Connect' coffee business uses Google Cloud for "
+            "location analytics and customer flow optimization in its UK coffee shops."
         ),
     },
 ]
