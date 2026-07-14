@@ -1,6 +1,6 @@
 """Corporate network data — companies and relationships for the Network graph.
 
-181 corporate relationships across Technology, Communication Services,
+211 corporate relationships across Technology, Communication Services,
 Financial Services, and Healthcare sectors.  Every edge carries a verified
 public source link.
 Import NETWORK_COMPANIES, NETWORK_EDGES, EDGE_LOOKUP, SECTOR_COLORS, REL_COLORS.
@@ -69,6 +69,37 @@ NETWORK_COMPANIES: dict[str, dict] = {
     "SCHW":  {"name": "Charles Schwab",       "sector": "Financial Services",     "mktcap_b": 115},
     "CME":   {"name": "CME Group",            "sector": "Financial Services",     "mktcap_b": 80},
     "ICE":   {"name": "Intercontinental Exch.","sector": "Financial Services",    "mktcap_b": 75},
+    # ── Financial Services expansion ──────────────────────────────────────────
+    "NDAQ":  {"name": "Nasdaq Inc.",          "sector": "Financial Services",     "mktcap_b": 30},
+    "BK":    {"name": "BNY Mellon",           "sector": "Financial Services",     "mktcap_b": 40},
+    "STT":   {"name": "State Street",         "sector": "Financial Services",     "mktcap_b": 25},
+    "FIS":   {"name": "FIS",                  "sector": "Financial Services",     "mktcap_b": 35},
+    "FISV":  {"name": "Fiserv",               "sector": "Financial Services",     "mktcap_b": 70},
+    "ADP":   {"name": "ADP",                  "sector": "Financial Services",     "mktcap_b": 100},
+    "DFS":   {"name": "Discover Financial",   "sector": "Financial Services",     "mktcap_b": 30},
+    "PRU":   {"name": "Prudential Financial", "sector": "Financial Services",     "mktcap_b": 35},
+    "MET":   {"name": "MetLife",              "sector": "Financial Services",     "mktcap_b": 40},
+    "CB":    {"name": "Chubb",                "sector": "Financial Services",     "mktcap_b": 100},
+    "MSCI":  {"name": "MSCI Inc.",            "sector": "Financial Services",     "mktcap_b": 35},
+    "VRSK":  {"name": "Verisk Analytics",     "sector": "Financial Services",     "mktcap_b": 35},
+    "PGR":   {"name": "Progressive",          "sector": "Financial Services",     "mktcap_b": 120},
+    "AFL":   {"name": "Aflac",                "sector": "Financial Services",     "mktcap_b": 45},
+    "ALL":   {"name": "Allstate",             "sector": "Financial Services",     "mktcap_b": 40},
+    "USB":   {"name": "US Bancorp",           "sector": "Financial Services",     "mktcap_b": 70},
+    "PNC":   {"name": "PNC Financial",        "sector": "Financial Services",     "mktcap_b": 65},
+    "TFC":   {"name": "Truist Financial",     "sector": "Financial Services",     "mktcap_b": 45},
+    "SYF":   {"name": "Synchrony Financial",  "sector": "Financial Services",     "mktcap_b": 15},
+    "TROW":  {"name": "T. Rowe Price",        "sector": "Financial Services",     "mktcap_b": 20},
+    "GPN":   {"name": "Global Payments",      "sector": "Financial Services",     "mktcap_b": 25},
+    "CBOE":  {"name": "Cboe Global Markets",  "sector": "Financial Services",     "mktcap_b": 18},
+    "AIG":   {"name": "AIG",                  "sector": "Financial Services",     "mktcap_b": 50},
+    "HIG":   {"name": "Hartford Financial",   "sector": "Financial Services",     "mktcap_b": 25},
+    "IVZ":   {"name": "Invesco",              "sector": "Financial Services",     "mktcap_b": 7},
+    "BEN":   {"name": "Franklin Templeton",   "sector": "Financial Services",     "mktcap_b": 12},
+    "WU":    {"name": "Western Union",        "sector": "Financial Services",     "mktcap_b": 4},
+    "ALLY":  {"name": "Ally Financial",       "sector": "Financial Services",     "mktcap_b": 10},
+    "KEY":   {"name": "KeyCorp",              "sector": "Financial Services",     "mktcap_b": 15},
+    "RF":    {"name": "Regions Financial",    "sector": "Financial Services",     "mktcap_b": 20},
     # ── Healthcare ─────────────────────────────────────────────────────────────
     "UNH":  {"name": "UnitedHealth Group",    "sector": "Healthcare",             "mktcap_b": 450},
     "JNJ":  {"name": "Johnson & Johnson",     "sector": "Healthcare",             "mktcap_b": 380},
