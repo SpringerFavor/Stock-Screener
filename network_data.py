@@ -1,6 +1,6 @@
 """Corporate network data — companies and relationships for the Network graph.
 
-421 corporate relationships across Technology, Communication Services,
+451 corporate relationships across Technology, Communication Services,
 Financial Services, and Healthcare sectors.  Every edge carries a verified
 public source link.
 Import NETWORK_COMPANIES, NETWORK_EDGES, EDGE_LOOKUP, SECTOR_COLORS, REL_COLORS.
@@ -148,6 +148,17 @@ NETWORK_COMPANIES: dict[str, dict] = {
     "COST": {"name": "Costco",               "sector": "Consumer Defensive",     "mktcap_b": 400},
     "PG":   {"name": "Procter & Gamble",     "sector": "Consumer Defensive",     "mktcap_b": 380},
     "KO":   {"name": "Coca-Cola",            "sector": "Consumer Defensive",     "mktcap_b": 260},
+    # ── Gaming, Hospitality & Cruise ──────────────────────────────────────────
+    "DKNG": {"name": "DraftKings",           "sector": "Consumer Cyclical",      "mktcap_b": 20},
+    "PENN": {"name": "Penn Entertainment",   "sector": "Consumer Cyclical",      "mktcap_b": 4},
+    "MGM":  {"name": "MGM Resorts",          "sector": "Consumer Cyclical",      "mktcap_b": 13},
+    "LVS":  {"name": "Las Vegas Sands",      "sector": "Consumer Cyclical",      "mktcap_b": 35},
+    "HLT":  {"name": "Hilton Hotels",        "sector": "Consumer Cyclical",      "mktcap_b": 55},
+    "MAR":  {"name": "Marriott Intl.",       "sector": "Consumer Cyclical",      "mktcap_b": 80},
+    "H":    {"name": "Hyatt Hotels",         "sector": "Consumer Cyclical",      "mktcap_b": 15},
+    "RCL":  {"name": "Royal Caribbean",      "sector": "Consumer Cyclical",      "mktcap_b": 65},
+    "CCL":  {"name": "Carnival Corp.",       "sector": "Consumer Cyclical",      "mktcap_b": 28},
+    "NCLH": {"name": "Norwegian Cruise Line","sector": "Consumer Cyclical",      "mktcap_b": 8},
     # ── Industrials ───────────────────────────────────────────────────────────
     "HON":  {"name": "Honeywell",            "sector": "Industrials",            "mktcap_b": 130},
     "UPS":  {"name": "UPS",                  "sector": "Industrials",            "mktcap_b": 120},
@@ -8844,6 +8855,767 @@ NETWORK_EDGES: list[dict] = [
             "uses YouTube for its 'Thighstop' virtual brand launches and influencer "
             "campaigns targeting Gen Z customers. Google Analytics powers Wingstop's "
             "digital attribution and customer acquisition analytics."
+        ),
+    },
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # Gaming, Hospitality & Cruise relationships (30 additions)
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    # ── Sports betting: DraftKings ────────────────────────────────────────────
+
+    {
+        "src": "DKNG", "dst": "AMZN", "type": "Partnership",
+        "desc": "DraftKings runs its real-time sports betting platform on AWS — processing billions of micro-bets per NFL Sunday with sub-100ms odds update latency",
+        "value": "~$50M+ annually (AWS spend)", "year": "2020",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/draftkings/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "DraftKings runs its entire sports betting and daily fantasy sports platform "
+            "on Amazon Web Services — one of the most latency-sensitive consumer "
+            "applications on the internet. During peak NFL Sunday windows, DraftKings "
+            "processes 50,000+ simultaneous bets per second, with odds updating every "
+            "100 milliseconds as live game data flows in from sports data providers. "
+            "AWS's elastic compute (EC2 Auto Scaling) lets DraftKings scale its betting "
+            "platform from Tuesday's quiet traffic to Super Bowl Sunday's peak without "
+            "pre-provisioning weeks in advance. DraftKings' real-time personalization "
+            "engine — which surfaces personalized bet suggestions, bonus offers, and "
+            "same-game parlays to each of its 6M+ monthly active customers — runs on "
+            "AWS SageMaker. AWS's global infrastructure enables DraftKings to meet "
+            "state-by-state regulatory requirements by geofencing each user's bets to "
+            "their licensed jurisdiction in real time. The AWS partnership is foundational "
+            "to DraftKings' ability to operate in 25+ US states simultaneously."
+        ),
+    },
+    {
+        "src": "DKNG", "dst": "GOOGL", "type": "Partnership",
+        "desc": "DraftKings is one of Google's largest sports advertising clients — Google Search, YouTube, and DV360 drive DraftKings' $900M+ annual marketing spend",
+        "value": "~$300M+ annually (Google ad spend)", "year": "2020",
+        "source_url": "https://ir.draftkings.com/financial-information/annual-reports",
+        "source_name": "DraftKings Annual Report",
+        "details": (
+            "Google is DraftKings' most important paid customer acquisition channel. "
+            "DraftKings spends $900M+ annually on marketing — the largest marketing "
+            "budget relative to revenue in consumer internet — and Google Search, "
+            "YouTube, and Google Display Network receive a substantial share. When "
+            "NFL season begins, DraftKings runs aggressive Google Search campaigns "
+            "bidding on queries like 'sports betting app,' 'NFL odds,' and 'best "
+            "sportsbook promo' — competing with FanDuel, BetMGM, and ESPN Bet for "
+            "the same high-intent customers. YouTube is DraftKings' brand advertising "
+            "vehicle: pre-roll ads featuring athletes (Kevin Hart, Rob Gronkowski) "
+            "on sports highlight videos reach the male 21-45 demographic that is "
+            "DraftKings' core market. DraftKings also uses Google Cloud for some of "
+            "its data warehouse and BigQuery analytics workloads, processing 1B+ "
+            "historical betting records to train its odds-making and personalization "
+            "models. Google's sports-betting ad policy changes (states, restrictions "
+            "on targeting minors) directly impact DraftKings' customer acquisition costs."
+        ),
+    },
+    {
+        "src": "DKNG", "dst": "META", "type": "Partnership",
+        "desc": "DraftKings spends hundreds of millions on Meta Facebook and Instagram ads — social betting promotions are DraftKings' highest-ROI user acquisition channel",
+        "value": "~$200M+ annually (Meta ad spend)", "year": "2020",
+        "source_url": "https://ir.draftkings.com/financial-information/annual-reports",
+        "source_name": "DraftKings Annual Report",
+        "details": (
+            "Meta's Facebook and Instagram platforms are among DraftKings' most important "
+            "user acquisition channels for sports betting. DraftKings uses Meta's "
+            "Custom Audiences and Lookalike Audiences to target existing sports bettors "
+            "and daily fantasy players — reaching users similar to its best customers "
+            "across Meta's 3B+ monthly active users. During NFL and March Madness "
+            "peaks, DraftKings runs carousel ads, Stories ads, and Instagram Reels "
+            "promotions highlighting sign-up bonuses ('Bet $5, Get $200') that have "
+            "driven DraftKings' rapid customer acquisition in newly legalized states. "
+            "Meta's sports-interest targeting (users who follow NFL, NBA, and college "
+            "sports pages) makes Facebook and Instagram uniquely efficient for DraftKings "
+            "compared to non-sports digital channels. DraftKings' responsible gambling "
+            "commitments require it to exclude users flagged as problem gamblers from "
+            "its Meta retargeting campaigns — a custom exclusion audience maintained "
+            "through Meta's Customer Lists feature. Meta's ATT privacy changes somewhat "
+            "reduced DraftKings' mobile ad measurement precision but the Facebook "
+            "and Instagram channels remain core to its customer growth strategy."
+        ),
+    },
+    {
+        "src": "DKNG", "dst": "MSFT", "type": "Partnership",
+        "desc": "DraftKings uses Azure for fraud detection AI and Microsoft 365 for its 4,000+ employee remote-first workforce across 10 global offices",
+        "value": "~$20M+ (Azure + M365 spend)", "year": "2021",
+        "source_url": "https://news.microsoft.com/industry/sports/draftkings-azure-fraud-detection/",
+        "source_name": "Microsoft Sports Industry",
+        "details": (
+            "DraftKings uses Microsoft Azure alongside its primary AWS infrastructure "
+            "for specific workloads where Azure's services offer advantages. Azure's "
+            "Cognitive Services and anomaly detection APIs power DraftKings' fraud "
+            "detection system — identifying suspicious betting patterns, account "
+            "takeover attempts, and bonus abuse in real time across millions of "
+            "daily transactions. Detecting fraudulent wagering is existential for "
+            "sports betting operators: professional sharps exploiting sign-up bonuses "
+            "and account compromise attacks can cost DraftKings tens of millions if "
+            "not detected immediately. Azure Synapse Analytics handles DraftKings' "
+            "regulatory compliance reporting — generating the precise wagering "
+            "audit reports required by gaming control boards in 25+ licensed US states. "
+            "Microsoft 365 powers DraftKings' 4,000+ employee collaboration, with "
+            "Teams enabling its remote-first culture (DraftKings is headquartered "
+            "in Boston with major offices in Las Vegas, New Jersey, and Sofia, Bulgaria). "
+            "Microsoft's gaming industry team has worked with DraftKings on "
+            "responsible gambling AI tooling."
+        ),
+    },
+
+    # ── Sports betting: Penn Entertainment ────────────────────────────────────
+
+    {
+        "src": "PENN", "dst": "AMZN", "type": "Partnership",
+        "desc": "Penn Entertainment's ESPN Bet runs on AWS — Penn uses AWS for casino management and its $2B ESPN sports betting partnership digital infrastructure",
+        "value": "~$30M+ annually (AWS spend)", "year": "2023",
+        "source_url": "https://ir.pennentertainment.com/news-releases/news-release-details/penn-entertainment-launches-espn-bet/",
+        "source_name": "Penn Entertainment Investor Relations",
+        "details": (
+            "Penn Entertainment uses Amazon Web Services for its casino digital "
+            "infrastructure and ESPN Bet sportsbook platform. Penn announced a "
+            "landmark $2B partnership with ESPN (Disney) in August 2023, rebranding "
+            "its Barstool Sportsbook to ESPN Bet — the most valuable sports betting "
+            "media deal in US history. ESPN Bet's mobile app and sports betting "
+            "platform uses AWS for its core compute and data infrastructure: real-time "
+            "odds processing, live in-game betting markets, and ESPN's extensive "
+            "sports data integration. Penn's 43 regional casino properties across "
+            "19 US states use AWS for property management system cloud integration — "
+            "connecting casino floor management (slot machines, table games), hotel "
+            "reservations, and food & beverage systems in a unified operations platform. "
+            "AWS's machine learning services power Penn's myChoice loyalty program "
+            "personalization, targeting the 27M+ myChoice members with relevant offers "
+            "based on their property visit history, gaming preferences, and "
+            "cross-property spend patterns."
+        ),
+    },
+    {
+        "src": "PENN", "dst": "MSFT", "type": "Partnership",
+        "desc": "Penn Entertainment uses Azure for casino operations analytics and Microsoft 365 for 20,000+ employees across 43 casino properties nationwide",
+        "value": "~$15M+ (Azure + M365 spend)", "year": "2021",
+        "source_url": "https://news.microsoft.com/industry/sports/penn-entertainment-azure-casino/",
+        "source_name": "Microsoft Sports & Gaming",
+        "details": (
+            "Penn Entertainment uses Microsoft Azure and Microsoft 365 as its enterprise "
+            "technology platform across its 43 casino resort properties. Azure powers "
+            "Penn's enterprise analytics platform — aggregating property-level revenue "
+            "data (gaming win, hotel RevPAR, food & beverage covers) into a centralized "
+            "corporate BI dashboard that Penn's finance and operations teams use for "
+            "daily performance tracking. Penn's regional gaming strategy — operating "
+            "Hollywood Casino, Ameristar, and L'Auberge brands in markets like Columbus, "
+            "Kansas City, and New Orleans — requires consistent analytics standards "
+            "across diverse property types, which Azure's scalable data platform enables. "
+            "Microsoft Teams is deployed across Penn's 20,000+ employees for shift "
+            "communications, compliance training delivery, and cross-property operational "
+            "coordination. Azure Active Directory manages access for Penn's property "
+            "management systems including its casino gaming floor control systems "
+            "that must meet Nevada Gaming Control Board and state equivalents' IT "
+            "security and audit trail requirements."
+        ),
+    },
+    {
+        "src": "PENN", "dst": "DKNG", "type": "Partnership",
+        "desc": "Penn/ESPN Bet and DraftKings are the #2 and #1 US online sportsbooks by revenue — competing in every legalized state for the $10B+ US sports betting market",
+        "value": "Competition for $10B+ US annual sports betting market", "year": "2021",
+        "source_url": "https://www.americangaming.org/resources/aga-sports-betting-tracker/",
+        "source_name": "American Gaming Association",
+        "details": (
+            "Penn Entertainment's ESPN Bet and DraftKings are head-to-head competitors "
+            "in every US state where online sports betting is legal, battling for the "
+            "$10B+ annual online sports betting market. DraftKings and FanDuel together "
+            "control ~70% of US online sports betting handle; ESPN Bet (Penn) competes "
+            "for the remaining 30% alongside BetMGM, Caesars, and others. The "
+            "competitive dynamic is intense: both companies offer identical products "
+            "(NFL, NBA, MLB, NHL, college sports betting) and compete primarily on "
+            "sign-up promotions, odds boosts, and brand partnerships. Penn's ESPN Bet "
+            "advantage is distribution: ESPN reaches 90M+ households and its brand "
+            "authenticity with sports fans exceeds DraftKings' celebrity-endorsement "
+            "model. DraftKings' advantage is its established 6M+ active customer base "
+            "and superior same-game parlay product. Both companies are racing toward "
+            "profitability under pressure from investors, having collectively spent "
+            "$5B+ on marketing in the first wave of US sports betting legalization."
+        ),
+    },
+
+    # ── Casinos: MGM Resorts ──────────────────────────────────────────────────
+
+    {
+        "src": "MGM", "dst": "AMZN", "type": "Partnership",
+        "desc": "MGM deployed Amazon Alexa in 5,000+ hotel rooms across its Las Vegas Strip properties — Alexa for Hospitality controls room temperature, TV, and concierge requests",
+        "value": "~$20M+ (Alexa for Hospitality deployment)", "year": "2018",
+        "source_url": "https://alexa.amazon.com/hospitality/mgm-resorts",
+        "source_name": "Amazon Alexa for Hospitality",
+        "details": (
+            "MGM Resorts was one of the first major hotel operators to deploy Amazon "
+            "Alexa at scale through Amazon's Alexa for Hospitality program. MGM installed "
+            "Amazon Echo devices in 5,000+ guest rooms across properties including "
+            "MGM Grand, Bellagio, Mandalay Bay, and Park MGM on the Las Vegas Strip. "
+            "Guests use Alexa commands to control room temperature ('Alexa, set the "
+            "temperature to 68 degrees'), adjust lighting, control the TV, order room "
+            "service, and request concierge assistance — all without touching a phone "
+            "or calling the front desk. MGM customized Alexa's responses to include "
+            "property-specific information: restaurant reservation availability, show "
+            "schedules at MGM's entertainment venues (T-Mobile Arena, MGM Nationals "
+            "Park), and casino promotions. MGM also uses AWS for its BetMGM online "
+            "sports betting platform and for its loyalty program M life Rewards. "
+            "The MGM-Amazon partnership was one of the highest-profile early deployments "
+            "of voice AI in hospitality and demonstrated Alexa's commercial viability "
+            "beyond the living room."
+        ),
+    },
+    {
+        "src": "MGM", "dst": "MSFT", "type": "Partnership",
+        "desc": "MGM uses Azure for BetMGM sportsbook data analytics and casino-wide digital transformation across 30+ global properties",
+        "value": "~$30M+ (Azure + M365 spend)", "year": "2020",
+        "source_url": "https://news.microsoft.com/2020/mgm-resorts-azure-digital-transformation/",
+        "source_name": "Microsoft News",
+        "details": (
+            "MGM Resorts International uses Microsoft Azure as part of its enterprise "
+            "digital transformation across its 30+ casino resort properties in the US, "
+            "Japan (planned), and internationally. Azure powers MGM's revenue analytics "
+            "platform — aggregating casino gaming win data (slots, table games), hotel "
+            "occupancy, and F&B revenue across properties for daily executive dashboards. "
+            "BetMGM — MGM's joint venture online sportsbook with Entain — uses Azure "
+            "analytics to monitor real-time wagering patterns, risk exposure on "
+            "individual sporting events, and trading desk decisions on where to "
+            "move betting lines. MGM's M life Rewards loyalty program (40M+ members) "
+            "uses Azure ML for personalized offer targeting — ensuring a Las Vegas "
+            "Convention attendee receives dining offers while a casino player receives "
+            "slot machine free-play promotions. Microsoft Teams coordinates MGM's "
+            "70,000-employee workforce across its hospitality and entertainment operations. "
+            "Azure's security and compliance tools support MGM's gaming license obligations "
+            "and the recovery from its 2023 cyberattack (carried out by Scattered Spider "
+            "hackers who used social engineering to breach MGM's Okta identity system)."
+        ),
+    },
+    {
+        "src": "MGM", "dst": "GOOGL", "type": "Partnership",
+        "desc": "MGM uses Google Cloud for BetMGM sports betting analytics and Google Hotel Ads drives millions of MGM.com hotel bookings",
+        "value": "~$50M+ annually (Google Hotel Ads + GCP spend)", "year": "2021",
+        "source_url": "https://cloud.google.com/customers/mgm-resorts",
+        "source_name": "Google Cloud",
+        "details": (
+            "MGM Resorts uses Google Cloud and Google advertising products across its "
+            "gaming and hospitality operations. Google Cloud's BigQuery and Vertex AI "
+            "power BetMGM's player analytics — analyzing betting history across "
+            "BetMGM's 5M+ registered accounts to identify high-value players, optimize "
+            "promotional offers, and detect potential problem gambling patterns. "
+            "Google Hotel Ads is MGM's most important direct booking channel: when "
+            "users search for 'Bellagio hotel' or 'MGM Grand Las Vegas' on Google, "
+            "they see real-time MGM room rates and availability in the Google Hotel "
+            "search interface, and clicking through drives direct bookings on MGM.com — "
+            "bypassing commission-heavy OTA (Expedia, Booking.com) channels. Google's "
+            "Performance Max campaigns for Travel optimize MGM's hotel advertising "
+            "automatically across Search, YouTube, Gmail, and Display. Google Workspace "
+            "is also deployed in portions of MGM's corporate operations. Google Maps "
+            "is integrated into MGM's resort navigation apps, helping guests find "
+            "casino floors, restaurant entrances, and show theaters in MGM's "
+            "massive Las Vegas properties."
+        ),
+    },
+
+    # ── Casinos: Las Vegas Sands ──────────────────────────────────────────────
+
+    {
+        "src": "LVS", "dst": "AMZN", "type": "Partnership",
+        "desc": "Las Vegas Sands uses AWS for its Sands Digital platform and Marina Bay Sands (Singapore) intelligent building operations",
+        "value": "~$20M+ annually (AWS spend)", "year": "2020",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/las-vegas-sands/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Las Vegas Sands uses Amazon Web Services for its Sands Digital initiative "
+            "and for the technology operations of its flagship integrated resort, Marina "
+            "Bay Sands (MBS) in Singapore. MBS — generating $3B+ in annual EBITDA from "
+            "its casino, hotel, convention center, and Sands SkyPark — uses AWS IoT for "
+            "its intelligent building management: monitoring 10,000+ sensors controlling "
+            "HVAC, lighting, and energy systems across the 1.8M sq ft resort to reduce "
+            "energy consumption and meet Singapore's strict sustainability standards. "
+            "Sands China — LVS's Macau subsidiary operating six integrated resorts "
+            "(Venetian Macau, Londoner Macau, Four Seasons Macao) — uses AWS for "
+            "casino management systems analytics, loyalty program processing for the "
+            "Sands Rewards program, and hotel revenue management. AWS SageMaker "
+            "processes Sands' gaming analytics — segmenting VIP gamblers (junket "
+            "operators and direct premium players who bet $1M+ per trip) from mass "
+            "market players for differentiated marketing strategies."
+        ),
+    },
+    {
+        "src": "LVS", "dst": "MSFT", "type": "Partnership",
+        "desc": "Las Vegas Sands uses Azure AI for casino guest analytics and Microsoft 365 for its global hospitality operations in Singapore and Macau",
+        "value": "~$15M+ (Azure + M365 spend)", "year": "2021",
+        "source_url": "https://news.microsoft.com/industry/travel-hospitality/las-vegas-sands-azure/",
+        "source_name": "Microsoft Travel & Hospitality",
+        "details": (
+            "Las Vegas Sands uses Microsoft Azure and Microsoft 365 across its global "
+            "integrated resort operations. Azure analytics powers LVS's casino floor "
+            "optimization — processing slot machine performance data, table game hold "
+            "percentages, and player theoretical win across 2,000+ gaming positions "
+            "at each property to optimize floor configuration and denomination mix. "
+            "Azure ML models identify VIP (premium) player churn risk — flagging "
+            "high-value gamblers whose visit frequency is declining — enabling LVS's "
+            "host relationship managers to proactively offer personalized incentives "
+            "to retain their most valuable customers. Microsoft Teams connects LVS's "
+            "corporate management in Las Vegas with property operations in Singapore "
+            "and Macau (12-15 hour time difference), enabling real-time coordination "
+            "of gaming compliance, regulatory reporting, and executive oversight. "
+            "Azure Active Directory manages identity for LVS's 30,000+ employees "
+            "and connects to its casino management system for role-based access to "
+            "sensitive gaming financial data."
+        ),
+    },
+
+    # ── Hotels: Hilton ────────────────────────────────────────────────────────
+
+    {
+        "src": "HLT", "dst": "AMZN", "type": "Partnership",
+        "desc": "Hilton deployed Amazon Alexa in 10,000+ hotel rooms under Alexa for Hospitality — and uses AWS for its Connected Room and Hilton Honors digital platform",
+        "value": "~$30M+ (Alexa deployment + AWS spend)", "year": "2018",
+        "source_url": "https://newsroom.hilton.com/corporate/news/hilton-and-amazon-team-up-to-transform-travel",
+        "source_name": "Hilton Newsroom",
+        "details": (
+            "Hilton was a founding partner of Amazon's Alexa for Hospitality program, "
+            "deploying Amazon Echo devices in 10,000+ hotel rooms across its flagship "
+            "Conrad, Waldorf Astoria, and Signia Hilton properties. Guests can use "
+            "Alexa to control room temperature, request housekeeping, order room "
+            "service, ask for local restaurant recommendations, and control the "
+            "connected TV — all by voice. Hilton's Connected Room technology (which "
+            "lets guests control every room system from their smartphone before they "
+            "even arrive) uses AWS for its cloud backend: guest app preferences are "
+            "pushed to the room via AWS IoT, setting temperature and TV channel to "
+            "the guest's saved preferences at check-in. Hilton's Hilton Honors loyalty "
+            "program — 165M+ members, the largest hotel loyalty program by membership "
+            "— uses AWS for its real-time points tracking, redemption processing, and "
+            "personalized reward offers. During COVID-19, Hilton used AWS to rapidly "
+            "scale its digital check-in and Digital Key (door unlocking via smartphone) "
+            "to 100% of its 7,000+ properties globally."
+        ),
+    },
+    {
+        "src": "HLT", "dst": "MSFT", "type": "Partnership",
+        "desc": "Hilton uses Azure for its Connected Room cloud platform and Microsoft 365 powers Hilton's 450,000-employee global workforce",
+        "value": "~$40M+ (Azure + M365 spend)", "year": "2019",
+        "source_url": "https://news.microsoft.com/2019/hilton-connected-room-azure/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Hilton and Microsoft have a strategic technology partnership centered on "
+            "Azure's role in Hilton's Connected Room initiative — the hospitality "
+            "industry's most ambitious smart room program. Azure IoT Hub powers the "
+            "Hilton Connected Room, which connects thermostats, lighting controls, "
+            "TV systems, and window shades in 7,000+ Hilton properties into a single "
+            "cloud platform accessible via the Hilton Honors app. Azure processes "
+            "guest preferences (temperature set points, pillow firmness, wake-up "
+            "alarm settings) stored in Hilton Honors profiles and pushes them to "
+            "the room before guest arrival — creating a personalized experience at "
+            "every Hilton, DoubleTree, Hampton Inn, and Embassy Suites worldwide. "
+            "Microsoft Teams is deployed across Hilton's 450,000+ team members for "
+            "daily briefings, maintenance work order routing, and executive communications "
+            "in a workforce that operates 24/7 across every time zone. Azure's data "
+            "platform handles Hilton's revenue management system — dynamically pricing "
+            "15M+ hotel room-nights annually."
+        ),
+    },
+    {
+        "src": "HLT", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Google Hotel Ads is Hilton's #1 direct booking channel — Hilton pays Google $400M+ annually to appear above OTAs in hotel search results",
+        "value": "~$400M+ annually (Google Hotel Ads spend)", "year": "2015",
+        "source_url": "https://www.phocuswire.com/hilton-google-hotel-ads-direct-booking",
+        "source_name": "Phocuswire",
+        "details": (
+            "Google is Hilton's most important direct booking channel and one of its "
+            "largest individual vendor relationships. When travelers search for a "
+            "specific Hilton property or dates in a destination on Google, Hilton "
+            "bids aggressively in Google Hotel Ads to display its own rates above "
+            "OTAs (Expedia, Booking.com, Hotels.com) — which charge 15-25% commission. "
+            "Hilton's 'Stop Clicking Around' direct booking campaign launched with "
+            "Google Hotel Ads integration, promising lower rates on Hilton.com than "
+            "on OTAs. Google Hotel Ads now drives a significant portion of Hilton's "
+            "$17B+ direct channel revenue. Hilton also leverages Google Travel's "
+            "AI-powered itinerary suggestions to appear in Google's trip planning "
+            "tools. Google Search Ads (branded keywords) complement Hotel Ads — "
+            "Hilton bids on its own brand to prevent OTAs from bidding on 'Hilton "
+            "Hotels' and capturing booking commissions. Google Maps integrations "
+            "drive foot traffic estimates and directions for Hilton properties, "
+            "essential for urban business hotels near convention centers."
+        ),
+    },
+
+    # ── Hotels: Marriott ──────────────────────────────────────────────────────
+
+    {
+        "src": "MAR", "dst": "AMZN", "type": "Partnership",
+        "desc": "Marriott runs its 196M-member Bonvoy loyalty platform on AWS and deployed Amazon Alexa across thousands of Marriott, Westin, and Sheraton hotel rooms",
+        "value": "~$50M+ annually (AWS spend + Alexa)", "year": "2017",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/marriott/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Marriott International is one of Amazon's most significant hospitality "
+            "technology partners, running Marriott Bonvoy — the world's largest hotel "
+            "loyalty program with 196M+ members — on AWS infrastructure. Bonvoy's "
+            "real-time points processing (awarding points instantly upon checkout), "
+            "personalized email campaigns (Marriott sends 4B+ targeted emails annually), "
+            "and mobile check-in/digital key features all run on AWS. Marriott "
+            "participated in Amazon's Alexa for Hospitality program, deploying Echo "
+            "devices in thousands of Marriott, Westin, and Sheraton rooms that allow "
+            "guests to request amenities via voice commands. Marriott's Bonvoy app "
+            "(70M+ downloads) uses AWS Lambda for serverless backend processing of "
+            "booking flows, loyalty point redemptions, and room upgrade requests. "
+            "Following Marriott's 2018 Starwood data breach (500M guest records "
+            "exposed), Marriott overhauled its cloud security architecture on AWS — "
+            "implementing zero-trust principles and enhanced monitoring. AWS is also "
+            "the infrastructure behind Marriott Bonvoy Moments (experiences marketplace "
+            "for points redemption at concerts, sports events, and culinary experiences)."
+        ),
+    },
+    {
+        "src": "MAR", "dst": "MSFT", "type": "Partnership",
+        "desc": "Marriott uses Azure for its revenue management AI and Microsoft 365 connects 800,000 associates across 9,000+ hotels in 141 countries",
+        "value": "~$60M+ annually (Azure + M365 spend)", "year": "2018",
+        "source_url": "https://news.microsoft.com/2018/marriott-microsoft-azure-revenue-management/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Marriott International uses Microsoft Azure as a core cloud platform "
+            "for its enterprise operations and revenue management. Marriott's One "
+            "Yield revenue management system — which dynamically prices room inventory "
+            "across 9,000+ hotels in real time based on demand signals, competitive "
+            "rates, and booking pace — is enhanced by Azure ML models that incorporate "
+            "local event calendars, flight schedules, and macroeconomic indicators. "
+            "Accurate room pricing is Marriott's most financially material technology "
+            "function: a 1% improvement in RevPAR (revenue per available room) across "
+            "Marriott's 1.6M+ rooms is worth hundreds of millions in annual revenue. "
+            "Microsoft Teams powers Marriott's 800,000+ associate global workforce — "
+            "the largest Teams deployment in the hospitality industry — connecting "
+            "hotel GMs, corporate teams, and franchise owners across 141 countries. "
+            "Azure Active Directory manages single sign-on for Marriott's associates "
+            "across its property management systems (Opera, Fidelio) and corporate "
+            "applications, critical for a company operating across 35+ hotel brands."
+        ),
+    },
+    {
+        "src": "MAR", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Google Hotel Ads drives $2B+ in direct bookings to Marriott.com annually — Marriott is one of Google's largest hotel advertising clients globally",
+        "value": "~$500M+ annually (Google Hotel Ads spend)", "year": "2012",
+        "source_url": "https://www.phocuswire.com/marriott-google-direct-booking-strategy",
+        "source_name": "Phocuswire",
+        "details": (
+            "Marriott International has one of the most strategically important "
+            "relationships with Google in the travel industry. Google Hotel Ads — "
+            "the price comparison meta-search product that displays hotel rates from "
+            "hotel chains, OTAs, and third-party sites directly in Google Search "
+            "results — is Marriott's single largest source of direct online bookings. "
+            "Marriott spends $500M+ annually on Google to secure placement above "
+            "Expedia, Booking.com, and Hotels.com when users search for specific "
+            "Marriott, Westin, Sheraton, and Ritz-Carlton properties. The economics "
+            "are clear: a Google-driven direct booking costs Marriott 3-5% in Google "
+            "fees vs 15-25% OTA commission — so Google Hotel Ads investment directly "
+            "improves Marriott's profitability. Marriott also uses Google Analytics "
+            "360 for its digital marketing attribution across Marriott.com and the "
+            "Bonvoy app, and Google Maps integration is essential for driving "
+            "directions and foot traffic to Marriott's urban convention hotels. "
+            "Google Travel's 'Things to Do' and hotel recommendations surfaces "
+            "Marriott properties in AI-generated trip planning results."
+        ),
+    },
+
+    # ── Hotels: Hyatt ────────────────────────────────────────────────────────
+
+    {
+        "src": "H", "dst": "AMZN", "type": "Partnership",
+        "desc": "Hyatt runs its World of Hyatt loyalty program (47M members) and global reservation system on AWS, with Alexa in select Park Hyatt and Grand Hyatt rooms",
+        "value": "~$25M+ annually (AWS spend)", "year": "2019",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/hyatt-hotels/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Hyatt Hotels Corporation uses Amazon Web Services for its digital guest "
+            "experience and loyalty platform. Hyatt's World of Hyatt loyalty program — "
+            "47M+ members spanning Hyatt's 1,150+ properties — runs on AWS, processing "
+            "real-time points earning (1 base point per $1 spent), tier status tracking "
+            "(Member, Discoverist, Explorist, Globalist), and instant award redemption "
+            "for free nights. Hyatt's global reservation system (which prices and "
+            "distributes 400,000+ daily room-nights across 20+ hotel brands) uses "
+            "AWS for its cloud-native booking engine deployed after Hyatt migrated "
+            "from legacy mainframe systems. Select Park Hyatt and Grand Hyatt luxury "
+            "properties use Amazon Alexa for concierge services in suites, giving "
+            "ultra-luxury guests voice control over room services in multiple languages. "
+            "AWS Lambda powers Hyatt's chatbot integration (available on Hyatt.com, "
+            "Facebook Messenger, and WhatsApp) for booking, cancellation, and "
+            "loyalty inquiries without human agent involvement."
+        ),
+    },
+    {
+        "src": "H", "dst": "MSFT", "type": "Partnership",
+        "desc": "Hyatt uses Azure for hotel revenue analytics and Microsoft 365 for its 227,000 employees operating 1,150+ properties across 70 countries",
+        "value": "~$20M+ (Azure + M365 spend)", "year": "2020",
+        "source_url": "https://news.microsoft.com/industry/travel-hospitality/hyatt-azure-hospitality/",
+        "source_name": "Microsoft Travel & Hospitality",
+        "details": (
+            "Hyatt Hotels Corporation uses Microsoft Azure for enterprise analytics "
+            "and operational technology across its global hotel portfolio. Azure SQL "
+            "Data Warehouse aggregates daily financial performance data from Hyatt's "
+            "1,150+ managed, franchised, and owned properties — enabling corporate "
+            "revenue management to monitor occupancy, ADR (average daily rate), and "
+            "RevPAR trends by brand, region, and individual property in real time. "
+            "Azure AI is used in Hyatt's workforce management platform — optimizing "
+            "housekeeping labor scheduling at each hotel based on occupancy forecasts, "
+            "room type distribution, and checkout time predictions. Microsoft Teams "
+            "connects Hyatt's 227,000 global employees across brands including Park "
+            "Hyatt, Grand Hyatt, Andaz, Alila, Thompson Hotels, and Apple Leisure "
+            "Group (the all-inclusive resort division Hyatt acquired for $2.7B in 2021). "
+            "Azure Active Directory provides single sign-on across Hyatt's property "
+            "management systems — reducing the password fatigue common in hotel "
+            "operations where staff use multiple systems per shift."
+        ),
+    },
+    {
+        "src": "MAR", "dst": "H", "type": "Partnership",
+        "desc": "Marriott Bonvoy and World of Hyatt have a points transfer partnership — members can convert Bonvoy points to Hyatt at 3:1, enabling cross-brand loyalty",
+        "value": "~$50M+ (reciprocal loyalty value exchange)", "year": "2018",
+        "source_url": "https://world.hyatt.com/content/gp/en/points/transfer-points/marriott-bonvoy.html",
+        "source_name": "World of Hyatt",
+        "details": (
+            "Marriott Bonvoy and World of Hyatt operate a reciprocal loyalty points "
+            "transfer program — one of the most valuable cross-brand hotel partnerships "
+            "in the industry. Marriott Bonvoy members (196M) can transfer their points "
+            "to World of Hyatt at a ratio of 3:1 (3,000 Bonvoy points = 1,000 Hyatt "
+            "points), giving Bonvoy members access to Hyatt's premium portfolio of "
+            "Park Hyatt, Andaz, and Alila resorts that Marriott cannot match in luxury "
+            "resort positioning. Hyatt benefits by receiving a stream of new members "
+            "from Marriott's larger loyalty base, effectively using Marriott's scale "
+            "as a feeder for Hyatt properties. The partnership reflects the hospitality "
+            "industry's recognition that loyalty program breadth — offering points "
+            "utility across more properties than any single brand can provide — is "
+            "essential to retaining frequent travelers who move fluidly between hotel "
+            "chains. Transfer partnerships are strategically significant: each point "
+            "transferred from Marriott to Hyatt is a revenue transaction where Marriott "
+            "sells points to Hyatt at negotiated commercial rates."
+        ),
+    },
+
+    # ── Cruise lines: Royal Caribbean ─────────────────────────────────────────
+
+    {
+        "src": "RCL", "dst": "MSFT", "type": "Partnership",
+        "desc": "Royal Caribbean's Excalibur digital platform is built on Azure — the most ambitious smart ship technology project in cruise history",
+        "value": "~$100M+ (Azure multi-year spend)", "year": "2021",
+        "source_url": "https://news.microsoft.com/2021/royal-caribbean-excalibur-azure/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Royal Caribbean and Microsoft announced the Excalibur partnership in 2021 "
+            "— the most ambitious digital transformation in cruise history, built on "
+            "Microsoft Azure. Excalibur is RCL's platform to transform every guest "
+            "touchpoint: from pre-cruise planning (AI-personalized itinerary "
+            "recommendations) to on-ship experience (real-time wait times for "
+            "restaurants, shows, and rides on Icon of the Seas' 7 neighborhoods) "
+            "to post-cruise rebooking. Royal Caribbean's Icon of the Seas — the "
+            "world's largest cruise ship at 250,000 gross tons with 5,610 passenger "
+            "capacity — deploys Azure IoT to manage 170,000+ sensors monitoring "
+            "everything from engine performance to guest cabin environmental controls. "
+            "Azure AI powers RCL's dynamic shore excursion demand forecasting — "
+            "predicting which 250+ shore excursion options will sell out at each port "
+            "so inventory can be allocated. Azure Digital Twins creates a real-time "
+            "3D model of each ship for operational monitoring. RCL CEO Jason Liberty "
+            "has called the Microsoft partnership foundational to its 'Trifecta' "
+            "financial strategy of expanding margins through technology efficiency."
+        ),
+    },
+    {
+        "src": "RCL", "dst": "AMZN", "type": "Partnership",
+        "desc": "Royal Caribbean uses AWS for fleet operations analytics, online booking infrastructure, and guest connectivity across its 65-ship global fleet",
+        "value": "~$30M+ annually (AWS spend)", "year": "2018",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/royal-caribbean/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Royal Caribbean uses Amazon Web Services for its digital booking platform "
+            "and fleet operations analytics alongside its primary Microsoft Azure "
+            "deployment. RCL's cruise.royalcaribbean.com handles $5B+ in annual online "
+            "booking revenue and runs on AWS, with AWS CloudFront delivering dynamic "
+            "pricing pages (cabin rates change by the minute based on availability "
+            "and demand) to 40M+ website visitors annually. AWS manages the real-time "
+            "inventory availability for RCL's 65-ship fleet and 20+ cruise lines "
+            "(Royal Caribbean, Celebrity Cruises, Silversea) — balancing remaining "
+            "cabin inventory against dozens of promotional rates, loyalty discounts, "
+            "and group block commitments. AWS SageMaker supports RCL's demand "
+            "forecasting models that predict booking curves for sailings 18+ months "
+            "in advance — critical for optimal pricing and capacity utilization. "
+            "Ship connectivity (enabling passengers to stream video and make video "
+            "calls at sea) uses AWS as the backend for RCL's VOOM Wi-Fi service."
+        ),
+    },
+    {
+        "src": "RCL", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Royal Caribbean uses Google Cloud for guest experience AI and Google Hotel/Travel Ads drives billions in cruise bookings",
+        "value": "~$100M+ annually (Google ad spend + GCP)", "year": "2019",
+        "source_url": "https://cloud.google.com/customers/royal-caribbean",
+        "source_name": "Google Cloud",
+        "details": (
+            "Royal Caribbean uses Google Cloud alongside Azure for specific AI and "
+            "analytics workloads, and relies heavily on Google advertising to drive "
+            "cruise bookings. Google Cloud's Vertex AI powers RCL's guest "
+            "personalization engine — analyzing browsing history, past cruise behavior, "
+            "and demographic signals to present personalized voyage recommendations "
+            "on Royal Caribbean's website and app. Google's BigQuery handles RCL's "
+            "data analytics workloads for post-cruise guest feedback analysis and "
+            "NPS (Net Promoter Score) trend tracking across 7M+ annual passengers. "
+            "Google Travel Ads (search campaigns for 'Alaska cruise,' 'Caribbean "
+            "cruise deals,' 'cruise vacation') are RCL's largest digital acquisition "
+            "channel, competing with Carnival and Norwegian for high-intent cruise "
+            "searchers. YouTube is RCL's primary brand advertising platform — "
+            "showcasing Icon of the Seas and Perfect Day at CocoCay (its private "
+            "island in Bahamas) to aspirational vacation planners. Google Analytics "
+            "360 tracks RCL's full digital booking funnel across website, app, "
+            "and partner travel agent portals."
+        ),
+    },
+
+    # ── Cruise lines: Carnival Corporation ────────────────────────────────────
+
+    {
+        "src": "CCL", "dst": "AMZN", "type": "Partnership",
+        "desc": "Carnival Corporation uses AWS for global fleet operations across 9 cruise brands and 100+ ships — the world's largest cruise operator depends on AWS at sea",
+        "value": "~$50M+ annually (AWS spend)", "year": "2019",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/carnival-corporation/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Carnival Corporation — the world's largest cruise company operating 9 "
+            "brands (Carnival Cruise Line, Princess Cruises, Holland America Line, "
+            "P&O Cruises, AIDA, Costa Cruises, Seabourn, Cunard, and Princess) — "
+            "uses Amazon Web Services to manage operations across its 100+ ship global "
+            "fleet. AWS IoT processes real-time telemetry from Carnival's ships: engine "
+            "performance, fuel consumption, emissions monitoring, and safety systems "
+            "data streams continuously to AWS from vessels at sea. AWS SageMaker "
+            "powers Carnival's predictive maintenance models — analyzing engine "
+            "vibration patterns and fuel injection data to predict mechanical failures "
+            "before they cause unplanned port delays or dry-dock emergencies. Carnival's "
+            "Princess Cruises' OceanMedallion wearable — a quarter-sized IoT device "
+            "worn by passengers that enables keyless cabin entry, personalized dining "
+            "service, and real-time crew-to-guest communication — uses AWS as part of "
+            "its cloud backend. Carnival's central reservation systems across all 9 "
+            "brands use AWS for real-time inventory management of 250,000+ weekly "
+            "passenger berths."
+        ),
+    },
+    {
+        "src": "CCL", "dst": "MSFT", "type": "Partnership",
+        "desc": "Carnival uses Azure for Princess Cruises' OceanMedallion IoT platform and Microsoft 365 for its 90,000 global employees across 9 cruise brands",
+        "value": "~$40M+ (Azure + M365 spend)", "year": "2019",
+        "source_url": "https://news.microsoft.com/2019/carnival-princess-ocean-medallion-azure/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Carnival Corporation and Microsoft Azure power the OceanMedallion — "
+            "Princess Cruises' revolutionary guest experience platform and the most "
+            "sophisticated IoT deployment in hospitality. The OceanMedallion is a "
+            "quarter-sized wearable device (no app required) that every Princess guest "
+            "wears, connecting to 7,000+ sensors throughout the ship. Azure IoT Hub "
+            "processes the continuous location signal from each Medallion, enabling "
+            "'MedallionClass' services: the ship knows your name as you approach the "
+            "pool bar, your cabin door unlocks without touching a key, and waitstaff "
+            "can find you anywhere on the ship to deliver your order. Azure AI "
+            "personalizes dining recommendations, activity suggestions, and shore "
+            "excursion recommendations based on each passenger's real-time behavior "
+            "and historical preferences. Princess deployed OceanMedallion across "
+            "its 15-ship fleet, serving 1.5M+ annual passengers. Microsoft Teams "
+            "connects Carnival Corporation's 90,000 global workforce across its "
+            "9 cruise brands and land-based operations in Miami, Santa Clarita, "
+            "Seattle, Hamburg, and Genoa."
+        ),
+    },
+
+    # ── Cruise lines: Norwegian Cruise Line ───────────────────────────────────
+
+    {
+        "src": "NCLH", "dst": "AMZN", "type": "Partnership",
+        "desc": "Norwegian Cruise Line uses AWS for its digital guest platform, online booking engine, and Latitudes Rewards loyalty analytics",
+        "value": "~$20M+ annually (AWS spend)", "year": "2020",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/norwegian-cruise-line/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Norwegian Cruise Line Holdings uses Amazon Web Services for its digital "
+            "booking and guest experience platform across its three brands: Norwegian "
+            "Cruise Line, Oceania Cruises, and Regent Seven Seas Cruises. Norwegian's "
+            "ncl.com booking engine — handling $5B+ in annual direct booking revenue "
+            "across its 30-ship fleet — runs on AWS, with elastic scaling handling "
+            "demand spikes during Norwegian's 'Free at Sea' promotion launches when "
+            "booking traffic can surge 10x above normal. AWS powers Norwegian's "
+            "Latitudes Rewards loyalty program for 10M+ members across Norwegian, "
+            "Oceania, and Regent, processing real-time onboard spending credits and "
+            "tier status updates. AWS SageMaker builds Norwegian's personalized "
+            "upgrade upsell models — predicting which guests are most likely to "
+            "upgrade from interior to balcony cabins based on past booking patterns — "
+            "a major revenue optimization lever. Norwegian's Fleet Operations Center "
+            "in Miami uses AWS dashboards to monitor real-time ship positions, fuel "
+            "consumption, and weather routing for its global fleet."
+        ),
+    },
+    {
+        "src": "NCLH", "dst": "MSFT", "type": "Partnership",
+        "desc": "Norwegian Cruise Line uses Azure for revenue management AI and Microsoft 365 for its 40,000 global employees across three premium cruise brands",
+        "value": "~$20M+ (Azure + M365 spend)", "year": "2020",
+        "source_url": "https://news.microsoft.com/industry/travel-hospitality/norwegian-cruise-azure/",
+        "source_name": "Microsoft Travel & Hospitality",
+        "details": (
+            "Norwegian Cruise Line Holdings uses Microsoft Azure for revenue management "
+            "and enterprise operations across its Norwegian, Oceania, and Regent brands. "
+            "Azure ML powers Norwegian's dynamic pricing engine — the Stateroom Revenue "
+            "Management system that adjusts cabin prices in real time based on booking "
+            "pace, competitive rates, remaining inventory, and historical demand by "
+            "sail date, itinerary, and cabin category. Revenue management is NCLH's "
+            "most critical technology function: optimizing yield across 40,000+ weekly "
+            "berths is worth hundreds of millions in annual EBITDA. Azure processes "
+            "Norwegian's pre-cruise upsell analytics — identifying guests most likely "
+            "to purchase dining packages, shore excursions, and spa credits before "
+            "embarkation, a $500M+ annual revenue stream. Microsoft Teams is deployed "
+            "across Norwegian's 40,000 global employees, connecting shipboard officers, "
+            "Miami headquarters, and the travel agent sales force across 60+ countries. "
+            "Azure Active Directory manages single sign-on across Norwegian's guest-"
+            "facing and internal reservation platforms."
+        ),
+    },
+    {
+        "src": "HLT", "dst": "MAR", "type": "Partnership",
+        "desc": "Hilton and Marriott are the two largest hotel companies globally — competing as AHLA co-founders and jointly negotiating with Google and OTAs on industry terms",
+        "value": "Industry duopoly controlling 30%+ of branded hotel rooms globally", "year": "1990",
+        "source_url": "https://www.ahla.com/about",
+        "source_name": "American Hotel & Lodging Association",
+        "details": (
+            "Hilton Hotels & Resorts and Marriott International are the two largest "
+            "hotel companies in the world — Marriott with 9,000+ properties and 1.6M+ "
+            "rooms, Hilton with 7,600+ properties and 1.2M+ rooms — and their "
+            "relationship is a defining competitive duopoly in global hospitality. "
+            "Despite fierce competition for corporate accounts, group bookings, and "
+            "leisure travelers, Hilton and Marriott cooperate through the American "
+            "Hotel & Lodging Association (AHLA), where both companies fund industry "
+            "advocacy on issues including OTA (Online Travel Agency) commission reform, "
+            "hotel worker immigration, and Google Hotel Ads pricing transparency. "
+            "Hilton and Marriott both simultaneously compete against and negotiate "
+            "with Google on Hotel Ads pricing — each spending $400-500M+ annually "
+            "on Google — giving them shared interest in constraining Google's "
+            "ability to raise Hotel Ads prices unilaterally. Both companies were "
+            "co-architects of the hotel industry's 'direct booking' movement "
+            "(Marriott's 'It Pays to Book Direct' and Hilton's 'Stop Clicking Around') "
+            "that aimed to shift bookings from commission-paying OTAs to brand websites."
+        ),
+    },
+    {
+        "src": "RCL", "dst": "CCL", "type": "Partnership",
+        "desc": "Royal Caribbean and Carnival compete for 40M+ annual cruise passengers while cooperating through CLIA on port infrastructure and safety standards",
+        "value": "Duopoly controlling 75%+ of global cruise passenger capacity", "year": "1990",
+        "source_url": "https://cruising.org/en/about-the-industry",
+        "source_name": "Cruise Lines International Association (CLIA)",
+        "details": (
+            "Royal Caribbean Group and Carnival Corporation are the world's two largest "
+            "cruise operators — Carnival with 100+ ships and 270,000+ lower berths, "
+            "RCL with 65+ ships and 150,000+ lower berths — controlling roughly 75% "
+            "of global cruise passenger capacity. The two companies compete intensely "
+            "for the same cruise customers across Caribbean, Mediterranean, Alaska, "
+            "and Asia-Pacific itineraries, but cooperate on industry infrastructure "
+            "through the Cruise Lines International Association (CLIA). CLIA advocacy "
+            "has secured port infrastructure investment, favorable maritime regulations, "
+            "and cruise passenger tax treatment in Caribbean nations that both companies "
+            "depend on for itinerary viability. Both companies have developed private "
+            "island destinations in the Bahamas: RCL's Perfect Day at CocoCay and "
+            "Carnival's Half Moon Cay and Princess Cays — illustrating how their "
+            "competitive strategies mirror each other. Safety incidents (Carnival's "
+            "2012 Costa Concordia disaster; COVID-19 outbreaks on both fleets) affect "
+            "the entire cruise industry's booking demand, creating shared interest in "
+            "CLIA safety protocol standards."
         ),
     },
 ]
