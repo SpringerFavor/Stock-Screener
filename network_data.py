@@ -1,6 +1,6 @@
 """Corporate network data — companies and relationships for the Network graph.
 
-331 corporate relationships across Technology, Communication Services,
+361 corporate relationships across Technology, Communication Services,
 Financial Services, and Healthcare sectors.  Every edge carries a verified
 public source link.
 Import NETWORK_COMPANIES, NETWORK_EDGES, EDGE_LOOKUP, SECTOR_COLORS, REL_COLORS.
@@ -31,6 +31,13 @@ NETWORK_COMPANIES: dict[str, dict] = {
     "ACN":   {"name": "Accenture",           "sector": "Technology",             "mktcap_b": 190},
     "SNPS":  {"name": "Synopsys",            "sector": "Technology",             "mktcap_b": 80},
     "CDNS":  {"name": "Cadence Design Sys.", "sector": "Technology",             "mktcap_b": 65},
+    "KLAC":  {"name": "KLA Corporation",    "sector": "Technology",             "mktcap_b": 90},
+    "MRVL":  {"name": "Marvell Technology", "sector": "Technology",             "mktcap_b": 65},
+    "FTNT":  {"name": "Fortinet",           "sector": "Technology",             "mktcap_b": 60},
+    "PANW":  {"name": "Palo Alto Networks", "sector": "Technology",             "mktcap_b": 125},
+    "CRWD":  {"name": "CrowdStrike",        "sector": "Technology",             "mktcap_b": 90},
+    "ZS":    {"name": "Zscaler",            "sector": "Technology",             "mktcap_b": 32},
+    "OKTA":  {"name": "Okta",              "sector": "Technology",             "mktcap_b": 18},
     # ── Communication Services ────────────────────────────────────────────────
     "GOOGL": {"name": "Alphabet",            "sector": "Communication Services", "mktcap_b": 2200},
     "META":  {"name": "Meta Platforms",      "sector": "Communication Services", "mktcap_b": 1400},
@@ -6658,6 +6665,721 @@ NETWORK_EDGES: list[dict] = [
             "carriers (AT&T, Verizon, T-Mobile) that are AWS's Wavelength partners also "
             "lease tower space from AMT — creating an indirect AMT-Amazon relationship "
             "through shared carrier infrastructure."
+        ),
+    },
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # Mid-cap Technology relationships (30 additions)
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    # ── Semiconductor equipment: KLA Corporation ──────────────────────────────
+
+    {
+        "src": "KLAC", "dst": "TSM", "type": "Supply Chain",
+        "desc": "KLA process control and inspection tools are installed at every TSMC leading-edge fab — no N5/N3/N2 wafer ships without KLA metrology sign-off",
+        "value": "~$3-4B annually", "year": "1990",
+        "source_url": "https://ir.kla.com/news-releases/news-release-details/kla-corporation-reports-fiscal-2024-fourth-quarter-and-annual",
+        "source_name": "KLA Corporation IR",
+        "details": (
+            "KLA Corporation is TSMC's most critical process control supplier — providing "
+            "the wafer inspection, defect review, and metrology equipment that validates "
+            "every step of TSMC's leading-edge manufacturing process. At TSMC's N3 "
+            "(3-nanometer) and N2 nodes, where circuit features are just 2-3 atoms wide, "
+            "KLA's optical and e-beam inspection systems detect nanometer-scale particles "
+            "and pattern defects that would otherwise cause chip failures. TSMC uses KLA's "
+            "SURFSCAN SP7 unpatterned wafer inspection for incoming substrate quality "
+            "control, KLA's Puma broadband plasma inspection for patterned wafer defect "
+            "detection, and KLA's Archer overlay metrology tools to ensure 193nm "
+            "immersion and EUV lithography patterns align to atomic precision. KLA "
+            "captures ~50% of the global wafer process control market — and TSMC, as "
+            "the most technologically advanced foundry, requires more KLA tools per wafer "
+            "layer than any other customer. TSMC accounts for ~15% of KLA's annual revenue."
+        ),
+    },
+    {
+        "src": "KLAC", "dst": "INTC", "type": "Supply Chain",
+        "desc": "KLA inspection and metrology tools are central to Intel Foundry 18A process development — critical for Intel's advanced node recovery",
+        "value": "~$1-2B annually", "year": "1985",
+        "source_url": "https://www.intel.com/content/www/us/en/newsroom/news/intel-foundry-18a-process.html",
+        "source_name": "Intel Newsroom",
+        "details": (
+            "KLA Corporation is one of Intel Foundry's most important equipment partners "
+            "as Intel executes its 'five nodes in four years' recovery strategy. Intel's "
+            "18A process node — which uses both RibbonFET (gate-all-around) transistors "
+            "and PowerVia (backside power delivery) simultaneously, the most ambitious "
+            "process integration in Intel's history — requires KLA's most advanced "
+            "process control tools. KLA's eDR-7000 e-beam inspection systems provide "
+            "the sensitivity to detect the nm-scale defects that occur when stacking "
+            "backside power rails with frontside logic. Intel's Hillsboro, OR; Chandler, "
+            "AZ; and Israel fabs all rely on KLA metrology for EUV patterning overlay "
+            "control. Intel CEO Pat Gelsinger has cited process control as a key "
+            "differentiator that Intel plans to invest in to achieve leading-edge "
+            "process parity with TSMC. KLA is a critical partner in that effort, "
+            "with dedicated joint-development programs on Intel's campus."
+        ),
+    },
+    {
+        "src": "KLAC", "dst": "AMAT", "type": "Partnership",
+        "desc": "KLA and Applied Materials partner on closed-loop process control — KLA metrology feeds real-time corrections back to AMAT deposition equipment in chip fabs",
+        "value": "Ecosystem cooperation (mutual revenue enablement)", "year": "2005",
+        "source_url": "https://www.kla.com/company/newsroom/blog/the-virtuous-cycle-of-process-control",
+        "source_name": "KLA Newsroom",
+        "details": (
+            "KLA Corporation and Applied Materials are the two dominant forces in "
+            "semiconductor equipment — KLA in process control/inspection and AMAT in "
+            "deposition, etch, and CMP — and while they compete for capital equipment "
+            "budget, they cooperate on closed-loop process integration that benefits both. "
+            "In a modern fab, KLA's optical metrology tools measure the thickness and "
+            "uniformity of films deposited by AMAT's CVD and PVD systems in real time, "
+            "sending automated feedback signals (Advanced Process Control loops) that "
+            "adjust AMAT equipment parameters within seconds. This KLA-AMAT feedback "
+            "loop is how foundries like TSMC maintain 3σ process control on 300mm wafers "
+            "at nm-scale tolerances. KLA and AMAT jointly participate in SEMI standards "
+            "bodies (including the Interface A committee) that define the machine-to-machine "
+            "communication protocols making closed-loop process control possible. Both "
+            "companies are founding members of the US CHIPS Act Advanced Packaging "
+            "consortium, cooperating on chiplet interconnect manufacturing standards."
+        ),
+    },
+    {
+        "src": "KLAC", "dst": "NVDA", "type": "Supply Chain",
+        "desc": "KLA CoWoS packaging inspection enables NVIDIA H100/H200/GB200 HBM memory yield — every NVIDIA AI GPU passes through KLA metrology before shipment",
+        "value": "~$500M+ annually (NVDA-specific process control)", "year": "2020",
+        "source_url": "https://ir.kla.com/news-releases/news-release-details/kla-corporation-fiscal-2024-annual-results",
+        "source_name": "KLA Corporation IR",
+        "details": (
+            "KLA's process control tools are critical to the CoWoS (Chip-on-Wafer-on-"
+            "Substrate) advanced packaging process that connects NVIDIA's GPU dies to "
+            "HBM (High Bandwidth Memory) stacks in the H100, H200, and GB200 AI chips. "
+            "CoWoS requires sub-micron bump alignment between the GPU interposer and "
+            "HBM memory stacks — tolerances so tight that KLA's e-beam inspection and "
+            "overlay metrology are essential to achieving sufficient yield. Each NVIDIA "
+            "H100 contains 80 billion transistors across a 814mm² die plus 6 HBM3 "
+            "stacks totaling 80GB — all bonded on a 1,700mm² silicon interposer that "
+            "KLA must inspect for micro-bump defects and delamination. NVIDIA's entire "
+            "AI GPU supply chain runs through TSMC's CoWoS capacity, and TSMC's "
+            "CoWoS process control relies heavily on KLA tools. The AI GPU boom of "
+            "2023-2025 made NVIDIA one of the largest indirect drivers of KLA revenue, "
+            "as TSMC invested heavily in CoWoS capacity — and therefore KLA equipment — "
+            "to meet NVIDIA's insatiable demand."
+        ),
+    },
+
+    # ── Semiconductor equipment: Applied Materials (new edges) ────────────────
+
+    {
+        "src": "AMAT", "dst": "NVDA", "type": "Supply Chain",
+        "desc": "AMAT selective deposition and gap-fill tools enable NVIDIA's leading-edge transistors and advanced packaging interconnects at TSMC",
+        "value": "~$500M+ annually (NVDA-driven TSMC capacity)", "year": "2018",
+        "source_url": "https://ir.appliedmaterials.com/news-releases/news-release-details/applied-materials-reports-fourth-quarter-and-fiscal-year-2024",
+        "source_name": "Applied Materials IR",
+        "details": (
+            "Applied Materials' deposition and etch equipment is at the heart of TSMC's "
+            "manufacturing process for NVIDIA's leading-edge AI chips. AMAT's Centura "
+            "Sculpta directional patterning system — a breakthrough tool that shapes "
+            "3D chip structures without adding new lithography steps — is used in TSMC's "
+            "N3/N2 process flows for NVIDIA's next-generation GPU dies. AMAT's Endura "
+            "CVD/PVD cluster tools deposit the tungsten and copper interconnect layers "
+            "inside NVIDIA's transistor structures. For CoWoS advanced packaging, "
+            "AMAT's Mirra CMP (chemical mechanical planarization) tools polish the "
+            "silicon interposer surface to atomic flatness before HBM bonding. NVIDIA's "
+            "explosive GPU demand has been a major driver of TSMC's CapEx in 2023-2025 "
+            "— and TSMC's CapEx translates directly into AMAT equipment orders. Every "
+            "$1B TSMC invests in leading-edge capacity generates roughly $150-200M in "
+            "AMAT orders for etch, deposition, and process control equipment."
+        ),
+    },
+    {
+        "src": "AMAT", "dst": "INTC", "type": "Supply Chain",
+        "desc": "Applied Materials is Intel's largest semiconductor equipment supplier — AMAT etch, CVD, and CMP tools are in every Intel fab for 50+ years",
+        "value": "~$3-4B annually", "year": "1972",
+        "source_url": "https://ir.appliedmaterials.com/news-releases/news-release-details/applied-materials-reports-fourth-quarter-and-fiscal-year-2024",
+        "source_name": "Applied Materials IR",
+        "details": (
+            "Applied Materials and Intel have the longest and deepest equipment-fab "
+            "partnership in semiconductor history — spanning five decades of Moore's Law. "
+            "AMAT has supplied Intel with thin-film deposition (CVD, PVD), etch (plasma "
+            "and reactive ion), and CMP equipment since the 1970s when Intel pioneered "
+            "DRAM and microprocessor manufacturing. Today, AMAT's tools are installed "
+            "in every Intel fab globally: Hillsboro OR, Chandler AZ, Rio Rancho NM, "
+            "Ireland, and Israel. For Intel's 18A process, AMAT's Endura Volta PVD "
+            "system deposits the Ruthenium metal gate electrodes in RibbonFET gate-all-"
+            "around transistors — a novel material that AMAT co-developed with Intel's "
+            "process technology team. AMAT's Baccini solar screen printers were also "
+            "used by Intel's former solar manufacturing business. Intel's announced "
+            "$100B+ US fab expansion (Intel Foundry) is the largest equipment procurement "
+            "opportunity in AMAT's history, and AMAT is positioned as the primary "
+            "beneficiary of Intel's leading-edge process ramp."
+        ),
+    },
+
+    # ── Marvell Technology: custom cloud silicon ──────────────────────────────
+
+    {
+        "src": "MRVL", "dst": "TSM", "type": "Supply Chain",
+        "desc": "TSMC manufactures 100% of Marvell's chips — Octeon DPUs, Prestera switches, and custom cloud ASICs all use TSMC N5/N3 advanced nodes",
+        "value": "~$2-3B annually (TSMC wafer purchases)", "year": "2000",
+        "source_url": "https://ir.marvell.com/financial-information/annual-reports",
+        "source_name": "Marvell Technology Annual Report",
+        "details": (
+            "TSMC is Marvell Technology's exclusive manufacturing partner — 100% of "
+            "Marvell's silicon is fabricated at TSMC. Marvell's Octeon 10 DPU (data "
+            "processing unit) and TERALYNX switch chips for data center networking run "
+            "on TSMC's N5 (5nm) process. Marvell's custom silicon for hyperscalers — "
+            "AWS, Microsoft, Google — is designed on TSMC's most advanced nodes (N3 "
+            "and beyond) to maximize compute density per watt, a critical requirement "
+            "for data center power efficiency. Marvell's TSMC relationship is strategically "
+            "important because Marvell is a pure-play fabless company with no alternative "
+            "foundry options for its leading-edge custom silicon: TSMC's N3 process is "
+            "only available from TSMC, period. Marvell has reserved significant TSMC "
+            "capacity through multi-year agreements as its custom cloud ASIC business "
+            "has grown to represent 50%+ of total revenue — a dramatic shift from "
+            "its legacy storage and networking business."
+        ),
+    },
+    {
+        "src": "MRVL", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Marvell designs custom networking and DPU chips for AWS — Marvell silicon powers the Nitro hypervisor networking in every AWS server",
+        "value": "~$1.5-2B annually", "year": "2017",
+        "source_url": "https://ir.marvell.com/news-releases/news-release-details/marvell-technology-inc-reports-fourth-quarter-and-fiscal-year-2025",
+        "source_name": "Marvell Technology IR",
+        "details": (
+            "Marvell Technology is one of Amazon Web Services' primary custom silicon "
+            "partners, supplying network interface controllers (NICs), DPUs, and custom "
+            "ASICs for AWS's hyperscale data center infrastructure. Marvell's Nitro "
+            "custom silicon — co-designed with AWS's Annapurna Labs team — handles "
+            "the network virtualization, storage offload, and security processing that "
+            "makes AWS's Nitro hypervisor run at line rate without taxing the main CPU. "
+            "Every AWS EC2 instance, from the smallest t3.nano to the largest P4d "
+            "GPU instance, includes Marvell-derived Nitro networking silicon. "
+            "Amazon is Marvell's single largest revenue customer, representing 20%+ "
+            "of Marvell's total annual revenue. As AWS has expanded to 100+ availability "
+            "zones globally and deployed millions of servers, the AWS-Marvell relationship "
+            "has grown into one of the largest fabless chip company-hyperscaler "
+            "custom silicon partnerships in the semiconductor industry."
+        ),
+    },
+    {
+        "src": "MRVL", "dst": "MSFT", "type": "Supply Chain",
+        "desc": "Marvell co-designs custom Azure networking ASICs — Marvell silicon handles Microsoft's Azure SmartNIC offload for cloud networking at scale",
+        "value": "~$500M-1B annually", "year": "2020",
+        "source_url": "https://ir.marvell.com/news-releases/news-release-details/marvell-technology-inc-reports-fourth-quarter-and-fiscal-year-2025",
+        "source_name": "Marvell Technology IR",
+        "details": (
+            "Marvell Technology is a key custom silicon partner for Microsoft Azure, "
+            "co-designing SmartNIC (smart network interface card) ASICs that offload "
+            "networking, storage, and security processing from Azure's main server CPUs. "
+            "Microsoft's Azure Boost system — its next-generation compute isolation and "
+            "offload architecture — uses custom ASICs to run the Azure Virtual Network "
+            "(VNet) fabric and Azure Storage at line rate without CPU overhead. Marvell's "
+            "deep expertise in Ethernet MAC/PHY silicon, PCIe, and DPU (data processing "
+            "unit) architecture makes it a natural design partner for Microsoft's "
+            "networking ASIC ambitions. Marvell's TERALYNX switch chips are also "
+            "deployed in Azure's data center leaf-and-spine switching fabric, handling "
+            "the terabit-per-second traffic that flows between Azure servers. Microsoft "
+            "is Marvell's second-largest hyperscaler customer behind Amazon, and Azure's "
+            "aggressive global data center expansion is a primary driver of Marvell's "
+            "custom silicon revenue growth."
+        ),
+    },
+    {
+        "src": "MRVL", "dst": "GOOGL", "type": "Supply Chain",
+        "desc": "Marvell supplies custom networking silicon for Google's Jupiter data center fabric — Marvell DPUs handle Google Cloud's multi-tenant network virtualization",
+        "value": "~$300-500M annually", "year": "2019",
+        "source_url": "https://ir.marvell.com/news-releases/news-release-details/marvell-technology-inc-reports-fourth-quarter-and-fiscal-year-2025",
+        "source_name": "Marvell Technology IR",
+        "details": (
+            "Marvell Technology supplies networking silicon to Google for its Jupiter "
+            "data center switching fabric — the custom network Google built to achieve "
+            "petabit-per-second total bandwidth across its hyperscale data centers. "
+            "Marvell's TERALYNX 7 switch chips provide the 12.8 Terabit/s switching "
+            "capacity required at Google's data center spine layer, where terabytes "
+            "of AI training data flow between thousands of TPU and GPU nodes. Google's "
+            "GCP (Google Cloud Platform) virtual networking also relies on Marvell DPU "
+            "silicon for the data plane offload that handles tenant isolation, firewall "
+            "enforcement, and load balancing without requiring dedicated software "
+            "processing on the host CPU — similar to AWS's Nitro architecture. Marvell "
+            "and Google co-develop custom silicon under NDA, meaning the full scope "
+            "of the relationship extends beyond what either company publicly discloses. "
+            "Google is Marvell's third-largest hyperscaler customer and a growing "
+            "portion of Marvell's custom ASIC design pipeline."
+        ),
+    },
+
+    # ── EDA software: Synopsys additional edges ───────────────────────────────
+
+    {
+        "src": "SNPS", "dst": "TSM", "type": "Partnership",
+        "desc": "Synopsys is TSMC's primary EDA partner — Synopsys PDKs are the reference flow for every TSMC process node from N7 to N2",
+        "value": "~$500M+ annually (TSMC ecosystem revenue)", "year": "1995",
+        "source_url": "https://www.synopsys.com/partners/tsmc.html",
+        "source_name": "Synopsys",
+        "details": (
+            "Synopsys and TSMC have one of the most critical partnerships in the "
+            "semiconductor ecosystem: the Synopsys EDA tools are the reference design "
+            "flow that TSMC certifies on every new process node before any customer "
+            "chips can be designed. TSMC's process design kits (PDKs) — the models, "
+            "design rules, and standard cell libraries that define how transistors behave "
+            "at each node — are co-developed with Synopsys and released through "
+            "Synopsys's Galaxy EDA platform. When Apple, NVIDIA, AMD, or Qualcomm "
+            "designs a chip for TSMC's N2 node, their engineers run Synopsys Fusion "
+            "Compiler (synthesis), IC Compiler II (place and route), and PrimeTime "
+            "(timing signoff) on the TSMC N2 PDK. TSMC's 'TSMC-Certified' reference "
+            "flow for each node specifies which Synopsys tool versions are qualified — "
+            "chip companies can only tape out on TSMC using the approved Synopsys flow. "
+            "This makes Synopsys the mandatory EDA vendor for the majority of "
+            "leading-edge TSMC tapeouts — an extraordinary competitive moat."
+        ),
+    },
+    {
+        "src": "SNPS", "dst": "AMZN", "type": "Partnership",
+        "desc": "Amazon's Annapurna Labs uses Synopsys EDA tools to design Graviton, Trainium, and Inferentia custom silicon — Synopsys on AWS Marketplace",
+        "value": "~$200M+ annually", "year": "2018",
+        "source_url": "https://aws.amazon.com/marketplace/pp/prodview-synopsys-eda/",
+        "source_name": "AWS Marketplace",
+        "details": (
+            "Amazon's Annapurna Labs — the chip design subsidiary behind AWS Graviton "
+            "CPUs, Trainium AI training chips, and Inferentia inference accelerators — "
+            "uses Synopsys EDA software as its primary design toolchain. Synopsys Fusion "
+            "Compiler handles RTL synthesis, IC Compiler II manages physical layout, and "
+            "PrimeTime performs static timing analysis for Annapurna's chip designs that "
+            "run on TSMC's most advanced process nodes. Synopsys is available on AWS "
+            "Marketplace, allowing semiconductor startups and Amazon's own chip teams "
+            "to spin up on-demand EDA compute on AWS EC2 instances — reducing the need "
+            "for on-premise EDA server farms. AWS EC2 High Memory instances (24TB RAM) "
+            "are specifically positioned for large EDA simulation workloads. Synopsys "
+            "and Amazon also collaborate on the AI-driven EDA frontier: Synopsys.AI "
+            "tools (which use ML to optimize chip floorplanning and routing) run on "
+            "AWS GPU instances, accelerating Annapurna's chip design cycles."
+        ),
+    },
+    {
+        "src": "SNPS", "dst": "INTC", "type": "Partnership",
+        "desc": "Synopsys co-develops Intel Foundry 18A process design kit — the reference EDA flow for Intel's most advanced process node",
+        "value": "~$300M+ annually", "year": "1990",
+        "source_url": "https://www.synopsys.com/partners/intel-foundry.html",
+        "source_name": "Synopsys",
+        "details": (
+            "Synopsys is Intel Foundry's primary EDA partner for process node development, "
+            "co-developing the PDK (Process Design Kit) for Intel's 18A, 20A, and 3N "
+            "advanced process nodes. When Intel launched Intel Foundry Services (IFS) "
+            "in 2021 to compete with TSMC and Samsung for external customers, Synopsys "
+            "was announced as the foundational EDA partner — providing the design tools "
+            "and reference flows that prospective Intel Foundry customers need to "
+            "evaluate tapeout viability on Intel's process. Synopsys and Intel jointly "
+            "qualified Synopsys Fusion Compiler and IC Compiler II for Intel 18A in "
+            "2024, enabling Microsoft and other Intel Foundry anchor customers to begin "
+            "designing chips in the Intel 18A process using the standard Synopsys flow. "
+            "Intel's internal design teams (Meteor Lake, Arrow Lake, Panther Lake CPUs) "
+            "also use Synopsys tools extensively. Intel is among Synopsys's largest "
+            "customers by revenue — the company designed every Intel CPU for 30+ years "
+            "with Synopsys (then Synopsis) tools."
+        ),
+    },
+
+    # ── EDA software: Cadence additional edges ────────────────────────────────
+
+    {
+        "src": "CDNS", "dst": "TSM", "type": "Partnership",
+        "desc": "Cadence is TSMC's co-reference EDA partner — Cadence Innovus and Tempus tools certified on TSMC N3/N2 for leading-edge chip design",
+        "value": "~$400M+ annually (TSMC ecosystem revenue)", "year": "1995",
+        "source_url": "https://www.cadence.com/en_US/home/partners/tsmc.html",
+        "source_name": "Cadence Design Systems",
+        "details": (
+            "Cadence Design Systems is TSMC's co-reference EDA partner alongside "
+            "Synopsys — with Cadence's Innovus Implementation System and Tempus Timing "
+            "Signoff Solution certified on every TSMC leading-edge node. While Synopsys "
+            "has historically been the primary TSMC reference flow, Cadence has gained "
+            "significant share at leading-edge nodes, particularly for analog, mixed-signal, "
+            "and custom digital chip designs. TSMC's joint design center in San Jose "
+            "supports both Synopsys and Cadence flows. Apple's iPhone chips (A17 Pro, "
+            "A18) are designed using Cadence tools on TSMC N3 process — making Cadence "
+            "the EDA backbone behind the world's most valuable product line. Cadence's "
+            "Virtuoso custom/analog platform is the de-facto standard for analog circuit "
+            "design at foundries globally, and TSMC's analog designers rely exclusively "
+            "on Cadence Virtuoso. Cadence's Spectre Circuit Simulator models TSMC "
+            "transistor behavior for high-accuracy analog circuit verification."
+        ),
+    },
+    {
+        "src": "CDNS", "dst": "AMZN", "type": "Partnership",
+        "desc": "Cadence tools power Amazon's Graviton4 and Trainium2 chip designs — Cadence JedAI AI-driven EDA available on AWS Marketplace",
+        "value": "~$150M+ annually", "year": "2019",
+        "source_url": "https://aws.amazon.com/marketplace/pp/prodview-cadence-eda/",
+        "source_name": "AWS Marketplace",
+        "details": (
+            "Cadence Design Systems tools are central to Amazon Annapurna Labs' chip "
+            "design workflow for its rapidly expanding custom silicon portfolio. "
+            "Cadence's Innovus implementation system and Voltus power integrity tool "
+            "are used in the design of Amazon's Graviton4 CPU (TSMC N3 process) and "
+            "Trainium2 AI training chip. Cadence's JedAI Platform — the industry's "
+            "first AI-driven EDA workflow that uses ML to autonomously optimize chip "
+            "floorplanning, routing, and power grid — is cloud-deployed on AWS and "
+            "available on AWS Marketplace, allowing semiconductor customers to pay-per-"
+            "use for advanced EDA compute. Cadence and Amazon also collaborate on "
+            "AWS Silicon Innovation — a program where Amazon open-sources architectural "
+            "insights to help EDA vendors optimize tools for the specific AI chip design "
+            "patterns that hyperscalers need. Cadence Clarity 3D electromagnetic solver "
+            "simulates signal integrity in Annapurna's high-speed SerDes and DDR5 "
+            "memory interfaces."
+        ),
+    },
+    {
+        "src": "CDNS", "dst": "INTC", "type": "Partnership",
+        "desc": "Cadence Innovus and Virtuoso tools are qualified on Intel Foundry 18A — critical for Intel's foundry customer enablement and internal CPU design",
+        "value": "~$200M+ annually", "year": "1990",
+        "source_url": "https://www.cadence.com/en_US/home/partners/intel.html",
+        "source_name": "Cadence Design Systems",
+        "details": (
+            "Cadence is one of Intel's two primary EDA partners, with tools qualified "
+            "across Intel's internal design library and Intel Foundry process nodes. "
+            "Intel's Xeon data center CPUs and Core PC processors have been designed "
+            "using Cadence Innovus for physical implementation for over two decades. "
+            "For Intel Foundry's 18A process — Intel's make-or-break advanced node "
+            "targeting Apple, NVIDIA, and Qualcomm as foundry customers — Cadence "
+            "co-developed the PDK qualification process alongside Synopsys. Cadence's "
+            "Voltus power integrity tool is used to validate power delivery in Intel's "
+            "PowerVia (backside power delivery) technology, which routes power through "
+            "a separate silicon layer beneath the transistors — a novel and complex "
+            "power analysis challenge that required Cadence to extend its tools. "
+            "Cadence Virtuoso is used by Intel's analog design teams for mixed-signal "
+            "IP blocks embedded in Intel's client and server CPUs. Intel is among "
+            "Cadence's top-five customers globally."
+        ),
+    },
+
+    # ── Cybersecurity: hyperscaler marketplace partnerships ───────────────────
+
+    {
+        "src": "CRWD", "dst": "MSFT", "type": "Partnership",
+        "desc": "CrowdStrike Falcon on Azure Marketplace — and the defining July 2024 incident where a faulty CrowdStrike update crashed 8.5M Windows machines globally",
+        "value": "~$500M+ annually (Azure marketplace revenue)", "year": "2017",
+        "source_url": "https://www.crowdstrike.com/partners/microsoft/",
+        "source_name": "CrowdStrike",
+        "details": (
+            "CrowdStrike and Microsoft have one of the most consequential and complex "
+            "partnerships in enterprise technology. CrowdStrike Falcon — the dominant "
+            "endpoint detection and response (EDR) platform with 24,000+ enterprise "
+            "customers — integrates deeply with Microsoft Windows at the kernel level, "
+            "making it the most widely deployed third-party security software on Windows. "
+            "CrowdStrike is a top-selling product on Azure Marketplace. On July 19, 2024, "
+            "a faulty CrowdStrike Falcon content update caused the largest IT outage in "
+            "history — crashing 8.5M Microsoft Windows machines simultaneously with the "
+            "Blue Screen of Death (BSOD). Airlines, hospitals, banks, emergency services, "
+            "and broadcast networks went offline globally for hours. The incident "
+            "illuminated both the depth of the CrowdStrike-Microsoft integration and the "
+            "systemic risk of a single security vendor with kernel-level access. "
+            "Microsoft responded by discussing restricting third-party kernel access in "
+            "Windows, threatening CrowdStrike's technical advantage. The two companies "
+            "subsequently cooperated on incident response and updated their integration "
+            "architecture to reduce the risk of similar outages."
+        ),
+    },
+    {
+        "src": "PANW", "dst": "MSFT", "type": "Partnership",
+        "desc": "Palo Alto Networks XSIAM integrates with Microsoft Sentinel — the two largest security platform vendors combine SOC analytics in enterprise deployments",
+        "value": "~$300M+ annually (co-sell + integration)", "year": "2019",
+        "source_url": "https://www.paloaltonetworks.com/partners/microsoft",
+        "source_name": "Palo Alto Networks",
+        "details": (
+            "Palo Alto Networks and Microsoft are both trying to consolidate enterprise "
+            "cybersecurity onto their respective platforms — PANW's XSIAM and Microsoft's "
+            "Sentinel — and they cooperate through formal integrations despite competing "
+            "for the same security budget. PANW's Prisma Cloud secures Azure workloads "
+            "and is listed on Azure Marketplace. Palo Alto's Cortex XSOAR (security "
+            "orchestration) integrates with Microsoft Sentinel (cloud SIEM) so that "
+            "enterprise SOC teams can run unified investigations across both platforms. "
+            "Microsoft and PANW co-sell into large enterprise accounts where customers "
+            "use Azure native services (Microsoft Defender) for some workloads and "
+            "Palo Alto Networks for others. PANW CEO Nikesh Arora has cited Microsoft "
+            "as both a competitor and a critical channel partner — a 'frenemy' dynamic "
+            "common in enterprise security. PANW's SASE (secure access service edge) "
+            "product integrates with Microsoft Entra ID for identity-aware network "
+            "security, making Microsoft a dependency of PANW's fastest-growing product."
+        ),
+    },
+    {
+        "src": "ZS", "dst": "MSFT", "type": "Partnership",
+        "desc": "Zscaler Private Access integrates with Microsoft Entra ID — the deepest identity-to-network security integration in enterprise Zero Trust architecture",
+        "value": "~$200M+ annually (co-sell + marketplace)", "year": "2020",
+        "source_url": "https://www.zscaler.com/partners/microsoft",
+        "source_name": "Zscaler",
+        "details": (
+            "Zscaler and Microsoft have built one of the tightest integrations in "
+            "enterprise Zero Trust security. Zscaler Private Access (ZPA) — the leading "
+            "ZTNA (zero trust network access) product — uses Microsoft Entra ID "
+            "(formerly Azure Active Directory) as its identity source of truth, meaning "
+            "user authentication and access policies in Zscaler are controlled by the "
+            "Microsoft identity plane. When an employee logs into a corporate app via "
+            "ZPA, Zscaler calls Microsoft Entra ID to verify the user's identity, "
+            "device compliance (via Microsoft Intune), and Conditional Access policy — "
+            "creating a seamless Microsoft+Zscaler zero trust architecture. Zscaler's "
+            "zero trust exchange processes 400B+ transactions daily and integrates with "
+            "Microsoft Defender for Endpoint to share threat signals. Zscaler is "
+            "available on Azure Marketplace and is one of Microsoft's most strategically "
+            "important security ISV partners, with joint GTM (go-to-market) investment "
+            "across thousands of enterprise sales engagements."
+        ),
+    },
+    {
+        "src": "OKTA", "dst": "MSFT", "type": "Partnership",
+        "desc": "Okta and Microsoft cooperate on identity federation while competing — Okta Customer Identity Cloud integrates with Microsoft 365 and Azure AD across 19,000+ customers",
+        "value": "~$300M+ annually (co-opetition)", "year": "2015",
+        "source_url": "https://www.okta.com/partners/microsoft/",
+        "source_name": "Okta",
+        "details": (
+            "Okta and Microsoft have the most complex 'co-opetition' relationship in "
+            "enterprise software: Microsoft sells Azure Active Directory / Entra ID "
+            "as a direct competitor to Okta's Workforce Identity product, while "
+            "simultaneously being Okta's largest integration partner. Okta federates "
+            "identities from 19,000+ enterprise customers to Microsoft 365 — the "
+            "world's most widely deployed enterprise application — providing SSO "
+            "and MFA for Microsoft Teams, Outlook, SharePoint, and Azure services. "
+            "Enterprises often choose Okta over Azure AD for identity because Okta "
+            "supports 7,000+ non-Microsoft applications natively, while Azure AD is "
+            "optimized for the Microsoft ecosystem. Microsoft's 2022 acquisition of "
+            "Nuance and its aggressive push of Microsoft Entra have intensified "
+            "competition with Okta. Okta's October 2023 breach — where attackers "
+            "used stolen support credentials to access Okta's systems — damaged "
+            "enterprise trust and indirectly benefited Microsoft Entra. Despite "
+            "competition, the Microsoft-Okta integration remains fundamental to "
+            "hybrid identity architectures at 70%+ of Fortune 1000 companies."
+        ),
+    },
+    {
+        "src": "FTNT", "dst": "MSFT", "type": "Partnership",
+        "desc": "Fortinet FortiGate integrates with Azure Security Center and Azure Firewall Manager — Fortinet is Microsoft's largest network security co-sell partner",
+        "value": "~$200M+ annually (co-sell + marketplace)", "year": "2019",
+        "source_url": "https://www.fortinet.com/partners/technology-alliances/microsoft",
+        "source_name": "Fortinet",
+        "details": (
+            "Fortinet and Microsoft have built an enterprise network security "
+            "partnership through FortiGate Next-Generation Firewall integration with "
+            "Azure and Microsoft's Defender portfolio. FortiGate-VM is one of the "
+            "most deployed network firewalls on Azure, available in Azure Marketplace "
+            "and used by enterprises to secure their Azure virtual networks with the "
+            "same FortiGate policies they run on-premises. Fortinet's FortiManager "
+            "integrates with Azure Firewall Manager for unified policy management "
+            "across hybrid environments where enterprises run both Azure-native firewalls "
+            "and FortiGate. Fortinet's Security Fabric shares threat intelligence with "
+            "Microsoft Defender for Endpoint and Sentinel — enabling coordinated "
+            "responses to network and endpoint threats. Fortinet's SD-WAN product "
+            "(used by 35,000+ enterprise customers) integrates with Azure Virtual WAN "
+            "to connect branch offices to Azure workloads. Fortinet is one of "
+            "Microsoft's top MISA (Microsoft Intelligent Security Association) "
+            "members, reflecting the depth of technical integration."
+        ),
+    },
+    {
+        "src": "CRWD", "dst": "AMZN", "type": "Partnership",
+        "desc": "CrowdStrike Falcon is the #1 endpoint security product on AWS Marketplace — CrowdStrike protects AWS customers' EC2, Lambda, and container workloads",
+        "value": "~$400M+ annually (AWS marketplace revenue)", "year": "2016",
+        "source_url": "https://www.crowdstrike.com/partners/aws/",
+        "source_name": "CrowdStrike",
+        "details": (
+            "CrowdStrike is AWS's most strategic cybersecurity partner and the #1 "
+            "selling security product on AWS Marketplace by revenue. CrowdStrike "
+            "Falcon Cloud Security — which provides workload protection for EC2 "
+            "instances, container security for ECS/EKS, and serverless security for "
+            "Lambda functions — is natively integrated into AWS's security ecosystem. "
+            "AWS customers can deploy CrowdStrike from AWS Marketplace using their "
+            "Enterprise Discount Program (EDP) commitments, meaning CrowdStrike "
+            "purchases reduce AWS's guaranteed revenue — a powerful co-incentive "
+            "structure. CrowdStrike's threat intelligence feeds into AWS Security Hub, "
+            "and CrowdStrike's Falcon LogScale (SIEM) integrates with Amazon S3 for "
+            "log storage. AWS and CrowdStrike jointly market to enterprises migrating "
+            "from on-premises security to cloud-native protection. CrowdStrike protects "
+            "40% of the Fortune 100's AWS environments, making it the de-facto "
+            "cloud endpoint security standard."
+        ),
+    },
+    {
+        "src": "PANW", "dst": "AMZN", "type": "Partnership",
+        "desc": "Palo Alto Networks Prisma Cloud is the leading CNAPP on AWS — PANW VM-Series firewalls and Prisma SASE protect AWS customer cloud workloads",
+        "value": "~$300M+ annually (AWS marketplace + co-sell)", "year": "2017",
+        "source_url": "https://www.paloaltonetworks.com/partners/aws",
+        "source_name": "Palo Alto Networks",
+        "details": (
+            "Palo Alto Networks is one of AWS's largest security ISV partners, with "
+            "Prisma Cloud — the industry's leading Cloud Native Application Protection "
+            "Platform (CNAPP) — being the dominant cloud security posture management "
+            "(CSPM) and workload protection tool for AWS environments. Prisma Cloud "
+            "ingests AWS CloudTrail, GuardDuty, and Config data to correlate cloud "
+            "misconfigurations, vulnerabilities, and active threats across AWS accounts. "
+            "PANW's VM-Series Next-Generation Firewalls are deployed as virtual firewalls "
+            "in AWS VPCs by enterprises that need consistent security policy between "
+            "their on-premises Palo Alto Networks hardware firewalls and AWS. AWS "
+            "and PANW co-sell into large enterprise accounts through AWS's marketplace "
+            "programs, with PANW's purchases available against AWS EDP commitments. "
+            "PANW's recent 'platformization' strategy — consolidating customers onto "
+            "its platform with limited-time free modules — is closely coordinated with "
+            "AWS to reduce customer security vendor sprawl in AWS environments."
+        ),
+    },
+    {
+        "src": "ZS", "dst": "AMZN", "type": "Partnership",
+        "desc": "Zscaler for AWS provides cloud-native Zero Trust security for enterprises migrating workloads to AWS — ZS and AWS co-sell Zero Trust to 6,000+ joint customers",
+        "value": "~$150M+ annually (AWS marketplace + co-sell)", "year": "2019",
+        "source_url": "https://www.zscaler.com/partners/aws",
+        "source_name": "Zscaler",
+        "details": (
+            "Zscaler and AWS have built an integrated Zero Trust security partnership "
+            "targeting enterprises moving from on-premises networks to AWS. Zscaler "
+            "Internet Access (ZIA) and Zscaler Private Access (ZPA) are both available "
+            "on AWS Marketplace and are designated AWS Security Competency partners — "
+            "AWS's highest security ISV certification. When enterprises adopt AWS and "
+            "decommission their MPLS WANs, Zscaler replaces the legacy corporate "
+            "firewall with a cloud-delivered security service that routes all traffic "
+            "through Zscaler's 150+ data centers globally before reaching AWS or the "
+            "internet. Zscaler and AWS jointly produced the 'Zero Trust for AWS "
+            "Workloads' architecture blueprint, used by 6,000+ AWS enterprise customers "
+            "to design their cloud security architecture. Zscaler's integration with "
+            "AWS Security Hub aggregates Zscaler threat alerts with other AWS security "
+            "signals for centralized SOC visibility."
+        ),
+    },
+    {
+        "src": "OKTA", "dst": "AMZN", "type": "Partnership",
+        "desc": "Okta integrates with AWS IAM Identity Center for enterprise SSO — Okta is AWS's preferred third-party identity provider for 19,000+ enterprise customers",
+        "value": "~$150M+ annually (AWS marketplace + co-sell)", "year": "2016",
+        "source_url": "https://www.okta.com/partners/aws/",
+        "source_name": "Okta",
+        "details": (
+            "Okta and AWS are deep identity management partners — Okta is AWS's "
+            "recommended third-party identity provider (IdP) for enterprises that "
+            "want to use Okta as their corporate identity system while accessing "
+            "AWS services. Okta's integration with AWS IAM Identity Center (formerly "
+            "AWS SSO) allows employees to log in once with Okta and access multiple "
+            "AWS accounts and applications without re-authenticating — a critical "
+            "capability for enterprises with 10-100+ AWS accounts. Okta's Workforce "
+            "Identity Cloud manages AWS console access, CLI credentials, and API "
+            "key rotation for 6,000+ AWS enterprise customers through its AWS "
+            "integration. Okta is sold on AWS Marketplace and available against "
+            "AWS EDP commitments. Okta's Customer Identity Cloud (Auth0) — used by "
+            "developers to add login to apps — is deployed on AWS infrastructure for "
+            "millions of consumer-facing applications. The Okta-AWS partnership "
+            "deepened significantly after Okta's 2021 acquisition of Auth0 added "
+            "developer identity to Okta's enterprise portfolio."
+        ),
+    },
+    {
+        "src": "CRWD", "dst": "OKTA", "type": "Partnership",
+        "desc": "CrowdStrike and Okta partner on Zero Trust — sharing device health signals and identity threat intelligence; co-implicated in the 2023 MGM breach",
+        "value": "~$50M+ (co-sell + threat intelligence sharing)", "year": "2020",
+        "source_url": "https://www.crowdstrike.com/partners/okta/",
+        "source_name": "CrowdStrike",
+        "details": (
+            "CrowdStrike and Okta have a formal Zero Trust partnership where CrowdStrike "
+            "device health signals feed into Okta's Adaptive MFA and Continuous "
+            "Authentication policies — so Okta can enforce step-up authentication if "
+            "CrowdStrike detects an unusual device risk score. If CrowdStrike sees "
+            "malware on a laptop, it signals Okta to immediately revoke the user's "
+            "session tokens, forcing re-authentication. This CrowdStrike-Okta integration "
+            "is a cornerstone of enterprise Zero Trust architectures. Both companies "
+            "were implicated in the September 2023 MGM Resorts cyberattack and the "
+            "Caesars Entertainment breach — attackers used social engineering to bypass "
+            "Okta's identity controls, and the incident highlighted the importance of "
+            "the CrowdStrike-Okta device-plus-identity signal combination. The MGM "
+            "breach (estimated $100M+ impact) led to increased investment in "
+            "CrowdStrike-Okta joint deployments at casino, hotel, and hospitality "
+            "enterprises. The partnership demonstrates how endpoint and identity "
+            "security vendors must collaborate to close the gaps attackers exploit."
+        ),
+    },
+    {
+        "src": "PANW", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Palo Alto Networks Prisma Cloud is the #1 CNAPP on Google Cloud — PANW and Google co-sell cloud-native security to GCP enterprise customers",
+        "value": "~$150M+ annually (GCP marketplace + co-sell)", "year": "2020",
+        "source_url": "https://www.paloaltonetworks.com/partners/google-cloud",
+        "source_name": "Palo Alto Networks",
+        "details": (
+            "Palo Alto Networks and Google Cloud have a strategic security partnership "
+            "covering both cloud workload protection and network security. PANW's "
+            "Prisma Cloud is the primary CNAPP for Google Cloud Platform customers, "
+            "ingesting Google Cloud Security Command Center data to identify "
+            "misconfigurations, vulnerabilities, and compliance violations across "
+            "GCP projects. PANW VM-Series firewalls are deployed in GCP VPCs via "
+            "Google Cloud Marketplace. Google and PANW co-developed the 'Google Cloud "
+            "NGFW' — a cloud-native next-generation firewall service built on PANW's "
+            "technology and sold through Google Cloud, announced in 2022. This "
+            "embedded partnership — where Google resells Palo Alto Networks technology "
+            "as a native Google Cloud service — is unprecedented in the security "
+            "industry and demonstrates how Google chose to close its network security "
+            "gap by partnering with PANW rather than building its own NGFW. Google "
+            "Cloud Security Summit keynotes frequently feature PANW as a preferred "
+            "security reference architecture."
+        ),
+    },
+    {
+        "src": "FTNT", "dst": "AMZN", "type": "Partnership",
+        "desc": "Fortinet FortiGate-VM is among the most deployed network firewalls on AWS — Fortinet SD-WAN and FortiSASE protect hybrid enterprises connecting to AWS",
+        "value": "~$150M+ annually (AWS marketplace + co-sell)", "year": "2016",
+        "source_url": "https://www.fortinet.com/partners/technology-alliances/aws",
+        "source_name": "Fortinet",
+        "details": (
+            "Fortinet is one of AWS's largest network security partners, with FortiGate "
+            "Virtual Machine (FortiGate-VM) being among the most deployed virtual "
+            "network firewalls on AWS by enterprise customers. FortiGate-VM runs in "
+            "AWS VPCs providing stateful inspection, IPS, application control, and "
+            "SSL inspection for enterprise network traffic in AWS environments. Fortinet "
+            "FortiManager integrates with AWS Transit Gateway for centralized management "
+            "of multi-account AWS network security policies. Fortinet's SD-WAN solution "
+            "(deployed in 35,000+ enterprise branch offices) integrates with AWS "
+            "Accelerated Site-to-Site VPN to connect branch offices to AWS workloads "
+            "with intelligent path selection. Fortinet FortiSASE (cloud-delivered "
+            "security) is available on AWS Marketplace and integrated with AWS's "
+            "cloud-native networking. Fortinet joined AWS's ISV Accelerate program "
+            "and MISA (Microsoft Intelligent Security Association) simultaneously — "
+            "illustrating the multi-cloud distribution strategy Fortinet uses to "
+            "reach enterprise customers wherever their workloads reside."
+        ),
+    },
+    {
+        "src": "ZS", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Zscaler integrates with Google Chrome Enterprise and Google Workspace — ZS is Google Cloud's preferred Zero Trust network security partner",
+        "value": "~$100M+ annually (GCP marketplace + co-sell)", "year": "2020",
+        "source_url": "https://www.zscaler.com/partners/google-cloud",
+        "source_name": "Zscaler",
+        "details": (
+            "Zscaler and Google Cloud have a strategic Zero Trust security partnership "
+            "that integrates two of the world's most widely deployed security and "
+            "productivity platforms. Zscaler's integration with Google Chrome Enterprise "
+            "— the managed browser used by 50M+ enterprise employees — allows Zscaler "
+            "to enforce web security policies directly in the browser without requiring "
+            "a proxy agent, creating a lightweight zero-trust architecture for "
+            "Chromebook and Chrome Enterprise deployments. Zscaler Internet Access "
+            "(ZIA) integrates with Google Workspace's login to inspect all traffic from "
+            "Gmail, Drive, and Meet sessions for data loss prevention (DLP) and threat "
+            "protection. Zscaler is a Google Cloud Marketplace partner and co-sells "
+            "with Google's enterprise sales teams into large accounts adopting Google "
+            "Workspace + GCP. Google Cloud's BeyondCorp Enterprise (Google's own ZTNA "
+            "product) and Zscaler ZPA are complementary rather than competing — "
+            "BeyondCorp focuses on Google app access while ZPA covers third-party "
+            "enterprise applications, making them co-deployable in the same enterprise."
+        ),
+    },
+    {
+        "src": "FTNT", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Fortinet FortiGate-VM and FortiSASE are available on Google Cloud Marketplace — Fortinet is Google Cloud's primary network firewall security partner",
+        "value": "~$100M+ annually (GCP marketplace + co-sell)", "year": "2019",
+        "source_url": "https://www.fortinet.com/partners/technology-alliances/google-cloud",
+        "source_name": "Fortinet",
+        "details": (
+            "Fortinet and Google Cloud partnered to bring Fortinet's network security "
+            "stack to GCP, with FortiGate-VM available on Google Cloud Marketplace as "
+            "the primary third-party NGFW option for Google Cloud customers. Enterprises "
+            "running hybrid environments with on-premises Fortinet hardware firewalls "
+            "use FortiGate-VM in GCP to maintain consistent policy across cloud and "
+            "on-premises — managed through the same FortiManager console. Fortinet's "
+            "FortiSASE cloud-delivered security integrates with Google Cloud's Cloud "
+            "Interconnect for secure access to GCP workloads from branch offices "
+            "using Fortinet SD-WAN. Fortinet Security Fabric shares threat intelligence "
+            "with Google Cloud Security Command Center, enabling centralized threat "
+            "detection across Google Cloud accounts and Fortinet perimeter devices. "
+            "Google Cloud and Fortinet co-sell to manufacturing, retail, and financial "
+            "services enterprises that are migrating workloads to GCP and require "
+            "network security consistent with their existing Fortinet on-premises "
+            "deployments — one of the most common enterprise security migration patterns."
         ),
     },
 ]
