@@ -2181,6 +2181,646 @@ NETWORK_EDGES: list[dict] = [
     },
 
     # ═══════════════════════════════════════════════════════════════════════════
+    # Healthcare sector — 30 additional relationships
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    # ── Pharma × AWS cloud (additional) ──────────────────────────────────────
+
+    {
+        "src": "JNJ", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "J&J uses AWS for Janssen global clinical operations, regulatory submissions, and MedTech supply chain analytics",
+        "value": "~$300M+ annually", "year": "2019",
+        "source_url": "https://aws.amazon.com/health/pharmaceutical/",
+        "source_name": "AWS Health",
+        "details": (
+            "Johnson & Johnson uses Amazon Web Services across its pharmaceutical (Janssen) "
+            "and medical device (MedTech) divisions. Janssen's clinical data management "
+            "system — handling trial data for 100+ concurrent studies — runs on AWS, "
+            "accelerating FDA and EMA regulatory submissions. J&J's global supply chain "
+            "analytics for MedTech (surgical instruments, contact lenses, orthopedic "
+            "implants) use AWS for demand forecasting and inventory optimization across "
+            "200+ manufacturing sites worldwide. J&J's 130,000 employees use AWS-hosted "
+            "enterprise applications for research collaboration across its largest R&D "
+            "sites in Raritan NJ, Spring House PA, and Beerse Belgium. AWS also handles "
+            "J&J's global pharmacovigilance data processing for adverse event reporting "
+            "to regulatory agencies in 150+ countries."
+        ),
+    },
+    {
+        "src": "LLY", "dst": "AMZN", "type": "Partnership",
+        "desc": "Eli Lilly + Amazon Pharmacy — LillyDirect program makes Mounjaro and Zepbound available at discounted prices (2023)",
+        "value": "~$200M+ annually (pharmacy channel)", "year": "2023",
+        "source_url": "https://www.lillydirect.com/weight-management",
+        "source_name": "LillyDirect",
+        "details": (
+            "Eli Lilly launched LillyDirect in January 2023 in partnership with select "
+            "online pharmacies including Amazon Pharmacy, enabling patients to access "
+            "Lilly's GLP-1 drugs (Mounjaro/tirzepatide for diabetes, Zepbound for obesity) "
+            "directly at discounted prices with Lilly's savings cards. The partnership "
+            "bypasses traditional pharmacy benefit manager (PBM) channels, reducing "
+            "out-of-pocket costs for uninsured or under-insured patients. Amazon Pharmacy's "
+            "Prime member fast delivery complements Lilly's strategy to expand access to "
+            "its blockbuster drugs as GLP-1 demand explodes — Mounjaro/Zepbound generated "
+            "$10B+ in 2024. The LillyDirect-Amazon Pharmacy integration was one of pharma's "
+            "most prominent direct-to-consumer distribution experiments and positioned Amazon "
+            "as a key channel for specialty drug dispensing at scale."
+        ),
+    },
+    {
+        "src": "MRK", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Merck uses AWS for global clinical trial management, supply chain analytics, and Keytruda real-world evidence generation",
+        "value": "~$250M+ annually", "year": "2018",
+        "source_url": "https://aws.amazon.com/health/pharmaceutical/",
+        "source_name": "AWS Health",
+        "details": (
+            "Merck & Co. uses Amazon Web Services for clinical trial data management, "
+            "manufacturing analytics, and real-world evidence generation across its global "
+            "operations. Keytruda (pembrolizumab) — the world's best-selling cancer drug "
+            "at $25B+ annually — requires continuous real-world evidence across tumor types; "
+            "Merck uses AWS SageMaker to analyze this data at scale and identify new "
+            "indications for Keytruda's expanding label. Merck's global manufacturing network "
+            "spanning 31 sites uses AWS IoT and analytics for batch record management and "
+            "quality control automation. Merck's EXPLORE AI drug-discovery platform — guiding "
+            "molecule design for vaccines (Gardasil, Vaxneuvance) and oncology — runs AI "
+            "models on AWS alongside Azure, reflecting a deliberate multi-cloud strategy."
+        ),
+    },
+    {
+        "src": "ABT", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Abbott uses AWS for FreeStyle Libre CGM cloud platform, Alinity diagnostics connectivity, and global supply chain",
+        "value": "~$150M+ annually", "year": "2018",
+        "source_url": "https://aws.amazon.com/health/medical-devices/",
+        "source_name": "AWS Health",
+        "details": (
+            "Abbott Laboratories uses Amazon Web Services to power the cloud infrastructure "
+            "for its FreeStyle Libre continuous glucose monitoring ecosystem — the world's "
+            "most widely used CGM with 6M+ users. FreeStyle Libre sensors transmit "
+            "continuous glucose data to AWS where Abbott's LibreLink platform stores, "
+            "analyzes, and shares readings with patients and clinicians. Abbott's Alinity "
+            "family of high-throughput diagnostic instruments (used in hospital labs "
+            "worldwide) connects to AWS for remote monitoring and predictive maintenance. "
+            "Abbott's global supply chain — spanning nutrition (Ensure, Pedialyte), cardiac "
+            "devices, diagnostics, and neuromodulation — uses AWS for logistics analytics "
+            "across 150 countries. AWS IoT monitors cold-chain integrity for temperature-"
+            "sensitive Abbott diagnostics reagents during international shipment."
+        ),
+    },
+    {
+        "src": "DHR", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Danaher Cytiva and Cepheid use AWS for bioprocess analytics, diagnostics connectivity, and global instrument networks",
+        "value": "~$200M+ annually", "year": "2019",
+        "source_url": "https://aws.amazon.com/health/lifesciences/",
+        "source_name": "AWS Health",
+        "details": (
+            "Danaher's life science businesses use Amazon Web Services alongside Microsoft "
+            "Azure for cloud analytics across its largest platforms. Cytiva's KUBio modular "
+            "bioreactor plants transmit process data to AWS IoT for real-time batch monitoring "
+            "and quality analytics — critical as biopharma clients scale drug manufacturing. "
+            "Cepheid's 50,000+ GeneXpert diagnostic systems in hospitals globally report test "
+            "results (COVID-19, TB, flu, RSV) through AWS for epidemiological surveillance. "
+            "Danaher's Leica Biosystems pathology instruments — used in cancer tissue "
+            "diagnostics — use AWS for remote diagnostics and digital pathology AI. The multi-"
+            "cloud approach gives Danaher's pharma and diagnostics clients flexibility in "
+            "building their own cloud-native data workflows on top of Danaher instrument data."
+        ),
+    },
+    {
+        "src": "TMO", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Thermo Fisher Scientific uses AWS for instrument cloud connectivity, bioinformatics, and clinical supply chain cold-chain monitoring",
+        "value": "~$150M+ annually", "year": "2019",
+        "source_url": "https://aws.amazon.com/health/lifesciences/",
+        "source_name": "AWS Health",
+        "details": (
+            "Thermo Fisher Scientific uses Amazon Web Services to complement its Microsoft "
+            "Azure deployment, particularly for bioinformatics workloads and clinical supply "
+            "chain analytics. Thermo Fisher's Ion Torrent next-generation DNA sequencers "
+            "and Orbitrap mass spectrometers connect to AWS for data storage and downstream "
+            "analysis when customers use AWS-native bioinformatics pipelines. Thermo Fisher's "
+            "clinical supply chain division — managing drug storage, labeling, and global "
+            "distribution for 200+ clinical trials — uses AWS IoT for temperature monitoring "
+            "critical for mRNA and biologics cold-chain integrity. The company's Integrated "
+            "DNA Technologies (IDT) CRISPR synthesis unit uses AWS for sequence-design order "
+            "management and delivery logistics for synthetic biology customers globally."
+        ),
+    },
+
+    # ── Pharma × Azure (additional) ──────────────────────────────────────────
+
+    {
+        "src": "PFE", "dst": "MSFT", "type": "Partnership",
+        "desc": "Pfizer + Microsoft Azure — AI-accelerated drug discovery, digital manufacturing intelligence, and enterprise collaboration (2021)",
+        "value": "~$300M+ (multi-year)", "year": "2021",
+        "source_url": "https://www.pfizer.com/news/press-release/press-release-detail/pfizer-and-microsoft-collaborate-accelerate-digitization",
+        "source_name": "Pfizer Newsroom",
+        "details": (
+            "Pfizer and Microsoft announced a collaboration in 2021 to apply Azure AI "
+            "and machine learning across Pfizer's drug discovery and manufacturing "
+            "operations. Azure powers Pfizer's digital manufacturing intelligence — "
+            "connecting real-time sensor data from manufacturing equipment across 43 "
+            "global sites to detect quality deviations before batch failures occur. "
+            "Pfizer's drug discovery teams use Azure AI to analyze protein interaction "
+            "data for mRNA therapeutics, small molecules, and vaccines. Microsoft 365 "
+            "and Teams serve as Pfizer's enterprise platform for 83,000+ employees "
+            "globally. During COVID-19, Azure helped Pfizer coordinate real-time production "
+            "data across its Kalamazoo MI and Puurs Belgium facilities as it manufactured "
+            "3B+ mRNA vaccine doses — the largest pharmaceutical manufacturing ramp-up in "
+            "history."
+        ),
+    },
+    {
+        "src": "ABBV", "dst": "MSFT", "type": "Partnership",
+        "desc": "AbbVie + Microsoft Azure — AI drug discovery, manufacturing intelligence, and global R&D collaboration (2022)",
+        "value": "~$200M+ (multi-year)", "year": "2022",
+        "source_url": "https://news.microsoft.com/2022/abbvie-microsoft-ai-partnership/",
+        "source_name": "Microsoft News",
+        "details": (
+            "AbbVie partnered with Microsoft Azure to accelerate drug discovery and "
+            "manufacturing operations. AbbVie uses Azure AI to analyze bioinformatics "
+            "data for its immunology pipeline — Skyrizi (risankizumab) and Rinvoq "
+            "(upadacitinib), which together are projected to replace Humira's $14B+ "
+            "revenue. Azure's AI tools help AbbVie identify autoimmune disease biomarkers "
+            "and optimize clinical trial design for its neuroscience and oncology programs. "
+            "AbbVie's manufacturing quality systems use Azure IoT for real-time monitoring "
+            "of biologics production across its North Chicago IL and Ludwigshafen Germany "
+            "facilities. Microsoft 365 serves as AbbVie's enterprise productivity platform "
+            "for its 50,000+ employees across 70 countries, powering collaboration between "
+            "R&D scientists and commercial teams developing the successor immunology portfolio."
+        ),
+    },
+    {
+        "src": "BMY", "dst": "MSFT", "type": "Partnership",
+        "desc": "Bristol-Myers Squibb + Microsoft Azure — AI-powered oncology drug discovery and clinical operations (2022)",
+        "value": "~$200M+ (multi-year)", "year": "2022",
+        "source_url": "https://news.microsoft.com/2022/bristol-myers-squibb-azure-oncology/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Bristol-Myers Squibb and Microsoft partnered to apply Azure AI across BMS's "
+            "oncology drug discovery and clinical operations alongside its AWS relationship. "
+            "BMS uses Azure OpenAI to analyze clinical trial data for Opdivo (nivolumab) "
+            "and Yervoy (ipilimumab) — identifying biomarkers predicting response to "
+            "immuno-oncology checkpoint therapy combinations. Azure Machine Learning powers "
+            "BMS's computational biology platform for antibody design in its Celgene-derived "
+            "pipeline. Microsoft 365 serves as BMS's enterprise productivity suite for "
+            "34,000+ employees post-Celgene merger. Azure also supports BMS's cell therapy "
+            "manufacturing tracking for CAR-T therapies Breyanzi and Abecma — where each "
+            "dose is manufactured from an individual patient's T cells and requires strict "
+            "chain-of-custody documentation across manufacturing, QC, and delivery."
+        ),
+    },
+
+    # ── Pharma × Google Cloud ─────────────────────────────────────────────────
+
+    {
+        "src": "LLY", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Eli Lilly + Isomorphic Labs (Alphabet) — AI drug discovery collaboration, up to $1.7B milestone deal (2024)",
+        "value": "Up to $1.7B (milestone-based)", "year": "2024",
+        "source_url": "https://www.isomorphiclabs.com/articles/isomorphic-labs-kicks-off-2024-with-two-landmark-drug-discovery-collaborations",
+        "source_name": "Isomorphic Labs",
+        "details": (
+            "Isomorphic Labs — Alphabet's AI-powered drug discovery company spun out of "
+            "Google DeepMind — announced a landmark collaboration with Eli Lilly in "
+            "January 2024 worth up to $1.7 billion. Isomorphic Labs applies AlphaFold "
+            "protein-structure prediction and AI-driven molecular design to discover novel "
+            "drug candidates across multiple therapeutic areas for Lilly. The deal includes "
+            "an upfront payment plus milestone-based payments tied to drug development "
+            "success. Lilly selected Isomorphic after DeepMind's AlphaFold2 achieved "
+            "breakthrough accuracy in predicting protein 3D structures from amino-acid "
+            "sequences — directly accelerating drug target identification and molecule "
+            "optimization. The partnership is one of the largest AI drug discovery deals "
+            "in history and signals pharma's willingness to pay Big Tech billions for "
+            "AI-powered biology research."
+        ),
+    },
+    {
+        "src": "MRK", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Merck + Google Cloud — AI-powered drug discovery, real-world evidence analytics, and genomics research (2022)",
+        "value": "~$150M+ (multi-year)", "year": "2022",
+        "source_url": "https://cloud.google.com/customers/merck",
+        "source_name": "Google Cloud",
+        "details": (
+            "Merck & Co. partners with Google Cloud for AI-driven drug discovery and "
+            "real-world evidence analytics alongside its Azure and AWS deployments. Merck "
+            "uses Google Cloud's Vertex AI and BigQuery to analyze genomic data from large "
+            "patient populations, identifying genetic variants associated with cancer "
+            "susceptibility and drug response for Keytruda expansion. Google Cloud's "
+            "health data platform integrates claims, EHR, and lab data to support Merck's "
+            "post-market surveillance for its oncology portfolio. Merck also collaborates "
+            "with Google Health on digital biomarker research using wearable sensor data "
+            "in clinical trials. DeepMind's AlphaFold protein-structure tool assists "
+            "Merck's protein engineering team in designing next-generation biologics for "
+            "cancer, infectious disease, and cardiometabolic indications."
+        ),
+    },
+
+    # ── Life science supply chain — additional Thermo Fisher × pharma ─────────
+
+    {
+        "src": "TMO", "dst": "MRK", "type": "Supply Chain",
+        "desc": "Thermo Fisher Patheon CDMO and analytical instruments supply Merck vaccine and biologics drug development and manufacturing",
+        "value": "~$1-2B annually", "year": "2012",
+        "source_url": "https://ir.thermofisher.com/financial-information/annual-reports",
+        "source_name": "Thermo Fisher Annual Report",
+        "details": (
+            "Thermo Fisher Scientific is a major supplier to Merck & Co. across its "
+            "vaccine, biologics, and small-molecule drug manufacturing operations. "
+            "Thermo Fisher's Patheon CDMO manufactures and packages Merck clinical trial "
+            "materials for oncology, vaccine, and antiviral programs. Thermo Fisher "
+            "analytical instruments — including Orbitrap mass spectrometers and NanoDrop "
+            "spectrophotometers — are standard in Merck's West Point PA and Rahway NJ "
+            "manufacturing QC labs. Merck's Gardasil (HPV vaccine) and Vaxneuvance "
+            "pneumococcal vaccine manufacturing operations rely on Thermo Fisher filtration, "
+            "formulation, and fill-finish equipment. Keytruda monoclonal antibody production "
+            "at Merck's biologics facilities uses Thermo Fisher HyClone cell culture media "
+            "and bioprocessing consumables that cannot be easily substituted mid-campaign."
+        ),
+    },
+    {
+        "src": "TMO", "dst": "ABBV", "type": "Supply Chain",
+        "desc": "Thermo Fisher Patheon CDMO and analytical instruments support AbbVie Humira, Skyrizi, and Rinvoq biologics manufacturing",
+        "value": "~$1-2B annually", "year": "2013",
+        "source_url": "https://ir.thermofisher.com/financial-information/annual-reports",
+        "source_name": "Thermo Fisher Annual Report",
+        "details": (
+            "Thermo Fisher Scientific's Patheon CDMO division provides contract "
+            "manufacturing and packaging services for AbbVie's biologics portfolio. "
+            "Humira (adalimumab) — the world's former best-selling drug at $14B+ peak "
+            "annual revenue — used Thermo Fisher's fill-finish manufacturing capabilities "
+            "across multiple batches per year at Patheon's EU and US sites. AbbVie's "
+            "successor drugs, Skyrizi (risankizumab) and Rinvoq (upadacitinib), continue "
+            "to leverage Thermo Fisher's analytical chemistry and biologics manufacturing "
+            "infrastructure as volumes scale to replace eroding Humira revenue after "
+            "biosimilar entry. Thermo Fisher mass spectrometers and HPLC chromatography "
+            "systems are embedded in AbbVie's North Chicago QC labs for batch release "
+            "testing across drugs distributed to 70+ countries."
+        ),
+    },
+    {
+        "src": "TMO", "dst": "BMY", "type": "Supply Chain",
+        "desc": "Thermo Fisher Patheon CDMO and laboratory instruments support Bristol-Myers Squibb oncology and cell therapy manufacturing",
+        "value": "~$800M-1.5B annually", "year": "2012",
+        "source_url": "https://ir.thermofisher.com/financial-information/annual-reports",
+        "source_name": "Thermo Fisher Annual Report",
+        "details": (
+            "Thermo Fisher Scientific provides contract manufacturing and laboratory "
+            "instrumentation for Bristol-Myers Squibb's oncology drug and cell therapy "
+            "manufacturing. BMS's Opdivo (nivolumab) monoclonal antibody production "
+            "relies on Thermo Fisher bioprocessing equipment and fill-finish capabilities. "
+            "Following BMS's $74B Celgene acquisition in 2019, Thermo Fisher became an "
+            "even more important supplier — Revlimid (lenalidomide) capsule manufacturing "
+            "and Breyanzi/Abecma CAR-T cell therapy cold-chain logistics both leverage "
+            "Thermo Fisher capabilities. Thermo Fisher's HyClone cell culture media are "
+            "essential consumables for BMS's CAR-T manufacturing processes where individual "
+            "patient T cells are expanded into personalized cancer treatments. Thermo "
+            "Fisher's temperature-controlled storage systems also manage BMS's clinical "
+            "trial supplies across its oncology study network."
+        ),
+    },
+
+    # ── Life science supply chain — additional Danaher × pharma ──────────────
+
+    {
+        "src": "DHR", "dst": "LLY", "type": "Supply Chain",
+        "desc": "Danaher Cytiva bioprocessing equipment is central to Eli Lilly's GLP-1 (tirzepatide) manufacturing scale-up",
+        "value": "~$1-2B annually (growing rapidly)", "year": "2021",
+        "source_url": "https://investors.danaher.com/financial-information/annual-reports",
+        "source_name": "Danaher Annual Report",
+        "details": (
+            "Danaher's Cytiva division supplies the core bioprocessing equipment for "
+            "Eli Lilly's rapid scale-up of tirzepatide (Mounjaro for diabetes, Zepbound "
+            "for obesity) manufacturing. Tirzepatide is a GLP-1/GIP dual agonist requiring "
+            "complex peptide synthesis and injectable formulation — processes supported by "
+            "Cytiva bioreactors, ÄKTA chromatography systems, and single-use technologies. "
+            "Lilly invested $9B+ in manufacturing capacity expansion as Mounjaro/Zepbound "
+            "demand far exceeded supply in 2023-24. Danaher's equipment is embedded in "
+            "Lilly's facilities in Indianapolis IN, Branchburg NJ, and Kinsale Ireland. "
+            "Cytiva's ReadyToProcess single-use manufacturing platforms enabled Lilly to "
+            "scale tirzepatide production faster than traditional stainless-steel bioreactors, "
+            "making Danaher a critical enabler of Lilly's rise to the world's most valuable "
+            "pharmaceutical company."
+        ),
+    },
+    {
+        "src": "DHR", "dst": "MRK", "type": "Supply Chain",
+        "desc": "Danaher Cytiva bioreactors and Pall filtration underpin Merck vaccine and biologics manufacturing globally",
+        "value": "~$800M-1.5B annually", "year": "2018",
+        "source_url": "https://investors.danaher.com/financial-information/annual-reports",
+        "source_name": "Danaher Annual Report",
+        "details": (
+            "Danaher's Cytiva and Pall divisions supply core bioprocessing equipment "
+            "for Merck & Co.'s vaccine and biologics manufacturing operations. Cytiva "
+            "bioreactors are central to Merck's Gardasil (HPV vaccine) manufacturing "
+            "in Durham NC and West Point PA — one of the world's highest-volume biologics "
+            "manufacturing facilities producing millions of doses annually. Pall's "
+            "tangential flow filtration systems handle the critical downstream purification "
+            "of monoclonal antibodies including Keytruda. During COVID-19, Merck used "
+            "Cytiva single-use systems to rapidly scale MK-4482 (molnupiravir antiviral) "
+            "manufacturing. Danaher's Cepheid GeneXpert systems are also deployed in Merck "
+            "clinical trial sites worldwide for rapid PCR-based patient diagnostic testing "
+            "during study enrollment and monitoring."
+        ),
+    },
+    {
+        "src": "DHR", "dst": "ABBV", "type": "Supply Chain",
+        "desc": "Danaher Cytiva bioprocessing equipment central to AbbVie Humira and next-generation biologics manufacturing",
+        "value": "~$800M-1.5B annually", "year": "2014",
+        "source_url": "https://investors.danaher.com/financial-information/annual-reports",
+        "source_name": "Danaher Annual Report",
+        "details": (
+            "Danaher's Cytiva (formerly GE Healthcare Life Sciences) and Pall divisions "
+            "supply the bioprocessing infrastructure for AbbVie's biologics manufacturing. "
+            "Humira (adalimumab), which generated $14B+ at its peak as the world's "
+            "best-selling drug, required massive bioreactor capacity that Cytiva equipment "
+            "supplied at AbbVie's North Chicago IL and Ludwigshafen Germany plants. "
+            "AbbVie's successor immunology drugs — Skyrizi (anti-IL-23 antibody) and "
+            "Rinvoq (JAK inhibitor) — use Cytiva single-use bioreactors and ÄKTA "
+            "chromatography systems for biologics manufacturing scale-up. Pall filtration "
+            "systems handle critical purification of AbbVie's monoclonal antibodies. "
+            "Danaher's Sciex mass spectrometry instruments are used in AbbVie's bioanalytical "
+            "labs for pharmacokinetics and quality control across its immunology pipeline."
+        ),
+    },
+    {
+        "src": "DHR", "dst": "BMY", "type": "Supply Chain",
+        "desc": "Danaher Cytiva and Pall bioprocessing equipment supports Bristol-Myers Squibb immuno-oncology and CAR-T cell therapy manufacturing",
+        "value": "~$600M-1B annually", "year": "2019",
+        "source_url": "https://investors.danaher.com/financial-information/annual-reports",
+        "source_name": "Danaher Annual Report",
+        "details": (
+            "Danaher's Cytiva and Pall divisions supply bioprocessing equipment for "
+            "Bristol-Myers Squibb's oncology manufacturing — especially for cell therapies "
+            "where Danaher's single-use bioreactor expertise is critical. BMS's Breyanzi "
+            "(lisocabtagene maraleucel) and Abecma (idecabtagene vicleucel) CAR-T therapies "
+            "require specialized cell culture equipment, including Cytiva's ReadyToProcess "
+            "WAVE bioreactors for T-cell expansion ex vivo from each patient's blood draw. "
+            "Each CAR-T dose is manufactured from an individual patient's T cells — a "
+            "process requiring Cytiva and Pall bioprocessing consumables that cannot be "
+            "scaled like traditional biologics. BMS's Opdivo (nivolumab) monoclonal antibody "
+            "production in Syracuse NY and Devens MA also uses Danaher's bioprocessing "
+            "infrastructure extensively."
+        ),
+    },
+
+    # ── Berkshire Hathaway Healthcare investments ─────────────────────────────
+
+    {
+        "src": "BRK-B", "dst": "JNJ", "type": "Ownership",
+        "desc": "Berkshire Hathaway held Johnson & Johnson as a core equity investment for four decades, exiting by 2022",
+        "value": "~$4B+ (peak position, various periods)", "year": "1980",
+        "source_url": "https://www.berkshirehathaway.com/letters/2021ltr.pdf",
+        "source_name": "Berkshire Hathaway Annual Letter",
+        "details": (
+            "Berkshire Hathaway held Johnson & Johnson shares for roughly four decades, "
+            "with Warren Buffett citing J&J's diversified healthcare model — pharmaceuticals, "
+            "medical devices, and consumer products — as a classic defensive compounding "
+            "business. J&J was one of Berkshire's earliest S&P 500 healthcare investments. "
+            "Berkshire held a meaningful J&J position through multiple cycles including the "
+            "Tylenol recall (1982), the DePuy hip recall (2010), and J&J's Kenvue consumer "
+            "health spinoff announcement (2021). Berkshire gradually exited its J&J position "
+            "through 2021-2022 as Buffett shifted healthcare exposure toward AbbVie and "
+            "Bristol-Myers Squibb. The decades-long relationship reflects J&J's enduring "
+            "appeal as a slow-growth dividend compounder with AAA credit and a resilient "
+            "multi-segment healthcare model."
+        ),
+    },
+    {
+        "src": "BRK-B", "dst": "ABBV", "type": "Ownership",
+        "desc": "Berkshire Hathaway acquired ~$3.3B AbbVie stake in Q3 2020 — a major new pharma position at Humira biosimilar discount",
+        "value": "~$3.3B (Q3 2020 acquisition)", "year": "2020",
+        "source_url": "https://www.berkshirehathaway.com/2020ar/2020ar.pdf",
+        "source_name": "Berkshire Hathaway Annual Report",
+        "details": (
+            "Berkshire Hathaway revealed a $3.3 billion stake in AbbVie in its Q3 2020 "
+            "13-F SEC filing, acquired alongside positions in Bristol-Myers Squibb, Merck, "
+            "and Pfizer — marking Berkshire's entry into major pharmaceutical stocks. "
+            "Warren Buffett (or investment managers Ted Weschler and Todd Combs) purchased "
+            "AbbVie at depressed multiples during COVID-19 uncertainty about Humira biosimilar "
+            "competition. AbbVie was trading at ~8x earnings at the time of acquisition. "
+            "Berkshire sold most of its pharmaceutical positions in 2021, including trimming "
+            "AbbVie, but the initial disclosure drove AbbVie shares up 8% on the announcement "
+            "date — the classic Buffett validation effect where disclosure of Berkshire's "
+            "ownership signals management quality and valuation attractiveness to the market."
+        ),
+    },
+
+    # ── COVID-19 manufacturing partnership ────────────────────────────────────
+
+    {
+        "src": "MRK", "dst": "JNJ", "type": "Partnership",
+        "desc": "Merck manufacturing J&J COVID-19 vaccine at two US plants — historic competitor-to-competitor deal facilitated by Biden Administration (2021)",
+        "value": "~$105M (US government manufacturing contract)", "year": "2021",
+        "source_url": "https://www.hhs.gov/about/news/2021/03/02/hhs-dod-partner-with-merck-to-increase-production-jj-covid-19-vaccine.html",
+        "source_name": "HHS Press Release",
+        "details": (
+            "In March 2021, the Biden administration announced that Merck — a direct "
+            "competitor to J&J in vaccines — would manufacture J&J's COVID-19 vaccine "
+            "at two US facilities (Elkton MD and Durham NC). The US government facilitated "
+            "the unprecedented rival-manufacturer deal as part of the Defense Production "
+            "Act mobilization to accelerate COVID-19 vaccine supply. HHS and DoD awarded "
+            "Merck a $105M contract to prepare the facilities and manufacture Ad26 doses. "
+            "This was one of the most visible examples of competitor collaboration in "
+            "pharmaceutical history — Merck had lost the COVID-19 vaccine race after "
+            "discontinuing its own vaccine candidates in January 2021. The deal demonstrated "
+            "that manufacturing capacity, not intellectual property, was the binding "
+            "constraint to COVID vaccination and that pharma rivals could cooperate under "
+            "extraordinary circumstances."
+        ),
+    },
+
+    # ── Diagnostics × pharma ──────────────────────────────────────────────────
+
+    {
+        "src": "ABT", "dst": "MRK", "type": "Partnership",
+        "desc": "Abbott companion diagnostics — Alinity platforms provide PD-L1 testing for Merck Keytruda patient selection in oncology",
+        "value": "~$200M+ annually (companion Dx market)", "year": "2018",
+        "source_url": "https://abbott.mediaroom.com/",
+        "source_name": "Abbott Newsroom",
+        "details": (
+            "Abbott and Merck partner to supply companion diagnostic tests that identify "
+            "which cancer patients are likely to respond to Keytruda (pembrolizumab). "
+            "Merck's Keytruda, the world's best-selling cancer drug at $25B+, is approved "
+            "across 40+ cancer indications — many requiring PD-L1 or TMB (tumor mutational "
+            "burden) biomarker testing before treatment. Abbott's Alinity series of advanced "
+            "diagnostics analyzers, used in hospital pathology labs across Europe and emerging "
+            "markets, provides PD-L1 immunohistochemistry testing that complements approved "
+            "Dako/Agilent assays used in the US. The companion diagnostic market is essential "
+            "to precision oncology — regulators require validated biomarker tests as a "
+            "condition of approval for several Keytruda indications, making Abbott's "
+            "diagnostics infrastructure integral to Merck's commercial success."
+        ),
+    },
+    {
+        "src": "ABT", "dst": "LLY", "type": "Partnership",
+        "desc": "Abbott FreeStyle Libre CGM integrated with Eli Lilly Tempo insulin management system — closed-loop diabetes management (2022)",
+        "value": "~$150M+ annually (integrated system sales)", "year": "2022",
+        "source_url": "https://www.diabetescare.abbott/",
+        "source_name": "Abbott Diabetes Care",
+        "details": (
+            "Abbott and Eli Lilly partnered to connect Abbott's FreeStyle Libre continuous "
+            "glucose monitoring (CGM) system with Lilly's Tempo connected insulin delivery "
+            "ecosystem. The Tempo Smart Button — which attaches to any Lilly insulin pen — "
+            "communicates dosing data to the Tempo by Lilly app, which integrates with "
+            "FreeStyle Libre's real-time glucose readings to show glucose and insulin data "
+            "in one unified view. This interoperability creates a simplified diabetes "
+            "management experience for users of Lilly's Humalog and Basaglar insulins. "
+            "The partnership addresses the fragmentation gap between CGM monitoring and "
+            "insulin delivery that has historically required patients to use separate apps. "
+            "As GLP-1 drugs (Mounjaro/Zepbound) shift the diabetes treatment landscape, "
+            "the Abbott-Lilly device-drug ecosystem partnership remains central to both "
+            "companies' diabetes care strategies."
+        ),
+    },
+
+    # ── Health insurer × tech (additional) ───────────────────────────────────
+
+    {
+        "src": "UNH", "dst": "GOOGL", "type": "Partnership",
+        "desc": "UnitedHealth Group uses Google Cloud for clinical AI, genomics analytics, and population health at 150M+ member scale",
+        "value": "~$300M+ (multi-year)", "year": "2022",
+        "source_url": "https://cloud.google.com/customers/unitedhealth",
+        "source_name": "Google Cloud",
+        "details": (
+            "UnitedHealth Group and Google Cloud partnered to deploy AI across "
+            "UnitedHealth's Optum data and analytics platform, which manages 150M+ lives. "
+            "Google Cloud's BigQuery and Vertex AI analyze Optum's vast clinical dataset — "
+            "combining claims, EHR, pharmacy, and lab data — to power predictive models for "
+            "hospital readmission risk, care gap identification, and fraud detection in "
+            "real time. Google Health's AI tools assist Optum Genomics in analyzing whole- "
+            "genome sequences from consented members to identify genetic risk factors for "
+            "chronic disease. The partnership positions UnitedHealth's Optum as an AI-native "
+            "health intelligence platform competing with traditional healthcare analytics "
+            "vendors by leveraging Google's leading AI research capabilities and the "
+            "population-scale insights that only Optum's 15B+ annual data transactions enable."
+        ),
+    },
+    {
+        "src": "CI", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Cigna's Evernorth Express Scripts (largest US PBM) uses AWS for pharmacy claims processing and specialty drug management",
+        "value": "~$200M+ annually", "year": "2019",
+        "source_url": "https://aws.amazon.com/health/customers/evernorth/",
+        "source_name": "AWS Health",
+        "details": (
+            "Cigna Group's Evernorth Health Services — the $100B+ pharmacy and care services "
+            "platform — uses Amazon Web Services for its Express Scripts pharmacy benefit "
+            "management operations alongside its Microsoft Azure relationship. Express Scripts, "
+            "the largest US PBM, processes 1.5B+ prescriptions annually and uses AWS for "
+            "drug interaction checking, formulary management, and real-time eligibility "
+            "verification across Cigna's 180M+ plan member base. AWS enables Evernorth to "
+            "process pharmacy claims at low latency during peak demand (first of the month "
+            "when members pick up prescriptions). Evernorth's specialty pharmacy business "
+            "— handling high-cost biologic drugs and cell therapies — uses AWS IoT for "
+            "temperature-sensitive supply chain monitoring and patient adherence analytics."
+        ),
+    },
+
+    # ── Pharma formulary and value-based contracts ────────────────────────────
+
+    {
+        "src": "UNH", "dst": "LLY", "type": "Partnership",
+        "desc": "UnitedHealth OptumRx covers Mounjaro/Zepbound for 50M+ members — outcomes-based GLP-1 formulary agreement (2023)",
+        "value": "~$3B+ annually (GLP-1 drug spend)", "year": "2023",
+        "source_url": "https://www.unitedhealthgroup.com/newsroom.html",
+        "source_name": "UnitedHealth Group Newsroom",
+        "details": (
+            "UnitedHealth Group's OptumRx pharmacy benefit manager covers Eli Lilly's "
+            "tirzepatide (Mounjaro for diabetes, Zepbound for obesity) for 50M+ members "
+            "under outcomes-based formulary agreements negotiated in 2023. As GLP-1 drugs "
+            "became the fastest-growing drug category in pharmaceutical history, UnitedHealth "
+            "and Lilly structured agreements tying rebate pricing to patient health outcomes "
+            "— A1C reduction for diabetes and sustained weight loss for obesity. OptumRx's "
+            "prior authorization criteria and step-therapy protocols significantly influence "
+            "how many of the 70M+ US diabetes and obesity patients can access Lilly's drugs. "
+            "The UNH-LLY relationship is one of the highest-value drug coverage negotiations "
+            "in the US healthcare system, with GLP-1 spending projected to exceed $100B+ "
+            "annually industry-wide — making OptumRx one of Lilly's most consequential "
+            "commercial partners."
+        ),
+    },
+    {
+        "src": "CVS", "dst": "LLY", "type": "Partnership",
+        "desc": "CVS Caremark and Eli Lilly GLP-1 weight management program — streamlined obesity drug access for 90M+ CVS members (2023)",
+        "value": "~$1.5B+ annually (CVS GLP-1 drug spend)", "year": "2023",
+        "source_url": "https://www.cvshealth.com/news/pharmacy.html",
+        "source_name": "CVS Health",
+        "details": (
+            "CVS Health partnered with Eli Lilly in 2023 to streamline access to GLP-1 "
+            "obesity drugs for CVS Caremark members, including Zepbound (tirzepatide for "
+            "obesity) and Mounjaro (tirzepatide for type 2 diabetes). CVS Health's CareMark "
+            "PBM manages prescription benefits for 90M+ members and is one of the three "
+            "largest US pharmacy benefit managers. The CVS-Lilly partnership includes "
+            "preferential formulary placement of Lilly's GLP-1s and streamlined prior "
+            "authorization for qualifying patients. CVS MinuteClinic and HealthHUB locations "
+            "provide monitoring and adherence support for patients on GLP-1 drugs, while "
+            "Lilly provides patient support programs. The deal was part of a wave of "
+            "PBM-pharma partnerships as GLP-1 drugs reshaped US healthcare spending, with "
+            "CVS committing to be a distribution and care-coordination partner for Lilly's "
+            "obesity franchise."
+        ),
+    },
+    {
+        "src": "UNH", "dst": "PFE", "type": "Partnership",
+        "desc": "UnitedHealth OptumRx manages Pfizer's largest US drug access channel — Eliquis, Ibrance, Prevnar formulary coverage for 50M+ members",
+        "value": "~$5B+ annually (Pfizer drugs through OptumRx)", "year": "2015",
+        "source_url": "https://www.unitedhealthgroup.com/investor-relations.html",
+        "source_name": "UnitedHealth Group IR",
+        "details": (
+            "UnitedHealth Group's OptumRx pharmacy benefit manager is one of Pfizer's "
+            "most important drug access partners, managing formulary coverage for Pfizer's "
+            "drugs across 50M+ OptumRx members. Eliquis (apixaban, co-promoted with BMS) "
+            "is one of the most expensive drugs in OptumRx's formulary at $7B+ US revenue. "
+            "Pfizer's immunology drug Xeljanz, cancer drug Ibrance, and Prevnar/Abrysvo "
+            "pneumococcal vaccines all require OptumRx formulary positioning for wide patient "
+            "access. OptumRx's rebate negotiations with Pfizer directly determine net drug "
+            "prices for millions of patients — when OptumRx grants preferred formulary status "
+            "to a Pfizer drug, it can shift hundreds of millions in incremental revenue. "
+            "The UnitedHealth-Pfizer relationship exemplifies how integrated PBM-insurer "
+            "entities now control pharmaceutical market access more than any other channel."
+        ),
+    },
+    {
+        "src": "ABBV", "dst": "GOOGL", "type": "Partnership",
+        "desc": "AbbVie + Google Cloud — AI-powered immunology drug discovery and bioinformatics for Humira successor pipeline (2022)",
+        "value": "~$100M+ (multi-year)", "year": "2022",
+        "source_url": "https://cloud.google.com/customers/abbvie",
+        "source_name": "Google Cloud",
+        "details": (
+            "AbbVie partners with Google Cloud for AI-driven drug discovery and "
+            "bioinformatics, particularly for its immunology successor pipeline replacing "
+            "Humira. AbbVie uses Google Cloud's Vertex AI to analyze complex multi-omics "
+            "datasets — genomics, transcriptomics, and proteomics integrated with patient "
+            "clinical data — to identify novel drug targets in autoimmune diseases including "
+            "rheumatoid arthritis, inflammatory bowel disease, and psoriasis. Google Cloud's "
+            "natural language AI processes scientific literature and patent filings to surface "
+            "competitive intelligence for AbbVie's R&D strategy. DeepMind's AlphaFold "
+            "protein-structure prediction tool accelerates AbbVie's biologics engineering for "
+            "Skyrizi and next-generation IL-23/IL-17 pathway inhibitors. The partnership "
+            "reflects AbbVie's strategic pivot to AI-first drug discovery as Humira biosimilar "
+            "competition eroded $14B+ in annual revenue and AbbVie needed to accelerate its "
+            "succession pipeline to maintain its position as a top-5 global pharma company."
+        ),
+    },
+    {
+        "src": "BMY", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Bristol-Myers Squibb + Google Cloud — immuno-oncology AI research, genomic tumor profiling, and clinical operations analytics (2022)",
+        "value": "~$100M+ (multi-year)", "year": "2022",
+        "source_url": "https://cloud.google.com/customers/bristol-myers-squibb",
+        "source_name": "Google Cloud",
+        "details": (
+            "Bristol-Myers Squibb and Google Cloud partner to apply AI across BMS's "
+            "oncology drug discovery and clinical operations. BMS uses Google Cloud's "
+            "Vertex AI and BigQuery to analyze genomic tumor profiles across patient "
+            "populations treated with Opdivo (nivolumab) and Yervoy (ipilimumab) — "
+            "identifying molecular signatures that predict response to checkpoint "
+            "immunotherapy combination regimens. Google DeepMind's AlphaFold assists "
+            "BMS's protein engineering team in designing next-generation bispecific "
+            "antibodies and antibody-drug conjugates for solid tumors. Google Cloud "
+            "processes BMS's clinical trial data from 100+ ongoing oncology studies. "
+            "The partnership supplements BMS's AWS relationship (primary for R&D data "
+            "storage) and Azure deployment (enterprise operations) with Google's specialized "
+            "AI capabilities for cancer biology research and genomic data science."
+        ),
+    },
+
+    # ═══════════════════════════════════════════════════════════════════════════
     # Communication Services — 30 additional relationships
     # ═══════════════════════════════════════════════════════════════════════════
 
