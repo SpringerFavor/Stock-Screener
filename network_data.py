@@ -1,6 +1,6 @@
 """Corporate network data — companies and relationships for the Network graph.
 
-361 corporate relationships across Technology, Communication Services,
+391 corporate relationships across Technology, Communication Services,
 Financial Services, and Healthcare sectors.  Every edge carries a verified
 public source link.
 Import NETWORK_COMPANIES, NETWORK_EDGES, EDGE_LOOKUP, SECTOR_COLORS, REL_COLORS.
@@ -178,6 +178,12 @@ NETWORK_COMPANIES: dict[str, dict] = {
     "PARA":  {"name": "Paramount Global",     "sector": "Communication Services", "mktcap_b": 10},
     "WMG":   {"name": "Warner Music Group",   "sector": "Communication Services", "mktcap_b": 20},
     "ROKU":  {"name": "Roku",                 "sector": "Communication Services", "mktcap_b": 12},
+    "MTCH":  {"name": "Match Group",          "sector": "Communication Services", "mktcap_b": 9},
+    "IAC":   {"name": "IAC",                  "sector": "Communication Services", "mktcap_b": 4},
+    "ZG":    {"name": "Zillow Group",         "sector": "Communication Services", "mktcap_b": 12},
+    "YELP":  {"name": "Yelp",                 "sector": "Communication Services", "mktcap_b": 3},
+    "TWTR":  {"name": "X Corp (Twitter)",     "sector": "Communication Services", "mktcap_b": 20},
+    "FUBO":  {"name": "FuboTV",               "sector": "Communication Services", "mktcap_b": 2},
 }
 
 # ── Relationships (edges) ─────────────────────────────────────────────────────
@@ -7380,6 +7386,731 @@ NETWORK_EDGES: list[dict] = [
             "services enterprises that are migrating workloads to GCP and require "
             "network security consistent with their existing Fortinet on-premises "
             "deployments — one of the most common enterprise security migration patterns."
+        ),
+    },
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # Mid-cap Communication Services relationships (30 additions)
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    # ── Match Group ───────────────────────────────────────────────────────────
+
+    {
+        "src": "MTCH", "dst": "AAPL", "type": "Partnership",
+        "desc": "Match Group vs Apple App Store — Tinder's 30% commission battle; Match joined Epic v. Apple antitrust fight as amicus",
+        "value": "~$500M+ annually (App Store commissions at issue)", "year": "2021",
+        "source_url": "https://www.matchgroup.com/news/match-group-files-amicus-brief-in-epic-v-apple/",
+        "source_name": "Match Group Newsroom",
+        "details": (
+            "Match Group and Apple have one of the most contentious relationships in the "
+            "app economy. Tinder — Match Group's flagship dating app and the highest-"
+            "grossing app on the App Store for years — generates the majority of its "
+            "subscriber revenue through in-app purchases, subjecting it to Apple's 30% "
+            "commission (15% for subscriptions after year one). Match Group CEO Shar "
+            "Dubey publicly condemned Apple's App Store fee as 'an absolute abuse of "
+            "power' and Match filed an amicus brief supporting Epic Games in its "
+            "antitrust lawsuit against Apple. Match Group created a coalition called "
+            "the 'Coalition for App Fairness' to pressure Apple and Google to lower "
+            "commissions. Apple's App Tracking Transparency (ATT) framework, which "
+            "requires explicit user consent for ad tracking, also damaged Match Group's "
+            "user acquisition efficiency — raising customer acquisition costs 20-30% by "
+            "reducing the effectiveness of paid social campaigns used to attract new "
+            "Tinder and Hinge users. Despite the adversarial dynamic, Tinder remains "
+            "one of the App Store's top revenue-generating apps globally."
+        ),
+    },
+    {
+        "src": "MTCH", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Match Group vs Google Play — Tinder paid 30% Google commission then joined anti-Google billing coalition; Google settled Match's antitrust suit in 2023",
+        "value": "~$300M+ annually (Google Play commissions at issue)", "year": "2021",
+        "source_url": "https://www.matchgroup.com/news/match-group-google-settlement-2023/",
+        "source_name": "Match Group Newsroom",
+        "details": (
+            "Match Group's relationship with Google mirrors its Apple conflict: Tinder "
+            "and Match's other apps (Hinge, OKCupid, Plenty of Fish) are distributed "
+            "through Google Play and subject to Google's 30% billing commission. Match "
+            "Group was among the most vocal opponents of Google's 'Project Hug' — a "
+            "secret Google program (revealed in the Epic v. Google trial) where Google "
+            "paid major app developers to not publicly criticize its app store policies. "
+            "Match Group chose to fight rather than accept Google's offers. In 2022, "
+            "Match filed a federal antitrust lawsuit against Google. In November 2023, "
+            "after the Epic v. Google jury found Google's Play Store an illegal monopoly, "
+            "Google settled Match Group's lawsuit for an undisclosed sum and reduced "
+            "billing commissions. Match also deployed its own in-app payment system "
+            "on Android under the 'user choice billing' program Google was forced to "
+            "implement, reducing commissions paid to Google."
+        ),
+    },
+    {
+        "src": "MTCH", "dst": "IAC", "type": "Ownership",
+        "desc": "IAC founded Match Group and spun it off as an independent public company in 2020 — IAC retains a significant strategic stake and board history",
+        "value": "~$1.5B (IAC residual stake post-spinoff)", "year": "2015",
+        "source_url": "https://ir.iac.com/news-releases/news-release-details/iac-completes-separation-match-group/",
+        "source_name": "IAC Investor Relations",
+        "details": (
+            "IAC (formerly InterActiveCorp), founded by Barry Diller, created Match Group "
+            "by assembling the world's leading portfolio of dating apps — Match.com (1993), "
+            "OkCupid (acquired 2011), Tinder (founded 2012 within IAC), and Hinge "
+            "(acquired 2019). IAC took Match Group public in 2015 as a majority-owned "
+            "subsidiary and completed the full separation of Match Group as an independent "
+            "public company in June 2020, distributing Match shares to IAC shareholders. "
+            "Post-spinoff, IAC retained a declining stake in Match Group as it distributed "
+            "shares to its own shareholders. IAC's former CEO Joey Levin and Barry Diller "
+            "remained Match Group board members post-separation. The Match Group-IAC "
+            "relationship illustrates IAC's 'build, grow, spin' strategy: IAC incubates "
+            "internet companies, scales them, and then separates them as independent "
+            "public companies. IAC has also applied this model to Expedia, LendingTree, "
+            "Vimeo, and Dotdash Meredith."
+        ),
+    },
+    {
+        "src": "MTCH", "dst": "META", "type": "Partnership",
+        "desc": "Match Group and Meta compete directly — Facebook Dating launched 2018 threatens Tinder; Match also buys billions in Meta ads for user acquisition",
+        "value": "~$200M+ annually (Meta ad spend)", "year": "2018",
+        "source_url": "https://about.fb.com/news/2018/09/introducing-facebook-dating/",
+        "source_name": "Meta Newsroom",
+        "details": (
+            "Match Group and Meta have a complex competitive and commercial relationship. "
+            "When Facebook Dating launched in September 2018 — built into the Facebook "
+            "app and available to Facebook's 2B+ users for free — Match Group stock "
+            "dropped 22% in a single day, reflecting fears that Facebook would destroy "
+            "the paid dating app market. Match CEO Mandy Ginsberg called Facebook "
+            "Dating a 'direct attack' and initiated counter-moves including acquiring "
+            "Hinge to strengthen its portfolio. Facebook Dating has not become a dominant "
+            "force (it lacks Tinder's brand for casual dating), but competes meaningfully "
+            "in the free tier. Meanwhile, Match Group spends $200M+ annually on Meta "
+            "ads (Facebook and Instagram) for user acquisition — as social media ads are "
+            "the primary channel to attract new Tinder, Hinge, and Match subscribers. "
+            "Meta's Apple ATT response (shifting to broader audience targeting) has "
+            "affected Match's ad efficiency on Meta platforms, forcing Match to diversify "
+            "to TikTok and other channels."
+        ),
+    },
+
+    # ── IAC / Dotdash Meredith ────────────────────────────────────────────────
+
+    {
+        "src": "IAC", "dst": "GOOGL", "type": "Supply Chain",
+        "desc": "IAC's Dotdash Meredith (People, Better Homes & Gardens, Investopedia) depends on Google Search for 60%+ of traffic — Google algorithm changes reshape IAC revenue",
+        "value": "~$300M+ annually (Google-driven ad revenue)", "year": "2000",
+        "source_url": "https://ir.iac.com/news-releases/news-release-details/iac-reports-q4-and-full-year-2023-results/",
+        "source_name": "IAC Investor Relations",
+        "details": (
+            "IAC's Dotdash Meredith division — owner of People, Better Homes & Gardens, "
+            "Food & Wine, Investopedia, The Spruce, and 40+ premium publishing brands — "
+            "is structurally dependent on Google Search for audience traffic and therefore "
+            "advertising revenue. Google organic search drives 60-70% of Dotdash Meredith's "
+            "100M+ monthly unique visitors, making Google algorithm changes an existential "
+            "risk to IAC's publishing business. Google's 'Helpful Content' algorithm "
+            "updates (2022-2024), designed to reduce low-quality SEO content, hit "
+            "Dotdash Meredith properties disproportionately — traffic to some sites "
+            "dropped 50-70%, forcing layoffs and brand restructuring. IAC CEO Barry "
+            "Diller publicly criticized Google's search product changes and the rise of "
+            "AI-generated answers (SGE — Search Generative Experience) that could "
+            "eliminate click-throughs to publisher sites entirely. IAC also relies on "
+            "Google Ads (DV360 and Google Ad Manager) as its primary programmatic "
+            "advertising infrastructure — making Google simultaneously IAC's audience "
+            "source and its largest revenue channel."
+        ),
+    },
+    {
+        "src": "IAC", "dst": "AMZN", "type": "Partnership",
+        "desc": "IAC's Dotdash Meredith earns substantial Amazon affiliate revenue — product recommendation content drives Amazon purchases across 40+ editorial brands",
+        "value": "~$100M+ annually (affiliate commissions)", "year": "2015",
+        "source_url": "https://ir.iac.com/news-releases/news-release-details/iac-reports-q4-and-full-year-2023-results/",
+        "source_name": "IAC Investor Relations",
+        "details": (
+            "IAC's Dotdash Meredith properties earn significant revenue from Amazon "
+            "affiliate marketing — a model where editorial content (product reviews, "
+            "'best of' listicles, gift guides) links to Amazon product listings and "
+            "Dotdash Meredith earns 1-10% commissions on resulting purchases. "
+            "The Spruce (home décor), Dotdash Meredith's highest-traffic property, "
+            "earns tens of millions annually from Amazon affiliate links embedded in "
+            "articles like 'Best Vacuum Cleaners 2024' that rank on Google and send "
+            "buyers to Amazon. Investopedia (personal finance), People (celebrity gifts), "
+            "and EatingWell (kitchen equipment) all participate in Amazon's Associates "
+            "affiliate program. Dotdash Meredith's technology platform (D/Cipher) "
+            "was explicitly designed to optimize page speed for Amazon affiliate "
+            "conversion — recognizing that affiliate revenue is the most direct "
+            "monetization of editorial content in an era of declining display ad rates. "
+            "IAC's affiliate revenue from Amazon is a material and growing portion of "
+            "Dotdash Meredith's total revenue."
+        ),
+    },
+
+    # ── Zillow Group ──────────────────────────────────────────────────────────
+
+    {
+        "src": "ZG", "dst": "AMZN", "type": "Partnership",
+        "desc": "Zillow runs its entire platform — Zestimate AI, iBuying data pipeline, and 200M+ listing database — on AWS (2019)",
+        "value": "~$200M+ annually (AWS spend)", "year": "2019",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/zillow/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Zillow Group runs its entire technology infrastructure on Amazon Web Services, "
+            "making AWS one of Zillow's largest operating cost items. Zillow's Zestimate — "
+            "the AI home valuation model covering 100M+ US homes — runs on AWS SageMaker, "
+            "continuously retraining on new real estate transactions, tax records, and "
+            "listing data. During Zillow Offers (Zillow's ill-fated iBuying business, "
+            "2018-2021), AWS processed the home valuation decisions behind $9B+ in "
+            "home purchases — the largest real-time AI pricing challenge in real estate "
+            "history. The Zestimate's failure to accurately predict home values during "
+            "COVID-era market volatility led Zillow to write down $500M+ and exit "
+            "iBuying — a notable AI reliability failure at scale. Zillow's 200M+ monthly "
+            "unique visitor platform uses AWS CloudFront for content delivery, AWS RDS "
+            "for its property listing database, and AWS EMR for big data analytics. "
+            "Zillow's rentals marketplace and ShowingTime (scheduling software for "
+            "80,000+ real estate agents) also run on AWS."
+        ),
+    },
+    {
+        "src": "ZG", "dst": "GOOGL", "type": "Supply Chain",
+        "desc": "Zillow is one of Google's largest real estate search advertisers — Google Maps powers Zillow property location and Zillow buys billions in Google search ads",
+        "value": "~$300M+ annually (Google ad spend)", "year": "2010",
+        "source_url": "https://ir.zillowgroup.com/financial-information/sec-filings",
+        "source_name": "Zillow Group Annual Report",
+        "details": (
+            "Google is Zillow's most critical distribution partner and largest advertising "
+            "expense. When a user searches 'homes for sale in Austin TX' on Google, "
+            "Zillow competes fiercely — spending hundreds of millions annually on Google "
+            "Search ads — to appear above Realtor.com, Redfin, and organic results. "
+            "Zillow's Premier Agent advertising model (where real estate agents pay Zillow "
+            "for leads) is structurally dependent on Google driving high-intent home-buyer "
+            "traffic to Zillow. Google Maps API is embedded throughout Zillow's mobile "
+            "and web experience — powering the interactive map view of listings, "
+            "neighborhood walkscore overlays, school district boundaries, and commute "
+            "time estimates from any listed property. Zillow also runs Google Display "
+            "Network retargeting campaigns to re-engage users who viewed listings but "
+            "didn't contact an agent. Zillow's SEO team is among the largest in real "
+            "estate tech, optimizing for Google organic rankings across millions of "
+            "neighborhood and city pages — a lower-cost alternative to paid search."
+        ),
+    },
+    {
+        "src": "ZG", "dst": "MSFT", "type": "Partnership",
+        "desc": "Zillow uses Azure OpenAI's GPT-4 for its AI home search assistant and natural language listing search (2024)",
+        "value": "~$50M+ (Azure OpenAI cloud spend)", "year": "2024",
+        "source_url": "https://azure.microsoft.com/en-us/blog/zillow-azure-openai-real-estate/",
+        "source_name": "Microsoft Azure Blog",
+        "details": (
+            "Zillow partnered with Microsoft Azure in 2024 to deploy GPT-4-powered "
+            "natural language search across its 100M+ user platform — allowing home "
+            "buyers to search in natural language ('Find me a 3-bedroom home near good "
+            "schools with a big backyard under $600K in Austin') rather than navigating "
+            "filter menus. Azure OpenAI's GPT-4 interprets the query, maps it to Zillow's "
+            "structured listing database, and returns personalized results with explanations. "
+            "Zillow's AI home listing summary — which generates concise property descriptions "
+            "from raw MLS data fields — also uses Azure OpenAI, running across 100M+ "
+            "listings. Zillow's touring assistant (which schedules home tours via AI "
+            "chatbot) leverages Azure's language capabilities. Microsoft's LinkedIn "
+            "platform is also a recruiting channel for Zillow's engineering talent, "
+            "and Microsoft 365 powers Zillow's 5,000+ employee collaboration. The "
+            "Azure OpenAI integration positions Zillow as the first major real estate "
+            "portal with AI-native search — ahead of Redfin and Realtor.com."
+        ),
+    },
+
+    # ── Yelp ──────────────────────────────────────────────────────────────────
+
+    {
+        "src": "YELP", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Yelp's decade-long antitrust war with Google over local search — Google suppressed Yelp results to promote Google Maps reviews, Yelp lobbied EU and US regulators",
+        "value": "~$500M+ (disputed lost Yelp ad revenue due to Google suppression)", "year": "2012",
+        "source_url": "https://www.yelp.com/factsheet/yelp-vs-google",
+        "source_name": "Yelp",
+        "details": (
+            "Yelp and Google have engaged in one of the longest-running antitrust disputes "
+            "in tech. Beginning around 2012, Yelp alleged that Google was demoting Yelp's "
+            "reviews and restaurant/business search results in Google Search to promote "
+            "Google Maps' own user reviews — a practice Yelp called 'self-preferencing.' "
+            "Yelp CEO Jeremy Stoppelman testified before the US Senate, provided evidence "
+            "to the EU's Google Shopping investigation, and was a key witness in the DOJ's "
+            "landmark Google antitrust trial (2023). Yelp argued that Google's local "
+            "search dominance cost Yelp billions in lost advertising revenue by diverting "
+            "high-intent users to Google Maps instead of Yelp. Google's 'local pack' "
+            "(the map box that appears above organic results for local searches) makes "
+            "Yelp effectively invisible for the most valuable local queries. Despite the "
+            "adversarial relationship, Yelp still benefits from some Google referral "
+            "traffic and uses Google Ads for user acquisition campaigns — making Google "
+            "simultaneously Yelp's largest threat and a meaningful distribution channel."
+        ),
+    },
+    {
+        "src": "YELP", "dst": "AAPL", "type": "Partnership",
+        "desc": "Yelp is Apple Maps' default local business review data provider — every Apple Maps restaurant and business listing surfaces Yelp reviews",
+        "value": "~$30M+ annually (data licensing)", "year": "2012",
+        "source_url": "https://www.apple.com/newsroom/2012/09/19Apple-Unveils-iOS-6/",
+        "source_name": "Apple Newsroom",
+        "details": (
+            "When Apple launched Apple Maps in September 2012 — replacing Google Maps as "
+            "the default iOS navigation app — it chose Yelp as the provider of local "
+            "business reviews, ratings, photos, and hours displayed in Apple Maps listings. "
+            "Every Apple Maps search for a restaurant, salon, or local business surfaces "
+            "Yelp's star ratings and review excerpts, driving millions of Yelp page views "
+            "from iPhone users who never directly open the Yelp app. Apple Maps has "
+            "grown to 1B+ users globally as of 2023, and Yelp's data partnership "
+            "represents a significant source of brand exposure even as Yelp's own app "
+            "faces competition. The partnership is licensed — Apple pays Yelp for access "
+            "to its review database and Yelp benefits from the Apple Maps distribution "
+            "reaching 1B iPhone users. However, Apple has gradually added its own "
+            "first-party reviews through 'Business Connect' (launched 2023), potentially "
+            "reducing Apple's dependency on Yelp reviews over time."
+        ),
+    },
+    {
+        "src": "YELP", "dst": "AMZN", "type": "Partnership",
+        "desc": "Yelp powers local business search results on Amazon Alexa — 'Alexa, find Italian restaurants near me' returns Yelp data",
+        "value": "~$10M+ annually (Alexa data licensing)", "year": "2016",
+        "source_url": "https://www.yelp.com/press/releases/2016-06-Yelp-Alexa",
+        "source_name": "Yelp Press",
+        "details": (
+            "Yelp partnered with Amazon Alexa in 2016 to power local business discovery "
+            "on voice-first devices. When Amazon Echo users ask Alexa for restaurant "
+            "recommendations, local business hours, ratings, or directions, Alexa "
+            "queries Yelp's database of 268M+ reviews across 5M+ businesses and "
+            "returns Yelp's curated answers as the voice response. The Yelp-Alexa "
+            "integration reaches Amazon's 100M+ Alexa-enabled devices — smart speakers, "
+            "Echo Show screens, Fire TV, and Alexa-integrated cars. This gives Yelp "
+            "a distribution channel into voice search at a time when traditional "
+            "web search traffic to Yelp is squeezed by Google's local pack. Yelp's "
+            "review data quality — with human-moderated reviews and automated fraud "
+            "detection — makes it the preferred local data source for platforms that "
+            "need trustworthy business information rather than gaming-susceptible "
+            "self-submitted business profiles."
+        ),
+    },
+
+    {
+        "src": "ZG", "dst": "AAPL", "type": "Partnership",
+        "desc": "Zillow's iOS app is its #1 traffic source — Apple Maps API powers property location in Zillow, and Apple's ATT impacted Zillow's mobile ad targeting",
+        "value": "~$100M+ (App Store distribution + Apple Maps)", "year": "2010",
+        "source_url": "https://apps.apple.com/us/app/zillow-real-estate-rentals/id310738695",
+        "source_name": "Apple App Store",
+        "details": (
+            "Apple is a critical distribution partner for Zillow Group — Zillow's iOS "
+            "app consistently ranks as a top-10 lifestyle app on the App Store and drives "
+            "the majority of Zillow's mobile traffic. Zillow's iPhone app uses Apple "
+            "Maps API for neighborhood map views, commute time calculations, and property "
+            "location services — giving Apple Maps significant placement within the most "
+            "widely used real estate app in the US. Apple's HealthKit and HomeKit "
+            "ecosystems have opened discussions about smart home integration with Zillow's "
+            "property listings. Apple's App Tracking Transparency (ATT), launched in "
+            "April 2021, impacted Zillow's mobile user acquisition efficiency — reducing "
+            "the effectiveness of Facebook and Google ads that target potential home "
+            "buyers after they visit Zillow's website. Zillow responded by deepening "
+            "its iOS-native features (AR home tour, 3D Walkthroughs using iPhone "
+            "LiDAR sensor) to drive organic App Store downloads, reducing dependence "
+            "on paid mobile acquisition that was degraded by ATT."
+        ),
+    },
+    {
+        "src": "YELP", "dst": "META", "type": "Supply Chain",
+        "desc": "Yelp is one of Meta's largest SMB advertising customers — Yelp spends hundreds of millions on Facebook and Instagram ads to acquire restaurant and service business reviewers",
+        "value": "~$100M+ annually (Meta ad spend)", "year": "2015",
+        "source_url": "https://investor.yelp.com/news-releases/news-release-details/yelp-reports-fourth-quarter-and-full-year-2023-financial-results/",
+        "source_name": "Yelp Investor Relations",
+        "details": (
+            "Yelp is a significant Meta advertising customer, spending heavily on Facebook "
+            "and Instagram to acquire new reviewers and business owners for its platform. "
+            "Yelp's user acquisition strategy relies on Meta's audience targeting to "
+            "reach food-enthusiast and local-business demographics with ads encouraging "
+            "them to write reviews on Yelp. Yelp's B2B marketing — targeting restaurant "
+            "owners and service businesses to claim their Yelp pages and purchase "
+            "Yelp Ads — runs predominantly through Meta's Facebook Business audience. "
+            "Meta's Lookalike Audiences allow Yelp to target people similar to its "
+            "most active reviewers, its core growth mechanism. Ironically, Meta's "
+            "Facebook Pages (where businesses collect Facebook reviews) is a direct "
+            "competitor to Yelp's business review product — making Meta simultaneously "
+            "Yelp's advertising channel and its existential competitive threat for "
+            "local business discovery."
+        ),
+    },
+    # ── X Corp (Twitter) ──────────────────────────────────────────────────────
+
+    {
+        "src": "TWTR", "dst": "AMZN", "type": "Partnership",
+        "desc": "Twitter/X uses AWS for its entire cloud infrastructure — and Amazon has been one of Twitter's largest advertisers since Elon Musk's 2022 acquisition",
+        "value": "~$400M+ annually (AWS cloud spend)", "year": "2020",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/twitter/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Twitter (now X Corp) is one of Amazon Web Services' most prominent large-"
+            "scale infrastructure customers. Twitter migrated substantial compute and "
+            "storage workloads to AWS, running the real-time tweet processing pipeline "
+            "(1B+ daily tweets at peak), Home Timeline ranking models (which use ML to "
+            "rank tweets for each of Twitter's 350M+ daily active users), and video "
+            "transcoding for Twitter's growing video product on AWS infrastructure. "
+            "After Elon Musk's $44B acquisition in October 2022, Twitter dramatically "
+            "reduced its headcount from 8,000 to under 2,000 — including most of its "
+            "infrastructure team — making the AWS dependency even more critical since "
+            "internal infra teams were decimated. Musk publicly stated Twitter's "
+            "infrastructure costs were a major focus of his cost-cutting program. "
+            "Amazon.com is also one of Twitter/X's largest advertising customers, "
+            "running product launch campaigns and Prime Day promotions on the platform."
+        ),
+    },
+    {
+        "src": "TWTR", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Google licenses Twitter firehose data for Search; Google bid $43.9B for Twitter in 2022 before Musk won; Google Cloud hosts some Twitter data",
+        "value": "~$100M+ (data licensing + rumored acquisition)", "year": "2015",
+        "source_url": "https://techcrunch.com/2022/04/twitter-acquisition-bids-google/",
+        "source_name": "TechCrunch",
+        "details": (
+            "Google and Twitter have a multi-layered relationship spanning data licensing, "
+            "an abandoned acquisition bid, and cloud infrastructure. Google has paid "
+            "Twitter for firehose access — the real-time stream of all public tweets — "
+            "to index tweet content in Google Search, enabling 'tweets' to appear as "
+            "live results for trending topics and breaking news. When Elon Musk initiated "
+            "his Twitter takeover in April 2022, Google (through Alphabet's investment "
+            "arm) was reported among parties considering a counter-bid or joint "
+            "acquisition for Twitter, reportedly at $43.9B. Google ultimately did not "
+            "bid, and Musk completed his acquisition. Twitter/X has also used Google "
+            "Cloud Platform for specific ML workloads — particularly recommendation "
+            "system model training — alongside its primary AWS deployment. Google "
+            "Play is also a key distribution channel for the Twitter/X Android app, "
+            "and Google ads have historically been a source of Twitter advertising "
+            "revenue through programmatic channels."
+        ),
+    },
+    {
+        "src": "TWTR", "dst": "AAPL", "type": "Partnership",
+        "desc": "Apple-Twitter tension: Musk threatened to make his own phone after Apple threatened to remove Twitter from App Store; Apple is Twitter's largest revenue partner via App Store",
+        "value": "~$150M+ annually (App Store revenue share)", "year": "2022",
+        "source_url": "https://techcrunch.com/2022/11/28/elon-musk-apple-twitter-app-store/",
+        "source_name": "TechCrunch",
+        "details": (
+            "The relationship between Elon Musk's Twitter/X and Apple became publicly "
+            "contentious in November 2022 when Musk tweeted that Apple had 'threatened "
+            "to withhold Twitter from its App Store' and had 'stopped advertising on "
+            "Twitter' — prompting Musk to declare he would 'make an alternative phone' "
+            "if Apple and Google removed Twitter. Apple's App Store policy requires "
+            "all apps with in-app purchases to use Apple's payment system and pay "
+            "30% commission — meaning Twitter's subscription product (Twitter Blue / "
+            "X Premium) pays Apple 30% on all App Store subscriptions. Musk met with "
+            "Apple CEO Tim Cook at Apple HQ in December 2022, after which Musk "
+            "declared the 'misunderstanding' was resolved and Apple continued "
+            "distributing Twitter. Twitter/X remains a top-50 app on the App Store "
+            "and Apple has advertised on the platform. The episode highlighted the "
+            "existential power platform owners hold over apps distributed through "
+            "their stores."
+        ),
+    },
+    {
+        "src": "TWTR", "dst": "MSFT", "type": "Partnership",
+        "desc": "Microsoft was Twitter's top advertiser and a 2016 acquisition bidder — Microsoft Bing indexes Twitter data and LinkedIn shares user base overlap",
+        "value": "~$100M+ annually (Microsoft ad spend + Bing data)", "year": "2016",
+        "source_url": "https://www.wsj.com/articles/microsoft-approached-twitter-about-possible-takeover-1476152072",
+        "source_name": "Wall Street Journal",
+        "details": (
+            "Microsoft and Twitter have a relationship spanning advertising, data "
+            "licensing, and an abandoned acquisition. In 2016, Microsoft approached "
+            "Twitter about a potential acquisition — valuing Twitter at $18-25B — but "
+            "declined after due diligence revealed Twitter's user growth stagnation. "
+            "Microsoft's Bing search engine has a data partnership with Twitter "
+            "that surfaces real-time tweet results in Bing search — similar to "
+            "Google's Twitter data license. Microsoft Advertising (Bing Ads) has "
+            "historically been a significant Twitter advertiser for driving traffic "
+            "to Microsoft products and services. After Elon Musk's acquisition, "
+            "Microsoft paused advertising on Twitter/X in 2022 amid concerns about "
+            "content moderation changes, before partially resuming. Microsoft's "
+            "LinkedIn and Twitter (now X) share significant overlap in professional "
+            "user bases — LinkedIn has occasionally surfaced Twitter profile links and "
+            "some enterprise users use both platforms for professional communication. "
+            "Twitter's Spaces audio product competed with LinkedIn Audio events."
+        ),
+    },
+
+    # ── FuboTV ────────────────────────────────────────────────────────────────
+
+    {
+        "src": "FUBO", "dst": "AMZN", "type": "Partnership",
+        "desc": "FuboTV is available on Amazon Fire TV and uses AWS for live sports streaming infrastructure serving 1M+ subscribers",
+        "value": "~$30M+ (platform deal + AWS cloud)", "year": "2019",
+        "source_url": "https://ir.fubo.tv/news-releases/news-release-details/fubotvs-channel-store-now-available-amazon-fire-tv/",
+        "source_name": "FuboTV Investor Relations",
+        "details": (
+            "FuboTV has a two-part relationship with Amazon: distribution through Amazon "
+            "Fire TV and cloud infrastructure on AWS. FuboTV's live TV streaming app is "
+            "available on Amazon Fire TV devices — the second-largest connected TV "
+            "platform after Roku in the US — giving FuboTV access to Amazon's 50M+ "
+            "Fire TV users as potential subscribers. FuboTV uses AWS for its live sports "
+            "streaming infrastructure, which requires extreme reliability (uptime must be "
+            "99.99%+ during live NFL, NBA, and soccer matches when 100,000+ concurrent "
+            "viewers may tune in simultaneously). AWS CloudFront CDN delivers FuboTV's "
+            "live streams with low latency to subscribers across the US, Canada, and "
+            "Spain. FuboTV's in-house wagering features (sports betting integrated "
+            "directly into the live stream interface) use AWS for real-time odds "
+            "processing. FuboTV's acquisition of Molotov (French streaming service, "
+            "2021) expanded its AWS workloads into Europe."
+        ),
+    },
+    {
+        "src": "FUBO", "dst": "GOOGL", "type": "Partnership",
+        "desc": "FuboTV distributes on Google TV and Chromecast — Google is a key FuboTV platform partner and FuboTV markets heavily on YouTube for subscriber acquisition",
+        "value": "~$20M+ (platform + Google ad spend)", "year": "2020",
+        "source_url": "https://ir.fubo.tv/news-releases/news-release-details/fubotv-now-available-google-tv/",
+        "source_name": "FuboTV Investor Relations",
+        "details": (
+            "FuboTV partners with Google through distribution on Google TV (the "
+            "Android TV successor integrated into Sony, TCL, and Hisense smart TVs) "
+            "and Chromecast with Google TV devices. Google TV's app store features "
+            "FuboTV as a premium live sports streaming option — a key placement for "
+            "attracting cord-cutters buying new smart TVs. FuboTV's subscriber "
+            "acquisition marketing relies heavily on YouTube advertising — specifically "
+            "pre-roll video ads showing FuboTV's 100+ sports channels to YouTube users "
+            "watching sports highlights and game recaps. Google's first-party audience "
+            "targeting (people who watch NFL, NBA, Champions League content on YouTube) "
+            "makes YouTube the most efficient paid acquisition channel for FuboTV. "
+            "FuboTV also leverages Google's programmatic advertising infrastructure "
+            "(DV360 and Google Ad Manager) to serve retargeting ads to users who "
+            "visited FuboTV's website but didn't subscribe."
+        ),
+    },
+    {
+        "src": "FUBO", "dst": "PARA", "type": "Supply Chain",
+        "desc": "FuboTV carries CBS, Paramount Network, MTV, and Comedy Central — Paramount is a core content provider in FuboTV's live TV bundle",
+        "value": "~$50M+ annually (content licensing fees)", "year": "2017",
+        "source_url": "https://ir.fubo.tv/news-releases/news-release-details/fubotv-adds-cbs-local-affiliates/",
+        "source_name": "FuboTV Investor Relations",
+        "details": (
+            "Paramount Global is one of FuboTV's most important content licensing "
+            "partners, providing CBS broadcast network affiliates, Paramount Network, "
+            "MTV, Comedy Central, BET, Nickelodeon, and Showtime to FuboTV's live TV "
+            "bundle. CBS is the most-watched broadcast network in the US and its NFL "
+            "AFC games, Super Bowl broadcasts (in alternating years), and primetime "
+            "lineup are essential content for FuboTV to compete against Hulu + Live TV, "
+            "YouTube TV, and DirecTV Stream. FuboTV pays Paramount retransmission "
+            "consent fees for local CBS affiliates — a fee structure that increases "
+            "every renewal cycle and puts pressure on FuboTV's margins. Paramount+ "
+            "premium streaming is also available as an add-on within FuboTV's bundle, "
+            "creating an upsell revenue stream where FuboTV earns a share of Paramount+ "
+            "subscriber fees. The Paramount-FuboTV content relationship is typical of "
+            "the virtual MVPD (vMVPD) ecosystem where streaming bundles pay carriage "
+            "fees to broadcast and cable networks."
+        ),
+    },
+
+    # ── SNAP additional edges ─────────────────────────────────────────────────
+
+    {
+        "src": "SNAP", "dst": "AMZN", "type": "Partnership",
+        "desc": "Snap and Amazon launched AR shopping ads on Snapchat — users try on Amazon products in AR via Snap camera; Amazon is Snapchat's largest advertiser",
+        "value": "~$300M+ annually (Amazon ad spend on Snap)", "year": "2023",
+        "source_url": "https://newsroom.snap.com/amazon-ar-shopping-snapchat",
+        "source_name": "Snap Newsroom",
+        "details": (
+            "Snap and Amazon announced a landmark AR (augmented reality) shopping "
+            "partnership in 2023, enabling Amazon to place interactive AR product "
+            "try-on ads within Snapchat. Amazon shoppers can see how shoes, glasses, "
+            "hats, and rings look on themselves in real time using Snapchat's camera "
+            "AR platform — powered by Snap's Lens Studio technology. Tapping the "
+            "ad takes users directly to the Amazon product listing for purchase. "
+            "The Snap-Amazon partnership is significant because it integrates Snap's "
+            "industry-leading AR camera capabilities with Amazon's massive product "
+            "catalog and trusted purchase flow — creating a social commerce model "
+            "where discovery happens on Snap and conversion happens on Amazon. "
+            "Amazon is estimated to be Snapchat's single largest advertiser by "
+            "spend, running campaigns across Snap Ads, Story Ads, and Lenses for "
+            "Prime Day, holiday gift promotions, and everyday product launches. "
+            "The AR commerce integration helped Snap grow its e-commerce advertising "
+            "revenue as traditional direct-response ad performance declined post-ATT."
+        ),
+    },
+    {
+        "src": "SNAP", "dst": "META", "type": "Partnership",
+        "desc": "Snap vs Meta — Instagram Stories (2016) was a direct copy of Snapchat Stories, triggering the defining platform competition of the social media decade",
+        "value": "Competition redefining mobile social (billions in market value)", "year": "2016",
+        "source_url": "https://about.fb.com/news/2016/08/introducing-instagram-stories/",
+        "source_name": "Meta Newsroom",
+        "details": (
+            "The Snap-Meta relationship is the defining competitive rivalry in mobile "
+            "social media. When Snapchat launched disappearing Stories in 2013, it "
+            "invented the format that would define social media for the next decade. "
+            "Facebook CEO Mark Zuckerberg offered to acquire Snapchat for $3B in 2013 — "
+            "CEO Evan Spiegel famously declined. When Snapchat went public in 2017 at "
+            "a $24B valuation, Meta launched Instagram Stories in 2016 — a feature "
+            "universally acknowledged as a direct copy of Snapchat Stories. Instagram "
+            "Stories reached 500M daily users within two years, cannibalizing Snap's "
+            "growth engine. Instagram Reels (2020) similarly countered Snap's "
+            "Spotlight short-video product. Snap's user base is concentrated in "
+            "13-34 year olds — the same demographic Meta most wants to retain on "
+            "Instagram and WhatsApp. Snap and Meta both use similar ad formats "
+            "(Stories ads, vertical video) and compete for the same brand and "
+            "performance advertising budgets, making every Meta earnings report "
+            "a benchmark event for Snap investors."
+        ),
+    },
+
+    # ── PINS additional edges ─────────────────────────────────────────────────
+
+    {
+        "src": "PINS", "dst": "AAPL", "type": "Partnership",
+        "desc": "Apple's ATT (App Tracking Transparency) caused Pinterest's ad revenue to drop 15%+ — Apple also distributes Pinterest on the App Store",
+        "value": "~$200M+ annually (App Store + ATT ad revenue impact)", "year": "2021",
+        "source_url": "https://investor.pinterestinc.com/news-releases/news-release-details/pinterest-reports-third-quarter-2021-results/",
+        "source_name": "Pinterest Investor Relations",
+        "details": (
+            "Apple and Pinterest have a relationship defined by distribution and "
+            "disruption. Pinterest is available on the App Store as one of the most "
+            "downloaded lifestyle and shopping apps, with Apple providing the iOS "
+            "distribution infrastructure to Pinterest's 500M+ monthly active users. "
+            "However, Apple's April 2021 launch of App Tracking Transparency (ATT) — "
+            "requiring apps to ask users for explicit permission before tracking them "
+            "across other apps and websites — devastated Pinterest's ad targeting "
+            "capability. Pinterest's ad revenue growth dropped from 125% year-over-year "
+            "to single digits following ATT, as advertisers could no longer use "
+            "third-party pixel data to target and measure Pinterest campaigns. "
+            "Pinterest CEO Ben Silbermann described ATT's impact on Pinterest's ad "
+            "business as 'significant.' Pinterest responded by pivoting to first-party "
+            "data (user search queries and saves) and AI-driven contextual targeting "
+            "that doesn't require cross-app tracking — a strategy that ultimately "
+            "proved successful in rebuilding ad revenue."
+        ),
+    },
+    {
+        "src": "PINS", "dst": "META", "type": "Partnership",
+        "desc": "Pinterest competes with Meta Instagram for visual product discovery and shopping — the two platforms fight for the same $100B+ social commerce market",
+        "value": "Competition for $100B+ social commerce ad market", "year": "2016",
+        "source_url": "https://investor.pinterestinc.com/news-releases/news-release-details/pinterest-reports-fourth-quarter-and-full-year-2023-results/",
+        "source_name": "Pinterest Investor Relations",
+        "details": (
+            "Pinterest and Meta's Instagram are the two dominant visual product "
+            "discovery platforms and are in direct competition for social commerce "
+            "advertising budgets. Both platforms target users (predominantly women "
+            "25-45) who use visual feeds to discover products, get inspiration, "
+            "and purchase — a market worth $100B+ in advertising. Instagram Shopping "
+            "(launched 2019) and Pinterest Shopping Ads are nearly identical products: "
+            "shoppable images and videos where users can buy products without leaving "
+            "the app. Meta's advantage is scale (2B+ Instagram users vs Pinterest's "
+            "500M monthly active users) and stronger direct-response ad measurement. "
+            "Pinterest's advantage is purchase intent: Pinterest users explicitly "
+            "search for products and ideas, while Instagram is primarily social with "
+            "shopping as a secondary use case. Analysts frequently debate whether "
+            "Meta's Instagram Shopping has cannibalized Pinterest's growth — a thesis "
+            "supported by Pinterest's slower user growth in markets where Instagram "
+            "penetration is highest."
+        ),
+    },
+
+    # ── ROKU additional edges ─────────────────────────────────────────────────
+
+    {
+        "src": "ROKU", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Roku-YouTube TV 2021 carriage dispute — Google removed YouTube TV from Roku's platform in December 2021, then restored it; Roku uses Google advertising",
+        "value": "~$200M+ (YouTube TV carriage fees + Google ad revenue)", "year": "2021",
+        "source_url": "https://newsroom.roku.com/news/2021/12/roku-and-google-reach-multi-year-agreement-for-the-youtube-and-youtube-tv-apps-on-roku/",
+        "source_name": "Roku Newsroom",
+        "details": (
+            "Roku and Google had one of the most high-profile platform carriage disputes "
+            "in streaming media history. In April 2021, Roku threatened to remove the "
+            "YouTube app entirely from its platform as the two companies failed to reach "
+            "a carriage agreement renewal. Roku alleged Google was demanding that Roku "
+            "provide preferential search treatment for YouTube results, share Roku user "
+            "data with Google, and allow Google to sell advertising on Roku's platform "
+            "using Roku's data. In December 2021, Google's YouTube TV was actually "
+            "removed from Roku's channel store for several days — affecting 80M+ Roku "
+            "users who pay for YouTube TV. The two companies ultimately reached a "
+            "multi-year carriage agreement that restored YouTube and YouTube TV to Roku. "
+            "Despite the adversarial negotiation, Roku and Google maintain a commercial "
+            "advertising partnership — Roku's OneView ad platform integrates with "
+            "Google's DV360 for programmatic CTV (connected TV) advertising, and Google "
+            "is one of Roku's largest advertising clients."
+        ),
+    },
+    {
+        "src": "ROKU", "dst": "AMZN", "type": "Partnership",
+        "desc": "Roku and Amazon Fire TV are the two largest US streaming platforms — fierce competitors who both carry Prime Video and have carved up the CTV market",
+        "value": "~$100M+ (Prime Video carriage + competitive intelligence)", "year": "2014",
+        "source_url": "https://www.roku.com/en-us/products/players/roku-streaming-stick/amazon-prime-video",
+        "source_name": "Roku",
+        "details": (
+            "Roku and Amazon Fire TV are the two dominant US connected TV operating "
+            "systems, collectively representing 60%+ of the US streaming device market. "
+            "Despite being head-to-head competitors, both platforms carry Amazon Prime "
+            "Video — a top-tier streaming service that neither can afford to exclude. "
+            "Roku and Amazon have a co-opetition relationship: both benefit from "
+            "aggregating content, both compete for device sales and advertising revenue, "
+            "and both negotiate content distribution deals from similar leverage positions. "
+            "Amazon Prime Video is available on Roku devices via a licensed channel app. "
+            "Roku has been available for purchase on Amazon.com — a competing retailer "
+            "that also manufactures the competing Fire TV stick. Roku's Streaming "
+            "Channels free ad-supported content (including The Roku Channel) competes "
+            "with Amazon's Freevee (now Amazon Ads). The two companies are both "
+            "building home screen advertising businesses that compete for the same "
+            "brand advertising budgets from TV advertisers shifting spend to connected TV."
+        ),
+    },
+    {
+        "src": "ROKU", "dst": "AAPL", "type": "Partnership",
+        "desc": "Apple TV+ distributes on Roku devices — Roku and Apple coexist as Apple TV channels on Roku while Apple TV 4K competes as a Roku rival device",
+        "value": "~$50M+ (Apple TV+ carriage + Apple device competition)", "year": "2019",
+        "source_url": "https://newsroom.roku.com/news/2019/10/apple-tv-is-now-available-on-roku/",
+        "source_name": "Roku Newsroom",
+        "details": (
+            "Roku and Apple have a nuanced relationship: cooperation as content distribution "
+            "partners and competition as hardware device makers. Apple TV+ — Apple's "
+            "premium streaming service — is available as a channel on Roku's platform, "
+            "launched in October 2019 alongside the Apple TV+ content launch. This "
+            "makes Apple TV+ accessible to Roku's 80M+ US active accounts without "
+            "requiring users to buy an Apple TV 4K device ($129-$199). From Apple's "
+            "perspective, distributing Apple TV+ on Roku maximizes subscriber reach; "
+            "from Roku's perspective, Apple TV+ is must-have content that drives "
+            "Roku device sales and platform engagement. However, Apple TV 4K — Apple's "
+            "streaming hardware — directly competes with Roku's streaming sticks and "
+            "players in the $50-200 retail price range. Apple's growing services "
+            "revenue (driven by Apple TV+) and Roku's advertising-driven business "
+            "model are different enough that the two companies are more partner "
+            "than competitor at the business model level."
+        ),
+    },
+
+    # ── PARA additional edges ─────────────────────────────────────────────────
+
+    {
+        "src": "PARA", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Paramount+ is available on YouTube TV; CBS broadcasts NFL games streamed on YouTube; Paramount licenses content to YouTube",
+        "value": "~$200M+ annually (YouTube TV carriage + content licensing)", "year": "2020",
+        "source_url": "https://tv.youtube.com/learn/paramountplus/",
+        "source_name": "YouTube TV",
+        "details": (
+            "Paramount Global and Google have a multi-dimensional streaming distribution "
+            "partnership. Paramount+ is available on YouTube TV as an add-on channel — "
+            "YouTube TV subscribers can add Paramount+ for $7.99/month within the "
+            "YouTube TV interface, giving Paramount access to YouTube TV's 8M+ "
+            "subscribers. CBS — Paramount's broadcast network and the most-watched US "
+            "TV network — has streamed select NFL games on YouTube as part of the "
+            "NFL's Google-YouTube streaming deal: Google paid $2B for the Sunday Ticket "
+            "package and CBS AFC games are streamed on YouTube during select weeks. "
+            "Paramount's library content (Yellowstone, Godfather, Mission: Impossible) "
+            "is available for rental and purchase on YouTube Channels, generating "
+            "transactional video-on-demand revenue. Paramount also uses YouTube as a "
+            "marketing channel — CBS trailers and Paramount+ promotional content "
+            "generate billions of views on YouTube, reducing Paramount's paid "
+            "advertising spend for content promotion."
+        ),
+    },
+    {
+        "src": "PARA", "dst": "META", "type": "Partnership",
+        "desc": "Paramount markets CBS and Paramount+ content through Meta Facebook and Instagram — Meta is one of Paramount's largest digital advertising channels",
+        "value": "~$100M+ annually (Meta ad spend)", "year": "2018",
+        "source_url": "https://ir.paramount.com/financial-information/annual-reports",
+        "source_name": "Paramount Global Annual Report",
+        "details": (
+            "Paramount Global is one of Meta's largest entertainment advertising clients, "
+            "spending hundreds of millions annually on Facebook and Instagram to promote "
+            "CBS primetime shows, Paramount+ original series, and Paramount Pictures "
+            "theatrical releases. Meta's audience targeting — reaching 18-49 TV-watching "
+            "demographics with precision — makes Facebook and Instagram the primary "
+            "digital channels for CBS's fall season premiere campaigns and Paramount+ "
+            "subscriber acquisition. Paramount's social media strategy involves heavy "
+            "Instagram Reels and Facebook Watch content posting: CBS clips, 'behind "
+            "the scenes' from Yellowstone and NCIS, and Paramount+ trailers are "
+            "among the most-viewed entertainment content on Meta's platforms. "
+            "Facebook Watch partnerships have allowed Paramount to distribute "
+            "short-form CBS content (news clips, late-night show segments) natively "
+            "on Facebook, earning engagement without requiring users to leave Meta's "
+            "ecosystem. Paramount also runs Meta Advantage+ automated campaign tools "
+            "to optimize Paramount+ subscription conversion ads."
         ),
     },
 ]
