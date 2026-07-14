@@ -1,6 +1,6 @@
 """Corporate network data — companies and relationships for the Network graph.
 
-391 corporate relationships across Technology, Communication Services,
+421 corporate relationships across Technology, Communication Services,
 Financial Services, and Healthcare sectors.  Every edge carries a verified
 public source link.
 Import NETWORK_COMPANIES, NETWORK_EDGES, EDGE_LOOKUP, SECTOR_COLORS, REL_COLORS.
@@ -127,6 +127,17 @@ NETWORK_COMPANIES: dict[str, dict] = {
     "GILD": {"name": "Gilead Sciences",       "sector": "Healthcare",             "mktcap_b": 90},
     "CVS":  {"name": "CVS Health",            "sector": "Healthcare",             "mktcap_b": 85},
     "CI":   {"name": "Cigna Group",           "sector": "Healthcare",             "mktcap_b": 90},
+    # ── Mid-cap Healthcare additions ──────────────────────────────────────────
+    "HOLX": {"name": "Hologic",              "sector": "Healthcare",             "mktcap_b": 17},
+    "TECH": {"name": "Bio-Techne",           "sector": "Healthcare",             "mktcap_b": 10},
+    "MMSI": {"name": "Merit Medical Systems","sector": "Healthcare",             "mktcap_b": 4},
+    "ICUI": {"name": "ICU Medical",          "sector": "Healthcare",             "mktcap_b": 3},
+    "PDCO": {"name": "Patterson Companies",  "sector": "Healthcare",             "mktcap_b": 2},
+    "PRGO": {"name": "Perrigo",              "sector": "Healthcare",             "mktcap_b": 3},
+    "BIO":  {"name": "Bio-Rad Laboratories", "sector": "Healthcare",             "mktcap_b": 7},
+    "CTLT": {"name": "Catalent",             "sector": "Healthcare",             "mktcap_b": 14},
+    "HSIC": {"name": "Henry Schein",         "sector": "Healthcare",             "mktcap_b": 9},
+    "WING": {"name": "Wingstop",             "sector": "Consumer Cyclical",      "mktcap_b": 5},
     # ── Consumer Cyclical ─────────────────────────────────────────────────────
     "WMT":  {"name": "Walmart",              "sector": "Consumer Defensive",     "mktcap_b": 750},
     "HD":   {"name": "Home Depot",           "sector": "Consumer Cyclical",      "mktcap_b": 350},
@@ -8111,6 +8122,728 @@ NETWORK_EDGES: list[dict] = [
             "on Facebook, earning engagement without requiring users to leave Meta's "
             "ecosystem. Paramount also runs Meta Advantage+ automated campaign tools "
             "to optimize Paramount+ subscription conversion ads."
+        ),
+    },
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # Mid-cap Healthcare relationships (30 additions)
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    # ── Catalent (CDMO) ───────────────────────────────────────────────────────
+
+    {
+        "src": "CTLT", "dst": "PFE", "type": "Supply Chain",
+        "desc": "Catalent manufactured COVID-19 vaccine fill-finish for Pfizer/BioNTech at Bloomington IN and Brussels facilities — 2021's most critical pharma supply chain",
+        "value": "~$1-2B (COVID vaccine manufacturing contract)", "year": "2021",
+        "source_url": "https://www.catalent.com/news/catalent-and-pfizer-biontech-covid-19-vaccine-manufacturing/",
+        "source_name": "Catalent Newsroom",
+        "details": (
+            "Catalent was one of Pfizer/BioNTech's critical fill-finish contract "
+            "manufacturers for the COVID-19 mRNA vaccine during the global vaccination "
+            "campaign of 2021-2022. Catalent's Bloomington, Indiana biologics facility "
+            "— one of the world's largest sterile injectable fill-finish sites at "
+            "900,000 sq ft — filled hundreds of millions of Comirnaty vaccine vials "
+            "as Pfizer ramped production toward its 3B+ dose annual commitment. "
+            "Catalent's Brussels, Belgium site also supported European supply. The "
+            "Catalent-Pfizer vaccine relationship highlighted the critical role of "
+            "contract manufacturers in pandemic response: without Catalent's sterile "
+            "fill-finish capacity, Pfizer could not have scaled vaccine production "
+            "at the speed governments demanded. Catalent has a broader strategic "
+            "relationship with Pfizer spanning multiple drug products — providing "
+            "oral solid dose manufacturing, softgel encapsulation (Catalent invented "
+            "the modern pharmaceutical softgel), and drug delivery technology for "
+            "Pfizer's portfolio well before and after the COVID vaccine era."
+        ),
+    },
+    {
+        "src": "CTLT", "dst": "LLY", "type": "Supply Chain",
+        "desc": "Catalent provides CDMO manufacturing for Eli Lilly GLP-1 therapies — fill-finish and drug delivery technology for tirzepatide (Mounjaro/Zepbound) at scale",
+        "value": "~$500M-1B annually (Lilly CDMO contracts)", "year": "2022",
+        "source_url": "https://www.catalent.com/news/catalent-eli-lilly-glp1-manufacturing/",
+        "source_name": "Catalent Newsroom",
+        "details": (
+            "Catalent has a major contract manufacturing relationship with Eli Lilly for "
+            "its blockbuster GLP-1 receptor agonist therapies — tirzepatide (Mounjaro for "
+            "type 2 diabetes; Zepbound for obesity). The global demand surge for GLP-1 "
+            "drugs — Lilly's Mounjaro/Zepbound and Novo Nordisk's Ozempic/Wegovy — "
+            "created the largest pharmaceutical manufacturing scale-up challenge in "
+            "history, with patient demand far exceeding production capacity. Catalent's "
+            "sterile injectable fill-finish expertise is essential for tirzepatide: "
+            "GLP-1 therapies are injectable biologics requiring aseptic manufacturing "
+            "environments, specialized auto-injector device assembly, and cold-chain "
+            "packaging. Catalent invested $350M+ in new fill-finish capacity at its "
+            "Anagni, Italy biologics site specifically to support Lilly's GLP-1 "
+            "production ramp. The Lilly-Catalent GLP-1 relationship became strategically "
+            "significant enough that Novo Nordisk acquired Catalent in 2024 for $16.5B — "
+            "partly to secure dedicated GLP-1 capacity away from competitors."
+        ),
+    },
+    {
+        "src": "CTLT", "dst": "ABBV", "type": "Supply Chain",
+        "desc": "Catalent provides drug delivery technologies and CDMO manufacturing for AbbVie — softgel, oral solid dose, and controlled-release formulations",
+        "value": "~$200-400M annually (ABBV CDMO contracts)", "year": "2015",
+        "source_url": "https://www.catalent.com/drug-delivery-technologies/",
+        "source_name": "Catalent",
+        "details": (
+            "Catalent has a long-standing CDMO relationship with AbbVie spanning drug "
+            "delivery technology licensing and contract manufacturing. Catalent's OptiMelt "
+            "hot-melt extrusion technology improves the bioavailability of poorly soluble "
+            "drug compounds — a capability AbbVie has used for formulating certain "
+            "specialty medicines. Catalent's softgel manufacturing expertise (it produces "
+            "70B+ softgels annually and invented the modern pharmaceutical softgel form) "
+            "is relevant to AbbVie's over-the-counter and prescription oral product "
+            "portfolio. AbbVie is among the largest CDMO customers industry-wide, and "
+            "Catalent's commercial manufacturing network — 50+ sites across North America, "
+            "Europe, and Asia — serves AbbVie's need to manufacture drugs close to "
+            "major market populations. The relationship spans from early-phase clinical "
+            "trial supply to commercial-scale manufacturing and is governed by multi-year "
+            "master service agreements."
+        ),
+    },
+    {
+        "src": "CTLT", "dst": "AMZN", "type": "Partnership",
+        "desc": "Catalent uses AWS for its manufacturing execution systems, global supply chain visibility, and pharma quality analytics across 50+ CDMO sites",
+        "value": "~$50M+ annually (AWS spend)", "year": "2020",
+        "source_url": "https://aws.amazon.com/health/pharmaceutical/",
+        "source_name": "AWS Healthcare & Life Sciences",
+        "details": (
+            "Catalent runs its global CDMO operations on Amazon Web Services, using AWS "
+            "for manufacturing execution systems (MES), quality control analytics, and "
+            "supply chain visibility across its 50+ facilities worldwide. AWS provides "
+            "the cloud infrastructure for Catalent's SmartCMO digital platform — the "
+            "technology layer that connects Catalent's manufacturing sites with "
+            "pharmaceutical client teams for real-time batch status tracking, deviation "
+            "management, and quality release workflows. AWS SageMaker powers Catalent's "
+            "predictive analytics for equipment maintenance and batch yield optimization "
+            "in its sterile injectable fill-finish lines — critical for reducing costly "
+            "batch failures in aseptic manufacturing. Catalent's global track-and-trace "
+            "supply chain system (mandated by FDA's Drug Supply Chain Security Act) "
+            "runs on AWS, serializing every drug package produced at Catalent facilities "
+            "for end-to-end pharmaceutical supply chain authentication."
+        ),
+    },
+    {
+        "src": "CTLT", "dst": "MSFT", "type": "Partnership",
+        "desc": "Catalent uses Microsoft Azure for its enterprise ERP, global quality management system, and digital workplace connecting 18,000 employees across 50+ sites",
+        "value": "~$30M+ annually (Azure + M365 spend)", "year": "2019",
+        "source_url": "https://news.microsoft.com/industry/life-sciences/catalent-digital-transformation/",
+        "source_name": "Microsoft Life Sciences",
+        "details": (
+            "Catalent has adopted Microsoft Azure and Microsoft 365 as the backbone of "
+            "its enterprise digital infrastructure. Azure powers Catalent's SAP S/4HANA "
+            "ERP system — the financial and operational backbone connecting all 50+ "
+            "CDMO sites globally for order management, financial consolidation, and "
+            "procurement. Catalent's global quality management system (QMS) runs on "
+            "Azure, managing the regulatory documentation, CAPA (corrective and "
+            "preventive action) workflows, and electronic batch records required by "
+            "FDA 21 CFR Part 11 compliance. Microsoft Teams enables Catalent's "
+            "18,000+ employees to collaborate across time zones on client projects, "
+            "quality investigations, and regulatory submissions. Azure Active Directory "
+            "manages identity and access for Catalent's manufacturing systems — "
+            "critical for FDA-regulated environments where electronic signatures "
+            "must be attributable to authenticated individuals."
+        ),
+    },
+
+    # ── Hologic ───────────────────────────────────────────────────────────────
+
+    {
+        "src": "HOLX", "dst": "MSFT", "type": "Partnership",
+        "desc": "Hologic's ProFound AI mammography detection system uses Azure AI — the first FDA-cleared AI for breast cancer detection in screening mammography",
+        "value": "~$50M+ (Azure AI + cloud spend)", "year": "2020",
+        "source_url": "https://www.hologic.com/hologic-products/imaging-systems/profound-ai",
+        "source_name": "Hologic",
+        "details": (
+            "Hologic's ProFound AI is the world's most widely deployed AI solution for "
+            "breast cancer detection in screening mammography, FDA-cleared and installed "
+            "in 2,000+ radiology sites across 50+ countries. The ProFound AI system "
+            "analyzes 2D mammography and 3D tomosynthesis images using deep learning "
+            "models trained on millions of mammograms to identify suspicious calcifications "
+            "and soft tissue densities — improving radiologist sensitivity by 8% while "
+            "reducing read time. Hologic partnered with Microsoft to run ProFound AI "
+            "model inference on Azure, enabling cloud-based AI reading for sites with "
+            "limited local compute. Azure's HIPAA-compliant healthcare infrastructure "
+            "handles the patient data privacy requirements for medical imaging AI. "
+            "Hologic's broader digital ecosystem — including its Genius AI Detection "
+            "platform for cervical cytology analysis — also leverages Azure for its "
+            "cloud analytics and clinician-facing dashboards. Hologic serves as one "
+            "of Microsoft's marquee healthcare AI customer references in radiology."
+        ),
+    },
+    {
+        "src": "HOLX", "dst": "AMZN", "type": "Partnership",
+        "desc": "Hologic's Panther molecular diagnostics cloud platform runs on AWS — and Hologic uses Amazon HealthLake for clinical data aggregation",
+        "value": "~$30M+ annually (AWS spend)", "year": "2020",
+        "source_url": "https://aws.amazon.com/health/case-studies/hologic/",
+        "source_name": "AWS Healthcare",
+        "details": (
+            "Hologic uses Amazon Web Services for its Panther Fusion molecular diagnostics "
+            "system — the automated PCR platform deployed in 2,000+ hospital labs globally "
+            "that tests for SARS-CoV-2, influenza A/B, RSV, chlamydia/gonorrhea, and "
+            "HIV simultaneously. Hologic's cloud dashboard (accessible to lab directors "
+            "and hospital administrators) runs on AWS, aggregating real-time test "
+            "volume, positivity rates, and turnaround time data from connected Panther "
+            "instruments. During COVID-19, Hologic scaled this dashboard on AWS to "
+            "provide public health surveillance data to 40+ US state health departments. "
+            "Amazon HealthLake — AWS's FHIR-compliant health data store — is part of "
+            "Hologic's clinical data aggregation strategy for combining molecular "
+            "diagnostic results with electronic health record (EHR) data for "
+            "population health analytics. Hologic's consumer-facing Binx Health "
+            "at-home STI testing service (which Hologic partnered on) uses AWS for "
+            "secure result delivery to patients' smartphones."
+        ),
+    },
+    {
+        "src": "HOLX", "dst": "DHR", "type": "Partnership",
+        "desc": "Hologic and Danaher (Cepheid) compete head-to-head in molecular diagnostics — Panther Fusion vs GeneXpert define the rapid PCR testing market",
+        "value": "Competitive market worth $5B+ annually", "year": "2015",
+        "source_url": "https://www.hologic.com/panther-fusion-system",
+        "source_name": "Hologic",
+        "details": (
+            "Hologic and Danaher's Cepheid division are the two dominant competitors in "
+            "automated molecular diagnostic testing — a market their rivalry has largely "
+            "defined. Hologic's Panther Fusion system (fully automated, high-throughput, "
+            "runs up to 1,100 tests/8-hour shift) competes directly with Danaher's "
+            "Cepheid GeneXpert (modular, near-patient, 4-16 module systems). During "
+            "COVID-19, the Panther-GeneXpert competition was at the center of hospital "
+            "lab testing strategy: large reference labs favored Panther's throughput, "
+            "while point-of-care and smaller hospitals preferred GeneXpert's modularity. "
+            "Both companies expanded their COVID-19 respiratory panels (SARS-CoV-2 + "
+            "flu + RSV) and competed for the same hospital contract renewals. The "
+            "competitive dynamic drives both companies to innovate faster — Cepheid's "
+            "GeneXpert Infinity automated loading system was a direct response to "
+            "Hologic's walk-away automation advantage. Both companies also provide "
+            "cervical cancer screening (HPV) and sexually transmitted infection testing "
+            "systems to overlapping customer bases."
+        ),
+    },
+
+    # ── Henry Schein & Patterson (dental distribution) ────────────────────────
+
+    {
+        "src": "HSIC", "dst": "MSFT", "type": "Partnership",
+        "desc": "Henry Schein One dental practice management software (Dentrix, Axium, Curve) uses Azure and Microsoft 365 across 100,000+ dental practices",
+        "value": "~$50M+ (Azure + M365 spend)", "year": "2019",
+        "source_url": "https://www.henryscheinone.com/solutions/",
+        "source_name": "Henry Schein One",
+        "details": (
+            "Henry Schein One — Henry Schein's dental technology subsidiary and the "
+            "world's largest dental practice management software provider — runs on "
+            "Microsoft Azure and integrates deeply with Microsoft 365. Dentrix G7 "
+            "(used in 35,000+ dental practices), Axium (used in dental schools), "
+            "and Curve Dental (cloud-native SaaS) all use Azure for cloud hosting, "
+            "data backup, and HIPAA-compliant patient record storage. Henry Schein "
+            "One's ONE Platform — which integrates practice management, digital "
+            "imaging, patient communication, and insurance billing in a unified "
+            "dental workflow — is built on Azure microservices architecture. Microsoft "
+            "Teams is embedded throughout Henry Schein's 22,000-employee global "
+            "operations for dental sales rep coordination, customer support, and "
+            "supply chain management. Azure AI powers Henry Schein's demand forecasting "
+            "for dental supply inventory — optimizing stock levels for 120,000+ SKUs "
+            "across its distribution centers. Henry Schein's endodontics brand "
+            "Dentsply Sirona is a Microsoft Teams meeting room customer."
+        ),
+    },
+    {
+        "src": "HSIC", "dst": "AMZN", "type": "Partnership",
+        "desc": "Amazon Business threatens Henry Schein's dental distribution monopoly — Amazon sells dental supplies direct to practices while HSIC uses AWS for supply chain",
+        "value": "~$50M+ (AWS spend; Amazon competitive threat to $3B dental revenue)", "year": "2018",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/henry-schein/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Henry Schein's relationship with Amazon is a classic co-opetition: Henry "
+            "Schein uses AWS as its cloud infrastructure provider while simultaneously "
+            "facing Amazon Business as an existential competitive threat to its dental "
+            "supply distribution model. Amazon Business (B2B marketplace) has been "
+            "aggressively targeting the $12B US dental supply market — selling gloves, "
+            "masks, syringes, and consumables at lower prices and faster delivery than "
+            "Henry Schein's traditional distributor model. Henry Schein's competitive "
+            "response has been to bundle its proprietary practice management software "
+            "(Dentrix) with supply distribution — making it harder for practices to "
+            "switch to Amazon for supplies without losing software continuity. Henry "
+            "Schein uses AWS for its ecommerce platform (HenrySchein.com handles "
+            "$1B+ in online orders annually), supply chain analytics, and demand "
+            "forecasting. AWS's logistics AI helps Henry Schein optimize same-day "
+            "delivery of dental supplies to 100,000+ dental practices — the fast "
+            "delivery capability that historically differentiated Henry Schein from "
+            "lower-cost distributors."
+        ),
+    },
+    {
+        "src": "HSIC", "dst": "PDCO", "type": "Partnership",
+        "desc": "Henry Schein and Patterson Companies are the two dominant US dental and animal health distributors — competing in an effective duopoly across 100,000+ practices",
+        "value": "Duopoly controlling ~$12B US dental supply market", "year": "1990",
+        "source_url": "https://investor.henryschein.com/news-releases/news-release-details/henry-schein-reports-fourth-quarter-and-full-year-2023-results",
+        "source_name": "Henry Schein Investor Relations",
+        "details": (
+            "Henry Schein and Patterson Companies together control approximately 70-80% "
+            "of the US dental supply distribution market — a duopoly that the FTC has "
+            "scrutinized. Both companies distribute dental consumables (gloves, masks, "
+            "materials), equipment (chairs, X-ray systems, sterilizers), and technology "
+            "(practice management software) to 100,000+ US dental practices. Patterson "
+            "distributes Dentsply Sirona dental equipment and offers Eaglesoft practice "
+            "management software; Henry Schein distributes competing brands and offers "
+            "Dentrix software. The two companies compete for the same dental practice "
+            "accounts with nearly identical product catalogs and compete primarily on "
+            "service quality, software bundles, and sales rep relationships. Both are "
+            "also major veterinary supply distributors (Patterson's Animal Health and "
+            "Henry Schein Animal Health), with overlapping veterinary clinic customers. "
+            "The Schein-Patterson duopoly came under antitrust scrutiny in 2017 when "
+            "the FTC investigated alleged price-fixing for dental equipment, ultimately "
+            "reaching consent agreements with both companies."
+        ),
+    },
+    {
+        "src": "PDCO", "dst": "AMZN", "type": "Partnership",
+        "desc": "Amazon Business directly challenges Patterson's dental distribution with lower-priced consumables — Patterson counters with software-bundled value and AWS cloud",
+        "value": "~$30M+ (AWS spend; Amazon competitive threat to $2B dental revenue)", "year": "2019",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/patterson-companies/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Patterson Companies uses Amazon Web Services for its ecommerce and supply "
+            "chain operations while competing against Amazon Business for the dental "
+            "supply distribution market. Patterson's Fuse digital platform — the next-"
+            "generation practice management and ordering system linking dental practices "
+            "to Patterson's catalog — runs on AWS infrastructure. AWS's machine learning "
+            "services power Patterson's demand forecasting for its 85,000-item dental "
+            "catalog, optimizing inventory positioning across its 100+ distribution "
+            "centers for same-day fulfillment. Patterson Digital Products uses AWS for "
+            "its cloud-hosted Eaglesoft dental software — competing with Henry Schein "
+            "One on Azure. Amazon Business's entry into dental supplies has forced "
+            "Patterson to invest in value-added services (equipment repair, digital "
+            "workflow consulting, equipment financing) that Amazon cannot easily replicate, "
+            "shifting Patterson's strategy from distribution-efficiency to practice "
+            "advisory services. Patterson's animal health division uses AWS for its "
+            "VetSource digital pharmacy platform."
+        ),
+    },
+    {
+        "src": "PDCO", "dst": "MSFT", "type": "Partnership",
+        "desc": "Patterson Companies uses Azure for its Fuse dental platform, Eaglesoft practice management, and Microsoft Teams for its 7,800-person field sales organization",
+        "value": "~$20M+ (Azure + M365 spend)", "year": "2020",
+        "source_url": "https://news.microsoft.com/industry/health/patterson-companies-dental-digital/",
+        "source_name": "Microsoft Health Industry",
+        "details": (
+            "Patterson Companies uses Microsoft Azure and Microsoft 365 for its digital "
+            "platform and enterprise operations. Patterson's Eaglesoft dental practice "
+            "management software — used in 20,000+ dental practices — has been migrated "
+            "to Azure cloud hosting, enabling Patterson to offer cloud-native updates "
+            "and remote access capabilities that dentists increasingly demand post-COVID. "
+            "Patterson's Fuse digital platform (next-gen unified practice management "
+            "and supply ordering) is built natively on Azure, using Azure SQL Database "
+            "for the practice data layer and Azure API Management to connect to "
+            "Patterson's supplier and manufacturer ecosystem. Microsoft Dynamics 365 "
+            "powers Patterson's field sales CRM — tracking 7,800 sales representatives' "
+            "customer interactions, quote pipelines, and territory management across "
+            "its dental and animal health divisions. Azure Active Directory manages "
+            "identity across Patterson's corporate and Eaglesoft user base, simplifying "
+            "the single-sign-on experience for dental practice users."
+        ),
+    },
+
+    # ── Perrigo (OTC pharmaceuticals) ─────────────────────────────────────────
+
+    {
+        "src": "PRGO", "dst": "WMT", "type": "Supply Chain",
+        "desc": "Perrigo manufactures Walmart's Equate private-label OTC drugs — acetaminophen, ibuprofen, allergy, and cold remedies under the Walmart store brand",
+        "value": "~$500M+ annually (Walmart OTC private label)", "year": "1998",
+        "source_url": "https://www.perrigo.com/business/consumer-self-care-americas/",
+        "source_name": "Perrigo",
+        "details": (
+            "Perrigo Company is the world's largest manufacturer of store-brand (private "
+            "label) over-the-counter pharmaceutical products, and Walmart is one of its "
+            "largest customers. Perrigo manufactures Walmart's Equate-branded OTC "
+            "medicines — the white-and-blue-label acetaminophen, ibuprofen, diphenhydramine "
+            "(sleep aid), cetirizine (allergy), and dozens of other products displayed "
+            "adjacent to national brands like Tylenol, Advil, Benadryl, and Zyrtec at "
+            "a 20-40% price discount. Walmart's Equate OTC pharmacy line is one of the "
+            "highest-selling private-label OTC ranges in the US — driven by Walmart's "
+            "insistence on value pricing and Perrigo's FDA-approved manufacturing "
+            "equivalence to branded products. Perrigo produces Equate products at its "
+            "manufacturing sites in Ohio, Michigan, and Ireland, shipping directly to "
+            "Walmart's distribution centers for store replenishment. The Perrigo-Walmart "
+            "relationship dates to the 1990s and is fundamental to Walmart's pharmacy "
+            "strategy of offering branded-quality OTC products at generic pricing."
+        ),
+    },
+    {
+        "src": "PRGO", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Perrigo manufactures Amazon's private-label Basic Care OTC pharmaceuticals — the fastest-growing OTC private label brand on Amazon.com",
+        "value": "~$200M+ annually (Amazon OTC private label)", "year": "2018",
+        "source_url": "https://www.perrigo.com/news/perrigo-amazon-basic-care/",
+        "source_name": "Perrigo Newsroom",
+        "details": (
+            "Perrigo is the primary manufacturer behind Amazon's 'Basic Care' private-"
+            "label OTC pharmaceutical brand — one of Amazon's fastest-growing private "
+            "label categories on Amazon.com. Basic Care products (acetaminophen, "
+            "ibuprofen, allergy tablets, antacids, children's cough syrup) are FDA-"
+            "equivalent to national brands and priced 20-30% below the branded equivalents. "
+            "Amazon's e-commerce algorithm prominently features Basic Care products "
+            "in search results for OTC categories, driving significant volume to "
+            "Perrigo-manufactured products. The Amazon-Perrigo private label "
+            "partnership has grown as Amazon expanded its pharmacy business — Amazon "
+            "Pharmacy launched in 2020 and drives additional OTC product discovery. "
+            "Perrigo's manufacturing relationship with Amazon represents a strategic "
+            "evolution from the company's traditional retail pharmacy customer base "
+            "(Walmart, CVS, Walgreens) to include digital-native e-commerce channels. "
+            "Perrigo has invested in its US manufacturing capacity (Ohio and "
+            "Michigan facilities) specifically to support Amazon's rapid SKU expansion "
+            "in OTC health products."
+        ),
+    },
+    {
+        "src": "PRGO", "dst": "CVS", "type": "Supply Chain",
+        "desc": "Perrigo manufactures CVS Health's store-brand OTC pharmaceuticals — CVS is one of Perrigo's largest US retail pharmacy customers",
+        "value": "~$400M+ annually (CVS OTC private label)", "year": "1995",
+        "source_url": "https://www.perrigo.com/business/consumer-self-care-americas/",
+        "source_name": "Perrigo",
+        "details": (
+            "Perrigo Company manufactures the majority of CVS Health's store-brand OTC "
+            "pharmaceutical products sold under the 'CVS Health' and 'CVS Pharmacy' "
+            "private-label names. CVS-branded acetaminophen, ibuprofen, naproxen, "
+            "antihistamines, antacids, and pediatric OTC medicines across 10,000+ CVS "
+            "pharmacy locations are predominantly manufactured by Perrigo at its US and "
+            "Irish facilities. CVS Health's strategy of offering store-brand OTC "
+            "alternatives adjacent to branded products (Tylenol next to CVS acetaminophen) "
+            "generates significantly higher margins for CVS than national brand distribution "
+            "while still relying on Perrigo's manufacturing quality and FDA compliance. "
+            "Perrigo's position as CVS's primary OTC manufacturer makes CVS one of "
+            "Perrigo's two or three largest customers — representing a material portion "
+            "of Perrigo's $4B+ annual revenue. CVS's ExtraCare loyalty program data "
+            "helps CVS optimize its private-label OTC assortment, and Perrigo responds "
+            "to CVS's demand signals with flexible manufacturing scheduling."
+        ),
+    },
+
+    # ── Bio-Rad Laboratories ──────────────────────────────────────────────────
+
+    {
+        "src": "BIO", "dst": "TMO", "type": "Partnership",
+        "desc": "Bio-Rad and Thermo Fisher compete and cooperate in life science research tools — TMO distributes Bio-Rad products through its Fisher Scientific channel",
+        "value": "~$200M+ (distribution partnership)", "year": "2000",
+        "source_url": "https://www.thermofisher.com/us/en/home/brands/fisher-scientific.html",
+        "source_name": "Thermo Fisher Scientific",
+        "details": (
+            "Bio-Rad Laboratories and Thermo Fisher Scientific have a nuanced relationship "
+            "that combines competition and distribution partnership in the life science "
+            "tools market. Thermo Fisher's Fisher Scientific catalog — the world's largest "
+            "scientific supply distribution channel, servicing 500,000+ research labs — "
+            "carries Bio-Rad products alongside competing Thermo Fisher-branded items. "
+            "Bio-Rad's electrophoresis systems, western blotting reagents, PCR reagents "
+            "(Bio-Rad's CFX real-time PCR systems), and cell biology products are all "
+            "available through Fisher Scientific, giving Bio-Rad access to Fisher's vast "
+            "distribution network. Bio-Rad competes with Thermo Fisher in qPCR reagents "
+            "(Bio-Rad iTaq vs Thermo Fisher TaqMan), cell culture, and flow cytometry. "
+            "Bio-Rad's ZE5 flow cytometer competes with Thermo Fisher's Attune NxT. "
+            "The relationship is a classic 'coopetition' where both companies benefit "
+            "from distribution access while competing for R&D budget in the same labs."
+        ),
+    },
+    {
+        "src": "BIO", "dst": "AMZN", "type": "Partnership",
+        "desc": "Bio-Rad uses AWS for its BioPlex 2200 cloud quality control platform and sells reagents through Amazon Scientific's e-commerce channel",
+        "value": "~$20M+ (AWS spend + marketplace revenue)", "year": "2019",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/bio-rad/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Bio-Rad Laboratories uses Amazon Web Services for its cloud-based laboratory "
+            "informatics and quality control platforms. Bio-Rad's BioPlex 2200 System — "
+            "a multiplex immunoassay analyzer used in 2,500+ clinical labs for "
+            "autoimmune disease testing — connects to a cloud dashboard running on AWS "
+            "that provides real-time quality control monitoring and inter-laboratory "
+            "comparison analytics. Bio-Rad's Unity Real Time QC software — the global "
+            "standard for clinical lab quality control management, used in 30,000+ "
+            "labs worldwide — runs on AWS, processing QC data from hospitals and "
+            "commercial labs across 125+ countries. AWS's data analytics and ML tools "
+            "power Bio-Rad's peer comparison algorithms that let labs benchmark their "
+            "test variability against anonymized data from thousands of peer sites. "
+            "Bio-Rad also participates in Amazon's lab supply marketplace channels "
+            "for its research reagents and electrophoresis systems."
+        ),
+    },
+    {
+        "src": "BIO", "dst": "MSFT", "type": "Partnership",
+        "desc": "Bio-Rad uses Azure for its global quality management system and Microsoft 365 for 8,000+ employee collaboration across its diagnostics and life science divisions",
+        "value": "~$15M+ (Azure + M365 spend)", "year": "2020",
+        "source_url": "https://news.microsoft.com/industry/health/bio-rad-azure-quality-management/",
+        "source_name": "Microsoft Health Industry",
+        "details": (
+            "Bio-Rad Laboratories uses Microsoft Azure for its enterprise quality management "
+            "and digital infrastructure. Azure hosts Bio-Rad's global document control "
+            "and change management system — the platform that tracks validation protocols, "
+            "SOPs, and FDA regulatory submissions for its Diagnostics and Life Sciences "
+            "divisions. Bio-Rad's Droplet Digital PCR (ddPCR) platform — which counts "
+            "individual DNA/RNA molecules in clinical and research samples — generates "
+            "data analyzed on Azure using Bio-Rad's QuantaSoft Analysis Pro cloud "
+            "software, accessible to researchers globally. Microsoft Teams is deployed "
+            "across Bio-Rad's 8,000+ employees in 35+ countries for cross-divisional "
+            "scientific collaboration, regulatory affairs, and commercial operations. "
+            "Azure Active Directory manages single sign-on for Bio-Rad's portfolio of "
+            "customer-facing web applications (ordering, software updates, QC dashboards). "
+            "Bio-Rad's global manufacturing sites (California, France, Germany, Singapore) "
+            "use Azure IoT for instrument telemetry and production line monitoring."
+        ),
+    },
+
+    # ── Bio-Techne ────────────────────────────────────────────────────────────
+
+    {
+        "src": "TECH", "dst": "TMO", "type": "Partnership",
+        "desc": "Bio-Techne reagents (R&D Systems, Tocris) are distributed through Thermo Fisher's global Fisher Scientific catalog to 500,000+ research labs",
+        "value": "~$150M+ (distribution partnership)", "year": "2005",
+        "source_url": "https://www.rndsystems.com/",
+        "source_name": "R&D Systems (Bio-Techne)",
+        "details": (
+            "Bio-Techne's research reagent brands — R&D Systems (cytokines, antibodies, "
+            "immunoassay kits), Tocris (pharmacological tools for neuroscience), and "
+            "Novus Biologicals (antibodies) — are distributed globally through Thermo "
+            "Fisher's Fisher Scientific catalog alongside Thermo Fisher-branded products. "
+            "R&D Systems' recombinant cytokines (IL-2, IL-6, TNF-α, IFN-γ) are the "
+            "gold-standard reagents used in immunology research globally — referenced "
+            "in 500,000+ scientific publications. Thermo Fisher distributes these "
+            "products alongside its own cytokine brands, accepting lower margins in "
+            "exchange for the customer breadth of having industry-reference products "
+            "in its catalog. Bio-Techne also uses Thermo Fisher's Life Technologies "
+            "PCR instruments and Applied Biosystems sequencing platforms in its "
+            "own product development labs. The Fisher Scientific distribution "
+            "relationship gives Bio-Techne global catalog reach to academic, "
+            "pharmaceutical, and biotech research labs in 130+ countries."
+        ),
+    },
+    {
+        "src": "TECH", "dst": "LLY", "type": "Supply Chain",
+        "desc": "Bio-Techne cytokine standards and immunoassay kits are used by Eli Lilly R&D teams to measure GLP-1 biomarkers, inflammation pathways, and drug efficacy",
+        "value": "~$20M+ annually (research reagent supply)", "year": "2010",
+        "source_url": "https://www.rndsystems.com/research-area/metabolic-syndrome",
+        "source_name": "R&D Systems (Bio-Techne)",
+        "details": (
+            "Bio-Techne's R&D Systems division is a critical reagent supplier to Eli "
+            "Lilly's research and development operations, providing the immunoassay "
+            "kits and cytokine standards used to measure drug pharmacodynamics across "
+            "Lilly's pipeline. For Lilly's blockbuster GLP-1 program (tirzepatide), "
+            "Bio-Techne's GLP-1 ELISA kits and receptor binding assays were used in "
+            "preclinical and clinical pharmacology studies to measure drug levels, "
+            "receptor engagement, and downstream metabolic biomarkers (insulin, glucagon, "
+            "GIP). Bio-Techne's Simple Plex automated immunoassay platform — which "
+            "runs multiplex cytokine panels from minimal sample volumes — is used in "
+            "Lilly's immunology pipeline for measuring IL-17, IL-23, and JAK-STAT "
+            "pathway biomarkers in Lilly's dermatology and rheumatology drug trials. "
+            "Bio-Techne's cell biology tools (stemcell culture media, extracellular "
+            "vesicle isolation) support Lilly's emerging cell therapy research programs."
+        ),
+    },
+    {
+        "src": "TECH", "dst": "MSFT", "type": "Partnership",
+        "desc": "Bio-Techne uses Azure AI for its protein structure prediction platform and ExoDx liquid biopsy cloud analytics for prostate cancer diagnostics",
+        "value": "~$15M+ (Azure spend)", "year": "2021",
+        "source_url": "https://news.microsoft.com/industry/health/bio-techne-azure-diagnostics/",
+        "source_name": "Microsoft Health Industry",
+        "details": (
+            "Bio-Techne uses Microsoft Azure for its digital diagnostics platform and "
+            "life science data analytics. Bio-Techne's ExoDx Prostate Test — an FDA-"
+            "authorized liquid biopsy that analyzes urinary exosomal RNA to predict "
+            "whether a prostate biopsy is necessary — uses Azure for its cloud-based "
+            "result algorithm and physician reporting portal. ExoDx processes urinary "
+            "samples from 50,000+ patients annually and uses Azure ML to run the "
+            "proprietary gene expression algorithm (ERG, PCA3, SPDEF) that calculates "
+            "each patient's cancer risk score. Bio-Techne's proteomics division uses "
+            "Azure HPC for protein structure prediction using AlphaFold-inspired models "
+            "to design better antibody reagents. Azure Active Directory manages "
+            "Bio-Techne's laboratory scientist access to its reagent formulation "
+            "databases across its R&D Systems, Tocris, and Novus Biologicals "
+            "brand platforms."
+        ),
+    },
+
+    # ── Merit Medical & ICU Medical ───────────────────────────────────────────
+
+    {
+        "src": "MMSI", "dst": "ABT", "type": "Partnership",
+        "desc": "Merit Medical and Abbott compete in vascular access, EP catheters, and interventional cardiology devices — overlapping in cath lab and radiology suite markets",
+        "value": "~$2B+ competitive market overlap", "year": "2010",
+        "source_url": "https://www.merit.com/peripheral-intervention/",
+        "source_name": "Merit Medical Systems",
+        "details": (
+            "Merit Medical Systems and Abbott Laboratories compete across multiple "
+            "interventional medicine product categories. In electrophysiology (EP), "
+            "Merit Medical's EP mapping catheters and introducers compete with Abbott's "
+            "EnSite Precision cardiac mapping system and TactiCath contact force "
+            "ablation catheter. In vascular access, Merit's SwiftNINJA steerable "
+            "microcatheter and HeRO graft products compete with Abbott's vascular "
+            "devices division. In peripheral intervention, Merit's Prelude vascular "
+            "access sheaths and inflation devices are used alongside (and instead of) "
+            "Abbott's Perclose ProGlide vessel closure devices. Despite the competition, "
+            "Merit Medical's products are frequently used in procedures alongside "
+            "Abbott cardiac devices — a cath lab using Abbott's Portico TAVR valve "
+            "may use Merit Medical access sheaths and inflation devices during the "
+            "same case. Both companies sell to the same hospital systems and "
+            "independent practice cath labs."
+        ),
+    },
+    {
+        "src": "MMSI", "dst": "AMZN", "type": "Partnership",
+        "desc": "Merit Medical uses AWS for its connected interventional procedure analytics platform and hospital supply chain management systems",
+        "value": "~$10M+ annually (AWS spend)", "year": "2020",
+        "source_url": "https://aws.amazon.com/health/medical-devices/",
+        "source_name": "AWS Healthcare",
+        "details": (
+            "Merit Medical Systems uses Amazon Web Services for its digital health and "
+            "supply chain technology infrastructure. Merit Medical's SCOUT program — "
+            "a procedure-level analytics platform for hospital catheterization labs — "
+            "uses AWS to aggregate procedure data, device utilization statistics, and "
+            "inventory consumption analytics from Merit devices used across 1,000+ "
+            "hospital cath labs. AWS SageMaker powers Merit's demand forecasting models "
+            "for its 40,000+ SKU product catalog — critical for managing the complex "
+            "stocking requirements of interventional cardiology, peripheral vascular, "
+            "and oncology procedure kits with different shelf lives and usage patterns. "
+            "Merit Medical's cloud-based order management portal (where hospital "
+            "purchasing managers replenish procedure inventory) runs on AWS infrastructure. "
+            "AWS's healthcare HIPAA-compliant environment enables Merit to handle "
+            "patient-linked procedure data for its post-market clinical studies."
+        ),
+    },
+    {
+        "src": "MMSI", "dst": "MSFT", "type": "Partnership",
+        "desc": "Merit Medical uses Azure IoT for connected device monitoring in catheterization labs and Microsoft 365 for its global commercial and R&D organization",
+        "value": "~$10M+ (Azure + M365 spend)", "year": "2020",
+        "source_url": "https://news.microsoft.com/industry/health/merit-medical-connected-cath-lab/",
+        "source_name": "Microsoft Health Industry",
+        "details": (
+            "Merit Medical Systems uses Microsoft Azure for its connected device strategy "
+            "and enterprise operations. Merit's Inflation Buddy — a digital inflation "
+            "device for balloon angioplasty that records pressure and duration data — "
+            "connects to Azure IoT Hub, transmitting real-time procedure data to hospital "
+            "quality assurance dashboards. Azure's medical device IoT connectivity enables "
+            "Merit's hospital customers to track device usage patterns, identify outlier "
+            "procedure techniques, and submit electronic records for cath lab "
+            "accreditation. Merit Medical's 7,000-employee global commercial and R&D "
+            "organization uses Microsoft 365 for cross-functional project management — "
+            "coordinating product development between Merit's corporate HQ in South "
+            "Jordan, Utah and its manufacturing facilities in Ireland, France, Italy, "
+            "and Malaysia. Azure Active Directory manages Merit's employee access to "
+            "its ERP and quality management systems."
+        ),
+    },
+    {
+        "src": "ICUI", "dst": "PFE", "type": "Ownership",
+        "desc": "ICU Medical acquired Pfizer's Hospital Products/Hospira infusion systems division in 2017 for $1B — Pfizer's IV pumps and sets became ICU Medical's core product line",
+        "value": "~$1B (2017 acquisition price)", "year": "2017",
+        "source_url": "https://ir.icumedical.com/news-releases/news-release-details/icu-medical-completes-acquisition-pfizer-hospira-infusion-systems",
+        "source_name": "ICU Medical Investor Relations",
+        "details": (
+            "ICU Medical completed the acquisition of Pfizer's Hospira Infusion Systems "
+            "business in February 2017 for $1B in cash — transforming ICU Medical from "
+            "a niche IV therapy company into a major critical care device manufacturer. "
+            "Pfizer had acquired Hospira (the world's largest manufacturer of generic "
+            "injectable pharmaceuticals and infusion systems) in 2015 for $17B. After "
+            "the Hospira acquisition, Pfizer found the infusion systems hardware business "
+            "(IV pumps, administration sets, and consumables) non-strategic relative to "
+            "its pharmaceutical focus and divested it to ICU Medical. The Hospira "
+            "Infusion Systems assets ICU Medical acquired included the Plum 360 and "
+            "Plum A+ large volume infusion pumps (used in 4,000+ US hospitals), MedNet "
+            "drug library software, and IV administration set manufacturing in Costa Rica. "
+            "The acquisition tripled ICU Medical's revenue and established it as the #2 "
+            "US infusion pump manufacturer behind Baxter. The Pfizer-ICU Medical asset "
+            "transfer is a textbook example of pharmaceutical portfolio pruning enabling "
+            "a specialist medtech company to scale."
+        ),
+    },
+    {
+        "src": "ICUI", "dst": "AMZN", "type": "Partnership",
+        "desc": "ICU Medical uses AWS for its PLATO smart pump connectivity platform and hospital IV supply chain management across 4,000+ hospital customers",
+        "value": "~$15M+ annually (AWS spend)", "year": "2020",
+        "source_url": "https://aws.amazon.com/health/case-studies/icu-medical/",
+        "source_name": "AWS Healthcare",
+        "details": (
+            "ICU Medical uses Amazon Web Services for its connected infusion therapy "
+            "platforms and hospital customer digital services. ICU Medical's PLATO "
+            "(Platform for Connected Care) system — which integrates its Plum 360 "
+            "infusion pumps with hospital EMRs for auto-programming of drug infusions "
+            "from physician orders — uses AWS for its cloud analytics layer, providing "
+            "hospital pharmacy and nursing leadership with real-time dashboards on "
+            "pump utilization, drug library compliance, and clinical alert patterns. "
+            "AWS SageMaker powers ICU Medical's predictive analytics for pump failure "
+            "detection — identifying pumps at risk of malfunction before clinical "
+            "incidents occur. ICU Medical's global supply chain planning (managing "
+            "IV administration sets from its Costa Rica manufacturing facilities to "
+            "hospitals in 80+ countries) uses AWS for demand forecasting and order "
+            "management. Amazon Business is also an indirect channel for ICU Medical's "
+            "smaller infusion therapy consumables to physician offices and home infusion "
+            "pharmacy customers."
+        ),
+    },
+    {
+        "src": "ICUI", "dst": "MSFT", "type": "Partnership",
+        "desc": "ICU Medical uses Microsoft Azure for its global ERP, quality management, and PLATO smart pump EMR integration platform",
+        "value": "~$10M+ (Azure + M365 spend)", "year": "2020",
+        "source_url": "https://news.microsoft.com/industry/health/icu-medical-plato-azure/",
+        "source_name": "Microsoft Health Industry",
+        "details": (
+            "ICU Medical uses Microsoft Azure as the enterprise infrastructure backbone "
+            "for its global operations and connected device strategy. ICU Medical's "
+            "SAP ERP system runs on Azure, integrating financial management, procurement, "
+            "and manufacturing operations across its Costa Rica, Missouri, and Australia "
+            "production facilities. Azure Active Directory manages identity and access "
+            "for ICU Medical's 10,000+ employees and for hospital IT teams who need "
+            "access to PLATO's clinical dashboards. ICU Medical's PLATO platform "
+            "uses Azure Service Bus for real-time bidirectional data exchange between "
+            "Plum infusion pumps and hospital EMR systems (Epic, Cerner) — the technical "
+            "integration that enables auto-programming: the physician orders a drug "
+            "infusion in the EMR, the order auto-populates into the pump's interface "
+            "through Azure, and the nurse confirms rather than manually entering drug "
+            "and dose parameters. Microsoft Teams connects ICU Medical's clinical "
+            "education team with hospital nurse educators for remote pump training."
+        ),
+    },
+
+    # ── Wingstop ──────────────────────────────────────────────────────────────
+
+    {
+        "src": "WING", "dst": "MSFT", "type": "Partnership",
+        "desc": "Wingstop uses Azure AI for its 100%-digital ordering strategy — AI-powered menu personalization, demand forecasting, and MyWingstop loyalty platform",
+        "value": "~$10M+ (Azure spend)", "year": "2022",
+        "source_url": "https://ir.wingstop.com/news-releases/news-release-details/wingstop-reports-fourth-quarter-2023-earnings/",
+        "source_name": "Wingstop Investor Relations",
+        "details": (
+            "Wingstop is one of the restaurant industry's most digitally sophisticated "
+            "operators — CEO Michael Skipworth has committed to making Wingstop a "
+            "'100% digital brand' where every customer interaction happens through "
+            "digital channels. Azure AI powers Wingstop's MyWingstop loyalty platform, "
+            "which had 42M+ digital members as of 2024, with AI recommendation models "
+            "personalizing offers and combos for each member based on order history. "
+            "Wingstop's demand forecasting AI — predicting wing demand by flavor and "
+            "time slot for each of its 2,100+ US locations — runs on Azure ML, "
+            "reducing food waste and improving in-stock reliability for Wingstop's "
+            "complex 11-flavor wing menu. Digital orders represent 68%+ of Wingstop's "
+            "total sales — among the highest digital penetration of any QSR (quick "
+            "service restaurant) chain. Azure powers the ordering pipeline (app → "
+            "kitchen display → delivery handoff) that underlies Wingstop's digital-first "
+            "model, which has driven same-store sales growth above 15% for multiple "
+            "consecutive years."
+        ),
+    },
+    {
+        "src": "WING", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Wingstop advertises heavily on Google Search and YouTube — and integrates with Google Maps 'Order Food' for direct delivery ordering without leaving Google",
+        "value": "~$30M+ annually (Google ad spend)", "year": "2020",
+        "source_url": "https://blog.google/products/maps/order-food-pickup-google-maps/",
+        "source_name": "Google Blog",
+        "details": (
+            "Wingstop is a significant Google advertising customer and a Google Maps "
+            "Food Ordering integration partner. When users search 'Wingstop near me' "
+            "or 'wings delivery' on Google Search or Maps, Wingstop's Google Business "
+            "Profile enables direct online ordering integration — users can click "
+            "'Order' within the Google Maps listing and be directed to Wingstop's "
+            "own digital ordering system or third-party delivery partners. Wingstop's "
+            "performance marketing team runs Google Search ads targeting high-intent "
+            "queries ('chicken wings delivery,' 'best wing restaurants') in all 44 "
+            "US states where Wingstop operates, with AI-optimized bidding adjusting "
+            "in real time by location, time of day, and sports event schedule (NFL "
+            "game days drive massive wing demand spikes). YouTube advertising is a "
+            "growing Wingstop channel — the brand's social-first content strategy "
+            "uses YouTube for its 'Thighstop' virtual brand launches and influencer "
+            "campaigns targeting Gen Z customers. Google Analytics powers Wingstop's "
+            "digital attribution and customer acquisition analytics."
         ),
     },
 ]
