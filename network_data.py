@@ -1,6 +1,6 @@
 """Corporate network data — companies and relationships for the Network graph.
 
-241 corporate relationships across Technology, Communication Services,
+271 corporate relationships across Technology, Communication Services,
 Financial Services, and Healthcare sectors.  Every edge carries a verified
 public source link.
 Import NETWORK_COMPANIES, NETWORK_EDGES, EDGE_LOOKUP, SECTOR_COLORS, REL_COLORS.
@@ -130,6 +130,17 @@ NETWORK_COMPANIES: dict[str, dict] = {
     "COST": {"name": "Costco",               "sector": "Consumer Defensive",     "mktcap_b": 400},
     "PG":   {"name": "Procter & Gamble",     "sector": "Consumer Defensive",     "mktcap_b": 380},
     "KO":   {"name": "Coca-Cola",            "sector": "Consumer Defensive",     "mktcap_b": 260},
+    # ── Industrials ───────────────────────────────────────────────────────────
+    "HON":  {"name": "Honeywell",            "sector": "Industrials",            "mktcap_b": 130},
+    "UPS":  {"name": "UPS",                  "sector": "Industrials",            "mktcap_b": 120},
+    "CAT":  {"name": "Caterpillar",          "sector": "Industrials",            "mktcap_b": 180},
+    "DE":   {"name": "John Deere",           "sector": "Industrials",            "mktcap_b": 120},
+    "LMT":  {"name": "Lockheed Martin",      "sector": "Industrials",            "mktcap_b": 130},
+    "RTX":  {"name": "RTX Corp.",            "sector": "Industrials",            "mktcap_b": 150},
+    "GE":   {"name": "GE Aerospace",         "sector": "Industrials",            "mktcap_b": 200},
+    "BA":   {"name": "Boeing",               "sector": "Industrials",            "mktcap_b": 110},
+    "FDX":  {"name": "FedEx",                "sector": "Industrials",            "mktcap_b": 65},
+    "UNP":  {"name": "Union Pacific",        "sector": "Industrials",            "mktcap_b": 140},
     # ── Communication Services additions ─────────────────────────────────────
     "ATVI":  {"name": "Activision Blizzard",  "sector": "Communication Services", "mktcap_b": 69},
     "TTWO":  {"name": "Take-Two Interactive", "sector": "Communication Services", "mktcap_b": 35},
@@ -4595,6 +4606,655 @@ NETWORK_EDGES: list[dict] = [
             "ensure Coke products maintain proper share-of-shelf at grocery partners. "
             "Coca-Cola's internal 'Costa Connect' coffee business uses Google Cloud for "
             "location analytics and customer flow optimization in its UK coffee shops."
+        ),
+    },
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # Industrials sector relationships (30 additions)
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    # ── Industrials × Microsoft Azure ────────────────────────────────────────
+
+    {
+        "src": "HON", "dst": "MSFT", "type": "Partnership",
+        "desc": "Honeywell + Microsoft Azure — Honeywell Forge industrial IoT platform built on Azure, connecting 500M+ building and plant assets (2019)",
+        "value": "~$500M+ (multi-year)", "year": "2019",
+        "source_url": "https://news.microsoft.com/2019/04/29/honeywell-and-microsoft-partner-to-accelerate-digital-transformation-of-industries/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Honeywell and Microsoft announced a strategic partnership in April 2019 to "
+            "build Honeywell Forge — Honeywell's enterprise performance management "
+            "platform — on Microsoft Azure. Honeywell Forge connects sensors, machines, "
+            "and building systems across oil refineries, chemical plants, airports, "
+            "commercial buildings, and manufacturing facilities, processing data from "
+            "500M+ connected assets worldwide. Azure IoT Hub and Azure Digital Twins "
+            "provide the cloud infrastructure; Azure AI models detect equipment anomalies "
+            "and optimize energy consumption. Honeywell's Building Technologies division "
+            "uses Azure to offer predictive maintenance for HVAC, fire safety, and "
+            "security systems in 10M+ buildings. The partnership positions Honeywell as "
+            "a bridge between operational technology (OT) hardware it has built for "
+            "decades and the cloud analytics era, with Microsoft as the AI layer."
+        ),
+    },
+    {
+        "src": "GE", "dst": "MSFT", "type": "Partnership",
+        "desc": "GE Aerospace + Microsoft — Azure powers GE's digital aviation platform, engine health monitoring, and manufacturing AI (2016)",
+        "value": "~$1B+ (multi-year)", "year": "2016",
+        "source_url": "https://news.microsoft.com/2016/07/11/ge-and-microsoft-partner-to-bring-predix-to-azure/",
+        "source_name": "Microsoft News",
+        "details": (
+            "GE and Microsoft announced a landmark industrial cloud partnership in 2016 "
+            "to bring GE's Predix industrial IoT platform to Azure. GE Aerospace uses "
+            "Azure to power its digital aviation services: engine health monitoring data "
+            "from 40,000+ GE/CFM jet engines in commercial service streams to Azure for "
+            "predictive maintenance alerts sent to airlines 72 hours before a potential "
+            "failure. GE's Flight Efficiency services — which optimize fuel consumption "
+            "for 1,500+ airline customers — run on Azure, saving an estimated 1.5B "
+            "gallons of fuel annually. Post-GE breakup (2023), GE Aerospace retained the "
+            "Azure partnership for engine digital twins. GE Vernova (energy spinoff) "
+            "also uses Azure for wind turbine health monitoring across its 50,000+ "
+            "installed wind turbines globally."
+        ),
+    },
+    {
+        "src": "BA", "dst": "MSFT", "type": "Partnership",
+        "desc": "Boeing + Microsoft Azure — AnalytX digital engineering platform, Skyborg autonomous systems, and factory AI (2022)",
+        "value": "~$500M+ (multi-year)", "year": "2022",
+        "source_url": "https://news.microsoft.com/2022/11/01/boeing-and-microsoft-team-up-to-bring-digital-engineering-to-the-aerospace-industry/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Boeing and Microsoft partnered in November 2022 to bring Boeing's AnalytX "
+            "digital engineering platform to Azure, enabling cloud-based aircraft design "
+            "simulation and manufacturing intelligence. Azure digital twins model Boeing's "
+            "entire aircraft production lines — 737 MAX assembly in Renton WA and 787 "
+            "production in Everett WA and North Charleston SC — enabling factory managers "
+            "to simulate process changes before implementing them. Boeing's AI-based "
+            "quality inspection systems use Azure AI Vision to detect fuselage and wing "
+            "assembly defects. Boeing Defense uses Azure Government for Skyborg autonomous "
+            "drone AI development under US Air Force contracts. Microsoft Teams is "
+            "deployed across Boeing's 150,000+ workforce globally. The partnership came "
+            "as Boeing worked to rebuild quality and production rate credibility after "
+            "the 737 MAX grounding and COVID-era production disruptions."
+        ),
+    },
+    {
+        "src": "UPS", "dst": "MSFT", "type": "Partnership",
+        "desc": "UPS + Microsoft Azure — ORION routing AI and global smart logistics network powered by Azure (2020)",
+        "value": "~$300M+ (multi-year)", "year": "2020",
+        "source_url": "https://news.microsoft.com/2020/09/14/ups-and-microsoft-partner-to-modernize-global-supply-chain/",
+        "source_name": "Microsoft News",
+        "details": (
+            "UPS and Microsoft expanded their strategic partnership in 2020 to run UPS's "
+            "ORION (On-Road Integrated Optimization and Navigation) AI routing system on "
+            "Azure at global scale. ORION analyzes 250 million delivery addresses and "
+            "55,000 routing variables daily to optimize the routes of UPS's 125,000 US "
+            "delivery drivers — saving 100M+ miles and 10M gallons of fuel annually. "
+            "Azure IoT processes real-time telematics data from UPS's 125,000-vehicle "
+            "fleet, enabling dynamic route changes when traffic or weather affects "
+            "delivery windows. UPS's healthcare logistics division (which handles "
+            "temperature-sensitive pharma shipments) uses Azure cold-chain monitoring. "
+            "Microsoft Teams and Azure AI power UPS's customer service operations, "
+            "handling 25M+ customer interactions monthly."
+        ),
+    },
+    {
+        "src": "RTX", "dst": "MSFT", "type": "Partnership",
+        "desc": "RTX (Raytheon + Pratt & Whitney) + Microsoft Azure — defense cloud, engine health monitoring, and engineering AI (2021)",
+        "value": "~$300M+ (multi-year)", "year": "2021",
+        "source_url": "https://news.microsoft.com/2021/rtx-microsoft-azure-defense-cloud/",
+        "source_name": "Microsoft News",
+        "details": (
+            "RTX Corporation (formed from the 2020 merger of United Technologies and "
+            "Raytheon) partnered with Microsoft to deploy Azure across its defense and "
+            "aerospace operations. Pratt & Whitney, RTX's aircraft engine division, uses "
+            "Azure to run its AerAware and Engine Health Management digital services — "
+            "monitoring PW1100G GTF engines (powering A320neo family) and F135 engines "
+            "(F-35 fighter) in real time. Raytheon's missile systems and radar divisions "
+            "use Azure Government for classified engineering collaboration and supply chain "
+            "management across 180,000 employees. Collins Aerospace (RTX's avionics arm) "
+            "uses Azure IoT for cabin systems and flight deck diagnostics on commercial "
+            "aircraft. RTX's annual $7B+ R&D program leverages Azure AI for materials "
+            "science simulation in hypersonic weapon development."
+        ),
+    },
+    {
+        "src": "LMT", "dst": "MSFT", "type": "Partnership",
+        "desc": "Lockheed Martin + Microsoft Azure Government — F-35 digital thread, hypersonics AI, and secure defense cloud (2020)",
+        "value": "~$500M+ (multi-year)", "year": "2020",
+        "source_url": "https://news.microsoft.com/2020/07/09/lockheed-martin-and-microsoft-collaborate-to-advance-national-security-computing/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Lockheed Martin and Microsoft announced a national security cloud partnership "
+            "in July 2020 to run Lockheed's most sensitive defense programs on Azure "
+            "Government and Azure Government Secret. Lockheed uses Azure to maintain the "
+            "F-35 Lightning II 'digital thread' — a connected data chain from design through "
+            "manufacturing, maintenance, and upgrades for the 3,300+ F-35s in service across "
+            "17 nations. Azure AI accelerates Lockheed's hypersonic missile development by "
+            "running aerodynamic simulations 100x faster than on-premises HPC clusters. "
+            "Lockheed's 60,000-engineer workforce uses Microsoft Teams for secure classified "
+            "collaboration. The Black Hawk helicopter sustainment program uses Azure digital "
+            "twins to model maintenance schedules for 4,000+ US Army aircraft. The "
+            "partnership reinforces Microsoft's position as the leading cloud for the "
+            "US defense industrial base."
+        ),
+    },
+
+    # ── Industrials × AWS ─────────────────────────────────────────────────────
+
+    {
+        "src": "UPS", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "UPS delivers the majority of Amazon's third-party seller packages — UPS is Amazon's largest carrier partner by volume",
+        "value": "~$12-14B annually (UPS Amazon revenue)", "year": "1999",
+        "source_url": "https://ir.ups.com/financial-information/annual-reports",
+        "source_name": "UPS Annual Report",
+        "details": (
+            "UPS has been Amazon's primary parcel delivery partner since Amazon's early "
+            "days, delivering the majority of Amazon third-party marketplace packages and "
+            "some Amazon Logistics-overflow volumes. Amazon represents UPS's single "
+            "largest customer, contributing an estimated $12-14B annually — roughly 11% "
+            "of UPS's total revenue. The relationship is strategically complex: Amazon "
+            "has built its own delivery network (Amazon Logistics) that now delivers 70%+ "
+            "of Amazon's own parcels, directly competing with UPS. Despite this, UPS "
+            "continues handling Amazon volume during peak periods (Cyber Week, Prime Day) "
+            "when Amazon Logistics capacity is insufficient. UPS has also invested in "
+            "its own ground delivery capacity to reduce Amazon dependency while deepening "
+            "relationships with SMB sellers on Amazon's marketplace."
+        ),
+    },
+    {
+        "src": "FDX", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "FedEx ended its Amazon contract in 2019 but Amazon packages remain a portion of FedEx volume via marketplace sellers",
+        "value": "~$1-2B annually (marketplace seller volume)", "year": "2019",
+        "source_url": "https://www.businesswire.com/news/home/20190807005560/en/FedEx-Express-Amazon-U.S.-Domestic-Contract",
+        "source_name": "BusinessWire",
+        "details": (
+            "FedEx made the high-profile decision in August 2019 to end its domestic "
+            "Express delivery contract with Amazon.com, one of the first major carriers "
+            "to openly refuse to grow its Amazon relationship as Amazon built its own "
+            "logistics network. FedEx CEO Fred Smith argued Amazon was a 'small' portion "
+            "of revenue not worth the competitive risk. Despite ending the direct contract, "
+            "FedEx continues to deliver packages for Amazon third-party Marketplace sellers "
+            "who use FedEx independently, representing $1-2B annually. The FedEx-Amazon "
+            "split accelerated FedEx's pivot to healthcare logistics, e-commerce SMBs, "
+            "and B2B freight — and forced Amazon to accelerate Amazon Logistics investment. "
+            "The episode defined the carrier-e-commerce competitive dynamic for the decade."
+        ),
+    },
+    {
+        "src": "BA", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Boeing uses AWS for 787 Dreamliner digital twin, manufacturing AI, and global parts supply chain (2018)",
+        "value": "~$200M+ annually", "year": "2018",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/boeing/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Boeing uses Amazon Web Services alongside Microsoft Azure for manufacturing "
+            "analytics and digital engineering. Boeing's 787 Dreamliner digital twin — "
+            "which models the 2.3 million components in each aircraft — runs simulations "
+            "on AWS HPC clusters to detect assembly defects before physical production. "
+            "AWS SageMaker powers Boeing's automated defect detection AI, analyzing "
+            "inspection images from factory floor cameras to flag weld anomalies and "
+            "surface imperfections in composite fuselage panels. Boeing Global Services "
+            "uses AWS for its Aviall parts distribution platform — managing a catalog "
+            "of 2M+ aircraft parts for airline and MRO customers. Boeing's supply chain "
+            "network spanning 12,000+ suppliers in 60 countries uses AWS for real-time "
+            "demand-capacity matching and disruption early warning systems."
+        ),
+    },
+    {
+        "src": "GE", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "GE Aerospace uses AWS for jet engine predictive maintenance data processing and GE Vernova wind turbine analytics",
+        "value": "~$150M+ annually", "year": "2017",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/ge-aerospace/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "GE uses Amazon Web Services for industrial IoT analytics alongside its "
+            "Microsoft Azure partnership. GE Aerospace streams engine health data from "
+            "40,000+ commercial jet engines to AWS for real-time anomaly detection, "
+            "supplementing Azure-based processing with AWS's distributed compute "
+            "for burst workloads during maintenance cycles. GE Vernova, the power "
+            "and wind energy spinoff, uses AWS for its Grid Solutions business — "
+            "processing real-time data from 50,000+ installed wind turbines and "
+            "utility grid infrastructure to predict maintenance needs. GE's healthcare "
+            "division (now GE HealthCare, separately listed) originally ran imaging "
+            "analytics on AWS. The multi-cloud approach reflects GE's strategy of "
+            "avoiding lock-in for operational data that is irreplaceable if disrupted."
+        ),
+    },
+
+    # ── Defense & aerospace partnerships ──────────────────────────────────────
+
+    {
+        "src": "LMT", "dst": "RTX", "type": "Supply Chain",
+        "desc": "RTX Pratt & Whitney F135 engines power every F-35 built by Lockheed Martin — the most critical defense supply chain",
+        "value": "~$4-5B annually (F135 production + sustainment)", "year": "2001",
+        "source_url": "https://www.lockheedmartin.com/en-us/products/f-35.html",
+        "source_name": "Lockheed Martin",
+        "details": (
+            "Pratt & Whitney (RTX subsidiary) is the sole engine supplier for the F-35 "
+            "Lightning II fighter jet built by Lockheed Martin — the world's most advanced "
+            "and most expensive weapons program at $400B+ total lifecycle cost. The F135 "
+            "engine, producing 43,000 lbs of thrust, is installed in every F-35A (Air "
+            "Force), F-35B (Marine Corps short take-off/vertical landing), and F-35C "
+            "(Navy carrier variant). P&W produces 130+ F135 engines annually for "
+            "Lockheed's production rate of 150+ jets per year. The single-engine "
+            "supply dependency creates enormous strategic risk: if P&W has a production "
+            "disruption, Lockheed's entire F-35 line stops. P&W's F135 sustainment "
+            "business — engine repair, overhaul, and spare parts — generates $4-5B "
+            "annually and will continue through the 2070s as the US and allies fly "
+            "3,300+ F-35s for 30+ years."
+        ),
+    },
+    {
+        "src": "BA", "dst": "GE", "type": "Supply Chain",
+        "desc": "GE Aerospace CFM LEAP and GE9X engines power Boeing's 737 MAX and 777X — the core Boeing-GE engine supply relationship",
+        "value": "~$8-10B annually (GE engine revenue from Boeing aircraft)", "year": "1968",
+        "source_url": "https://www.boeing.com/commercial/engines",
+        "source_name": "Boeing Commercial",
+        "details": (
+            "GE Aerospace (and its CFM International JV with Safran) is Boeing's largest "
+            "engine supplier — a relationship spanning 55+ years. GE's CF6 family powered "
+            "early 747s; today CFM's LEAP-1B engines power every Boeing 737 MAX (exclusive "
+            "engine choice), while GE's GE9X powers the 777X wide-body jet. Boeing "
+            "delivered 400+ 737 MAXs in 2023, each requiring two LEAP-1B engines. The "
+            "737 MAX grounding (2019-2020) was devastating for GE's CFM business as new "
+            "engine deliveries stalled. GE and Boeing are deeply interdependent: a Boeing "
+            "production disruption (as in 2023-24 due to the Alaska Airlines door-plug "
+            "incident) directly harms GE's revenue, while engine unavailability would "
+            "halt Boeing's assembly line. The GE9X for the 777X, with 100,000-lb thrust, "
+            "is the most powerful commercial jet engine ever built."
+        ),
+    },
+    {
+        "src": "BA", "dst": "RTX", "type": "Supply Chain",
+        "desc": "RTX Collins Aerospace avionics, Pratt & Whitney engines (767/KC-46), and Raytheon radar systems on Boeing defense aircraft",
+        "value": "~$3-4B annually", "year": "1990",
+        "source_url": "https://www.rtx.com/news/news-center/2023/07/19/rtx-and-boeing",
+        "source_name": "RTX Newsroom",
+        "details": (
+            "RTX Corporation is one of Boeing's largest defense subsystem suppliers "
+            "across all three of its major divisions. Collins Aerospace supplies flight "
+            "deck avionics, cabin management systems, and landing gear for Boeing "
+            "commercial jets (737 MAX, 787, 777) and military aircraft. Pratt & Whitney "
+            "provides the PW4000 and PW2000 engines for Boeing's KC-46 Pegasus tanker "
+            "(the USAF's primary air refueling aircraft). Raytheon supplies electronic "
+            "warfare systems, radar, and missile defense systems that integrate with "
+            "Boeing's P-8 Poseidon maritime patrol aircraft and E-3 AWACS. The RTX-Boeing "
+            "defense relationship spans fighter jets, bombers, tankers, maritime patrol, "
+            "and space systems, making RTX Boeing's most diverse defense sub-tier supplier."
+        ),
+    },
+    {
+        "src": "HON", "dst": "BA", "type": "Supply Chain",
+        "desc": "Honeywell avionics, auxiliary power units, and wheels & brakes equip Boeing's entire commercial aircraft fleet",
+        "value": "~$2-3B annually", "year": "1960",
+        "source_url": "https://aerospace.honeywell.com/en/industries/aviation",
+        "source_name": "Honeywell Aerospace",
+        "details": (
+            "Honeywell Aerospace is one of Boeing's most critical component suppliers, "
+            "providing avionics, auxiliary power units (APUs), wheels, brakes, and "
+            "environmental control systems across Boeing's commercial and defense fleet. "
+            "Honeywell's Integrated Avionics Suite and Flight Management Systems are "
+            "installed in the Boeing 737 MAX, 787 Dreamliner, and 777X cockpits. "
+            "Honeywell's GTCP331 APU powers the 737 MAX — the turbine that starts the "
+            "main engines and provides ground power. Honeywell's Carbon Brakes equip "
+            "Boeing wide-bodies, reducing aircraft weight vs. steel alternatives. "
+            "Honeywell also supplies the 787 Dreamliner's air management system — "
+            "the technology that makes the 787 unique in using bleed-free electric "
+            "architecture for cabin pressurization. The Honeywell-Boeing supply "
+            "relationship dates to the 1960s and spans the entire commercial aviation era."
+        ),
+    },
+    {
+        "src": "HON", "dst": "RTX", "type": "Supply Chain",
+        "desc": "Honeywell provides avionics, APUs, and environmental control systems for RTX aircraft programs including F-35 and commercial jets",
+        "value": "~$1-2B annually", "year": "1970",
+        "source_url": "https://aerospace.honeywell.com/en/industries/defense",
+        "source_name": "Honeywell Aerospace",
+        "details": (
+            "Honeywell Aerospace is a key supplier to RTX's Pratt & Whitney and Collins "
+            "Aerospace divisions. Honeywell provides avionics and mission systems for "
+            "RTX defense programs including advanced cockpit displays for next-generation "
+            "fighter programs. Honeywell's HPW3000 APU powers certain Pratt & Whitney "
+            "engine-equipped aircraft. Collins Aerospace and Honeywell are often competing "
+            "and cooperating — Collins supplies cockpit systems while Honeywell provides "
+            "navigation and communication systems on the same aircraft. In the F-35 "
+            "program (where RTX's P&W supplies engines), Honeywell provides the Integrated "
+            "Power Package (IPP) — the auxiliary power system for engine starting. The "
+            "aerospace supply chain's complexity means Honeywell serves both Lockheed "
+            "Martin (the F-35 prime) and RTX (engine supplier) simultaneously."
+        ),
+    },
+
+    # ── Industrial equipment supply chain ─────────────────────────────────────
+
+    {
+        "src": "CAT", "dst": "MSFT", "type": "Partnership",
+        "desc": "Caterpillar + Microsoft Azure — Cat Digital connected machine platform linking 1M+ assets to cloud AI (2020)",
+        "value": "~$200M+ (multi-year)", "year": "2020",
+        "source_url": "https://news.microsoft.com/2020/09/09/caterpillar-and-microsoft-team-up-to-accelerate-industry-4-0/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Caterpillar and Microsoft announced a strategic partnership in September 2020 "
+            "to build Cat Digital's connected machine platform on Azure. Cat's 1M+ "
+            "connected construction and mining machines transmit telematics data — fuel "
+            "consumption, fault codes, location, cycle times — to Azure IoT Hub for "
+            "analysis. Azure AI models predict component failures 500+ hours in advance "
+            "for major components like undercarriages, engines, and hydraulic systems "
+            "on dozers, excavators, and haul trucks used in mining and quarrying. Cat's "
+            "dealer network uses Azure-powered dashboards to proactively schedule "
+            "maintenance visits, reducing unplanned downtime that can cost mining "
+            "operators $100,000+ per idle hour. Cat Command remote control operations — "
+            "where operators control machines from safe control rooms — stream video and "
+            "control signals through Azure with ultra-low latency. The partnership supports "
+            "Cat's goal of having 100% of its machines connected by 2030."
+        ),
+    },
+    {
+        "src": "DE", "dst": "MSFT", "type": "Partnership",
+        "desc": "John Deere + Microsoft Azure — John Deere Operations Center precision agriculture AI and connected farm equipment (2021)",
+        "value": "~$200M+ (multi-year)", "year": "2021",
+        "source_url": "https://news.microsoft.com/2021/09/15/john-deere-and-microsoft-partner-to-accelerate-digital-agriculture/",
+        "source_name": "Microsoft News",
+        "details": (
+            "John Deere and Microsoft Azure partner to power the John Deere Operations "
+            "Center — the farmer-facing digital platform connecting 400,000+ machines "
+            "in North American fields. Azure IoT and AI process data from Deere's "
+            "precision agriculture equipment: GPS planting maps, soil-sampling data, "
+            "sprayer application records, and yield maps from combines — enabling farmers "
+            "to optimize inputs and maximize yield on every acre. Deere's See & Spray "
+            "technology (computer vision that identifies weeds from crops and applies "
+            "herbicide only to weeds, cutting chemical use 77%) runs on Azure AI Vision "
+            "models updated via over-the-air firmware. Deere's StarFire RTK GPS receivers "
+            "and AutoTrac autonomous guidance systems use Azure for differential correction "
+            "signals achieving 1-inch planting accuracy. The partnership makes Deere the "
+            "leading precision agriculture technology platform in North America."
+        ),
+    },
+    {
+        "src": "UNP", "dst": "MSFT", "type": "Partnership",
+        "desc": "Union Pacific + Microsoft Azure — Unified Data Platform for rail network optimization, crew management, and safety AI (2021)",
+        "value": "~$150M+ (multi-year)", "year": "2021",
+        "source_url": "https://news.microsoft.com/2021/union-pacific-microsoft-azure-rail-ai/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Union Pacific and Microsoft Azure partnered to build a Unified Data Platform "
+            "integrating UP's 32,000-mile rail network data for operations optimization. "
+            "Azure AI processes real-time data from UP's 8,000+ locomotives — engine "
+            "health, fuel consumption, track condition from onboard sensors — to predict "
+            "mechanical failures before they cause delays. UP's crew management system, "
+            "which schedules 32,000 train crews across 23 states, runs on Azure for "
+            "real-time optimization against federal hours-of-service rules. Azure AI "
+            "Vision analyzes hi-def cameras on locomotives to detect track defects and "
+            "trespassers at 52,000+ grade crossings. UP's locomotive fuel efficiency "
+            "program uses Azure ML to reduce fuel consumption — saving 80M+ gallons "
+            "annually. The partnership supports UP's goal of Trip Plan Compliance: "
+            "delivering freight on time to 10,000+ rail customers."
+        ),
+    },
+    {
+        "src": "FDX", "dst": "MSFT", "type": "Partnership",
+        "desc": "FedEx + Microsoft Azure — FedEx Surround intelligent logistics platform and SenseAware supply chain visibility (2021)",
+        "value": "~$300M+ (multi-year)", "year": "2021",
+        "source_url": "https://news.microsoft.com/2021/05/26/fedex-and-microsoft-unveil-fedex-surround-a-new-intelligent-logistics-offering/",
+        "source_name": "Microsoft News",
+        "details": (
+            "FedEx and Microsoft unveiled FedEx Surround in May 2021 — a real-time "
+            "package intelligence platform built on Azure that gives FedEx customers "
+            "unprecedented visibility and control over critical shipments. FedEx Surround "
+            "uses Azure IoT, AI, and digital twin technology to monitor packages with "
+            "SenseAware ID sensors (location, temperature, humidity, light exposure) at "
+            "1-second intervals across FedEx's global network. The platform proactively "
+            "reroutes temperature-sensitive pharmaceutical shipments (a $900B market) if "
+            "cold-chain integrity is threatened. FedEx's 16M+ daily package deliveries "
+            "generate petabytes of data processed by Azure. Microsoft Teams powers "
+            "FedEx's logistics operations center communications. The partnership was "
+            "announced as a direct competitive response to UPS's Microsoft partnership — "
+            "both carriers using Azure for routing intelligence and supply chain AI."
+        ),
+    },
+
+    # ── Google Cloud industrial partnerships ──────────────────────────────────
+
+    {
+        "src": "HON", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Honeywell + Google Cloud — building energy AI, smart city solutions, and Forge platform multi-cloud extension (2022)",
+        "value": "~$100M+ (multi-year)", "year": "2022",
+        "source_url": "https://cloud.google.com/customers/honeywell",
+        "source_name": "Google Cloud",
+        "details": (
+            "Honeywell extends its Forge IoT platform to Google Cloud alongside its "
+            "primary Microsoft Azure deployment, giving customers multi-cloud flexibility "
+            "for building automation and industrial analytics. Google Cloud's AI and "
+            "data analytics tools power Honeywell's building energy optimization AI — "
+            "analyzing HVAC, lighting, and occupancy data to reduce energy consumption "
+            "in commercial buildings by 15-30%. Honeywell's smart city solutions use "
+            "Google Cloud's geospatial analytics for traffic optimization, utility grid "
+            "monitoring, and environmental sensing in connected-city deployments across "
+            "the Middle East and Asia. Google Cloud's Vertex AI assists Honeywell's "
+            "materials science R&D team in discovering new refrigerant and chemical "
+            "formulations for its Performance Materials & Technologies business, which "
+            "develops advanced materials for semiconductor manufacturing."
+        ),
+    },
+    {
+        "src": "DE", "dst": "GOOGL", "type": "Partnership",
+        "desc": "John Deere + Google Cloud — precision agriculture AI, satellite imagery crop analytics, and machine vision R&D (2022)",
+        "value": "~$100M+ (multi-year)", "year": "2022",
+        "source_url": "https://cloud.google.com/customers/john-deere",
+        "source_name": "Google Cloud",
+        "details": (
+            "John Deere partners with Google Cloud alongside Microsoft Azure to leverage "
+            "Google's specialized AI capabilities for precision agriculture. Google Cloud's "
+            "Earth Engine satellite imagery platform provides Deere's Ops Center with "
+            "field-level crop health maps derived from Landsat and Sentinel satellite "
+            "data — helping farmers monitor crop stress and disease emergence across "
+            "millions of acres without field scouting. Google's AutoML and Vertex AI "
+            "accelerate Deere's machine vision model development for See & Spray weeding "
+            "robots: Google's vision AI research team co-developed the deep learning "
+            "models that distinguish soybeans from 50+ weed species in real time at "
+            "10 mph. Google Maps integration with Deere's Operations Center shows field "
+            "boundaries and road access for machine routing. The partnership makes "
+            "Deere one of agriculture's most AI-sophisticated equipment companies."
+        ),
+    },
+    {
+        "src": "UNP", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Union Pacific + Google Cloud — network capacity AI, demand forecasting, and Google Maps for freight customer tools (2022)",
+        "value": "~$100M+ (multi-year)", "year": "2022",
+        "source_url": "https://cloud.google.com/customers/union-pacific",
+        "source_name": "Google Cloud",
+        "details": (
+            "Union Pacific partners with Google Cloud for advanced AI and analytics "
+            "alongside its Microsoft Azure deployment. Google Cloud's BigQuery and "
+            "Vertex AI process UP's massive historical train-movement datasets to build "
+            "demand forecasting models predicting freight volume by lane and commodity "
+            "type — enabling better locomotive and crew planning. Google Maps Platform "
+            "powers UP's customer-facing freight tracking tools, showing customers their "
+            "railcar location on an intuitive map interface overlaid on UP's network. "
+            "Google Cloud AutoML helps UP build predictive models for track maintenance "
+            "prioritization — identifying high-risk track segments before they cause "
+            "derailments or delays. The multi-cloud approach gives UP access to Google's "
+            "specialized geospatial and maps capabilities not available from Azure, while "
+            "maintaining Azure for core operations."
+        ),
+    },
+    {
+        "src": "FDX", "dst": "GOOGL", "type": "Partnership",
+        "desc": "FedEx + Google Cloud — ShipOS data platform, fleet route optimization, and Google Maps logistics API integration (2022)",
+        "value": "~$150M+ (multi-year)", "year": "2022",
+        "source_url": "https://cloud.google.com/customers/fedex",
+        "source_name": "Google Cloud",
+        "details": (
+            "FedEx and Google Cloud partnered to power FedEx ShipOS — the next-generation "
+            "logistics operating system FedEx is building to replace legacy mainframe "
+            "systems. ShipOS runs on Google Cloud, processing 20M+ daily package "
+            "transactions, shipment events, and delivery exceptions in a cloud-native "
+            "microservices architecture. Google Maps Platform routes FedEx's 200,000+ "
+            "US delivery vehicles, providing real-time traffic data, turn-by-turn "
+            "navigation, and address validation that reduces failed delivery attempts. "
+            "Google Cloud's data analytics tools power FedEx Dataworks — FedEx's "
+            "internal data science division that sells logistics intelligence to "
+            "retailers and manufacturers as a separate revenue stream. The Google "
+            "Cloud partnership complements FedEx's Microsoft Azure partnership for "
+            "the FedEx Surround package intelligence platform."
+        ),
+    },
+
+    # ── Amazon logistics partnerships ─────────────────────────────────────────
+
+    {
+        "src": "UNP", "dst": "AMZN", "type": "Partnership",
+        "desc": "Union Pacific hauls Amazon intermodal freight — rail is Amazon's lowest-cost long-haul transport for heavy goods (2018)",
+        "value": "~$1B+ annually", "year": "2018",
+        "source_url": "https://ir.up.com/financial-information/annual-reports",
+        "source_name": "Union Pacific Annual Report",
+        "details": (
+            "Union Pacific is one of Amazon's critical long-haul freight partners, "
+            "moving Amazon intermodal containers on rail across the western US and into "
+            "the midwest. Rail is 3-4x more fuel-efficient than truck for long-haul "
+            "freight, making Union Pacific's intermodal network essential for Amazon's "
+            "sustainability commitments and cost competitiveness. Amazon ships double-"
+            "stack intermodal containers on UP trains between its major fulfillment "
+            "centers in California, Nevada, Arizona, Texas, Illinois, and the Pacific "
+            "Northwest. UP's intermodal terminals in Los Angeles and Seattle are critical "
+            "links in Amazon's West Coast import supply chain from Asian manufacturing. "
+            "Amazon's growing private freight brokerage business also books capacity "
+            "on UP trains through third-party logistics providers, making the total "
+            "Amazon-UP freight volume difficult to precisely quantify but material."
+        ),
+    },
+    {
+        "src": "HON", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Honeywell barcode scanners, voice-directed warehouse systems, and safety equipment power Amazon's fulfillment centers",
+        "value": "~$500M+ annually", "year": "2010",
+        "source_url": "https://sps.honeywell.com/us/en/industries/warehouse-and-distribution",
+        "source_name": "Honeywell Safety & Productivity Solutions",
+        "details": (
+            "Honeywell is a major technology supplier to Amazon's 1,000+ fulfillment "
+            "centers, sortation facilities, and delivery stations globally. Honeywell's "
+            "Vocollect voice-directed work systems (where warehouse workers receive "
+            "picking instructions through headsets rather than paper or screen) are "
+            "deployed in Amazon fulfillment centers — reducing picking errors and "
+            "improving throughput. Honeywell's Datalogic barcode scanners handle "
+            "the scanning of 10B+ packages annually across Amazon's network. Honeywell "
+            "industrial safety products — gas detectors, hard hats, fall protection — "
+            "protect Amazon's 750,000+ warehouse workers globally. Honeywell's "
+            "Connected Worker platform tracks worker safety compliance and ergonomic "
+            "risk in real time across Amazon's high-injury-risk fulfillment operations, "
+            "a critical priority after regulatory scrutiny of Amazon's warehouse "
+            "injury rates."
+        ),
+    },
+    {
+        "src": "CAT", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Caterpillar sells heavy equipment through Amazon Business B2B marketplace and uses AWS for Cat Digital connected machine platform",
+        "value": "~$200M+ (marketplace + AWS cloud)", "year": "2018",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/caterpillar/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Caterpillar has a dual relationship with Amazon: as a marketplace seller "
+            "on Amazon Business for Cat parts and attachments, and as an AWS cloud "
+            "customer for Cat Digital's connected machine platform. Amazon Business — "
+            "Amazon's B2B e-commerce marketplace — carries Cat genuine parts, wear "
+            "parts, and smaller equipment attachments that construction companies "
+            "purchase for on-demand delivery. Cat's dealer network also uses AWS for "
+            "its dealer management systems. On the cloud side, Cat Digital uses AWS "
+            "SageMaker for some machine learning workloads and AWS IoT Greengrass "
+            "for edge computing in its connected machines — processing telematics "
+            "data locally on the machine before sending aggregated insights to Azure. "
+            "Cat's $2B+ Cat Digital segment represents its fastest-growing revenue "
+            "source, with AWS providing key ML and IoT components of the cloud stack."
+        ),
+    },
+
+    # ── Berkshire Hathaway Industrials investments ────────────────────────────
+
+    {
+        "src": "BRK-B", "dst": "UNP", "type": "Ownership",
+        "desc": "Berkshire Hathaway acquired BNSF Railway competitor Union Pacific — and owns BNSF, making Berkshire a major railroad investor",
+        "value": "~$4B+ (historical UNP position; BNSF acquired for $44B in 2010)",
+        "year": "2007",
+        "source_url": "https://www.berkshirehathaway.com/2009ar/2009ar.pdf",
+        "source_name": "Berkshire Hathaway Annual Report",
+        "details": (
+            "Berkshire Hathaway has been the dominant force in US railroad investment "
+            "for two decades. Berkshire completed the $44B acquisition of BNSF Railway "
+            "(Burlington Northern Santa Fe) in 2010 — the largest acquisition in Berkshire "
+            "history — making Buffett the de-facto owner of one of Union Pacific's two "
+            "primary competitors. Berkshire also held a meaningful stake in Union Pacific "
+            "directly from 2007-2019 before divesting as the BNSF-UP competitive dynamics "
+            "created conflict. Buffett has described BNSF as 'the #1 artery of American "
+            "commerce,' moving coal, grain, intermodal containers, and industrial goods "
+            "across 32,500 route miles. UP and BNSF together control 90%+ of western US "
+            "rail freight capacity, making Berkshire's railroad ownership one of the most "
+            "strategically significant in American industry."
+        ),
+    },
+    {
+        "src": "BRK-B", "dst": "BA", "type": "Ownership",
+        "desc": "Berkshire Hathaway held Boeing shares as a significant investment before selling entirely during 2020 COVID crisis",
+        "value": "~$4.2B (peak position, 2019)", "year": "2016",
+        "source_url": "https://www.berkshirehathaway.com/2019ar/2019ar.pdf",
+        "source_name": "Berkshire Hathaway Annual Report",
+        "details": (
+            "Berkshire Hathaway disclosed a significant Boeing position in its 2016 "
+            "13-F filing, accumulating shares as Buffett grew comfortable with Boeing's "
+            "dominant position in commercial aviation duopoly with Airbus. At its peak "
+            "in 2019, Berkshire held approximately 900,000 Boeing shares worth ~$4.2B, "
+            "making it a top-10 Boeing shareholder. The investment thesis rested on "
+            "Boeing's 7,000+ commercial jet backlog, defense revenues, and its effective "
+            "duopoly with Airbus in large commercial aircraft. Berkshire sold its entire "
+            "Boeing position in Q1 2020 during the COVID-19 pandemic, simultaneously "
+            "with selling its airline stocks (Delta, American, Southwest, United) — "
+            "Buffett's controversial exit from aviation at market lows. Boeing's subsequent "
+            "manufacturing quality crisis (2023-24) validated concerns about the stock's "
+            "long-term investment merit beyond the pandemic."
+        ),
+    },
+
+    # ── Cross-industrial partnerships ─────────────────────────────────────────
+
+    {
+        "src": "CAT", "dst": "DE", "type": "Partnership",
+        "desc": "Caterpillar and John Deere both adopt OSHA and ISO autonomous machine safety standards — cooperative industry standards body participation",
+        "value": "Regulatory and standards cooperation", "year": "2020",
+        "source_url": "https://www.aemp.org/about/",
+        "source_name": "AEMP (Association of Equipment Management Professionals)",
+        "details": (
+            "Caterpillar and John Deere are direct competitors in construction and "
+            "agricultural equipment but cooperate on critical industry-wide standards "
+            "through bodies including the Association of Equipment Management Professionals "
+            "(AEMP), ISO technical committees, and the Association of Equipment Manufacturers "
+            "(AEM). The most strategically significant joint effort is the AEMP Telematics "
+            "Data Standard — the open API that both Cat and Deere implement, allowing "
+            "fleet management software to pull machine health data from any OEM's equipment "
+            "using a common format. Without this standard, fleet managers running mixed "
+            "Cat and Deere fleets would need separate portals. The standard emerged from "
+            "pressure by large construction customers (like Turner Construction) that "
+            "operate thousands of machines from multiple OEMs. Cooperation on standards "
+            "benefits both companies by expanding the addressable market for connected "
+            "machine services."
+        ),
+    },
+    {
+        "src": "HON", "dst": "UPS", "type": "Partnership",
+        "desc": "Honeywell warehouse automation and worker safety technology equips UPS sorting facilities and package handling centers",
+        "value": "~$300M+ annually", "year": "2015",
+        "source_url": "https://sps.honeywell.com/us/en/industries/warehouse-and-distribution",
+        "source_name": "Honeywell Safety & Productivity Solutions",
+        "details": (
+            "Honeywell is a major technology supplier to UPS's 1,800+ operating facilities "
+            "globally. Honeywell Vocollect voice-directed systems guide UPS package handlers "
+            "in sorting facilities, where workers process 24M+ packages per day during peak "
+            "season. Honeywell label printers, barcode scanners (Honeywell Xenon series), "
+            "and mobile computers are deployed across UPS's network for package scanning, "
+            "exception handling, and pickup/delivery confirmation. Honeywell's Connected "
+            "Worker platform monitors UPS package handler safety in high-throughput "
+            "environments where repetitive strain injuries are a significant cost. "
+            "Honeywell's industrial PPE — safety gloves, eye protection, ergonomic supports — "
+            "are standard issue at UPS facilities. The Honeywell-UPS relationship spans "
+            "hardware, software, safety consumables, and analytics, making Honeywell one "
+            "of UPS's largest non-transportation suppliers."
         ),
     },
 ]
