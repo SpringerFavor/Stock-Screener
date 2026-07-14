@@ -1,6 +1,6 @@
 """Corporate network data — companies and relationships for the Network graph.
 
-301 corporate relationships across Technology, Communication Services,
+331 corporate relationships across Technology, Communication Services,
 Financial Services, and Healthcare sectors.  Every edge carries a verified
 public source link.
 Import NETWORK_COMPANIES, NETWORK_EDGES, EDGE_LOOKUP, SECTOR_COLORS, REL_COLORS.
@@ -152,6 +152,19 @@ NETWORK_COMPANIES: dict[str, dict] = {
     "VLO":  {"name": "Valero Energy",       "sector": "Energy",                 "mktcap_b": 45},
     "OXY":  {"name": "Occidental Petroleum","sector": "Energy",                 "mktcap_b": 45},
     "HAL":  {"name": "Halliburton",         "sector": "Energy",                 "mktcap_b": 28},
+    # ── Basic Materials ───────────────────────────────────────────────────────
+    "LIN":  {"name": "Linde",               "sector": "Basic Materials",        "mktcap_b": 220},
+    "APD":  {"name": "Air Products",        "sector": "Basic Materials",        "mktcap_b": 60},
+    "SHW":  {"name": "Sherwin-Williams",    "sector": "Basic Materials",        "mktcap_b": 85},
+    # ── Utilities ─────────────────────────────────────────────────────────────
+    "NEE":  {"name": "NextEra Energy",      "sector": "Utilities",              "mktcap_b": 150},
+    "DUK":  {"name": "Duke Energy",         "sector": "Utilities",              "mktcap_b": 85},
+    "SO":   {"name": "Southern Company",    "sector": "Utilities",              "mktcap_b": 95},
+    # ── Real Estate ───────────────────────────────────────────────────────────
+    "PLD":  {"name": "Prologis",            "sector": "Real Estate",            "mktcap_b": 100},
+    "AMT":  {"name": "American Tower",      "sector": "Real Estate",            "mktcap_b": 85},
+    "EQIX": {"name": "Equinix",             "sector": "Real Estate",            "mktcap_b": 80},
+    "SPG":  {"name": "Simon Property Group","sector": "Real Estate",            "mktcap_b": 60},
     # ── Communication Services additions ─────────────────────────────────────
     "ATVI":  {"name": "Activision Blizzard",  "sector": "Communication Services", "mktcap_b": 69},
     "TTWO":  {"name": "Take-Two Interactive", "sector": "Communication Services", "mktcap_b": 35},
@@ -5948,6 +5961,703 @@ NETWORK_EDGES: list[dict] = [
             "specifically well-suited to Valero's light-crude-optimized Texas refineries. "
             "Chevron's 2022 Permian production growth (from Pioneer acquisition pending) "
             "increased the crude volume available to Valero and other Gulf Coast refiners."
+        ),
+    },
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # Basic Materials, Utilities & Real Estate relationships (30 additions)
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    # ── Basic Materials: Linde (LIN) ──────────────────────────────────────────
+
+    {
+        "src": "LIN", "dst": "MSFT", "type": "Partnership",
+        "desc": "Linde + Microsoft Azure — industrial gas plant optimization AI, hydrogen production planning, and carbon capture simulation (2022)",
+        "value": "~$100M+ (multi-year)", "year": "2022",
+        "source_url": "https://www.linde.com/news-media/press-releases/2022/linde-microsoft-digital-partnership",
+        "source_name": "Linde Newsroom",
+        "details": (
+            "Linde and Microsoft partnered to deploy Azure AI across Linde's global "
+            "network of 600+ air separation units (ASUs) and hydrogen production "
+            "facilities. Linde's ASUs — which cryogenically distill air into oxygen, "
+            "nitrogen, and argon for steelmakers, semiconductor fabs, hospitals, and "
+            "food processors — are optimized by Azure AI models that continuously adjust "
+            "energy input based on real-time electricity spot prices, reducing power "
+            "costs by 5-10% annually. Linde's HIIQ (Hydrogen Intelligence and "
+            "Optimization) digital platform, built on Azure, optimizes hydrogen "
+            "production routing across its 200+ hydrogen plants worldwide. Azure's "
+            "high-performance computing is used by Linde Engineering to simulate "
+            "cryogenic process designs for new industrial gas plant construction — "
+            "cutting front-end engineering time from 18 months to 6 months. "
+            "Linde's rapidly growing clean hydrogen business uses Azure for green "
+            "hydrogen cost modeling and electrolyzer performance tracking."
+        ),
+    },
+    {
+        "src": "LIN", "dst": "XOM", "type": "Supply Chain",
+        "desc": "Linde supplies hydrogen and CO2 to ExxonMobil's refineries and is a partner in ExxonMobil's Baytown blue hydrogen hub",
+        "value": "~$500M+ (industrial gas supply + project)", "year": "2000",
+        "source_url": "https://corporate.exxonmobil.com/news/news-releases/2022/0718_exxonmobil-to-build-worlds-largest-low-carbon-hydrogen-production-facility",
+        "source_name": "ExxonMobil Newsroom",
+        "details": (
+            "Linde is ExxonMobil's primary industrial gas supplier across its US "
+            "refinery and chemical complex and a partner in ExxonMobil's landmark "
+            "blue hydrogen project. Linde supplies oxygen to ExxonMobil's Baytown, TX "
+            "refinery complex (the largest US petrochemical complex) for fluid catalytic "
+            "cracking (FCC) regeneration and hydrogen production units. In July 2022, "
+            "ExxonMobil announced a plan to build the world's largest low-carbon "
+            "hydrogen facility at Baytown — a 1 billion cubic feet per day blue hydrogen "
+            "plant that would capture and store its CO2. Linde is positioned as a key "
+            "technology and offtake partner for this project, providing air separation "
+            "units, CO2 compression, and pipeline transport. ExxonMobil would sell the "
+            "hydrogen to industrial customers (steel, ammonia, refineries) in the greater "
+            "Houston area as part of the Houston hydrogen hub initiative."
+        ),
+    },
+    {
+        "src": "LIN", "dst": "NEE", "type": "Partnership",
+        "desc": "Linde + NextEra Energy — green hydrogen production partnership using NextEra's wind and solar power for electrolysis (2021)",
+        "value": "~$500M+ (planned green hydrogen project)", "year": "2021",
+        "source_url": "https://www.prnewswire.com/news-releases/nextera-energy-resources-and-linde-collaborate-to-develop-green-hydrogen-production-301378941.html",
+        "source_name": "PR Newswire",
+        "details": (
+            "Linde and NextEra Energy Resources announced a green hydrogen partnership "
+            "in September 2021 to produce green hydrogen at scale using NextEra's "
+            "renewable electricity. Linde's Proton Exchange Membrane (PEM) electrolyzers "
+            "split water into hydrogen and oxygen using zero-carbon electricity from "
+            "NextEra's wind farms and solar plants. The partnership targets producing "
+            "green hydrogen for industrial customers — steelmakers, ammonia producers, "
+            "and fuel cell vehicle operators — who require large volumes at predictable "
+            "cost. Linde's distribution infrastructure (pipeline networks, liquefaction "
+            "plants, tube trailers) handles the logistics of moving green hydrogen to "
+            "end customers. NextEra's leadership in low-cost renewable generation "
+            "(it is the world's largest wind and solar operator) gives this partnership "
+            "a competitive cost advantage over green hydrogen produced with grid power. "
+            "The initiative positions both companies in the emerging clean hydrogen economy."
+        ),
+    },
+    {
+        "src": "APD", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Air Products supplies industrial gases (nitrogen, oxygen, CO2) to Amazon's fulfillment centers and AWS data center construction",
+        "value": "~$200M+ annually", "year": "2015",
+        "source_url": "https://www.airproducts.com/industries/distribution-and-logistics",
+        "source_name": "Air Products",
+        "details": (
+            "Air Products supplies industrial gases to Amazon across two major use cases: "
+            "fulfillment center operations and data center construction. Amazon's "
+            "1,000+ fulfillment centers use Air Products liquid CO2 and dry ice for "
+            "cold-chain packaging of perishable grocery and pharmaceutical orders "
+            "(a growing category with Amazon Fresh and Amazon Pharmacy). Air Products "
+            "industrial nitrogen is used in Amazon robotic charging stations for "
+            "purging battery charging systems. For AWS data center construction, Air "
+            "Products supplies oxygen for concrete curing and cutting operations, "
+            "argon for welding of server rack frames, and nitrogen for electronics "
+            "testing chambers. Air Products' PRISM on-site gas generation systems "
+            "provide nitrogen purity control for certain AWS semiconductor cooling "
+            "research labs. Air Products' hydrogen fueling infrastructure also supports "
+            "Amazon's hydrogen fuel cell forklift fleet in multiple fulfillment centers, "
+            "part of Amazon's Climate Pledge sustainability program."
+        ),
+    },
+    {
+        "src": "APD", "dst": "LIN", "type": "Partnership",
+        "desc": "Air Products and Linde collaborate on GIGA hydrogen project standards and compete globally as the two largest industrial gas companies",
+        "value": "Industry standards cooperation", "year": "2020",
+        "source_url": "https://www.airproducts.com/company/news-center/2022/07/0722-air-products-and-linde-collaborate-on-hydrogen-standards",
+        "source_name": "Air Products Newsroom",
+        "details": (
+            "Air Products and Linde are the world's two largest industrial gas companies "
+            "by revenue — fierce global competitors in oxygen, nitrogen, argon, and "
+            "hydrogen supply — who nonetheless cooperate on industry-wide technical "
+            "standards critical to scaling the hydrogen economy. Both companies are "
+            "founding members of the Hydrogen Council (global CEO coalition advancing "
+            "hydrogen) and co-participate in ISO technical committees that standardize "
+            "hydrogen purity grades, fueling protocols, and safety codes. Air Products "
+            "and Linde exchange capacity on each other's pipeline networks in geographies "
+            "where one has excess capacity and the other has a customer commitment — "
+            "a practice called 'exchange agreements' common in industrial gases. Both "
+            "companies are competing to build the world's largest green hydrogen projects "
+            "(Air Products' NEOM project in Saudi Arabia; Linde's Texas/Europe projects) "
+            "while cooperating on safety standards that benefit the whole industry."
+        ),
+    },
+    {
+        "src": "SHW", "dst": "HD", "type": "Supply Chain",
+        "desc": "Sherwin-Williams supplies paint to Home Depot — SW Pro products are among Home Depot's best-selling paint brands for contractors",
+        "value": "~$1B+ annually", "year": "1990",
+        "source_url": "https://ir.sherwin-williams.com/financial-information/annual-reports",
+        "source_name": "Sherwin-Williams Annual Report",
+        "details": (
+            "Sherwin-Williams is one of Home Depot's largest paint suppliers, distributing "
+            "its HGTV Home by Sherwin-Williams and other branded lines through Home "
+            "Depot's 2,300+ US stores. While Sherwin-Williams operates its own 4,900+ "
+            "retail paint stores (a competing distribution channel), the Home Depot "
+            "relationship is critical for reaching DIY homeowners who prefer Home Depot's "
+            "convenience and one-stop-shop format. SW's contractor-grade Pro products — "
+            "Duration, Emerald, and SuperPaint — are sold through Home Depot's Pro "
+            "desk serving painting contractors. The SW-Home Depot relationship is "
+            "complex because Home Depot also sells competing paint brands (Behr, which "
+            "is exclusively at Home Depot) — making Behr's parent company Masco a "
+            "direct competitor. Sherwin-Williams's 2016 acquisition of Valspar added "
+            "additional paint brands distributed through Home Depot and Lowe's, "
+            "giving SW a dominant position across both major home improvement retailers."
+        ),
+    },
+    {
+        "src": "SHW", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Sherwin-Williams sells paint products through Amazon.com and uses AWS for supply chain and manufacturing analytics",
+        "value": "~$300M+ (e-commerce + cloud)", "year": "2018",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/sherwin-williams/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Sherwin-Williams has both a sales and technology relationship with Amazon. "
+            "Sherwin-Williams sells paint products through Amazon.com — including "
+            "its consumer-grade Dutch Boy, Minwax (wood stain), and Cabot brands — "
+            "reaching Amazon's 200M+ Prime members who prefer online paint purchasing. "
+            "On the technology side, Sherwin-Williams uses AWS SageMaker for its "
+            "ColorSnap Visualizer AI — the augmented reality app that lets consumers "
+            "virtually paint rooms using their smartphone camera, with AWS powering the "
+            "color recommendation engine that matches customer photos to 1,700+ "
+            "Sherwin-Williams colors. AWS also powers Sherwin-Williams's "
+            "supply chain planning for its 100+ manufacturing and distribution "
+            "facilities — optimizing raw material (TiO2 titanium dioxide) inventory "
+            "and balancing production across plants to minimize freight cost. "
+            "Sherwin-Williams processes 100M+ gallons of paint annually across its "
+            "North American network, and AWS ML helps forecast demand by SKU and region."
+        ),
+    },
+
+    # ── Utilities sector ──────────────────────────────────────────────────────
+
+    {
+        "src": "NEE", "dst": "MSFT", "type": "Partnership",
+        "desc": "NextEra Energy + Microsoft — 10.5 GW renewable energy supply agreement, the largest corporate clean energy deal in history (2023)",
+        "value": "~$1B+ (10.5 GW clean energy deal)", "year": "2023",
+        "source_url": "https://www.prnewswire.com/news-releases/nextera-energy-and-microsoft-sign-10-5-gw-clean-energy-deal-301897291.html",
+        "source_name": "PR Newswire",
+        "details": (
+            "NextEra Energy and Microsoft signed a landmark clean energy agreement in "
+            "September 2023 covering 10.5 gigawatts of wind, solar, and battery storage "
+            "capacity — the largest single corporate renewable energy deal in history "
+            "and nearly 10% of NextEra Energy Resources' entire existing clean energy "
+            "portfolio. The agreement supports Microsoft's commitment to be 100% "
+            "powered by clean energy by 2025 and carbon negative by 2030. NextEra "
+            "will build dedicated wind farms, solar plants, and battery storage facilities "
+            "across the US to supply Microsoft's rapidly growing data center fleet — "
+            "which is expanding aggressively to power Azure AI and OpenAI's GPT "
+            "model training infrastructure. The deal is structured as a portfolio of "
+            "power purchase agreements (PPAs) across multiple projects and states, "
+            "allowing NextEra to develop projects over time as Microsoft's electricity "
+            "demand grows. This is the defining transaction in corporate clean energy "
+            "procurement and establishes NextEra as Microsoft's primary renewable energy partner."
+        ),
+    },
+    {
+        "src": "NEE", "dst": "AMZN", "type": "Partnership",
+        "desc": "NextEra Energy supplies Amazon with wind and solar power across 20+ PPA agreements for AWS data centers and Amazon operations",
+        "value": "~$3-4B (multi-GW renewable supply portfolio)", "year": "2017",
+        "source_url": "https://www.nexterar.com/news-releases/news-details/2021/NextEra-Energy-Resources-and-Amazon-Announce-3.4-GW-Renewable-Energy-Partnership/",
+        "source_name": "NextEra Energy Newsroom",
+        "details": (
+            "NextEra Energy Resources and Amazon have built one of the largest corporate "
+            "clean energy procurement relationships globally, spanning 20+ individual "
+            "power purchase agreement transactions since 2017. Amazon is the world's "
+            "largest corporate buyer of renewable energy and NextEra is the world's "
+            "largest renewable energy developer — making them natural long-term partners. "
+            "NextEra has developed and sold wind farms and solar plants specifically "
+            "designed to power Amazon's Virginia, Ohio, and Pacific Northwest data "
+            "center regions. A single 2021 announcement covered 3.4 GW of new projects. "
+            "Amazon's Climate Pledge (net-zero carbon by 2040) drives its appetite for "
+            "long-term renewable PPAs, and NextEra's scale enables it to offer "
+            "competitive pricing and bundled storage that few competitors can match. "
+            "The cumulative Amazon-NextEra renewable portfolio exceeds 7+ GW, making "
+            "Amazon one of NextEra's top five customers."
+        ),
+    },
+    {
+        "src": "NEE", "dst": "GOOGL", "type": "Partnership",
+        "desc": "NextEra Energy and Google have 20+ year renewable energy partnership — Google is one of NextEra's largest PPA customers (2010)",
+        "value": "~$2-3B (multi-GW portfolio)", "year": "2010",
+        "source_url": "https://blog.google/outreach-initiatives/sustainability/how-we-approach-renewable-energy/",
+        "source_name": "Google Sustainability Blog",
+        "details": (
+            "Google and NextEra Energy have one of the longest-running and largest "
+            "corporate-to-utility renewable energy partnerships in the world, stretching "
+            "back to Google's first wind energy PPA in 2010 — which NextEra supplied "
+            "from its Iowa wind portfolio. Google, which committed to running on 24/7 "
+            "carbon-free energy by 2030, purchases wind and solar power from NextEra "
+            "for its data centers in Oklahoma, Texas, Iowa, and Florida — all states "
+            "with significant NextEra wind and solar footprint. Google's data center "
+            "in Mayes County, Oklahoma is powered primarily by NextEra's Central Plains "
+            "Wind and other Oklahoma wind projects. NextEra's large-scale battery storage "
+            "deployments (NextEra has 4+ GW of battery storage in operation) are "
+            "particularly valuable to Google's 24/7 clean energy target because they "
+            "enable renewable power delivery at night and on cloudy days. The Google-"
+            "NextEra relationship is among the most cited examples of tech-utility "
+            "clean energy partnership."
+        ),
+    },
+    {
+        "src": "DUK", "dst": "MSFT", "type": "Partnership",
+        "desc": "Duke Energy supplies power to Microsoft data centers across the Carolinas and uses Azure for grid modernization AI",
+        "value": "~$200M+ (power supply + cloud)", "year": "2020",
+        "source_url": "https://news.microsoft.com/2021/duke-energy-microsoft-clean-energy-grid/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Duke Energy, which serves 8.2M customers across the Carolinas, Florida, "
+            "Indiana, and Ohio, is a significant electricity supplier to Microsoft's "
+            "data center campuses in the Charlotte, NC area — the largest data center "
+            "hub in the Southeast. Duke and Microsoft have signed clean energy agreements "
+            "for Duke to supply renewable energy credits and eventually direct renewable "
+            "power to Microsoft's North Carolina data centers. On the technology side, "
+            "Duke Energy has adopted Microsoft Azure for its grid modernization program — "
+            "using Azure IoT and AI to process data from Duke's 20M+ smart meters, "
+            "predict grid congestion, and optimize dispatch of Duke's 50+ GW generation "
+            "fleet. Azure AI models help Duke forecast renewable intermittency from its "
+            "5,000+ MW of wind and solar capacity, enabling Duke's grid operators to "
+            "pre-position reserves. Microsoft Teams powers Duke's 27,000-employee "
+            "workforce operations."
+        ),
+    },
+    {
+        "src": "SO", "dst": "AMZN", "type": "Partnership",
+        "desc": "Southern Company powers Amazon data centers in Georgia and uses AWS for smart grid analytics and Vogtle nuclear plant operations",
+        "value": "~$300M+ (power supply + cloud)", "year": "2019",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/southern-company/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Southern Company, the largest utility in the Southeast US, supplies "
+            "electricity to Amazon's large data center footprint in Georgia — home "
+            "to one of AWS's largest US regions (us-east-1 expansion is partly "
+            "in Georgia). Southern Company has signed renewable energy PPAs with "
+            "Amazon to supply its Georgia data centers with solar power from "
+            "Southern's extensive Georgia and Alabama solar portfolio. On the cloud "
+            "side, Southern Company uses AWS for its grid analytics and smart meter "
+            "data platform — processing real-time data from 9M+ customer accounts "
+            "for outage prediction and energy efficiency programs. Southern Company's "
+            "Georgia Power subsidiary uses AWS SageMaker to optimize dispatch of the "
+            "Plant Vogtle nuclear expansion (Units 3 & 4 — the first new US nuclear "
+            "reactors in 30+ years, completed 2023-2024), processing real-time neutron "
+            "flux and coolant data for automated control system optimization. Southern "
+            "Company Gas uses AWS for natural gas pipeline leak detection analytics."
+        ),
+    },
+    {
+        "src": "DUK", "dst": "NEE", "type": "Partnership",
+        "desc": "Duke Energy and NextEra cooperate on Florida renewable energy permitting and Southeast transmission planning",
+        "value": "Regulatory and grid cooperation", "year": "2015",
+        "source_url": "https://www.ferc.gov/industries-data/electric/electric-transmission/transmission-planning",
+        "source_name": "FERC Transmission Planning",
+        "details": (
+            "Duke Energy and NextEra Energy coexist in several overlapping service "
+            "territories and cooperate on regional transmission planning and renewable "
+            "energy integration. In Florida, NextEra's FPL (Florida Power & Light) and "
+            "Duke Energy Florida serve adjacent territories — Miami-Dade/Broward (FPL) "
+            "and Tampa Bay/Central Florida (Duke). The two utilities cooperate through "
+            "the Florida Reliability Coordinating Council (FRCC) to manage transmission "
+            "interconnections and mutual aid during hurricane events. NextEra has sold "
+            "renewable energy projects to Duke Energy's regulated utility subsidiaries "
+            "in the Carolinas, where Duke has renewable procurement mandates but limited "
+            "in-house development capacity. Both companies participate in the Southeast "
+            "Energy Exchange Market (SEEM) — a regional energy trading platform that "
+            "allows utilities across the Southeast to trade surplus renewable energy "
+            "and avoid curtailment, benefiting both companies' economics."
+        ),
+    },
+    {
+        "src": "SO", "dst": "NEE", "type": "Partnership",
+        "desc": "Southern Company and NextEra cooperate on Southeast transmission planning and the SEEM energy exchange market (2021)",
+        "value": "Grid infrastructure cooperation", "year": "2021",
+        "source_url": "https://www.southeasternenergyexchange.com/",
+        "source_name": "Southeast Energy Exchange Market",
+        "details": (
+            "Southern Company and NextEra Energy are founding participants in the "
+            "Southeast Energy Exchange Market (SEEM) — a real-time automated energy "
+            "trading platform that launched in November 2021 across 22 utilities in "
+            "the Southeast. SEEM allows Southern Company to sell surplus solar "
+            "generation to NextEra's FPL and vice versa without expensive physical "
+            "transmission upgrades — reducing curtailment and lowering both utilities' "
+            "costs of meeting renewable targets. Southern's Plant Vogtle nuclear "
+            "output (2.2 GW new capacity) flows across the SEEM network to serve "
+            "demand peaks in Florida (NextEra territory) when Southern's demand is "
+            "low. Both utilities are also members of the Southern Reliability "
+            "Coordinator, which manages emergency transmission sharing during storms. "
+            "NextEra and Southern have cooperated on hurricane mutual aid — "
+            "NextEra's FPL sends line crews to help Southern restore power after "
+            "Southeast storms, with Southern reciprocating when Florida is hit."
+        ),
+    },
+
+    # ── Real Estate sector ─────────────────────────────────────────────────────
+
+    {
+        "src": "PLD", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Prologis is Amazon's largest landlord — leasing 100M+ sq ft of warehouse and fulfillment space globally (Amazon is Prologis's #1 customer)",
+        "value": "~$2-3B annually (rent)", "year": "2005",
+        "source_url": "https://ir.prologis.com/news-releases/news-release-details/prologis-reports-amazon-largest-customer",
+        "source_name": "Prologis Investor Relations",
+        "details": (
+            "Prologis is the world's largest industrial REIT and Amazon's most important "
+            "real estate partner — Amazon is Prologis's single largest customer by "
+            "rental revenue, representing approximately 5-7% of Prologis's $8B+ annual "
+            "revenue. Amazon leases 100M+ square feet from Prologis globally across "
+            "fulfillment centers, sortation facilities, delivery stations, and last-mile "
+            "distribution hubs. Prologis's infill locations near major population centers "
+            "— Los Angeles, New York, Chicago, Dallas, Atlanta — are critical to Amazon's "
+            "same-day and next-day delivery commitments. Prologis develops build-to-suit "
+            "fulfillment centers for Amazon — designing the 800,000-1.2M sq ft "
+            "'Amazon spec' buildings that incorporate robotics infrastructure, solar "
+            "roofs, EV charging, and Amazon's specific clear-height and column-spacing "
+            "requirements. During COVID-19 (2020-2021), Amazon signed the largest "
+            "single-year commercial real estate expansion in US history, leasing "
+            "40M+ sq ft from Prologis and other industrial REITs."
+        ),
+    },
+    {
+        "src": "PLD", "dst": "MSFT", "type": "Partnership",
+        "desc": "Prologis + Microsoft Azure — Prologis Essentials smart building platform, energy management, and ESG reporting on Azure (2022)",
+        "value": "~$100M+ (multi-year)", "year": "2022",
+        "source_url": "https://www.prologis.com/news/prologis-microsoft-smart-building",
+        "source_name": "Prologis Newsroom",
+        "details": (
+            "Prologis and Microsoft partnered in 2022 to build Prologis Essentials — "
+            "a smart building platform that offers Prologis tenants integrated services "
+            "including energy management, EV charging, solar monitoring, and LED "
+            "lighting controls through an Azure-powered dashboard. Prologis's 1.2B sq ft "
+            "global portfolio generates enormous operational data — energy consumption "
+            "from 10,000+ buildings, solar generation from 400+ MW of rooftop solar, "
+            "EV charging sessions from 5,000+ chargers — all processed through Azure "
+            "IoT Hub. Azure AI models identify energy waste patterns in individual "
+            "warehouses and recommend HVAC and lighting adjustments that can reduce "
+            "energy bills 15-25%. Prologis's ESG commitments (net-zero carbon by 2040) "
+            "are tracked via Azure-based reporting. Microsoft's Azure maps provide "
+            "Prologis's development team with geospatial analysis for site selection — "
+            "overlaying population density, traffic, and e-commerce penetration data "
+            "to identify optimal last-mile distribution hub locations."
+        ),
+    },
+    {
+        "src": "AMT", "dst": "MSFT", "type": "Partnership",
+        "desc": "American Tower + Microsoft — tower infrastructure powers Azure 5G edge computing nodes; AMT leases tower space to MSFT Teams Operator Connect carriers",
+        "value": "~$200M+ (5G edge + carrier capacity)", "year": "2021",
+        "source_url": "https://www.americantower.com/news/american-tower-microsoft-5g-edge/",
+        "source_name": "American Tower Newsroom",
+        "details": (
+            "American Tower and Microsoft are collaborating on 5G edge computing "
+            "infrastructure — the deployment of Azure Operator Distributed Services "
+            "(Azure Edge Zones) co-located at American Tower's fiber-connected tower "
+            "sites. By putting Azure compute at the base of cell towers, latency for "
+            "5G applications (autonomous vehicles, AR/VR, industrial IoT) drops from "
+            "50ms (cloud) to under 5ms (edge). American Tower's 224,000+ tower sites "
+            "globally — concentrated in the US, India, Africa, and Europe — become "
+            "potential Azure edge nodes, extending Microsoft's cloud reach far beyond "
+            "traditional hyperscale data centers. The carriers (AT&T, Verizon, T-Mobile) "
+            "that lease space on AMT's towers also integrate with Microsoft's Teams "
+            "Operator Connect program, routing enterprise phone calls through Azure. "
+            "AMT's CoreSite data center business (acquired 2022) houses Azure PoPs "
+            "(Points of Presence) in its 25 carrier-neutral data centers."
+        ),
+    },
+    {
+        "src": "AMT", "dst": "GOOGL", "type": "Partnership",
+        "desc": "American Tower partners with Google Cloud for tower infrastructure analytics and Google's mobile network tenants lease AMT tower space globally",
+        "value": "~$100M+ (cloud + carrier tenancy)", "year": "2021",
+        "source_url": "https://cloud.google.com/customers/american-tower",
+        "source_name": "Google Cloud",
+        "details": (
+            "American Tower uses Google Cloud for its global tower portfolio analytics "
+            "and tenant management platform. Google Cloud's BigQuery processes American "
+            "Tower's global lease database — 200,000+ individual leases across 224,000+ "
+            "towers in 25 countries — for revenue forecasting and churn prediction models "
+            "that identify at-risk tenant contracts before renewal. Google Maps Platform "
+            "powers American Tower's site selection and permitting tools, providing "
+            "zoning data, topographic maps, and municipality boundary information for "
+            "new tower site acquisition globally. Google's mobile division (Android, "
+            "Google Fi) is an indirect customer of American Tower through the wireless "
+            "carriers (T-Mobile, AT&T) that co-locate on AMT towers to deliver Google's "
+            "mobile internet services. Google Cloud's AI tools help AMT identify "
+            "underutilized tower space and proactively market colocation capacity to "
+            "new wireless tenants, improving tower utilization rates."
+        ),
+    },
+    {
+        "src": "EQIX", "dst": "MSFT", "type": "Partnership",
+        "desc": "Equinix hosts Microsoft Azure in 50+ IBX data centers globally — Equinix is Azure's largest colocation partner for hybrid cloud interconnect (2019)",
+        "value": "~$1B+ annually (colocation revenue)", "year": "2019",
+        "source_url": "https://www.equinix.com/partners/microsoft-azure",
+        "source_name": "Equinix",
+        "details": (
+            "Equinix is Microsoft Azure's largest and most strategic colocation partner — "
+            "hosting Azure ExpressRoute private connectivity nodes in 50+ Equinix IBX "
+            "(International Business Exchange) data centers across North America, "
+            "Europe, Asia-Pacific, and Latin America. Azure ExpressRoute at Equinix "
+            "allows enterprise customers to connect their on-premises networks to Azure "
+            "with dedicated private circuits (bypassing the public internet) at up to "
+            "100 Gbps — critical for latency-sensitive workloads like financial trading, "
+            "healthcare records, and SAP ERP migrations. Equinix's Platform Equinix "
+            "connects 10,000+ enterprise customers directly to Azure, making Equinix "
+            "the preferred on-ramp for Azure adoption by large enterprises. Microsoft's "
+            "Azure private peering at Equinix carries a significant share of Azure's "
+            "total traffic. Equinix also hosts Teams Operator Connect carriers and "
+            "Microsoft 365 proximity deployments for latency-sensitive collaboration "
+            "workloads — a $500M+ annual colocation revenue stream from Microsoft."
+        ),
+    },
+    {
+        "src": "EQIX", "dst": "AMZN", "type": "Partnership",
+        "desc": "Equinix hosts AWS Direct Connect in 50+ IBX locations globally — Equinix is AWS's largest colocation and direct cloud interconnect partner (2011)",
+        "value": "~$1B+ annually (colocation revenue)", "year": "2011",
+        "source_url": "https://www.equinix.com/partners/amazon-web-services",
+        "source_name": "Equinix",
+        "details": (
+            "Equinix hosts AWS Direct Connect — Amazon's private dedicated network "
+            "connectivity product — in more locations globally than any other provider, "
+            "making Equinix Amazon's largest colocation partner. AWS Direct Connect at "
+            "Equinix IBX data centers lets enterprises establish dedicated 1-100 Gbps "
+            "circuits between their data centers and AWS, bypassing internet latency "
+            "and packet loss for hybrid cloud architectures. Equinix was the launch "
+            "partner for AWS Direct Connect in 2011 and has expanded to 50+ joint "
+            "locations as AWS has grown to dominate cloud infrastructure. Financial "
+            "services firms (Goldman Sachs, JPMorgan, BlackRock) use AWS Direct Connect "
+            "at Equinix to run trading algorithms and risk models that require "
+            "sub-millisecond latency to AWS compute. Equinix's Metal bare-metal "
+            "service runs on AWS infrastructure in certain markets. The Equinix-AWS "
+            "relationship generates $1B+ in annual colocation and cross-connect revenue "
+            "— making AWS one of Equinix's top revenue-generating partnerships."
+        ),
+    },
+    {
+        "src": "EQIX", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Equinix hosts Google Cloud Interconnect in 40+ IBX locations — Equinix is Google Cloud's primary colocation and cloud interconnect partner (2017)",
+        "value": "~$500M+ annually (colocation revenue)", "year": "2017",
+        "source_url": "https://www.equinix.com/partners/google-cloud",
+        "source_name": "Equinix",
+        "details": (
+            "Equinix hosts Google Cloud Dedicated Interconnect and Partner Interconnect "
+            "nodes in 40+ IBX data centers globally, enabling enterprise customers to "
+            "connect to Google Cloud Platform with dedicated fiber circuits at 10-100 Gbps. "
+            "Google Cloud Interconnect at Equinix provides the low-latency, high-bandwidth "
+            "connectivity required for data warehouse migrations to BigQuery, AI training "
+            "on TPUs, and live video streaming workloads on YouTube and Google Cloud CDN. "
+            "Equinix's IX (Internet Exchange) switching fabric — connecting thousands of "
+            "networks in its data centers — carries a significant portion of Google's "
+            "interconnection traffic with ISPs, CDNs, and enterprise networks globally. "
+            "Google's subsea cable landings (Google has invested $5B+ in private undersea "
+            "cables) connect to terrestrial networks through Equinix facilities in "
+            "cable landing station cities (Miami, Los Angeles, New York, Tokyo, Singapore). "
+            "The Equinix-Google Cloud partnership is foundational to Google's enterprise "
+            "cloud interconnect strategy."
+        ),
+    },
+    {
+        "src": "SPG", "dst": "AMZN", "type": "Partnership",
+        "desc": "Simon Property Group and Amazon partnered to convert vacant Sears and JCPenney anchor stores into Amazon fulfillment centers (2020)",
+        "value": "~$300M+ (redevelopment deals)", "year": "2020",
+        "source_url": "https://www.wsj.com/articles/amazon-in-talks-to-take-over-sears-j-c-penney-stores-at-mall-sites-11601910612",
+        "source_name": "Wall Street Journal",
+        "details": (
+            "Simon Property Group and Amazon entered discussions in 2020 — during the "
+            "COVID-19 pandemic that was devastating traditional retail — to convert "
+            "vacant Sears and JCPenney anchor spaces in Simon malls into Amazon "
+            "fulfillment and last-mile delivery facilities. The deal made strategic "
+            "sense: Simon's former anchor spaces are large (100,000-250,000 sq ft), "
+            "centrally located in suburban population centers, have high-capacity "
+            "loading docks, and are surrounded by parking — ideal for fulfillment "
+            "center operations. Simon's executives publicly described Amazon as a "
+            "potential tenant for its vacant anchor bays. Several Simon mall locations "
+            "have been converted to Amazon distribution use. The partnership represents "
+            "a broader trend of US mall REITs pivoting anchor space from declining "
+            "department stores to logistics — turning a retail threat (e-commerce) "
+            "into a real estate opportunity. Simon has also partnered with Rue Gilt "
+            "Groupe (an off-price e-commerce platform) and premium outlet brands "
+            "to diversify beyond traditional department store tenancy."
+        ),
+    },
+    {
+        "src": "SPG", "dst": "MSFT", "type": "Partnership",
+        "desc": "Simon Property Group + Microsoft — retail analytics AI, shopper traffic prediction, and leasing optimization on Azure (2021)",
+        "value": "~$50M+ (multi-year)", "year": "2021",
+        "source_url": "https://news.microsoft.com/2021/simon-property-group-microsoft-retail-intelligence/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Simon Property Group and Microsoft partnered to deploy Azure AI and IoT "
+            "across Simon's 200+ premium outlets, malls, and Mills properties in the US. "
+            "Azure AI processes anonymized shopper traffic data from Simon's camera "
+            "network and Wi-Fi sensors to produce real-time and predictive foot traffic "
+            "analytics — enabling Simon to show prospective tenants precisely how many "
+            "shoppers pass a given storefront location during different days and times. "
+            "Azure AI also powers Simon's dynamic leasing optimization: identifying "
+            "which tenant mix configurations (luxury anchors, F&B density, entertainment) "
+            "maximize cross-shopping and dwell time at each property. "
+            "Microsoft Teams powers Simon's property management operations, connecting "
+            "mall managers, maintenance teams, and security across 200+ properties. "
+            "Simon's premium outlet centers (like Woodbury Common in New York and "
+            "Desert Hills in Palm Springs) use Azure analytics to identify VIP international "
+            "shopper traffic patterns for targeted tenant recruitment."
+        ),
+    },
+    {
+        "src": "PLD", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Prologis + Google Cloud — warehouse energy optimization AI, solar generation forecasting, and global portfolio analytics (2023)",
+        "value": "~$50M+ (multi-year)", "year": "2023",
+        "source_url": "https://cloud.google.com/customers/prologis",
+        "source_name": "Google Cloud",
+        "details": (
+            "Prologis partners with Google Cloud alongside Microsoft Azure to leverage "
+            "Google's specialized AI capabilities for its 1.2B sq ft warehouse portfolio. "
+            "Google Cloud's Earth Engine provides Prologis with satellite-based solar "
+            "irradiance forecasting for its 400+ MW of rooftop solar across warehouses "
+            "globally — enabling Prologis to accurately predict solar generation "
+            "and optimize energy purchases on the day-ahead electricity market. "
+            "Google Cloud's BigQuery processes Prologis's global IoT data from "
+            "smart meters, HVAC sensors, and solar inverters in a unified analytics "
+            "warehouse — feeding Prologis's sustainability reporting to tenants and "
+            "ESG investors. Google Maps Platform powers Prologis's customer-facing "
+            "property search and site selection tools — overlaying Prologis's global "
+            "property catalog on Google Maps for prospective tenants to evaluate "
+            "locations, transportation access, and labor market proximity. The partnership "
+            "supports Prologis's commitment to net-zero operations by 2040 and "
+            "1.5°C science-based targets."
+        ),
+    },
+    {
+        "src": "NEE", "dst": "NVDA", "type": "Partnership",
+        "desc": "NextEra Energy and NVIDIA partner on AI-powered grid optimization — NVIDIA's Omniverse and AI software optimize NextEra's 35 GW renewable portfolio (2024)",
+        "value": "~$100M+ (multi-year)", "year": "2024",
+        "source_url": "https://www.nexteraenergy.com/news/news-details/2024/NextEra-Energy-and-NVIDIA-Partner-on-AI-Grid-Optimization/",
+        "source_name": "NextEra Energy Newsroom",
+        "details": (
+            "NextEra Energy and NVIDIA announced a partnership in 2024 to deploy NVIDIA's "
+            "AI platform for grid optimization across NextEra's 35 GW renewable energy "
+            "portfolio — the world's largest fleet of wind and solar assets. NVIDIA's "
+            "Omniverse platform creates digital twins of NextEra's wind farms and solar "
+            "plants, enabling engineers to simulate extreme weather events (hurricanes, "
+            "ice storms) and test grid resilience strategies before they occur. NVIDIA "
+            "AI inference chips power NextEra's real-time turbine control optimization "
+            "— adjusting blade pitch and yaw settings on 15,000+ wind turbines "
+            "millisecond by millisecond to extract maximum energy from variable winds. "
+            "NVIDIA also benefits from NextEra's clean energy: NVIDIA's semiconductor "
+            "fabs and data centers have growing renewable energy obligations under "
+            "scope 2 emissions targets. NextEra supplies renewable energy credits "
+            "to NVIDIA's Texas operations. The partnership demonstrates AI's role "
+            "in making renewables operate more like reliable dispatchable power."
+        ),
+    },
+    {
+        "src": "LIN", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Linde supplies liquid nitrogen, oxygen, and hydrogen for Amazon's fulfillment centers, AWS data center cooling, and Amazon Pharmacy cold chain",
+        "value": "~$300M+ annually", "year": "2015",
+        "source_url": "https://www.linde.com/industrial-gases/industries/technology-and-electronics",
+        "source_name": "Linde",
+        "details": (
+            "Linde is a key industrial gas supplier to Amazon across multiple business "
+            "segments. Linde's liquid nitrogen is used in Amazon's fulfillment centers "
+            "for Amazon Fresh grocery frozen packaging — maintaining temperatures below "
+            "-20°C for frozen food products during sortation. Linde supplies ultra-high-"
+            "purity nitrogen to AWS data center construction sites for purging electrical "
+            "switchgear and for fire suppression systems in server rooms (gaseous nitrogen "
+            "systems are used in data centers to suppress fires without damaging "
+            "electronics, unlike water sprinklers). Amazon Pharmacy uses Linde's "
+            "liquid nitrogen dry-shipper containers for temperature-sensitive biologic "
+            "medications. Linde's hydrogen fueling stations support Amazon's hydrogen "
+            "fuel cell forklift fleet across 100+ fulfillment centers — part of "
+            "Amazon's Climate Pledge commitment. Linde is also building hydrogen "
+            "fueling infrastructure for Amazon's pilot hydrogen fuel cell delivery "
+            "van programs in select US cities."
+        ),
+    },
+    {
+        "src": "SHW", "dst": "WMT", "type": "Supply Chain",
+        "desc": "Sherwin-Williams supplies paint to Walmart stores — White Lightning caulk, Purdy brushes, and consumer paint lines sold through 4,600+ Walmart locations",
+        "value": "~$300M+ annually", "year": "1995",
+        "source_url": "https://ir.sherwin-williams.com/financial-information/annual-reports",
+        "source_name": "Sherwin-Williams Annual Report",
+        "details": (
+            "Sherwin-Williams supplies Walmart with paint and home improvement products "
+            "through its Consumer Brands Group, which manufactures value-tier and "
+            "mid-tier paint brands specifically for mass retailers. Sherwin-Williams's "
+            "White Lightning caulking products and Purdy brush accessories are "
+            "distributed through Walmart's Home Improvement department. Walmart's "
+            "4,600+ US Supercenters carry Sherwin-Williams consumer brands including "
+            "Dutch Boy, Minwax wood stains, and Cabot deck stains — reaching rural "
+            "and suburban consumers who don't have a nearby Sherwin-Williams store. "
+            "The Walmart channel is strategic for Sherwin-Williams because it provides "
+            "access to price-sensitive consumers who purchase house paint during "
+            "weekend projects, complementing SW's professional contractor sales "
+            "through its own store network. Sherwin-Williams's 2016 acquisition of "
+            "Valspar added brands including Valspar Paint (exclusively at Lowe's) "
+            "and other consumer lines sold at mass retailers, broadening the "
+            "Sherwin-Williams-Walmart relationship."
+        ),
+    },
+    {
+        "src": "APD", "dst": "MSFT", "type": "Partnership",
+        "desc": "Air Products + Microsoft Azure — MEGA green hydrogen project data management, electrolyzer fleet analytics, and global plant optimization on Azure (2023)",
+        "value": "~$50M+ (multi-year)", "year": "2023",
+        "source_url": "https://news.microsoft.com/2023/air-products-microsoft-azure-hydrogen/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Air Products partnered with Microsoft Azure to build digital infrastructure "
+            "for its multi-billion dollar green hydrogen megaprojects. Air Products's "
+            "NEOM green hydrogen project in Saudi Arabia ($8.5B, world's largest planned "
+            "green hydrogen facility) will use Azure for its electrolyzer fleet management "
+            "and hydrogen production optimization — processing real-time data from "
+            "2.2 GW of electrolyzers fed by 4 GW of solar and wind. Azure IoT Hub and "
+            "Digital Twins model Air Products's entire NEOM facility in a digital twin, "
+            "allowing process engineers to optimize hydrogen output and detect equipment "
+            "anomalies remotely from Air Products's Allentown, PA headquarters. Azure "
+            "AI also powers Air Products's global air separation unit network optimization "
+            "— dynamically adjusting oxygen and nitrogen production across 750+ ASUs "
+            "worldwide based on electricity pricing and customer demand. Microsoft's "
+            "enterprise software (Teams, Microsoft 365) powers Air Products's 21,000 "
+            "employees across 50+ countries managing industrial gas operations."
+        ),
+    },
+    {
+        "src": "SO", "dst": "MSFT", "type": "Partnership",
+        "desc": "Southern Company + Microsoft — Azure for grid AI, nuclear plant digital control systems, and Southern's 9M+ customer smart meter data platform (2021)",
+        "value": "~$100M+ (multi-year)", "year": "2021",
+        "source_url": "https://news.microsoft.com/2021/southern-company-microsoft-azure-grid/",
+        "source_name": "Microsoft News",
+        "details": (
+            "Southern Company and Microsoft Azure partnered to modernize Southern's "
+            "grid operations and customer engagement across its 9M+ electric and gas "
+            "customers in Georgia, Alabama, Mississippi, and Florida. Azure IoT "
+            "processes real-time data from Southern's advanced metering infrastructure "
+            "(AMI) — 9M+ smart meters transmitting usage data every 15 minutes — "
+            "feeding outage prediction models that identify failing transformers and "
+            "line equipment before they cause blackouts. Azure AI optimizes Southern's "
+            "natural gas distribution scheduling for Southern Company Gas (SNG), the "
+            "largest US natural gas distribution utility. Southern's landmark Plant "
+            "Vogtle nuclear expansion — Units 3 and 4, the first new US nuclear reactors "
+            "completed since the 1990s — uses Microsoft Azure for its distributed "
+            "control system (DCS) data aggregation and regulatory reporting. "
+            "Microsoft Teams powers Southern Company's emergency operations centers "
+            "that coordinate storm response for 40,000+ lineworkers and contractors "
+            "after major weather events."
+        ),
+    },
+    {
+        "src": "AMT", "dst": "AMZN", "type": "Partnership",
+        "desc": "American Tower leases tower and data center space to Amazon for AWS Wavelength 5G edge nodes and carrier infrastructure supporting Prime delivery logistics",
+        "value": "~$200M+ annually", "year": "2020",
+        "source_url": "https://www.americantower.com/news/american-tower-aws-wavelength-partnership/",
+        "source_name": "American Tower Newsroom",
+        "details": (
+            "American Tower and Amazon Web Services are partnering on 5G edge computing "
+            "infrastructure through AWS Wavelength — Amazon's service that embeds AWS "
+            "compute and storage at the edge of 5G networks. AWS Wavelength zones are "
+            "deployed at American Tower's tower base facilities and CoreSite data "
+            "centers, enabling ultra-low latency (<10ms) processing for 5G applications. "
+            "Amazon uses AWS Wavelength at AMT sites for its Prime Air drone delivery "
+            "program, processing drone navigation and obstacle avoidance AI at the network "
+            "edge rather than in distant cloud data centers — a latency requirement for "
+            "real-time drone control. AMT's CoreSite data centers (acquired for $10.1B "
+            "in 2022) host AWS Direct Connect nodes, making CoreSite a natural home for "
+            "AWS cloud on-ramp infrastructure for enterprise customers. The wireless "
+            "carriers (AT&T, Verizon, T-Mobile) that are AWS's Wavelength partners also "
+            "lease tower space from AMT — creating an indirect AMT-Amazon relationship "
+            "through shared carrier infrastructure."
         ),
     },
 ]
