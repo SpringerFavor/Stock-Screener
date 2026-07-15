@@ -17,8 +17,9 @@ from __future__ import annotations
 
 import concurrent.futures
 from datetime import datetime, timezone
-
+import json
 import math
+from pathlib import Path
 
 import networkx as nx
 import pandas as pd
@@ -322,6 +323,33 @@ _WIDGET_KEYS = [
 def _reset_all() -> None:
     for k in _WIDGET_KEYS:
         st.session_state.pop(k, None)
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Watchlist (persisted to local JSON file)
+# ──────────────────────────────────────────────────────────────────────────────
+
+_WATCHLIST_FILE = Path(__file__).parent / "watchlist.json"
+
+
+def load_watchlist() -> set[str]:
+    try:
+        return set(json.loads(_WATCHLIST_FILE.read_text(encoding="utf-8")))
+    except Exception:
+        return set()
+
+
+def save_watchlist(wl: set[str]) -> None:
+    _WATCHLIST_FILE.write_text(json.dumps(sorted(wl)), encoding="utf-8")
+
+
+def toggle_watchlist_item(ticker: str) -> None:
+    wl = load_watchlist()
+    if ticker in wl:
+        wl.discard(ticker)
+    else:
+        wl.add(ticker)
+    save_watchlist(wl)
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -647,39 +675,111 @@ _CSS_LIGHT = """
     --blue:    #1A5FCC;
     --blue2:   #2E7AFF;
 }
+
+/* ── App shell ───────────────────────────────────────────────────────────── */
 .stApp, [data-testid="stAppViewContainer"],
 section[data-testid="stMain"] { background: var(--bg) !important; color: var(--txt) !important; }
 .block-container { background: var(--bg) !important; padding-top: 0.75rem !important; }
-h1, h2, h3, h4, h5, h6 { color: var(--txt) !important; font-weight: 800 !important; }
-[data-testid="stRadio"] > div { gap: 4px !important; }
-[data-testid="stRadio"] label { color: var(--txt2) !important; font-weight: 600 !important; padding: 6px 16px !important; border-radius: 6px !important; border: 1px solid transparent !important; }
+
+/* ── Typography ──────────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 { color: var(--txt) !important; font-weight: 800 !important; letter-spacing: -0.02em !important; }
+h1 { font-size: 1.75rem !important; }
+h3 { font-size: 1.25rem !important; }
+p, span, label, div { color: var(--txt); }
+
+/* ── Navigation ──────────────────────────────────────────────────────────── */
+[data-testid="stRadio"] > div { gap: 4px !important; background: transparent !important; }
+[data-testid="stRadio"] label { color: var(--txt2) !important; font-weight: 600 !important; font-size: 0.92rem !important; padding: 6px 16px !important; border-radius: 6px !important; border: 1px solid transparent !important; transition: all 0.15s !important; cursor: pointer !important; }
+[data-testid="stRadio"] label:hover { background: var(--bg3) !important; color: var(--txt) !important; }
 [data-testid="stRadio"] label:has(input:checked) { background: var(--bg3) !important; color: var(--txt) !important; border-color: var(--blue) !important; }
 [data-testid="stRadio"] input { display: none !important; }
-div[data-testid="element-container"]:has(> div > [data-testid="stRadio"]) { position: sticky !important; top: 0 !important; z-index: 999 !important; background: var(--bg) !important; padding: 8px 0 6px !important; border-bottom: 1px solid var(--border) !important; }
+div[data-testid="element-container"]:has(> div > [data-testid="stRadio"]) { position: sticky !important; top: 0 !important; z-index: 999 !important; background: var(--bg) !important; padding: 8px 0 6px !important; border-bottom: 1px solid var(--border) !important; margin-bottom: 2px !important; }
+
+/* ── Metrics ─────────────────────────────────────────────────────────────── */
 [data-testid="stMetric"] { background: var(--bg2) !important; border: 1px solid var(--border) !important; border-radius: 8px !important; padding: 12px 14px !important; box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important; }
 [data-testid="stMetricLabel"] p { color: var(--txt2) !important; font-size: 0.7rem !important; font-weight: 700 !important; text-transform: uppercase !important; letter-spacing: 0.09em !important; }
-[data-testid="stMetricValue"] { color: var(--txt) !important; font-size: 1.35rem !important; font-weight: 800 !important; }
-hr { border-color: var(--border) !important; }
-[data-testid="stExpander"] { background: var(--bg2) !important; border: 1px solid var(--border) !important; border-radius: 10px !important; box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important; }
-[data-testid="stButton"] button { border-radius: 6px !important; font-weight: 600 !important; }
-[data-testid="stButton"] button[kind="primary"] { background: var(--blue) !important; color: #fff !important; }
+[data-testid="stMetricValue"] { color: var(--txt) !important; font-size: 1.35rem !important; font-weight: 800 !important; font-variant-numeric: tabular-nums !important; }
+
+/* ── Divider ─────────────────────────────────────────────────────────────── */
+hr { border-color: var(--border) !important; margin: 0.6rem 0 !important; }
+
+/* ── Expanders ───────────────────────────────────────────────────────────── */
+[data-testid="stExpander"] { background: var(--bg2) !important; border: 1px solid var(--border) !important; border-radius: 10px !important; box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important; margin-bottom: 12px !important; }
+[data-testid="stExpander"] summary, [data-testid="stExpander"] summary span { color: var(--txt) !important; font-weight: 600 !important; }
+
+/* ── Bordered containers ─────────────────────────────────────────────────── */
+[data-testid="stVerticalBlockBorderWrapper"][style*="border"] > div { background: var(--bg2) !important; border: 1px solid var(--border) !important; border-radius: 10px !important; box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important; }
+
+/* ── Tabs ────────────────────────────────────────────────────────────────── */
+[data-baseweb="tab-list"] { background: var(--bg3) !important; border-bottom: 1px solid var(--border) !important; border-radius: 8px 8px 0 0 !important; gap: 2px !important; }
+[data-baseweb="tab"] { color: var(--txt2) !important; font-weight: 600 !important; font-size: 0.88rem !important; background: transparent !important; }
+[aria-selected="true"][data-baseweb="tab"] { color: var(--txt) !important; border-bottom: 2px solid var(--blue) !important; }
+[data-baseweb="tab-panel"] { background: var(--bg2) !important; border: 1px solid var(--border) !important; border-top: none !important; border-radius: 0 0 8px 8px !important; padding: 16px !important; }
+
+/* ── DataFrame ───────────────────────────────────────────────────────────── */
+[data-testid="stDataFrame"] { border: 1px solid var(--border) !important; border-radius: 8px !important; overflow: hidden !important; }
+
+/* ── Inputs ──────────────────────────────────────────────────────────────── */
+[data-testid="stTextInput"] input, [data-testid="stNumberInput"] input { background: var(--bg2) !important; color: var(--txt) !important; border: 1px solid var(--border) !important; border-radius: 6px !important; }
+[data-testid="stTextInput"] input:focus, [data-testid="stNumberInput"] input:focus { border-color: var(--blue) !important; box-shadow: 0 0 0 2px rgba(26,95,204,0.2) !important; }
+[data-testid="stTextInput"] label, [data-testid="stNumberInput"] label { color: var(--txt) !important; font-weight: 600 !important; }
+[data-testid="stSelectbox"] div[data-baseweb="select"] { background: var(--bg2) !important; border-color: var(--border) !important; }
+[data-testid="stMultiSelect"] [data-baseweb="select"] { background: var(--bg2) !important; }
+
+/* ── Checkboxes & sliders ────────────────────────────────────────────────── */
+[data-testid="stCheckbox"] label, [data-testid="stSlider"] label { color: var(--txt) !important; font-weight: 500 !important; }
+[data-testid="stSlider"] [data-testid="stTickBarMin"],
+[data-testid="stSlider"] [data-testid="stTickBarMax"] { color: var(--txt2) !important; }
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+[data-testid="stButton"] button { background: var(--bg3) !important; color: var(--txt) !important; border: 1px solid var(--border) !important; border-radius: 6px !important; font-weight: 600 !important; transition: all 0.15s !important; }
+[data-testid="stButton"] button:hover { border-color: var(--blue2) !important; color: var(--blue) !important; }
+[data-testid="stButton"] button[kind="primary"] { background: var(--blue) !important; border-color: var(--blue) !important; color: #fff !important; }
+[data-testid="stButton"] button[kind="primary"]:hover { background: var(--blue2) !important; }
+
+/* ── Progress bar ────────────────────────────────────────────────────────── */
+[data-testid="stProgress"] > div > div { background: linear-gradient(90deg, var(--blue), var(--blue2)) !important; }
+
+/* ── Info/warning banners ────────────────────────────────────────────────── */
+[data-testid="stInfo"] { background: rgba(26,95,204,0.08) !important; border-left: 3px solid var(--blue) !important; border-radius: 0 6px 6px 0 !important; color: var(--txt) !important; }
+[data-testid="stWarning"] { background: rgba(184,92,0,0.08) !important; border-left: 3px solid var(--gold) !important; border-radius: 0 6px 6px 0 !important; color: var(--txt) !important; }
+
+/* ── Sidebar ─────────────────────────────────────────────────────────────── */
+[data-testid="stSidebar"] { background: var(--bg2) !important; border-right: 1px solid var(--border) !important; }
+
+/* ── Caption ─────────────────────────────────────────────────────────────── */
+.stCaption, [data-testid="stCaptionContainer"] p, [data-testid="stCaptionContainer"] span { color: var(--txt2) !important; font-size: 0.78rem !important; }
+
+/* ── Scrollbar ───────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--txt2); }
+
+/* ── Hide default Streamlit chrome ───────────────────────────────────────── */
 #MainMenu, footer, [data-testid="stHeader"] { visibility: hidden !important; height: 0 !important; }
 [data-testid="stToolbar"] { display: none !important; }
+
+/* ── Skeleton colors ─────────────────────────────────────────────────────── */
 .sk-box, .sk-line { background: linear-gradient(90deg, var(--bg2) 25%, var(--bg3) 50%, var(--bg2) 75%); background-size: 400px 100%; }
+
+/* ── Ratio card colors ───────────────────────────────────────────────────── */
 .r-card { background: var(--bg2); border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
 .r-card-title { color: var(--txt2); border-bottom: 1px solid var(--border); }
 .r-label { color: var(--txt2); }
 .r-value { color: var(--txt); }
 .r-bench { color: var(--txt2); }
+
+/* ── Ticker hero colors ──────────────────────────────────────────────────── */
 .t-hero { border-bottom: 1px solid var(--border); }
 .t-sym { color: var(--txt); }
 .t-name { color: var(--txt2); }
 .t-price { color: var(--txt); }
 .t-pos { color: var(--green); }
 .t-neg { color: var(--red); }
+
+/* ── Toggle ──────────────────────────────────────────────────────────────── */
+[data-testid="stToggle"] span { font-size: 0.8rem !important; color: var(--txt2) !important; }
 </style>
 """
 
@@ -893,14 +993,38 @@ def fetch_fundamentals_many(tickers: list[str]) -> dict[str, dict]:
     out: dict[str, dict] = {}
     if not tickers:
         return out
-    bar = st.progress(0.0, text="Fetching fundamentals…")
+    n = len(tickers)
+    bar = st.progress(0.0, text=f"Fetching fundamentals… 0%")
     with concurrent.futures.ThreadPoolExecutor(max_workers=20) as pool:
         futures = {pool.submit(fetch_fundamentals, t): t for t in tickers}
         for i, fut in enumerate(concurrent.futures.as_completed(futures), start=1):
             out[futures[fut]] = fut.result()
-            bar.progress(i / len(tickers), text=f"Fetching fundamentals… ({i}/{len(tickers)})")
+            pct = int(i / n * 100)
+            bar.progress(i / n, text=f"Fetching fundamentals… {pct}% ({i}/{n})")
     bar.empty()
     return out
+
+
+@st.cache_data(show_spinner=False, ttl=3600 * 6)
+def fetch_earnings_date(ticker: str) -> str | None:
+    try:
+        from datetime import date as _date
+        t_obj = yf.Ticker(ticker)
+        cal = t_obj.calendar
+        today = _date.today()
+        candidates: list = []
+        if isinstance(cal, dict):
+            raw = cal.get("Earnings Date") or []
+            candidates = list(raw) if hasattr(raw, "__iter__") and not isinstance(raw, str) else [raw]
+        elif hasattr(cal, "index"):
+            candidates = list(cal.index)
+        for d in candidates:
+            dt = d.date() if hasattr(d, "date") else d
+            if hasattr(dt, "year") and dt >= today:
+                return str(dt)
+    except Exception:
+        pass
+    return None
 
 
 @st.cache_data(show_spinner=False, ttl=60 * 30)
@@ -1534,13 +1658,19 @@ def render_single_ticker(ticker: str) -> None:
     mc  = f.get("mktcap")
     rsi = p.get("rsi")
     chg_1m = p.get("chg_1m")
-    q1, q2, q3, q4, q5 = st.columns(5)
+    q1, q2, q3, q4, q5, q6 = st.columns([1, 1, 1, 1, 1, 1])
     q1.metric("Sector",    f.get("sector") or "—")
     q2.metric("Mkt Cap",   f"${mc/1e9:.1f}B" if mc else "—")
     q3.metric("P/E",       f"{f['pe']:.1f}"  if f.get("pe") else "—")
     q4.metric("RSI (14d)", f"{rsi:.1f}"      if rsi else "—")
     q5.metric("1-Month",   f"{chg_1m:+.1f}%" if chg_1m is not None else "—",
               delta=f"{chg_1m:+.2f}%" if chg_1m is not None else None)
+    wl = load_watchlist()
+    in_wl = ticker in wl
+    wl_label = "★ In Watchlist" if in_wl else "☆ Add to Watchlist"
+    if q6.button(wl_label, key=f"wl_btn_{ticker}", use_container_width=True):
+        toggle_watchlist_item(ticker)
+        st.rerun()
 
     render_financial_ratios(f, f.get("sector"))
     tab_chart, tab_analyst = st.tabs(["Price Chart", "Analyst & News"])
@@ -2168,7 +2298,7 @@ def render_equities_page() -> None:
             mc_c1, mc_c2 = st.columns(2)
             mc_min_b = mc_c1.number_input("Min ($B)", min_value=0.0, value=5.0, step=0.5,
                                            key="mc_min_b")
-            mc_max_b = mc_c2.number_input("Max ($B)", min_value=0.0, value=0.0, step=0.5,
+            mc_max_b = mc_c2.number_input("Max ($B)", min_value=0.0, value=3000.0, step=50.0,
                                            key="mc_max_b", help="0 = no upper limit")
             if use_mktcap:
                 st.caption(f"≥ ${mc_min_b:g}B" +
@@ -2475,6 +2605,8 @@ def render_equities_page() -> None:
         st.session_state["results"] = {
             "rows": rows, "screened": len(screen),
             "priced": len(prices), "candidates": len(candidates),
+            "funda": funda,
+            "last_run": datetime.now(timezone.utc),
         }
 
     res = st.session_state.get("results")
@@ -2483,7 +2615,12 @@ def render_equities_page() -> None:
         return
 
     # ── Results ───────────────────────────────────────────────────────────────
-    st.subheader("Screener Results")
+    last_run = res.get("last_run")
+    ts_str = last_run.strftime("%H:%M UTC") if last_run else None
+    res_hdr, res_ts = st.columns([4, 1])
+    res_hdr.subheader("Screener Results")
+    if ts_str:
+        res_ts.caption(f"Updated {ts_str}")
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("Screened",      res["screened"])
     c2.metric("Priced",        res["priced"])
@@ -2546,6 +2683,58 @@ def render_equities_page() -> None:
             "⬇ Download CSV", df.to_csv(index=False).encode(),
             file_name="screener_matches.csv", mime="text/csv",
         )
+
+    # ── Stock Comparison tool ─────────────────────────────────────────────────
+    with st.expander("Compare Stocks", expanded=False):
+        st.caption("Select 2–3 stocks from the results to compare their financials side by side.")
+        comp_opts = df["Ticker"].tolist()
+        comp_sel = st.multiselect(
+            "Stocks to compare", comp_opts, max_selections=3, key="compare_select",
+            placeholder="Pick 2–3 tickers…", label_visibility="collapsed",
+        )
+        if len(comp_sel) >= 2:
+            _COMP_COLS = [
+                "Sector", "Price", "Daily Chg %", "Mkt Cap",
+                "P/E", "Fwd P/E", "PEG", "P/S", "P/B", "EV/EBITDA",
+                "D/E", "Curr. Ratio",
+                "Gross Margin", "Oper. Margin", "Net Margin",
+                "ROE", "ROA", "EPS Growth", "Rev Growth",
+                "FCF Yield", "Div Yield", "Short Int.",
+            ]
+            comp_rows = {r["Ticker"]: {c: r.get(c) for c in _COMP_COLS}
+                         for r in res["rows"] if r["Ticker"] in comp_sel}
+            comp_df = pd.DataFrame(comp_rows).reindex(comp_sel, axis=1)
+            st.dataframe(comp_df, use_container_width=True)
+        elif comp_sel:
+            st.caption("Select one more stock to compare.")
+
+    # ── Earnings Calendar ─────────────────────────────────────────────────────
+    with st.expander("Earnings Calendar", expanded=False):
+        st.caption("Upcoming earnings dates for stocks in the current results (max 40).")
+        earn_tickers = [r["Ticker"] for r in res["rows"]][:40]
+        if earn_tickers:
+            earn_bar = st.progress(0.0, text="Fetching earnings dates…")
+            earn_dates: list[tuple[str, str]] = []
+            for ei, et in enumerate(earn_tickers, start=1):
+                d = fetch_earnings_date(et)
+                if d:
+                    earn_dates.append((d, et))
+                earn_bar.progress(ei / len(earn_tickers),
+                                  text=f"Fetching earnings dates… {int(ei/len(earn_tickers)*100)}%")
+            earn_bar.empty()
+            if earn_dates:
+                earn_dates.sort()
+                earn_df = pd.DataFrame(earn_dates, columns=["Earnings Date", "Ticker"])
+                earn_df["Name"] = earn_df["Ticker"].map(
+                    {r["Ticker"]: r.get("Name", r["Ticker"]) for r in res["rows"]}
+                )
+                earn_df["Sector"] = earn_df["Ticker"].map(
+                    {r["Ticker"]: r.get("Sector", "") for r in res["rows"]}
+                )
+                st.dataframe(earn_df[["Earnings Date", "Ticker", "Name", "Sector"]],
+                             use_container_width=True, hide_index=True)
+            else:
+                st.caption("No upcoming earnings dates found for these tickers.")
 
     heatmap_click = None
     with st.expander("🗺 Screened Results — Sector Heatmap", expanded=True):
@@ -3097,6 +3286,60 @@ def render_network_page() -> None:
             render_single_ticker(detail_ticker)
 
 
+def render_watchlist_page() -> None:
+    st.title("Watchlist")
+    wl = load_watchlist()
+
+    if not wl:
+        st.info("Your watchlist is empty. Open any stock's detail panel and click **Add to Watchlist**.")
+        return
+
+    tickers = sorted(wl)
+    st.caption(f"{len(tickers)} stocks saved · prices refreshed every 30 minutes")
+
+    prices_wl = {}
+    for i in range(0, len(tickers), PRICE_BATCH):
+        prices_wl.update(fetch_price_batch(tuple(tickers[i : i + PRICE_BATCH])))
+
+    wl_rows = []
+    for t in tickers:
+        p = prices_wl.get(t, {})
+        wl_rows.append({
+            "Ticker":     t,
+            "Price":      p.get("price"),
+            "Daily Chg %": p.get("daily_change"),
+            "RSI":        p.get("rsi"),
+            "1-Month %":  p.get("chg_1m"),
+            "1-Year %":   p.get("chg_1y"),
+        })
+
+    wl_df = pd.DataFrame(wl_rows)
+
+    wl_event = st.dataframe(
+        wl_df, use_container_width=True, hide_index=True,
+        on_select="rerun", selection_mode="single-row", key="wl_table",
+        column_config={
+            "Price":       st.column_config.NumberColumn(format="$%.2f"),
+            "Daily Chg %": st.column_config.NumberColumn(format="%.2f%%"),
+            "RSI":         st.column_config.NumberColumn(format="%.1f"),
+            "1-Month %":   st.column_config.NumberColumn(format="%.2f%%"),
+            "1-Year %":    st.column_config.NumberColumn(format="%.2f%%"),
+        },
+    )
+
+    sel_rows = (wl_event.selection or {}).get("rows", [])
+    selected_ticker = str(wl_df.iloc[sel_rows[0]]["Ticker"]) if sel_rows else None
+
+    if selected_ticker:
+        remove_col, _ = st.columns([2, 8])
+        if remove_col.button(f"Remove {selected_ticker} from Watchlist", key="wl_remove"):
+            toggle_watchlist_item(selected_ticker)
+            st.rerun()
+        st.divider()
+        with st.container(border=True):
+            render_single_ticker(selected_ticker)
+
+
 def main() -> None:
     st.set_page_config(
         page_title="Market Screener", page_icon=None,
@@ -3114,7 +3357,7 @@ def main() -> None:
     with nav_col:
         nav_page = st.radio(
             "Page",
-            ["Equities", "Commodities", "Crypto", "ETFs", "Network"],
+            ["Equities", "Watchlist", "Commodities", "Crypto", "ETFs", "Network"],
             horizontal=True,
             key="nav_page",
             label_visibility="collapsed",
@@ -3131,6 +3374,8 @@ def main() -> None:
     if nav_page == "Equities":
         st.title("Equities Screener")
         render_equities_page()
+    elif nav_page == "Watchlist":
+        render_watchlist_page()
     elif nav_page == "Commodities":
         render_commodities_page()
     elif nav_page == "Crypto":
