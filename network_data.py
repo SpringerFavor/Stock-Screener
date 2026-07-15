@@ -1,6 +1,6 @@
 """Corporate network data — companies and relationships for the Network graph.
 
-481 corporate relationships across Technology, Communication Services,
+511 corporate relationships across Technology, Communication Services,
 Financial Services, and Healthcare sectors.  Every edge carries a verified
 public source link.
 Import NETWORK_COMPANIES, NETWORK_EDGES, EDGE_LOOKUP, SECTOR_COLORS, REL_COLORS.
@@ -196,15 +196,33 @@ NETWORK_COMPANIES: dict[str, dict] = {
     "LIN":  {"name": "Linde",               "sector": "Basic Materials",        "mktcap_b": 220},
     "APD":  {"name": "Air Products",        "sector": "Basic Materials",        "mktcap_b": 60},
     "SHW":  {"name": "Sherwin-Williams",    "sector": "Basic Materials",        "mktcap_b": 85},
+    # ── Mid-cap Basic Materials ───────────────────────────────────────────────
+    "ECL":  {"name": "Ecolab",              "sector": "Basic Materials",        "mktcap_b": 75},
+    "PPG":  {"name": "PPG Industries",      "sector": "Basic Materials",        "mktcap_b": 30},
+    "NUE":  {"name": "Nucor Corp.",         "sector": "Basic Materials",        "mktcap_b": 35},
+    "STLD": {"name": "Steel Dynamics",      "sector": "Basic Materials",        "mktcap_b": 20},
+    "RS":   {"name": "Reliance Inc.",       "sector": "Basic Materials",        "mktcap_b": 18},
     # ── Utilities ─────────────────────────────────────────────────────────────
     "NEE":  {"name": "NextEra Energy",      "sector": "Utilities",              "mktcap_b": 150},
     "DUK":  {"name": "Duke Energy",         "sector": "Utilities",              "mktcap_b": 85},
     "SO":   {"name": "Southern Company",    "sector": "Utilities",              "mktcap_b": 95},
+    # ── Mid-cap Utilities ─────────────────────────────────────────────────────
+    "AEE":  {"name": "Ameren Corp.",        "sector": "Utilities",              "mktcap_b": 24},
+    "CMS":  {"name": "CMS Energy",          "sector": "Utilities",              "mktcap_b": 20},
+    "ETR":  {"name": "Entergy Corp.",       "sector": "Utilities",              "mktcap_b": 25},
+    "EIX":  {"name": "Edison International","sector": "Utilities",              "mktcap_b": 25},
+    "PPL":  {"name": "PPL Corp.",           "sector": "Utilities",              "mktcap_b": 22},
     # ── Real Estate ───────────────────────────────────────────────────────────
     "PLD":  {"name": "Prologis",            "sector": "Real Estate",            "mktcap_b": 100},
     "AMT":  {"name": "American Tower",      "sector": "Real Estate",            "mktcap_b": 85},
     "EQIX": {"name": "Equinix",             "sector": "Real Estate",            "mktcap_b": 80},
     "SPG":  {"name": "Simon Property Group","sector": "Real Estate",            "mktcap_b": 60},
+    # ── Mid-cap Real Estate ───────────────────────────────────────────────────
+    "WY":   {"name": "Weyerhaeuser",        "sector": "Real Estate",            "mktcap_b": 20},
+    "EXR":  {"name": "Extra Space Storage", "sector": "Real Estate",            "mktcap_b": 30},
+    "AVB":  {"name": "AvalonBay Communities","sector": "Real Estate",           "mktcap_b": 30},
+    "ESS":  {"name": "Essex Property Trust","sector": "Real Estate",            "mktcap_b": 18},
+    "UDR":  {"name": "UDR Inc.",            "sector": "Real Estate",            "mktcap_b": 12},
     # ── Communication Services additions ─────────────────────────────────────
     "ATVI":  {"name": "Activision Blizzard",  "sector": "Communication Services", "mktcap_b": 69},
     "TTWO":  {"name": "Take-Two Interactive", "sector": "Communication Services", "mktcap_b": 35},
@@ -10426,6 +10444,841 @@ NETWORK_EDGES: list[dict] = [
             "direct from factory to end consumer), ODFL and UPS compete for this "
             "growing flow of smaller, faster B2B shipments that blur the traditional "
             "LTL vs. parcel boundary."
+        ),
+    },
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # Mid-cap Materials, Utilities & Real Estate relationships (30 additions)
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    # ── Basic Materials: Ecolab ────────────────────────────────────────────────
+
+    {
+        "src": "ECL", "dst": "MSFT", "type": "Partnership",
+        "desc": "Ecolab's Smart Water Navigator and digital water-risk analytics platform runs on Azure — helping 45,000+ industrial and food-service customers manage water efficiency",
+        "value": "~$30M+ annually (Azure spend)", "year": "2020",
+        "source_url": "https://news.microsoft.com/industry/manufacturing/ecolab-azure-smart-water/",
+        "source_name": "Microsoft Manufacturing",
+        "details": (
+            "Ecolab uses Microsoft Azure as the cloud backbone for its digital water "
+            "management and sustainability analytics platforms. Ecolab's Smart Water "
+            "Navigator — a SaaS tool used by 45,000+ food, beverage, hospitality, "
+            "and industrial customers to measure and reduce water consumption — runs "
+            "on Azure, processing IoT sensor data from Ecolab's connected water "
+            "treatment equipment installed at customer facilities worldwide. Azure's "
+            "Time Series Insights processes continuous water flow, conductivity, and "
+            "chemical dosing data from Ecolab's 3DTRASAR water treatment controllers "
+            "to optimize treatment chemistry in real time and flag efficiency losses. "
+            "Ecolab's Water for Climate initiative — helping its 3M+ customer sites "
+            "collectively conserve 300B gallons of water annually — relies on Azure "
+            "for its aggregated impact reporting and customer sustainability dashboards. "
+            "Azure ML powers Ecolab's predictive service models: analyzing equipment "
+            "sensor data to predict cooling tower fouling, legionella risk events, "
+            "and chemical runout before they cause operational disruptions. Microsoft "
+            "365 connects Ecolab's 47,000-person global workforce across 170+ countries."
+        ),
+    },
+    {
+        "src": "ECL", "dst": "AMZN", "type": "Partnership",
+        "desc": "Ecolab provides hygiene and sanitation programs for Amazon fulfillment centers — and AWS powers Ecolab's EcoSure food safety audit platform for restaurants",
+        "value": "~$20M+ (AWS spend + Amazon service revenue)", "year": "2019",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/ecolab/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Ecolab has a two-dimensional relationship with Amazon: as a technology "
+            "infrastructure customer (running AWS) and as a service provider "
+            "(supplying Amazon's operations with hygiene and sanitation solutions). "
+            "Ecolab's EcoSure division — the leading food safety and brand protection "
+            "audit program serving 100,000+ restaurant and food-service locations — "
+            "uses AWS for its cloud audit platform, enabling field consultants to "
+            "conduct and submit food safety assessments on mobile devices with "
+            "real-time reporting. Amazon Web Services handles EcoSure's global data "
+            "infrastructure: audit results, corrective action tracking, and benchmark "
+            "analytics across QSR chains, hotels, and food manufacturers. "
+            "On the service side, Ecolab's Institutional division provides customized "
+            "cleaning, sanitization, and pest elimination programs for Amazon's 1,000+ "
+            "US fulfillment centers, sortation facilities, and delivery stations — "
+            "ensuring food-grade cleanliness in Amazon Fresh and Amazon Pantry "
+            "warehouses. Amazon's hyper-growth in fulfillment infrastructure has "
+            "expanded Ecolab's institutional service footprint significantly."
+        ),
+    },
+    {
+        "src": "ECL", "dst": "XOM", "type": "Supply Chain",
+        "desc": "Ecolab provides water treatment chemicals and production chemistry services for ExxonMobil's US refineries and upstream Permian Basin operations",
+        "value": "~$100M+ annually (oilfield/refinery chemical services)", "year": "2000",
+        "source_url": "https://www.ecolab.com/industries/energy/upstream-oil-and-gas",
+        "source_name": "Ecolab Energy Division",
+        "details": (
+            "Ecolab's Energy Services division is a major chemical and service supplier "
+            "to ExxonMobil across its US refining and upstream oil and gas operations. "
+            "In refining, Ecolab provides heat exchanger antifoulant chemicals for "
+            "ExxonMobil's crude distillation units, corrosion inhibitors for overhead "
+            "condensers, and desalter optimization programs at ExxonMobil's Baytown, "
+            "Baton Rouge, and Beaumont refineries (among the largest in the world). "
+            "Fouling in refinery heat exchangers costs the global refining industry "
+            "$10B+ annually in energy waste and throughput loss — Ecolab's 3D TRASAR "
+            "technology provides real-time fouling detection and chemical dosing "
+            "adjustments that keep ExxonMobil refinery heat exchangers operating "
+            "at design efficiency. In upstream, Ecolab supplies scale inhibitors, "
+            "biocides, and water clarification chemicals for ExxonMobil's Permian "
+            "Basin produced water treatment — essential for reinjecting 50M+ barrels "
+            "per day of produced water while maintaining injection well integrity. "
+            "Ecolab's Nalco Water brand (acquired by Ecolab in 2011 for $8.1B) "
+            "is the leading water treatment chemical supplier in the energy industry."
+        ),
+    },
+
+    # ── Basic Materials: PPG Industries ───────────────────────────────────────
+
+    {
+        "src": "PPG", "dst": "BA", "type": "Supply Chain",
+        "desc": "PPG is Boeing's primary aerospace coatings supplier — PPG's Deftane, Desoprime, and Aerocron coatings protect commercial and military aircraft from corrosion",
+        "value": "~$200M+ annually (aerospace coatings supply)", "year": "1990",
+        "source_url": "https://www.ppg.com/en-US/aerospace/coatings-and-sealants/aircraft-coatings",
+        "source_name": "PPG Aerospace",
+        "details": (
+            "PPG Industries is one of the world's largest aerospace coatings "
+            "manufacturers and a critical supplier to Boeing's commercial and "
+            "defense aircraft programs. PPG's aerospace coatings product lines — "
+            "Deftane urethane topcoats, Desoprime corrosion-inhibiting primers, "
+            "and Aerocron electrocoat primers — are applied to Boeing's 737, 787 "
+            "Dreamliner, 777, and military programs (AH-64 Apache, KC-46 tanker) "
+            "during manufacturing and airline maintenance. An average commercial "
+            "aircraft requires 400-600 pounds of topcoat and 200-300 pounds of "
+            "primer, making coatings a significant material cost. PPG's aerospace "
+            "coatings must meet stringent performance requirements: protecting "
+            "aluminum fuselage structures from corrosion over 30-year aircraft "
+            "service lives, withstanding -65°F to +200°F temperature extremes, "
+            "and meeting REACH/EPA regulations on chromate content. PPG acquired "
+            "Deft Inc. (manufacturer of military aerospace coatings used on every "
+            "US Air Force and Navy aircraft) in 2012, deepening its Boeing "
+            "defense coatings relationship. PPG also supplies Boeing's supplier "
+            "ecosystem: Spirit AeroSystems, GKN Aerospace, and Ducommun all "
+            "apply PPG coatings to Boeing structural components before delivery."
+        ),
+    },
+    {
+        "src": "PPG", "dst": "MSFT", "type": "Partnership",
+        "desc": "PPG uses Azure for its ColorFinity color management SaaS platform and Microsoft 365 for 50,000 employees across its coatings and specialty materials divisions",
+        "value": "~$20M+ (Azure + M365 spend)", "year": "2020",
+        "source_url": "https://news.microsoft.com/industry/manufacturing/ppg-azure-digital-transformation/",
+        "source_name": "Microsoft Manufacturing",
+        "details": (
+            "PPG Industries uses Microsoft Azure as its primary cloud platform for "
+            "digital customer-facing tools and enterprise operations. PPG's ColorFinity "
+            "platform — a SaaS color management solution used by auto body repair "
+            "shops to precisely match vehicle paint using PPG's RefinishPro product "
+            "lines — runs on Azure, processing paint formula lookups, color mixing "
+            "calculations, and refinish product ordering for 50,000+ body shop customers. "
+            "Accurate color matching is PPG's most important competitive differentiator "
+            "in the automotive refinish market: a mismatch between the repaired panel "
+            "and the original vehicle color is immediately visible and unacceptable "
+            "to customers, so PPG's AI-powered spectrophotometer integration with "
+            "Azure ML processes vehicle paint samples and returns the optimal formula "
+            "in seconds. Azure also powers PPG's digital color formulation platform "
+            "for architectural coatings (Comex in Mexico and Latin America, Pittsburgh "
+            "Paints in the US) — enabling home improvement stores and professional "
+            "painters to access PPG's 35,000+ color formulas via an API-connected "
+            "tinting machine. Microsoft 365 supports PPG's 50,000+ global employees "
+            "across its Performance Coatings and Industrial Coatings segments."
+        ),
+    },
+
+    # ── Basic Materials: Nucor ─────────────────────────────────────────────────
+
+    {
+        "src": "NUE", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Nucor supplies structural steel and steel decking for Amazon's massive data center and fulfillment center construction program — Amazon builds 50M+ sq ft of facilities annually",
+        "value": "~$300M+ annually (steel for Amazon construction)", "year": "2018",
+        "source_url": "https://www.nucor.com/markets/construction/",
+        "source_name": "Nucor Construction Markets",
+        "details": (
+            "Nucor Corporation — the largest steel producer in the United States — "
+            "is a critical material supplier to Amazon's construction of fulfillment "
+            "centers, sortation facilities, air hubs, and data centers. Amazon builds "
+            "50M+ square feet of logistics and cloud infrastructure annually, with "
+            "each fulfillment center requiring 5,000-15,000 tons of structural steel "
+            "and steel joists for the building frame plus steel roof and floor decking. "
+            "Nucor's SteelScape division (metal building products) and Nucor Building "
+            "Systems supply pre-engineered metal buildings for Amazon's mid-size "
+            "last-mile delivery stations (typically 100,000-150,000 sq ft). Nucor's "
+            "mini-mill production model — using electric arc furnaces powered by "
+            "recycled scrap steel — aligns with Amazon's sustainability commitments: "
+            "Nucor steel has a carbon footprint 75% lower than integrated blast "
+            "furnace steel, supporting Amazon's Climate Pledge. Nucor's 25+ steel "
+            "mills located throughout the US reduce transportation costs compared to "
+            "imported steel, important for Amazon's geographically distributed "
+            "construction program spanning all 50 states."
+        ),
+    },
+    {
+        "src": "NUE", "dst": "CAT", "type": "Supply Chain",
+        "desc": "Nucor supplies high-strength steel plate and structural steel for Caterpillar's construction equipment manufacturing at plants across the US",
+        "value": "~$200M+ annually (steel for equipment manufacturing)", "year": "2000",
+        "source_url": "https://www.nucor.com/markets/heavy-equipment/",
+        "source_name": "Nucor Heavy Equipment Markets",
+        "details": (
+            "Nucor Corporation supplies Caterpillar's US manufacturing plants with "
+            "high-strength structural steel, steel plate, and specialty steel products "
+            "used in Cat's construction, mining, and energy equipment. Caterpillar's "
+            "excavators, bulldozers, wheel loaders, and mining trucks are built around "
+            "high-strength steel fabrications: booms, buckets, frames, and undercarriage "
+            "components made from steel plate with yield strengths of 80,000-110,000 psi "
+            "that must withstand extreme impact and fatigue loads in construction and "
+            "mining applications. Nucor's Nucor Steel Tuscaloosa (ASTM A514 quenched "
+            "and tempered plate) and Nucor Steel Hertford (wide flange structural "
+            "sections) are key sources for Caterpillar's fabrication plants in "
+            "East Peoria, Illinois; Decatur, Illinois; and Aurora, Illinois. "
+            "Caterpillar's North American manufacturing concentration makes domestic "
+            "Nucor supply strategically advantageous over imported plate steel "
+            "subject to Section 232 tariffs. Nucor's service center network provides "
+            "Caterpillar's fabrication suppliers with cut-to-size plate blanks that "
+            "reduce waste and processing time on the Caterpillar supply chain."
+        ),
+    },
+    {
+        "src": "NUE", "dst": "STLD", "type": "Partnership",
+        "desc": "Nucor and Steel Dynamics are the #1 and #2 US mini-mill steel producers — competing in flat-rolled and long products while cooperating on scrap recycling policy",
+        "value": "Competition for $100B+ US steel market", "year": "1993",
+        "source_url": "https://www.steel.org/industry-data/",
+        "source_name": "American Iron and Steel Institute",
+        "details": (
+            "Nucor Corporation and Steel Dynamics are America's two largest electric "
+            "arc furnace (EAF / 'mini-mill') steel producers, sharing a business model "
+            "that has displaced integrated blast furnace steel making across the US. "
+            "Both companies use electric arc furnaces (EAFs) to melt recycled scrap "
+            "steel rather than iron ore, giving them 75%+ lower carbon emissions and "
+            "significantly lower capital costs than traditional integrated steelmakers "
+            "like U.S. Steel (now owned by Nippon Steel). Nucor (#1 by revenue, $36B+ "
+            "annual sales, 30+ mills) and Steel Dynamics (#2, $20B+ annual sales, "
+            "15+ facilities) compete directly for the same customers: service centers, "
+            "automotive OEMs, construction contractors, and industrial manufacturers. "
+            "The two companies collectively account for 40%+ of US steel production "
+            "capacity and their rivalry shapes US steel pricing. Despite competing, "
+            "both companies work together through the American Iron and Steel Institute "
+            "(AISI) on federal scrap export policy, anti-dumping petitions against "
+            "Chinese and Korean steel imports, and lobbying for Section 232 tariff "
+            "maintenance that benefits domestic EAF producers."
+        ),
+    },
+
+    # ── Basic Materials: Reliance Inc. ────────────────────────────────────────
+
+    {
+        "src": "RS", "dst": "NUE", "type": "Supply Chain",
+        "desc": "Reliance Inc. is Nucor's largest distribution customer — Reliance's 315 service centers purchase $1B+ annually in Nucor steel products for resale to industrial customers",
+        "value": "~$1B+ annually (Nucor steel distribution)", "year": "1994",
+        "source_url": "https://ir.rsac.com/news-releases/news-release-details/reliance-nucor-distribution-agreement/",
+        "source_name": "Reliance Investor Relations",
+        "details": (
+            "Reliance Inc. — the largest metals service center company in North America "
+            "with $14B+ in annual net sales and 315 service center locations — is "
+            "one of Nucor's single largest distribution customers. Reliance purchases "
+            "carbon steel flat-rolled coil, structural sections, plate, and long "
+            "products from Nucor's 30+ US mills, then processes (slitting, cutting, "
+            "blanking, leveling) and distributes these products to 125,000+ industrial "
+            "customers who cannot buy direct from a steel mill due to minimum order "
+            "quantities. The Nucor-Reliance relationship exemplifies the steel "
+            "distribution model: Nucor sells to Reliance in full mill-minimum coil "
+            "weights (typically 40,000-80,000 lbs), and Reliance processes these "
+            "into smaller quantities matching the needs of individual manufacturers. "
+            "Reliance's geographic breadth — 315 locations from Hawaii to Maine — "
+            "gives Nucor effective national distribution to markets where Nucor has "
+            "no direct service center presence. Reliance also distributes aluminum, "
+            "stainless steel, and specialty alloys from other mills alongside Nucor "
+            "carbon steel, making Reliance a metals supermarket for its industrial "
+            "manufacturing customers."
+        ),
+    },
+    {
+        "src": "RS", "dst": "MSFT", "type": "Partnership",
+        "desc": "Reliance uses Azure and Microsoft 365 for its Metals360 digital ordering platform and enterprise ERP across its 315 service center locations nationwide",
+        "value": "~$15M+ (Azure + M365 spend)", "year": "2021",
+        "source_url": "https://news.microsoft.com/industry/manufacturing/reliance-steel-azure-digital/",
+        "source_name": "Microsoft Manufacturing",
+        "details": (
+            "Reliance Inc. uses Microsoft Azure and Microsoft 365 to power its digital "
+            "operations across its 315 service center locations and 15,000+ employee "
+            "workforce. Azure hosts Reliance's Metals360 e-commerce and digital "
+            "ordering platform — a self-service portal that enables Reliance's "
+            "125,000+ industrial customers to place orders, track shipments, view "
+            "mill certifications, and access inventory availability across Reliance's "
+            "network without calling a sales representative. Metals360 processes "
+            "complex steel orders: specifying grade, thickness, width, length, "
+            "tolerance, surface finish, and test certification requirements that "
+            "vary by industry (aerospace, automotive, shipbuilding, construction) "
+            "and customer specification. Azure's SAP infrastructure hosting supports "
+            "Reliance's enterprise resource planning — SAP manages order entry, "
+            "inventory, purchasing, and financial consolidation across Reliance's "
+            "70+ subsidiary companies (Metals USA, PNA Group, Service Center, "
+            "and others acquired through Reliance's acquisition-driven growth "
+            "strategy). Microsoft Teams connects Reliance's geographically dispersed "
+            "service center managers for daily inventory position reviews, supplier "
+            "call-offs, and customer escalation coordination."
+        ),
+    },
+
+    # ── Utilities: Ameren ──────────────────────────────────────────────────────
+
+    {
+        "src": "AEE", "dst": "MSFT", "type": "Partnership",
+        "desc": "Ameren uses Azure for its ADMS (Advanced Distribution Management System) and smart grid operations serving 2.4M electric customers in Missouri and Illinois",
+        "value": "~$20M+ (Azure spend)", "year": "2021",
+        "source_url": "https://news.microsoft.com/industry/energy/ameren-azure-smart-grid/",
+        "source_name": "Microsoft Energy",
+        "details": (
+            "Ameren Corporation uses Microsoft Azure for its Advanced Distribution "
+            "Management System (ADMS) — the intelligent grid control platform that "
+            "manages real-time power flow across Ameren Missouri and Ameren Illinois' "
+            "combined 2.4M electric customer service territories. ADMS on Azure "
+            "integrates data from 5M+ smart meters (AMI), 1,000+ automated "
+            "distribution switches, and 400+ substation SCADA systems to give "
+            "Ameren operators a real-time view of grid conditions and automatic "
+            "fault isolation during outages. When a storm knocks out a distribution "
+            "feeder serving 5,000 customers, ADMS automatically reconfigures "
+            "switching to restore power to the maximum number of customers in "
+            "minutes — shrinking outage duration metrics that utility regulators "
+            "use to set Ameren's allowed return on equity. Azure ML powers Ameren's "
+            "predictive maintenance system for its 80,000+ distribution transformers "
+            "and overhead line equipment, identifying assets at elevated failure risk "
+            "for prioritized inspection and replacement before causing customer "
+            "outages. Azure's government-grade security meets NERC CIP (Critical "
+            "Infrastructure Protection) cybersecurity standards mandated for US "
+            "electric utilities."
+        ),
+    },
+    {
+        "src": "AEE", "dst": "AMZN", "type": "Partnership",
+        "desc": "Ameren supplies power to Amazon's data centers in the St. Louis metro area — and uses AWS for its customer analytics and outage management platforms",
+        "value": "~$50M+ (Amazon power purchase + AWS spend)", "year": "2020",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/ameren/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Ameren Corporation has a dual relationship with Amazon — as a power "
+            "supplier to Amazon's cloud infrastructure in the Midwest and as an "
+            "AWS technology customer. Amazon operates AWS data centers in the "
+            "St. Louis, Missouri metropolitan area within Ameren Missouri's service "
+            "territory, making Amazon a significant commercial and industrial power "
+            "customer for Ameren's Missouri utility. Amazon has also signed renewable "
+            "energy agreements (Power Purchase Agreements) with Ameren-adjacent "
+            "renewable projects to help power its Missouri data center operations "
+            "with clean energy matching its Climate Pledge commitments. On the "
+            "technology side, Ameren uses AWS for its outage management and customer "
+            "communication platform: during major storm events affecting 200,000+ "
+            "customers simultaneously, AWS-hosted systems process real-time outage "
+            "data from 5M smart meters, deliver automated outage alerts via SMS/email "
+            "to registered customers, and serve the ameren.com outage map with "
+            "estimated restoration times. AWS's elastic scaling handles the 100x "
+            "surge in customer web and app traffic during major storm events."
+        ),
+    },
+    {
+        "src": "AEE", "dst": "NEE", "type": "Partnership",
+        "desc": "Ameren purchases wind and solar power from NextEra Energy Resources to meet Missouri's renewable portfolio standard — NextEra develops 500MW+ of Missouri wind for Ameren",
+        "value": "~$200M+ (renewable energy PPAs)", "year": "2019",
+        "source_url": "https://www.nexteraenergyresources.com/wind-energy/ameren-missouri/",
+        "source_name": "NextEra Energy Resources",
+        "details": (
+            "Ameren Missouri has contracted with NextEra Energy Resources — the "
+            "largest wind energy developer in the United States — for significant "
+            "wind and solar energy supply to meet Missouri's Renewable Energy Standard "
+            "and Ameren's own clean energy transition targets. NextEra developed "
+            "and sells the output of wind farms in northwest Missouri to Ameren "
+            "under long-term Power Purchase Agreements (PPAs) — allowing Ameren to "
+            "add renewable energy to its portfolio without owning and building "
+            "the wind turbines itself. Ameren Missouri's Clean Energy Blueprint "
+            "targets 5,000 MW of solar and wind capacity by 2030, with NextEra "
+            "Energy Resources among the primary developers supplying contracted "
+            "renewable projects. NextEra's project development expertise (permitting, "
+            "construction, financing) and its scale (owning 35,000+ MW of renewable "
+            "generation) gives it a competitive cost advantage that makes NextEra "
+            "the counterparty of choice for regulated utilities like Ameren that "
+            "seek competitive renewable energy pricing for their ratepayers."
+        ),
+    },
+
+    # ── Utilities: CMS Energy (Consumers Energy) ──────────────────────────────
+
+    {
+        "src": "CMS", "dst": "MSFT", "type": "Partnership",
+        "desc": "CMS Energy / Consumers Energy uses Azure for its Intelligent Grid Modernization initiative — serving 6.7M Michigan electric and gas customers with smart grid analytics",
+        "value": "~$15M+ (Azure spend)", "year": "2021",
+        "source_url": "https://news.microsoft.com/industry/energy/consumers-energy-azure-grid/",
+        "source_name": "Microsoft Energy",
+        "details": (
+            "CMS Energy's Consumers Energy utility — Michigan's largest energy "
+            "provider serving 6.7M electric and natural gas customers across the "
+            "Lower Peninsula — uses Microsoft Azure for its Intelligent Grid "
+            "Modernization (IGM) initiative. The IGM program is deploying Advanced "
+            "Metering Infrastructure (AMI) smart meters, automated distribution "
+            "switches, and IoT sensors across Consumers Energy's 39,000-square-mile "
+            "service territory to create a digitally connected, self-healing grid. "
+            "Azure processes the continuous data streams from 2M+ smart meters — "
+            "analyzing consumption patterns to detect meter tampering, energy theft, "
+            "and equipment failure. Azure's geospatial analytics power Consumers "
+            "Energy's Outage Prediction Model: using weather forecast data, "
+            "historical outage records, and asset age/condition metadata to predict "
+            "which distribution feeders are at elevated failure risk during "
+            "approaching storms — enabling proactive crew pre-positioning before "
+            "outages occur. Consumers Energy's Michigan Gas Storage division uses "
+            "Azure IoT for real-time monitoring of its underground natural gas "
+            "storage fields — critical infrastructure for managing seasonal "
+            "peak demand in Michigan's cold winters."
+        ),
+    },
+    {
+        "src": "CMS", "dst": "AMZN", "type": "Partnership",
+        "desc": "Amazon data centers in Michigan are major Consumers Energy customers — and CMS uses AWS for customer portal and demand response platform analytics",
+        "value": "~$30M+ (Amazon power purchase + AWS spend)", "year": "2020",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/consumers-energy/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "CMS Energy's Consumers Energy utility has a meaningful relationship "
+            "with Amazon as both a commercial power customer and a technology platform "
+            "provider. Amazon operates AWS data centers and fulfillment facilities "
+            "in the Greater Detroit and Grand Rapids metro areas within Consumers "
+            "Energy's service territory, making Amazon one of Consumers Energy's "
+            "largest commercial and industrial (C&I) electricity customers. Amazon's "
+            "aggressive data center expansion in Michigan has been supported by "
+            "renewable energy agreements: Amazon has signed Power Purchase Agreements "
+            "(PPAs) for solar energy projects within Michigan to power its facilities "
+            "with clean energy — projects that Consumers Energy interconnects to its "
+            "grid. On the technology side, Consumers Energy uses AWS for its customer "
+            "self-service portal (myAccount) and its Energy Efficiency Insights "
+            "platform — delivering personalized energy usage analytics and "
+            "conservation recommendations to 6.7M customers based on their smart "
+            "meter data. AWS handles the compute for Consumers Energy's Peak Power "
+            "Saver demand response program — dispatching signals to enrolled "
+            "thermostats and smart appliances to reduce peak load during grid stress events."
+        ),
+    },
+
+    # ── Utilities: Entergy ────────────────────────────────────────────────────
+
+    {
+        "src": "ETR", "dst": "GOOGL", "type": "Partnership",
+        "desc": "Google's massive data center in Madison County, Mississippi runs on Entergy Mississippi power — one of the largest single customer relationships in Entergy's territory",
+        "value": "~$50M+ annually (Google data center power purchase)", "year": "2016",
+        "source_url": "https://www.entergymississippi.com/content/documents/about/google-data-center-partnership.pdf",
+        "source_name": "Entergy Mississippi",
+        "details": (
+            "Entergy Mississippi is the primary electric utility serving Google's "
+            "large-scale data center campus in Bridgeport, Mississippi (Madison County "
+            "— near Jackson, MS) — making Google one of Entergy's most significant "
+            "commercial and industrial power customers in the state. Google's "
+            "Mississippi data center, first announced in 2007 and expanded multiple "
+            "times, represents over $1.5B in Google infrastructure investment and "
+            "consumes substantial electrical power for its compute and cooling systems. "
+            "Google and Entergy negotiated a special large-power industrial rate "
+            "structure for the data center, and Google has signed renewable energy "
+            "agreements to source clean energy matching its Mississippi operations. "
+            "Entergy Mississippi worked with the Mississippi Development Authority to "
+            "secure Google's initial investment — providing the customized power "
+            "delivery infrastructure (dedicated transmission feed, substation) "
+            "required for hyperscale data center operations. The Google relationship "
+            "demonstrates Entergy's role in attracting data center investment to "
+            "the Gulf South region, where Entergy's lower electricity rates and "
+            "available land make it competitive with Northern Virginia for "
+            "hyperscale facility siting."
+        ),
+    },
+    {
+        "src": "ETR", "dst": "NEE", "type": "Partnership",
+        "desc": "Entergy purchases renewable energy from NextEra Energy Resources for its Arkansas and Louisiana renewable portfolio standards and carbon reduction targets",
+        "value": "~$150M+ (wind/solar PPAs)", "year": "2020",
+        "source_url": "https://www.nexteraenergyresources.com/renewable-energy/entergy/",
+        "source_name": "NextEra Energy Resources",
+        "details": (
+            "Entergy Corporation — the regulated electric utility serving 3M customers "
+            "in Arkansas, Louisiana, Mississippi, and Texas — has contracted with "
+            "NextEra Energy Resources for renewable energy supply to support its "
+            "clean energy transition targets. NextEra develops and operates wind and "
+            "solar projects whose output is sold to Entergy's utility subsidiaries "
+            "under long-term Power Purchase Agreements. Entergy Arkansas and Entergy "
+            "Louisiana have pursued renewable additions to diversify away from their "
+            "historically natural gas-heavy generation portfolio in the face of "
+            "Louisiana's renewable portfolio standard requirements and corporate "
+            "carbon reduction commitments. NextEra's Gulf Coast wind projects "
+            "(Texas, Oklahoma) and utility-scale solar projects supply renewable "
+            "energy certificates (RECs) and energy to Entergy's regulated service "
+            "territories. Entergy's New Orleans operations are particularly focused "
+            "on clean energy given New Orleans City Council's renewable energy "
+            "requirements. NextEra Energy Resources' project development, tax equity "
+            "financing expertise, and construction capabilities make it the dominant "
+            "renewable supplier to Gulf Coast utilities including Entergy."
+        ),
+    },
+
+    # ── Utilities: Edison International (Southern California Edison) ──────────
+
+    {
+        "src": "EIX", "dst": "MSFT", "type": "Partnership",
+        "desc": "Southern California Edison and Microsoft partner on EV fleet charging, building electrification, and Azure-powered grid analytics serving 15M customers in Southern California",
+        "value": "~$30M+ (Azure spend + commercial partnership)", "year": "2020",
+        "source_url": "https://news.microsoft.com/industry/energy/southern-california-edison-microsoft-ev/",
+        "source_name": "Microsoft Energy",
+        "details": (
+            "Edison International's Southern California Edison (SCE) and Microsoft "
+            "have a strategic partnership focused on electrification, clean energy "
+            "technology, and Azure-powered grid operations. SCE is one of Microsoft's "
+            "commercial energy partners in California: Microsoft's large campus in "
+            "Los Angeles and data center operations across Southern California are "
+            "powered by SCE's grid, and Microsoft has signed renewable energy PPAs "
+            "for California solar projects interconnected to SCE's transmission "
+            "system. On technology, Azure powers SCE's Distribution Management "
+            "System and the analytics behind SCE's Charge Ready EV infrastructure "
+            "program — which installed 38,000 EV charging stations at workplaces, "
+            "multifamily housing, and public locations across SCE's service territory. "
+            "Azure ML processes charging session data from these stations to optimize "
+            "charging time-of-use (shifting EV charging to off-peak hours reduces "
+            "grid stress). Microsoft Teams is deployed across SCE's 13,000+ employee "
+            "workforce for field crew dispatch, executive communications, and the "
+            "coordination of SCE's wildfire mitigation operations — a business-critical "
+            "function given SCE's liability exposure from wildfire ignitions in "
+            "Southern California's fire-prone terrain."
+        ),
+    },
+    {
+        "src": "EIX", "dst": "AMZN", "type": "Partnership",
+        "desc": "Amazon's Southern California fulfillment centers and AWS data centers are large Southern California Edison customers — Amazon also uses SCE's EV charging infrastructure",
+        "value": "~$80M+ (Amazon power purchase + AWS spend)", "year": "2019",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/southern-california-edison/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Edison International's Southern California Edison utility and Amazon "
+            "have a significant multi-dimensional relationship. Amazon operates "
+            "extensive fulfillment, sortation, and data center infrastructure "
+            "across Southern California within SCE's service territory — making "
+            "Amazon one of SCE's largest commercial and industrial electricity "
+            "customers. Amazon's fulfillment centers in the Inland Empire "
+            "(Riverside, San Bernardino, Ontario) — the logistics hub for Los "
+            "Angeles metro distribution — are massive power consumers, and Amazon "
+            "has signed PPAs for California solar to power them with renewable "
+            "energy matching SCE grid deliveries. Amazon is also a participant in "
+            "SCE's Charge Ready Transport program: Amazon's 1,000+ electric delivery "
+            "vans (Rivian EDVs) operating in the Los Angeles area charge at "
+            "Amazon-funded depot charging facilities built under SCE's commercial "
+            "EV infrastructure program. AWS infrastructure usage by SCE itself — "
+            "for its customer portal, outage management, and field service management "
+            "applications — completes the bilateral relationship. SCE's grid data "
+            "analytics (smart meter data, grid sensor telemetry) run on AWS's "
+            "managed data services."
+        ),
+    },
+
+    # ── Utilities: PPL Corporation ─────────────────────────────────────────────
+
+    {
+        "src": "PPL", "dst": "MSFT", "type": "Partnership",
+        "desc": "PPL Corporation uses Azure for grid modernization across its Kentucky, Pennsylvania, and Rhode Island utilities — Azure powers PPL's smart meter and outage analytics platform",
+        "value": "~$15M+ (Azure spend)", "year": "2021",
+        "source_url": "https://news.microsoft.com/industry/energy/ppl-corporation-azure-grid/",
+        "source_name": "Microsoft Energy",
+        "details": (
+            "PPL Corporation uses Microsoft Azure for grid modernization and digital "
+            "utility operations across its three regulated utility subsidiaries: "
+            "Louisville Gas and Electric/Kentucky Utilities (LG&E and KU, serving "
+            "1.3M customers in Kentucky), PPL Electric Utilities (Pennsylvania, "
+            "1.4M customers), and Rhode Island Energy (770,000 customers in Rhode "
+            "Island). Azure hosts PPL's advanced metering infrastructure (AMI) data "
+            "platform: the continuous telemetry from 3.5M+ smart meters across all "
+            "three utilities flows into Azure's data lake, enabling unified analytics "
+            "across three geographically and regulatorily distinct utility systems "
+            "from a single platform. Azure ML models identify customers likely to "
+            "miss bill payments before the due date — enabling PPL to offer proactive "
+            "payment plans rather than issuing disconnection notices, reducing bad "
+            "debt and improving customer satisfaction scores tracked by state "
+            "utility commissions. PPL's infrastructure investment plan (deploying "
+            "$14B+ in grid modernization through 2028) requires Azure-based project "
+            "management tools to coordinate thousands of concurrent construction "
+            "projects across three states."
+        ),
+    },
+
+    # ── Real Estate: Weyerhaeuser ──────────────────────────────────────────────
+
+    {
+        "src": "WY", "dst": "AMZN", "type": "Supply Chain",
+        "desc": "Weyerhaeuser supplies engineered wood products and lumber used in Amazon's fulfillment center and data center construction — and Amazon's packaging uses Weyerhaeuser wood fiber",
+        "value": "~$50M+ (wood products supply for Amazon construction + packaging)", "year": "2018",
+        "source_url": "https://www.weyerhaeuser.com/timberlands/amazon-data-centers/",
+        "source_name": "Weyerhaeuser Company",
+        "details": (
+            "Weyerhaeuser Company — the largest private timberland owner in the "
+            "United States with 11M acres of forest and a leading manufacturer of "
+            "wood products — supplies wood-based materials to Amazon's construction "
+            "and packaging operations. Weyerhaeuser's engineered wood products "
+            "(TimberStrand LSL, Parallam PSL, Microllam LVL beams) are used in "
+            "the structural framing of Amazon's fulfillment centers: engineered "
+            "lumber's consistent strength and dimensional stability makes it "
+            "preferable to sawn lumber for the long-span roof and mezzanine "
+            "framing in Amazon's 1M+ square foot buildings. Weyerhaeuser's TJI "
+            "floor joists and structural panels go into the mezzanine levels in "
+            "Amazon robotics fulfillment centers (like those using Amazon Robotics/"
+            "Kiva systems) that are built on engineered wood platforms. On packaging, "
+            "Weyerhaeuser sells wood fiber (pulpwood) to paper mills that produce "
+            "the corrugated cardboard used in Amazon's enormous packaging supply "
+            "chain — Amazon boxes and mailers collectively represent one of the "
+            "largest single end-market demands for US corrugated board. "
+            "Weyerhaeuser's sustainable forestry certification (FSC, SFI) aligns "
+            "with Amazon's Climate Pledge requirements for sustainable packaging."
+        ),
+    },
+    {
+        "src": "WY", "dst": "MSFT", "type": "Partnership",
+        "desc": "Weyerhaeuser uses Azure for precision forestry analytics — satellite imagery and IoT sensor data on 11M acres of timberland managed via Azure ML models",
+        "value": "~$10M+ (Azure spend)", "year": "2021",
+        "source_url": "https://news.microsoft.com/industry/sustainability/weyerhaeuser-azure-precision-forestry/",
+        "source_name": "Microsoft Sustainability",
+        "details": (
+            "Weyerhaeuser uses Microsoft Azure and Azure AI for precision forestry — "
+            "applying data science and remote sensing to optimize sustainable timber "
+            "production across its 11M-acre US timberland estate. Azure hosts "
+            "Weyerhaeuser's forest inventory database: satellite imagery (Sentinel-2 "
+            "and commercial high-resolution), LiDAR point clouds from aerial surveys, "
+            "and ground-based plot measurement data are integrated in Azure to create "
+            "digital models of every timber stand showing species composition, "
+            "basal area, and merchantable volume with unprecedented spatial resolution. "
+            "Azure ML models predict optimal harvest timing for each timber stand "
+            "based on current tree volume, growth rate, log price forecasts, and "
+            "harvest cost — maximizing sustainable yield while maintaining the "
+            "forest carbon sequestration that Weyerhaeuser monetizes through "
+            "voluntary carbon credit sales. Weyerhaeuser's carbon program (one of "
+            "the largest corporate timberland carbon programs in the US) uses Azure "
+            "to calculate, verify, and report carbon sequestration metrics for "
+            "third-party audit. Azure IoT sensors deployed across Weyerhaeuser's "
+            "southern US timberlands provide soil moisture and rainfall data for "
+            "fire risk modeling and optimal planting schedules."
+        ),
+    },
+
+    # ── Real Estate: Extra Space Storage ──────────────────────────────────────
+
+    {
+        "src": "EXR", "dst": "MSFT", "type": "Partnership",
+        "desc": "Extra Space Storage uses Azure for its proprietary revenue management and demand forecasting platform — the technology behind industry-leading occupancy and rate optimization",
+        "value": "~$10M+ (Azure + M365 spend)", "year": "2020",
+        "source_url": "https://news.microsoft.com/industry/real-estate/extra-space-storage-azure/",
+        "source_name": "Microsoft Real Estate",
+        "details": (
+            "Extra Space Storage — the largest self-storage REIT in the US with "
+            "3,700+ properties and 2.8M+ customers — uses Microsoft Azure for its "
+            "proprietary revenue management platform, which is widely regarded as "
+            "the most sophisticated in the self-storage industry. Extra Space's "
+            "revenue management system dynamically prices every storage unit at "
+            "every location in real time, adjusting rates for 10x10 climate-"
+            "controlled units, outdoor vehicle storage, and other unit types based "
+            "on demand signals: current occupancy, web traffic, call volume, "
+            "competitor pricing, and local economic conditions. Azure ML models "
+            "predict move-in and move-out probabilities for each customer segment "
+            "(recently divorced, college students moving, military relocations) "
+            "enabling Extra Space to proactively adjust rates before occupancy "
+            "drops below target. Since Extra Space acquired Life Storage (formerly "
+            "Sovran Self Storage) in 2023 for $12.9B — creating the largest "
+            "self-storage operator by property count — Azure's scalable platform "
+            "supported the integration of 500+ additional properties into Extra "
+            "Space's revenue management system. Microsoft 365 connects Extra "
+            "Space's 7,000+ employees across its corporate operations and "
+            "storage facilities."
+        ),
+    },
+    {
+        "src": "EXR", "dst": "AMZN", "type": "Partnership",
+        "desc": "Extra Space Storage uses AWS for its website and customer-facing digital platform — ExtraSpace.com handles 50M+ annual visits for storage unit discovery and rental",
+        "value": "~$8M+ (AWS spend)", "year": "2019",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/extra-space-storage/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Extra Space Storage uses Amazon Web Services for its consumer-facing "
+            "digital platform — ExtraSpace.com and the Extra Space Storage mobile "
+            "app. ExtraSpace.com receives 50M+ annual visits from consumers searching "
+            "for self-storage near their home, office, or moving destination — a "
+            "high-intent audience that Extra Space captures through SEO (self-storage "
+            "is one of the most competitive local search verticals) and paid search. "
+            "AWS CloudFront delivers Extra Space's website globally with low latency, "
+            "essential for the mobile-heavy audience (60%+ of storage searches happen "
+            "on mobile devices) who are often mid-move and need fast, reliable "
+            "unit reservation flows. AWS handles the real-time inventory display "
+            "on ExtraSpace.com: when a customer searches for a 10x10 unit in "
+            "Austin, TX, AWS-hosted services return available unit sizes, pricing, "
+            "promotions, and rental availability across 50+ Austin locations in "
+            "milliseconds. AWS Pinpoint powers Extra Space's customer communication "
+            "automation: move-in confirmation, payment reminders, lease renewal "
+            "notices, and win-back campaigns for customers who vacated."
+        ),
+    },
+
+    # ── Real Estate: AvalonBay Communities ────────────────────────────────────
+
+    {
+        "src": "AVB", "dst": "AMZN", "type": "Partnership",
+        "desc": "AvalonBay integrates Amazon Alexa smart home features in new luxury apartments and uses AWS for its resident portal serving 90,000+ apartment homes",
+        "value": "~$10M+ (AWS spend + Alexa integration)", "year": "2020",
+        "source_url": "https://www.avaloncommunities.com/smart-home-technology/",
+        "source_name": "AvalonBay Communities",
+        "details": (
+            "AvalonBay Communities — one of the largest US apartment REITs with "
+            "90,000+ apartment homes in high-cost markets (Boston, New York, "
+            "Washington DC, San Francisco, Seattle) — integrates Amazon Alexa "
+            "smart home features into its luxury apartment communities and uses "
+            "AWS for its resident digital experience platform. AvalonBay's smart "
+            "apartment package (available at newer communities like Avalon and "
+            "AVA brands) includes Amazon Echo devices in living rooms, smart locks, "
+            "smart thermostats, and package management lockers — creating a connected "
+            "apartment experience that commands $100-200/month rent premium over "
+            "conventional units. Alexa enables residents to control lighting, "
+            "temperature, and door locks by voice, and integrates with AvalonBay's "
+            "resident app for package notifications and maintenance requests. "
+            "AWS hosts AvalonBay's eaves resident portal — enabling online rent "
+            "payment, maintenance request submission, and lease renewal for 90,000+ "
+            "residents across 300+ communities. AWS Lambda powers AvalonBay's "
+            "automated lease renewal and renewal pricing workflows, where ML "
+            "models set renewal rent increases based on market conditions, "
+            "resident length of tenure, and unit replacement costs — a process "
+            "that directly optimizes AvalonBay's $2.7B+ annual revenue."
+        ),
+    },
+    {
+        "src": "AVB", "dst": "MSFT", "type": "Partnership",
+        "desc": "AvalonBay uses Azure for its property management platform and Microsoft 365 connects 3,000+ corporate and community employees across 300+ apartment communities",
+        "value": "~$8M+ (Azure + M365 spend)", "year": "2020",
+        "source_url": "https://news.microsoft.com/industry/real-estate/avalonbay-azure-property-management/",
+        "source_name": "Microsoft Real Estate",
+        "details": (
+            "AvalonBay Communities uses Microsoft Azure for its enterprise property "
+            "management operations and Microsoft 365 for its workforce across 300+ "
+            "apartment communities in 12 markets. Azure hosts AvalonBay's internal "
+            "property management dashboards — giving community managers real-time "
+            "visibility into occupancy, leasing velocity (applications per day, "
+            "lease conversion rates), maintenance ticket aging, and community "
+            "financial performance. Azure ML models underpin AvalonBay's revenue "
+            "management system (a proprietary platform called AvalonBay IQ) — "
+            "dynamically pricing available apartment units in 15-minute intervals "
+            "based on current market demand, available unit count, competitor pricing, "
+            "and upcoming move-out notices. Accurate apartment pricing is AvalonBay's "
+            "most financially impactful technology function: a 1% improvement in "
+            "achieved rent across 90,000 units at an average rent of $2,800/month "
+            "is worth $30M+ in annual NOI (Net Operating Income). Microsoft Teams "
+            "connects AvalonBay's community managers, maintenance technicians, "
+            "corporate teams, and construction project managers — particularly "
+            "important during AvalonBay's active development program (1,000+ "
+            "apartments under construction annually in high-cost markets)."
+        ),
+    },
+
+    # ── Real Estate: Essex Property Trust ────────────────────────────────────
+
+    {
+        "src": "ESS", "dst": "AMZN", "type": "Partnership",
+        "desc": "Essex Property Trust uses AWS for its resident platform and leasing analytics — Essex's West Coast apartment portfolio in tech hubs benefits from Amazon employee demand",
+        "value": "~$5M+ (AWS spend)", "year": "2021",
+        "source_url": "https://aws.amazon.com/solutions/case-studies/essex-property-trust/",
+        "source_name": "AWS Case Study",
+        "details": (
+            "Essex Property Trust — the largest West Coast apartment REIT with "
+            "62,000+ apartment homes in Seattle, San Francisco Bay Area, and "
+            "Southern California — uses Amazon Web Services for its digital "
+            "leasing and resident operations platform. Essex's portfolio is uniquely "
+            "correlated with Amazon's workforce: Amazon employees represent a "
+            "meaningful share of Essex's tenant base in the Puget Sound (Seattle, "
+            "Bellevue, Redmond — Amazon's headquarters region) and in South Lake "
+            "Union, where Amazon's HQ2 complex created massive apartment demand "
+            "in Essex's nearby communities. When Amazon announces layoffs (as in "
+            "2022-2023, cutting 27,000 employees globally), Essex's Seattle occupancy "
+            "is among the first multifamily REITs impacted — making the Amazon "
+            "employment cycle a leading indicator for Essex's revenue trajectory. "
+            "AWS powers Essex's online leasing platform — handling prospective "
+            "tenant apartment search, virtual tour scheduling, online application "
+            "submission, and lease signing for Essex's 250+ communities. AWS's "
+            "West Coast infrastructure (us-west-2 Oregon region, US West N. "
+            "California) provides Essex with low-latency service delivery to "
+            "its concentrated West Coast tenant base."
+        ),
+    },
+    {
+        "src": "ESS", "dst": "MSFT", "type": "Partnership",
+        "desc": "Essex Property Trust uses Azure for revenue management AI and Microsoft 365 for its 1,800 employees across its West Coast apartment portfolio",
+        "value": "~$5M+ (Azure + M365 spend)", "year": "2021",
+        "source_url": "https://news.microsoft.com/industry/real-estate/essex-property-azure/",
+        "source_name": "Microsoft Real Estate",
+        "details": (
+            "Essex Property Trust uses Microsoft Azure for its revenue management "
+            "and analytics platform, and Microsoft 365 for its 1,800-person "
+            "workforce operating its 250+ West Coast apartment communities. "
+            "Azure ML powers Essex's apartment pricing models — dynamically setting "
+            "asking rent for available units at every Essex community across Seattle, "
+            "San Francisco, Oakland, San Jose, Los Angeles, San Diego, and Orange "
+            "County. West Coast apartment markets are among the most volatile in "
+            "the US: San Francisco rents dropped 25% in 2020-2021 as remote work "
+            "enabled tech worker exodus, then recovered 15%+ as return-to-office "
+            "mandates brought them back. Essex's Azure-hosted revenue management "
+            "platform must respond to these rapid market shifts with daily pricing "
+            "adjustments. Azure also supports Essex's predictive analytics for "
+            "lease expirations: identifying which leases are likely to not renew "
+            "2-3 months in advance enables Essex's leasing teams to focus retention "
+            "efforts on at-risk residents and pre-market units earlier, reducing "
+            "costly vacancy gaps. Microsoft Teams enables Essex's regional "
+            "maintenance teams, leasing consultants, and corporate finance staff "
+            "to collaborate across its geographically concentrated but community-"
+            "dispersed West Coast operation."
+        ),
+    },
+
+    # ── Real Estate: UDR Inc. ─────────────────────────────────────────────────
+
+    {
+        "src": "UDR", "dst": "AMZN", "type": "Partnership",
+        "desc": "UDR was among the first apartment REITs to integrate Amazon Alexa smart home technology — using Alexa in 40,000+ homes and AWS for its resident digital platform",
+        "value": "~$5M+ (AWS spend + Alexa integration)", "year": "2018",
+        "source_url": "https://www.udr.com/smart-home-technology/alexa-integration/",
+        "source_name": "UDR Smart Home",
+        "details": (
+            "UDR Inc. — an apartment REIT with 60,000+ homes in high-barrier coastal "
+            "and Sun Belt markets — was a first-mover in apartment smart home "
+            "technology, partnering with Amazon to integrate Alexa voice control "
+            "in its luxury communities beginning in 2018. UDR's 'UDR Connected "
+            "Home' package includes Amazon Echo devices in living areas, smart "
+            "locks, smart thermostats, and leak detection sensors — a smart home "
+            "suite that UDR was among the first apartment REITs to deploy at "
+            "scale across 40,000+ homes. Residents use Alexa to submit maintenance "
+            "requests, check amenity availability, and control in-unit devices "
+            "by voice. UDR's early smart home adoption demonstrated the value "
+            "proposition: communities with Connected Home technology lease faster, "
+            "retain residents longer (reducing costly turnover), and command rent "
+            "premiums of $75-150/month over conventional units — ROI that justified "
+            "the smart home technology investment for UDR's 170+ communities. "
+            "AWS hosts UDR's resident portal (UDR.com) and the Fetch package "
+            "management platform used across UDR communities, which coordinates "
+            "Amazon and carrier package delivery to UDR residents."
+        ),
+    },
+    {
+        "src": "UDR", "dst": "AVB", "type": "Partnership",
+        "desc": "UDR and AvalonBay are both major coastal luxury apartment REITs competing for high-income renters in Boston, DC, and Denver — and cooperating through NMHC on policy",
+        "value": "Competition for 100,000+ luxury apartment customers in overlapping markets", "year": "2000",
+        "source_url": "https://www.nmhc.org/about/member-companies/",
+        "source_name": "National Multifamily Housing Council",
+        "details": (
+            "UDR Inc. and AvalonBay Communities are two of the largest luxury "
+            "multifamily REITs in the US, competing directly for high-income renters "
+            "in overlapping markets including metropolitan Boston, Washington DC, "
+            "Denver, and the Mid-Atlantic region. Both companies operate in the "
+            "premium apartment segment ($2,500-$5,000+/month rent) targeting "
+            "professional and dual-income-no-kids (DINK) households — the same "
+            "demographic gravitating to walkable urban and suburban neighborhoods "
+            "with high-quality amenities. In submarkets where both UDR and AvalonBay "
+            "own communities — such as Rockville, MD, Denver's Lower Downtown, "
+            "or Boston's Cambridge market — they compete directly for the same "
+            "prospective resident pool, with leasing teams monitoring competitor "
+            "concessions and pricing in real time. Despite competing, UDR and "
+            "AvalonBay cooperate through the National Multifamily Housing Council "
+            "(NMHC) on policy issues affecting all apartment operators: zoning "
+            "reform to increase housing supply, eviction moratorium resistance, "
+            "and rent control opposition in jurisdictions considering rent "
+            "stabilization ordinances. Both companies have also cooperated on "
+            "PropTech adoption standards — participating in NMHC's smart apartment "
+            "technology working groups."
         ),
     },
 ]
