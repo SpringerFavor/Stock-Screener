@@ -44,6 +44,73 @@ _ALL_SECTORS = [
     "Industrials", "Real Estate", "Technology", "Utilities",
 ]
 
+# Display labels shown in the sector multiselect, including indented sub-sectors.
+# Sub-sector labels use a non-breaking-space indent so they sort below their parent
+# but are visually grouped with it.
+_ALL_SECTOR_OPTIONS = [
+    "Basic Materials",
+    "Communication Services",
+    "Consumer Cyclical",
+    "Consumer Defensive",
+    "Energy",
+    "  └ Oil & Gas",
+    "Financial Services",
+    "  └ Banks",
+    "  └ Insurance",
+    "Healthcare",
+    "  └ Biotech/Pharmaceuticals",
+    "Industrials",
+    "  └ Aerospace & Defense",
+    "Real Estate",
+    "  └ REITs",
+    "Technology",
+    "  └ Semiconductors",
+    "Utilities",
+    "  └ Utilities - Renewable",
+]
+
+# Maps each sub-sector display label → (parent_sector, frozenset of yfinance industry strings).
+_SUBSECTOR_MAP: dict[str, tuple[str, frozenset]] = {
+    "  └ Oil & Gas": (
+        "Energy",
+        frozenset(["Oil & Gas E&P", "Oil & Gas Integrated", "Oil & Gas Midstream",
+                   "Oil & Gas Refining & Marketing", "Oil & Gas Drilling",
+                   "Oil & Gas Equipment & Services"]),
+    ),
+    "  └ Banks": (
+        "Financial Services",
+        frozenset(["Banks—Diversified", "Banks—Regional"]),
+    ),
+    "  └ Insurance": (
+        "Financial Services",
+        frozenset(["Insurance—Diversified", "Insurance—Life", "Insurance—Property & Casualty",
+                   "Insurance—Specialty", "Insurance—Reinsurance"]),
+    ),
+    "  └ Biotech/Pharmaceuticals": (
+        "Healthcare",
+        frozenset(["Biotechnology", "Drug Manufacturers—General",
+                   "Drug Manufacturers—Specialty & Generic", "Pharmaceutical Retailers"]),
+    ),
+    "  └ Aerospace & Defense": (
+        "Industrials",
+        frozenset(["Aerospace & Defense"]),
+    ),
+    "  └ REITs": (
+        "Real Estate",
+        frozenset(["REIT—Diversified", "REIT—Industrial", "REIT—Office", "REIT—Residential",
+                   "REIT—Retail", "REIT—Specialty", "REIT—Healthcare Facilities",
+                   "REIT—Hotel & Motel", "REIT—Mortgage"]),
+    ),
+    "  └ Semiconductors": (
+        "Technology",
+        frozenset(["Semiconductors", "Semiconductor Equipment & Materials"]),
+    ),
+    "  └ Utilities - Renewable": (
+        "Utilities",
+        frozenset(["Utilities—Renewable"]),
+    ),
+}
+
 # Diverging red → dark neutral → green; deep saturated for Bloomberg aesthetic.
 _HEATMAP_SCALE = [
     [0.00, "#7B0000"],
@@ -788,6 +855,7 @@ def fetch_fundamentals(ticker: str) -> dict:
             "rev":           _g("revenueGrowth"),
             "mktcap":        mktcap,
             "sector":        info.get("sector"),
+            "industry":      info.get("industry"),
             "pb":            _g("priceToBook"),
             "de":            de,
             "current_ratio": _g("currentRatio"),
@@ -811,7 +879,7 @@ def fetch_fundamentals(ticker: str) -> dict:
         return {
             "name": ticker, "pe": None, "fwd_pe": None, "peg": None, "ps": None,
             "eps_growth": None, "surprise_pct": None,
-            "rev": None, "mktcap": None, "sector": None,
+            "rev": None, "mktcap": None, "sector": None, "industry": None,
             "pb": None, "de": None, "current_ratio": None, "quick_ratio": None,
             "gross_margin": None, "op_margin": None, "net_margin": None,
             "ev_ebitda": None, "roe": None, "roa": None,
@@ -2061,7 +2129,7 @@ def render_equities_page() -> None:
         with r1a:
             st.markdown("**Sector**")
             sector_list = st.multiselect(
-                "Sector", _ALL_SECTORS, default=[], key="sector_filter",
+                "Sector", _ALL_SECTOR_OPTIONS, default=[], key="sector_filter",
                 placeholder="All sectors", label_visibility="collapsed",
             )
             st.caption(f"Filtering: {', '.join(sector_list)}" if sector_list else "All sectors.")
@@ -2204,6 +2272,13 @@ def render_equities_page() -> None:
         rc1, rc2, rc3, rc4 = st.columns([3, 2, 1, 1])
         ticker_count  = len(tickers_list)
         sector_filter = set(sector_list)
+        # For heatmap/movers (which only know parent sectors), resolve sub-sectors to parents.
+        heatmap_sector_filter: set[str] = set()
+        for lbl in sector_filter:
+            if lbl in _SUBSECTOR_MAP:
+                heatmap_sector_filter.add(_SUBSECTOR_MAP[lbl][0])
+            else:
+                heatmap_sector_filter.add(lbl)
         with rc1:
             sn = f" · {len(sector_filter)} sector(s)" if sector_filter else ""
             st.write(f"**{ticker_count} tickers** in universe{sn}.")
@@ -2237,7 +2312,7 @@ def render_equities_page() -> None:
             "Individual stocks sized by market cap · grouped by sector · colored by daily % change "
             "· **click a sector label to zoom in · click a stock tile to open its profile**"
         )
-        hmap_click = render_market_heatmap(sector_filter)
+        hmap_click = render_market_heatmap(heatmap_sector_filter)
     if hmap_click:
         st.session_state["heatmap_ticker"] = hmap_click
 
@@ -2257,7 +2332,7 @@ def render_equities_page() -> None:
     # ── 4. Biggest Movers ─────────────────────────────────────────────────────
     movers_ticker = None
     with st.expander("Biggest Movers — S&P 500", expanded=True):
-        movers_ticker = render_biggest_movers(sector_filter)
+        movers_ticker = render_biggest_movers(heatmap_sector_filter)
 
     if movers_ticker:
         with st.container(border=True):
@@ -2309,6 +2384,7 @@ def render_equities_page() -> None:
             rev        = f.get("rev")
             mc         = f.get("mktcap")
             sector     = f.get("sector")
+            industry   = f.get("industry")
             prox_high  = f.get("prox_high")
             prox_low   = f.get("prox_low")
             fcf_yield  = f.get("fcf_yield")
@@ -2352,8 +2428,20 @@ def render_equities_page() -> None:
                 continue
             if use_gross_margin and not (gross_margin is not None and gross_margin >= min_gross_margin):
                 continue
-            if sector_filter and sector not in sector_filter:
-                continue
+            if sector_filter:
+                matched = False
+                for label in sector_filter:
+                    if label in _SUBSECTOR_MAP:
+                        parent, industries = _SUBSECTOR_MAP[label]
+                        if sector == parent and industry in industries:
+                            matched = True
+                            break
+                    else:
+                        if sector == label:
+                            matched = True
+                            break
+                if not matched:
+                    continue
             vs_spy = round(stock_1y - spy_1y, 2) if (stock_1y is not None and spy_1y is not None) else None
             rows.append({
                 "Ticker": t, "Name": f.get("name", t), "Sector": sector,
