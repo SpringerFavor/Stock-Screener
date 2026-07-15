@@ -245,6 +245,7 @@ _WIDGET_KEYS = [
     "use_short", "short_range",
     "use_div", "min_div",
     "use_payout", "max_payout",
+    "use_gross_margin", "min_gross_margin",
     "crypto_etf_selected",
     "etf_selected",
     "etf_search",
@@ -1474,7 +1475,7 @@ def render_single_ticker(ticker: str) -> None:
               delta=f"{chg_1m:+.2f}%" if chg_1m is not None else None)
 
     render_financial_ratios(f, f.get("sector"))
-    tab_chart, tab_analyst = st.tabs(["📈 Price Chart", "🔎 Analyst & News"])
+    tab_chart, tab_analyst = st.tabs(["Price Chart", "Analyst & News"])
     with tab_chart:
         render_price_chart(ticker, name)
     with tab_analyst:
@@ -1688,7 +1689,7 @@ _ETF_PERIOD = {
 
 
 def render_etf_page() -> None:
-    st.title("📊 ETFs")
+    st.title("ETFs")
     st.caption("Curated ETF watchlist across major categories · Data via Yahoo Finance · For research only.")
 
     # ── Ticker search ─────────────────────────────────────────────────────────
@@ -1736,7 +1737,7 @@ def render_etf_page() -> None:
             st.session_state["etf_selected"] = clicked
 
     # ── Full table ─────────────────────────────────────────────────────────────
-    with st.expander("📋 All ETFs", expanded=True):
+    with st.expander("All ETFs", expanded=True):
         st.caption("Click a row to open the full ETF detail panel below.")
         tbl = (
             df.sort_values(["Category", period_col], ascending=[True, False])
@@ -1780,7 +1781,7 @@ _COM_PERIOD = {"1 Day": "Change %", "1 Week": "Chg 1W", "1 Month": "Chg 1M", "3 
 
 
 def render_commodities_page() -> None:
-    st.title("🛢 Commodities")
+    st.title("Commodities")
     st.caption("Major commodity futures · Data via Yahoo Finance · For research only.")
 
     if not st.session_state.get("_com_loaded"):
@@ -1804,7 +1805,7 @@ def render_commodities_page() -> None:
             st.session_state["com_selected"] = clicked
 
     # ── Full table ─────────────────────────────────────────────────────────────
-    with st.expander("📋 All Commodities", expanded=True):
+    with st.expander("All Commodities", expanded=True):
         st.caption("Click a row to view its price chart below.")
         tbl = (
             df[["Name", "Category", "Price", "Unit", "Change %", "Chg 1W", "Chg 1M", "Chg 3M", "Chg YTD"]]
@@ -1860,7 +1861,7 @@ _CRYPTO_PERIOD = {"1 Day": "Change %", "1 Week": "Chg 1W", "1 Month": "Chg 1M", 
 
 
 def render_crypto_page() -> None:
-    st.title("₿ Crypto")
+    st.title("Crypto")
     st.caption("Major cryptocurrencies · Data via Yahoo Finance · For research only.")
 
     if not st.session_state.get("_crypto_loaded"):
@@ -1884,7 +1885,7 @@ def render_crypto_page() -> None:
             st.session_state["crypto_selected"] = clicked
 
     # ── Biggest Movers ────────────────────────────────────────────────────────
-    with st.expander("📈 Biggest Movers", expanded=True):
+    with st.expander("Biggest Movers", expanded=True):
         sorted_df = df.dropna(subset=[period_col]).sort_values(period_col, ascending=False).reset_index(drop=True)
         if sorted_df.empty:
             st.caption("No data available.")
@@ -1918,7 +1919,7 @@ def render_crypto_page() -> None:
                 st.session_state["crypto_selected"] = losers.iloc[l_rows[0]]["Name"]
 
     # ── Full table ─────────────────────────────────────────────────────────────
-    with st.expander("📋 All Cryptocurrencies", expanded=True):
+    with st.expander("All Cryptocurrencies", expanded=True):
         st.caption("Click a row to view its price chart below.")
         avail = [c for c in ["Name", "Ticker", "Price", "Change %", "Market Cap", "24h Vol",
                               "Chg 1W", "Chg 1M", "Chg 3M", "Chg YTD"] if c in df.columns]
@@ -2037,7 +2038,7 @@ def render_equities_page() -> None:
     # ── 1. Single-ticker search ───────────────────────────────────────────────
     search_col, clear_col = st.columns([5, 1])
     ticker_input = search_col.text_input(
-        "🔍 Quick ticker lookup",
+        "Quick ticker lookup",
         placeholder="Type a ticker (e.g. AAPL) to view its full profile — bypasses the screener",
         key="ticker_search", label_visibility="collapsed",
     ).strip().upper()
@@ -2159,7 +2160,7 @@ def render_equities_page() -> None:
                                 label_visibility="collapsed")
             vc2, vs2 = st.columns([1, 2])
             use_fwd_pe = vc2.checkbox("Fwd P/E ≤", value=False, key="use_fwd_pe")
-            max_fwd_pe = vs2.slider("Fwd P/E", 1, 100, 25, step=1, key="max_fwd_pe",
+            max_fwd_pe = vs2.slider("Fwd P/E", 1, 100, 100, step=1, key="max_fwd_pe",
                                     label_visibility="collapsed",
                                     help="Forward P/E (consensus next-12-month estimate)")
             vc3, vs3 = st.columns([1, 2])
@@ -2192,6 +2193,12 @@ def render_equities_page() -> None:
                                       help="Dividend payout ratio (%)")
             max_payout = vs8.slider("Payout %", 0, 200, 75, step=5, key="max_payout",
                                     label_visibility="collapsed") / 100.0
+            vc9, vs9 = st.columns([1, 2])
+            use_gross_margin = vc9.checkbox("Gross Mgn ≥", value=False, key="use_gross_margin",
+                                            help="Minimum gross margin (yfinance grossMargins)")
+            min_gross_margin = vs9.slider("Gross Mgn %", 0, 100, 10, step=5,
+                                          key="min_gross_margin",
+                                          label_visibility="collapsed") / 100.0
 
         st.divider()
         rc1, rc2, rc3, rc4 = st.columns([3, 2, 1, 1])
@@ -2225,7 +2232,7 @@ def render_equities_page() -> None:
 
     # ── 3. Market Overview heatmap ────────────────────────────────────────────
     hmap_click = None
-    with st.expander("📊 Market Overview — S&P 500", expanded=True):
+    with st.expander("Market Overview — S&P 500", expanded=True):
         st.caption(
             "Individual stocks sized by market cap · grouped by sector · colored by daily % change "
             "· **click a sector label to zoom in · click a stock tile to open its profile**"
@@ -2249,7 +2256,7 @@ def render_equities_page() -> None:
 
     # ── 4. Biggest Movers ─────────────────────────────────────────────────────
     movers_ticker = None
-    with st.expander("📈 Biggest Movers — S&P 500", expanded=True):
+    with st.expander("Biggest Movers — S&P 500", expanded=True):
         movers_ticker = render_biggest_movers(sector_filter)
 
     if movers_ticker:
@@ -2306,9 +2313,10 @@ def render_equities_page() -> None:
             prox_low   = f.get("prox_low")
             fcf_yield  = f.get("fcf_yield")
             short_pct  = f.get("short_pct")
-            div_yield  = f.get("div_yield")
-            payout     = f.get("payout")
-            stock_1y   = d.get("chg_1y")
+            div_yield    = f.get("div_yield")
+            payout       = f.get("payout")
+            gross_margin = f.get("gross_margin")
+            stock_1y     = d.get("chg_1y")
             if use_growth     and not (rev        is not None and rev        >= min_growth):
                 continue
             if use_eps_growth and not (eps_growth is not None and eps_growth >= min_eps_growth):
@@ -2341,6 +2349,8 @@ def render_equities_page() -> None:
             if use_div    and not (div_yield is not None and div_yield >= min_div):
                 continue
             if use_payout and not (payout   is not None and payout   <= max_payout):
+                continue
+            if use_gross_margin and not (gross_margin is not None and gross_margin >= min_gross_margin):
                 continue
             if sector_filter and sector not in sector_filter:
                 continue
@@ -2403,7 +2413,7 @@ def render_equities_page() -> None:
     )
 
     tbl_event = None
-    with st.expander("📋 Results Table", expanded=True):
+    with st.expander("Results Table", expanded=True):
         st.caption("Click a row to open a full stock profile.")
         tbl_event = st.dataframe(
             df, use_container_width=True, hide_index=True,
@@ -2709,7 +2719,7 @@ def _render_node_panel(ticker: str, rel_types: set[str]) -> None:
         )
     with vcol:
         st.write(" ")
-        if st.button(f"📈 View {ticker} Stock Profile", key="net_view_stock",
+        if st.button(f"View {ticker} Stock Profile", key="net_view_stock",
                      use_container_width=True):
             st.session_state["net_detail_ticker"] = ticker
             st.rerun()
@@ -2772,7 +2782,7 @@ def _render_node_panel(ticker: str, rel_types: set[str]) -> None:
                         with st.expander("Full Details", expanded=False):
                             st.markdown(e.get("details", "No additional details."))
                             if e.get("source_url"):
-                                st.markdown(f"📰 **Source:** [{e.get('source_name', 'Reference')}]({e['source_url']})")
+                                st.markdown(f"**Source:** [{e.get('source_name', 'Reference')}]({e['source_url']})")
                         if st.button(f"View {other}", key=f"net_goto_{other}_{e['src']}_{e['dst']}",
                                      use_container_width=True):
                             st.session_state["net_click_type"] = "node"
@@ -2825,17 +2835,17 @@ def _render_edge_panel(src: str, dst: str) -> None:
         st.markdown("**Deal Details**")
         st.markdown(e.get("details", "No additional details available."))
         if e.get("source_url"):
-            st.markdown(f"📰 **Source:** [{e.get('source_name', 'Reference')}]({e['source_url']})")
+            st.markdown(f"**Source:** [{e.get('source_name', 'Reference')}]({e['source_url']})")
 
         st.divider()
         b1, b2, b3 = st.columns([2, 2, 1])
         with b1:
-            if st.button(f"📈 View {e['src']} Stock Profile", key="net_edge_view_src",
+            if st.button(f"View {e['src']} Stock Profile", key="net_edge_view_src",
                          use_container_width=True):
                 st.session_state["net_detail_ticker"] = e["src"]
                 st.rerun()
         with b2:
-            if st.button(f"📈 View {e['dst']} Stock Profile", key="net_edge_view_dst",
+            if st.button(f"View {e['dst']} Stock Profile", key="net_edge_view_dst",
                          use_container_width=True):
                 st.session_state["net_detail_ticker"] = e["dst"]
                 st.rerun()
@@ -2847,7 +2857,7 @@ def _render_edge_panel(src: str, dst: str) -> None:
 
 
 def render_network_page() -> None:
-    st.title("🕸 Corporate Network")
+    st.title("Corporate Network")
     st.caption(
         "Interactive corporate relationship graph · nodes sized by market cap · colored by sector · "
         "**click a node** to see all its relationships · "
@@ -2979,7 +2989,7 @@ def render_network_page() -> None:
                 f"**{net_selected}** is in the S&P 500 but has no curated relationship data yet. "
                 f"The graph currently maps ~{len(_NETWORK_COMPANIES)} companies with verified connections."
             )
-            if st.button(f"📈 View {net_selected} Stock Profile", key="net_sp500_view"):
+            if st.button(f"View {net_selected} Stock Profile", key="net_sp500_view"):
                 st.session_state["net_detail_ticker"] = net_selected
                 st.rerun()
     elif click_type == "edge" and net_edge_sel:
@@ -3001,7 +3011,7 @@ def render_network_page() -> None:
 
 def main() -> None:
     st.set_page_config(
-        page_title="Market Screener", page_icon="📈",
+        page_title="Market Screener", page_icon=None,
         layout="wide", initial_sidebar_state="collapsed",
     )
 
@@ -3016,28 +3026,28 @@ def main() -> None:
     with nav_col:
         nav_page = st.radio(
             "Page",
-            ["📈 Equities", "🛢 Commodities", "₿ Crypto", "📊 ETFs", "🕸 Network"],
+            ["Equities", "Commodities", "Crypto", "ETFs", "Network"],
             horizontal=True,
             key="nav_page",
             label_visibility="collapsed",
         )
     with toggle_col:
         st.toggle(
-            "🌙",
+            "Dark",
             value=st.session_state["dark_mode"],
             key="dark_mode",
             help="Toggle dark / light mode",
         )
     st.divider()
 
-    if nav_page == "📈 Equities":
-        st.title("📈 Equities Screener")
+    if nav_page == "Equities":
+        st.title("Equities Screener")
         render_equities_page()
-    elif nav_page == "🛢 Commodities":
+    elif nav_page == "Commodities":
         render_commodities_page()
-    elif nav_page == "₿ Crypto":
+    elif nav_page == "Crypto":
         render_crypto_page()
-    elif nav_page == "📊 ETFs":
+    elif nav_page == "ETFs":
         render_etf_page()
     else:
         render_network_page()
