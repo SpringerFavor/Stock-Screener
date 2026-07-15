@@ -1,14 +1,14 @@
 """Index-constituent loaders for the stock screener.
 
-Every index loads automatically from a reputable primary source — ETF-issuer
-holdings files (State Street SPDR, Vanguard) or the index owner's own API — with
-an independent fallback issuer so a single provider outage can't break a load.
-No Wikipedia, no manual uploads.
+Every index loads from ETF-issuer holdings files (State Street SPDR, Invesco,
+Vanguard) as primary and secondary sources, falling back to a Wikipedia HTML
+table parse only when all ETF sources are blocked (e.g. VPN / datacenter IPs).
 
-  * S&P 500          — SPDR SPY (State Street)  → Vanguard VOO
-  * S&P MidCap 400   — SPDR MDY (State Street)  → Vanguard IVOO
+  * S&P 500          — SPDR SPY (State Street)  → Vanguard VOO    → Wikipedia
+  * S&P MidCap 400   — SPDR MDY (State Street)  → Vanguard IVOO   → Wikipedia
+  * S&P SmallCap 600 — SPDR SLY (State Street)                    → Wikipedia
+  * NASDAQ-100       — Invesco QQQ              → Nasdaq API       → Wikipedia
   * Russell Midcap   — iShares IWR
-  * NASDAQ-100       — Nasdaq official API (api.nasdaq.com) → Invesco QQQ
   * Russell 2000     — Vanguard VTWO            → iShares IWM
 
 Each loader returns a sorted list of yfinance-style tickers (dots normalised to
@@ -209,6 +209,48 @@ def _ishares_holdings(etf: str) -> list[str]:
     return tickers
 
 
+# Wikipedia index-membership articles used as a final fallback.
+# Keyed by the same string used in _LOADERS / INDEX_GROUPS.
+_WIKIPEDIA_SOURCES: dict[str, tuple[str, str]] = {
+    "S&P 500":          ("https://en.wikipedia.org/wiki/List_of_S%26P_500_companies", "Symbol"),
+    "S&P MidCap 400":   ("https://en.wikipedia.org/wiki/List_of_S%26P_400_companies", "Symbol"),
+    "S&P SmallCap 600": ("https://en.wikipedia.org/wiki/List_of_S%26P_600_companies", "Symbol"),
+    "NASDAQ-100":       ("https://en.wikipedia.org/wiki/Nasdaq-100",                  "Ticker"),
+}
+
+
+def _wikipedia_constituents(index_name: str) -> list[str]:
+    """Final fallback: parse a Wikipedia index-membership HTML article.
+
+    Uses a browser User-Agent so Wikipedia serves proper HTML rather than a
+    mobile/API redirect. Raises :class:`UniverseError` if the expected ticker
+    column is not found in any table on the page.
+    """
+    if index_name not in _WIKIPEDIA_SOURCES:
+        raise UniverseError(
+            f"Wikipedia fallback: no URL configured for '{index_name}'."
+        )
+    url, col = _WIKIPEDIA_SOURCES[index_name]
+    html = _get(url, headers={**_HEADERS, "Accept": "text/html,*/*"}).text
+    try:
+        tables = pd.read_html(io.StringIO(html))
+    except Exception as exc:
+        raise UniverseError(
+            f"Wikipedia {index_name}: could not parse HTML tables — {exc}"
+        ) from exc
+    for tbl in tables:
+        # Case-insensitive column lookup so minor Wikipedia header changes don't break us.
+        col_map = {str(c).strip().lower(): c for c in tbl.columns}
+        actual = col_map.get(col.lower())
+        if actual is not None:
+            tickers = _clean(tbl[actual].astype(str))
+            if tickers:
+                return tickers
+    raise UniverseError(
+        f"Wikipedia {index_name}: no '{col}' column found in any table on the page."
+    )
+
+
 def _first_working(index_name: str, sources: list) -> list[str]:
     """Try each ``(label, fn)`` source in order; return the first that succeeds."""
     problems = []
@@ -229,24 +271,35 @@ def _first_working(index_name: str, sources: list) -> list[str]:
 def get_sp500() -> list[str]:
     return _first_working(
         "S&P 500",
-        [("SPDR SPY", lambda: _ssga_holdings("SPY")),
-         ("Vanguard VOO", lambda: _vanguard_holdings("VOO"))],
+        [("SPDR SPY",     lambda: _ssga_holdings("SPY")),
+         ("Vanguard VOO", lambda: _vanguard_holdings("VOO")),
+         ("Wikipedia",    lambda: _wikipedia_constituents("S&P 500"))],
     )
 
 
 def get_sp400() -> list[str]:
     return _first_working(
         "S&P MidCap 400",
-        [("SPDR MDY", lambda: _ssga_holdings("MDY")),
-         ("Vanguard IVOO", lambda: _vanguard_holdings("IVOO"))],
+        [("SPDR MDY",      lambda: _ssga_holdings("MDY")),
+         ("Vanguard IVOO", lambda: _vanguard_holdings("IVOO")),
+         ("Wikipedia",     lambda: _wikipedia_constituents("S&P MidCap 400"))],
+    )
+
+
+def get_sp600() -> list[str]:
+    return _first_working(
+        "S&P SmallCap 600",
+        [("SPDR SLY", lambda: _ssga_holdings("SLY")),
+         ("Wikipedia", lambda: _wikipedia_constituents("S&P SmallCap 600"))],
     )
 
 
 def get_nasdaq100() -> list[str]:
     return _first_working(
         "NASDAQ-100",
-        [("Nasdaq API", lambda: _nasdaq_index("nasdaq100")),
-         ("Invesco QQQ", lambda: _invesco_holdings("QQQ"))],
+        [("Invesco QQQ", lambda: _invesco_holdings("QQQ")),
+         ("Nasdaq API",  lambda: _nasdaq_index("nasdaq100")),
+         ("Wikipedia",   lambda: _wikipedia_constituents("NASDAQ-100"))],
     )
 
 
@@ -270,11 +323,12 @@ def get_russell2000() -> list[str]:
 # --------------------------------------------------------------------------
 
 _LOADERS = {
-    "S&P 500": get_sp500,
-    "S&P MidCap 400": get_sp400,
-    "Russell Midcap": get_russell_midcap,
-    "NASDAQ-100": get_nasdaq100,
-    "Russell 2000": get_russell2000,
+    "S&P 500":          get_sp500,
+    "NASDAQ-100":       get_nasdaq100,
+    "S&P MidCap 400":   get_sp400,
+    "S&P SmallCap 600": get_sp600,
+    "Russell Midcap":   get_russell_midcap,
+    "Russell 2000":     get_russell2000,
 }
 
 INDEX_NAMES = list(_LOADERS)

@@ -56,7 +56,7 @@ _HEATMAP_SCALE = [
 INDEX_GROUPS = {
     "Large Cap": ["S&P 500", "NASDAQ-100"],
     "Mid Cap":   ["S&P MidCap 400", "Russell Midcap"],
-    "Small Cap": ["Russell 2000"],
+    "Small Cap": ["S&P SmallCap 600", "Russell 2000"],
 }
 
 # Hardcoded sector-median benchmarks (yfinance sector name → ratio dict).
