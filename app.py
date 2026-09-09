@@ -21,6 +21,12 @@ import json
 import math
 from pathlib import Path
 
+try:
+    import anthropic as _anthropic_pkg
+    _ANTHROPIC_AVAILABLE = True
+except ImportError:
+    _ANTHROPIC_AVAILABLE = False
+
 import networkx as nx
 import pandas as pd
 import plotly.express as px
@@ -112,14 +118,55 @@ _SUBSECTOR_MAP: dict[str, tuple[str, frozenset]] = {
     ),
 }
 
-# Diverging red → dark neutral → green; deep saturated for Bloomberg aesthetic.
-_HEATMAP_SCALE = [
+# Diverging red → neutral → green. Two variants so the mid ("no change") tile
+# reads correctly on either background — deep navy on dark, pale grey on light.
+_HEATMAP_SCALE_DARK = [
     [0.00, "#7B0000"],
     [0.20, "#DD1111"],
     [0.50, "#1C2535"],
     [0.80, "#00AA44"],
     [1.00, "#005522"],
 ]
+_HEATMAP_SCALE_LIGHT = [
+    [0.00, "#B00020"],
+    [0.20, "#E4572E"],
+    [0.50, "#EEF1F6"],
+    [0.80, "#1FA85A"],
+    [1.00, "#0B7A3B"],
+]
+# Back-compat alias (dark is the default theme).
+_HEATMAP_SCALE = _HEATMAP_SCALE_DARK
+
+
+def _is_dark() -> bool:
+    """Current theme, mirroring the nav-bar / page-background toggle."""
+    return st.session_state.get("dark_mode", True)
+
+
+def _heatmap_scale() -> list:
+    return _HEATMAP_SCALE_DARK if _is_dark() else _HEATMAP_SCALE_LIGHT
+
+
+def _style_plotly(fig: go.Figure, *, treemap: bool = False) -> go.Figure:
+    """Apply the active light/dark theme to a Plotly figure.
+
+    Same source of truth as the CSS toggle (st.session_state['dark_mode']).
+    Pair with ``st.plotly_chart(fig, theme=None)`` so Streamlit's own
+    (config-pinned, dark) chart theme doesn't override these colours.
+    """
+    dark = _is_dark()
+    fig.update_layout(
+        template="plotly_dark" if dark else "plotly_white",
+        paper_bgcolor="#141927" if dark else "#FFFFFF",
+        plot_bgcolor="#0B0E1A" if dark else "#F2F5FA",
+        font=dict(color="#E2E8F0" if dark else "#0B1628"),
+    )
+    if treemap:
+        fig.update_traces(
+            marker=dict(line=dict(color="#0B0E1A" if dark else "#FFFFFF", width=1)),
+            selector=dict(type="treemap"),
+        )
+    return fig
 
 INDEX_GROUPS = {
     "Large Cap": ["S&P 500", "NASDAQ-100"],
@@ -350,6 +397,174 @@ def toggle_watchlist_item(ticker: str) -> None:
     else:
         wl.add(ticker)
     save_watchlist(wl)
+
+
+_WATCHLIST_STATE_FILE = Path(__file__).parent / "watchlist_state.json"
+
+
+def load_watchlist_state() -> dict:
+    try:
+        return json.loads(_WATCHLIST_STATE_FILE.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def save_watchlist_state(state: dict) -> None:
+    try:
+        _WATCHLIST_STATE_FILE.write_text(json.dumps(state, indent=2), encoding="utf-8")
+    except Exception:
+        pass
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# AI Assistant (Anthropic Claude)
+# ──────────────────────────────────────────────────────────────────────────────
+
+_AI_MODEL = "claude-sonnet-4-6"
+_AI_MAX_TOKENS = 1024
+
+
+def _call_claude(api_key: str, messages: list[dict], system: str) -> str:
+    if not _ANTHROPIC_AVAILABLE:
+        return "The `anthropic` Python package is not installed. Run `pip install anthropic`."
+    try:
+        client = _anthropic_pkg.Anthropic(api_key=api_key)
+        resp = client.messages.create(
+            model=_AI_MODEL,
+            max_tokens=_AI_MAX_TOKENS,
+            system=system,
+            messages=messages,
+        )
+        return resp.content[0].text
+    except _anthropic_pkg.AuthenticationError:
+        return "Invalid API key. Please check your key in Settings (⚙) and try again."
+    except _anthropic_pkg.RateLimitError:
+        return "Rate limit reached. Please wait a moment and try again."
+    except Exception as exc:
+        return f"Error calling Claude: {exc}"
+
+
+def _fmt(v, decimals=2, suffix=""):
+    return f"{v:.{decimals}f}{suffix}" if v is not None else "N/A"
+
+
+def _build_stock_context(ticker: str, f: dict, p: dict, detail: dict) -> str:
+    mc = f.get("mktcap")
+    mc_str = f"${mc/1e9:.1f}B" if mc else "N/A"
+    price = p.get("price")
+    chg = p.get("daily_change")
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+    news_lines = ""
+    for i, item in enumerate((detail.get("news") or [])[:6], start=1):
+        pub = item.get("publisher", "")
+        dt = item.get("date", "")
+        meta = f" ({pub}, {dt})" if (pub or dt) else ""
+        news_lines += f"\n{i}. {item['title']}{meta}"
+
+    rec_key = detail.get("rec_key") or ""
+    consensus = rec_key.replace("_", " ").title() if rec_key and rec_key != "none" else "N/A"
+    tmean = detail.get("target_mean")
+    tlow  = detail.get("target_low")
+    thigh = detail.get("target_high")
+    n_anal = detail.get("n_analysts") or "N/A"
+    bd = detail.get("breakdown") or {}
+    bd_str = ", ".join(f"{k}: {v}" for k, v in bd.items() if v) if bd else "N/A"
+
+    return f"""You are an AI financial research assistant. Today is {today}.
+
+You are analyzing {ticker} — {f.get("name", ticker)}.
+
+PRICE & OVERVIEW
+Price: {_fmt(price, 2, "")} USD  |  Daily change: {_fmt(chg, 2, "%")}
+Sector: {f.get("sector") or "N/A"}  |  Industry: {f.get("industry") or "N/A"}
+Market Cap: {mc_str}  |  RSI (14d): {_fmt(p.get("rsi"), 1)}
+
+VALUATION
+P/E (trailing): {_fmt(f.get("pe"), 1)}  |  Fwd P/E: {_fmt(f.get("fwd_pe"), 1)}  |  PEG: {_fmt(f.get("peg"))}
+P/S: {_fmt(f.get("ps"))}  |  P/B: {_fmt(f.get("pb"))}  |  EV/EBITDA: {_fmt(f.get("ev_ebitda"), 1)}
+
+PROFITABILITY
+Gross Margin: {_fmt(f.get("gross_margin"), 3, "")} (×100 = %)
+Operating Margin: {_fmt(f.get("op_margin"), 3, "")}  |  Net Margin: {_fmt(f.get("net_margin"), 3, "")}
+ROE: {_fmt(f.get("roe"), 3, "")}  |  ROA: {_fmt(f.get("roa"), 3, "")}
+
+FINANCIAL HEALTH
+D/E: {_fmt(f.get("de"))}  |  Current Ratio: {_fmt(f.get("current_ratio"))}  |  Quick Ratio: {_fmt(f.get("quick_ratio"))}
+
+GROWTH
+Revenue Growth (YoY): {_fmt(f.get("rev"), 3, "")}  |  EPS Growth: {_fmt(f.get("eps_growth"), 3, "")}
+
+INCOME & SHORT INTEREST
+Dividend Yield: {_fmt(f.get("div_yield"), 3, "")}  |  Payout Ratio: {_fmt(f.get("payout"), 3, "")}
+FCF Yield: {_fmt(f.get("fcf_yield"), 3, "")}  |  Short Interest: {_fmt(f.get("short_pct"), 3, "")}
+52-week High Proximity: {_fmt(f.get("prox_high"), 3, "")} below  |  52-week Low Proximity: {_fmt(f.get("prox_low"), 3, "")} above
+
+ANALYST RATINGS
+Consensus: {consensus}  |  # Analysts: {n_anal}
+Price Target: ${_fmt(tmean)} (Low: ${_fmt(tlow)}, High: ${_fmt(thigh)})
+Breakdown: {bd_str}
+
+RECENT NEWS HEADLINES{news_lines if news_lines else chr(10) + "No recent news available."}
+
+---
+Provide concise, data-driven financial analysis referencing the specific numbers above. Do not give personalised investment advice but discuss the financials objectively. If asked about something outside this data, say so clearly."""
+
+
+def _build_market_context() -> str:
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    return f"""You are an AI market research assistant embedded in a stock screener application.
+
+Today is {today}.
+
+You help users with:
+- Understanding financial metrics and ratios (P/E, PEG, EV/EBITDA, etc.)
+- Interpreting screener results and what makes a stock pass or fail filters
+- Sector and macro trends
+- Comparing sectors or market cap tiers
+- General investing concepts and frameworks
+
+Be concise and educational. Reference sector benchmarks and general market patterns. Do not give personalised investment advice. If asked about a specific stock, suggest the user click into that stock's detail panel for dedicated AI analysis with live data."""
+
+
+def render_ai_chat(chat_key: str, system_prompt: str, placeholder: str = "Ask a question…") -> None:
+    api_key: str = st.session_state.get("anthropic_api_key", "").strip()
+
+    if not api_key:
+        st.info(
+            "**AI Assistant** is powered by Claude (Anthropic). To enable it:\n\n"
+            "1. Get a free API key at [console.anthropic.com](https://console.anthropic.com)\n"
+            "2. Click the **⚙ Settings** button in the top-right of the navigation bar\n"
+            "3. Paste your API key — it stays in your browser session only"
+        )
+        return
+
+    history_key = f"ai_history_{chat_key}"
+    if history_key not in st.session_state:
+        st.session_state[history_key] = []
+
+    history: list[dict] = st.session_state[history_key]
+
+    for msg in history:
+        with st.chat_message(msg["role"]):
+            st.markdown(msg["content"])
+
+    if prompt := st.chat_input(placeholder, key=f"ai_input_{chat_key}"):
+        history.append({"role": "user", "content": prompt})
+        with st.chat_message("user"):
+            st.markdown(prompt)
+
+        with st.chat_message("assistant"):
+            with st.spinner("Claude is thinking…"):
+                reply = _call_claude(api_key, history, system_prompt)
+            st.markdown(reply)
+
+        history.append({"role": "assistant", "content": reply})
+
+    if history:
+        if st.button("Clear conversation", key=f"ai_clear_{chat_key}"):
+            st.session_state[history_key] = []
+            st.rerun()
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -780,6 +995,31 @@ hr { border-color: var(--border) !important; margin: 0.6rem 0 !important; }
 
 /* ── Toggle ──────────────────────────────────────────────────────────────── */
 [data-testid="stToggle"] span { font-size: 0.8rem !important; color: var(--txt2) !important; }
+
+/* ── Merged filter-panel polish (adapted to --var palette) ───────────────── */
+.block-container { padding-bottom: 2rem !important; }
+
+/* Bold markdown labels used as filter-group section headers */
+[data-testid="stMarkdownContainer"] p strong {
+    color: var(--txt2) !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em !important;
+}
+
+/* Slider accent */
+[data-testid="stSlider"] [role="slider"] { background-color: var(--blue) !important; }
+[data-testid="stSlider"] > div > div > div > div { background: var(--blue) !important; }
+
+/* Checkbox label size */
+[data-testid="stCheckbox"] label { font-size: 0.82rem !important; }
+
+/* Rounded select / multiselect */
+[data-testid="stSelectbox"] div[data-baseweb="select"],
+[data-testid="stMultiSelect"] [data-baseweb="select"] { border-radius: 8px !important; }
+
+/* Banner text size */
+[data-testid="stInfo"], [data-testid="stWarning"], [data-testid="stAlert"] { font-size: 0.82rem !important; }
 </style>
 """
 
@@ -1262,7 +1502,7 @@ def render_market_heatmap(sector_filter: set[str] = frozenset()) -> str | None:
 
     fig = px.treemap(
         meta, path=["Sector", "Ticker"], values="_size",
-        color="Daily Chg %", color_continuous_scale=_HEATMAP_SCALE,
+        color="Daily Chg %", color_continuous_scale=_heatmap_scale(),
         color_continuous_midpoint=0, range_color=[-3, 3],
         custom_data=["_chg_text", "Name", "Price"],
         hover_data={"_size": False, "_chg_text": False},
@@ -1279,9 +1519,11 @@ def render_market_heatmap(sector_filter: set[str] = frozenset()) -> str | None:
         margin=dict(t=10, l=0, r=0, b=0), height=540,
         coloraxis_colorbar=dict(title="Daily %", tickformat="+.1f", len=0.6),
     )
+    _style_plotly(fig, treemap=True)
 
     event = st.plotly_chart(
         fig, use_container_width=True, key="market_heatmap", on_select="rerun",
+        theme=None,
     )
 
     clicked: str | None = None
@@ -1316,7 +1558,7 @@ def render_results_heatmap(df: pd.DataFrame) -> str | None:
 
     fig = px.treemap(
         hm, path=["Sector", "Ticker"], values="_size",
-        color="Daily Chg %", color_continuous_scale=_HEATMAP_SCALE,
+        color="Daily Chg %", color_continuous_scale=_heatmap_scale(),
         color_continuous_midpoint=0, range_color=[-3, 3],
         custom_data=["_chg_text", "Name", "Price", "RSI", "P/E"],
         hover_data={"_size": False, "_chg_text": False},
@@ -1334,9 +1576,11 @@ def render_results_heatmap(df: pd.DataFrame) -> str | None:
         margin=dict(t=10, l=0, r=0, b=0), height=480,
         coloraxis_colorbar=dict(title="Daily %", tickformat="+.1f", len=0.7),
     )
+    _style_plotly(fig, treemap=True)
 
     event = st.plotly_chart(
         fig, use_container_width=True, key="results_heatmap", on_select="rerun",
+        theme=None,
     )
 
     if event and event.selection:
@@ -1495,31 +1739,143 @@ def fetch_detail(ticker: str) -> dict:
     return out
 
 
+@st.cache_data(show_spinner=False, ttl=3600 * 6)
+def fetch_earnings_forecast(ticker: str) -> dict:
+    out: dict = {
+        "next_earnings": None,
+        "eps_next_q": None, "eps_next_q_n": None,
+        "eps_next_fy": None, "eps_next_fy_n": None,
+        "error": None,
+    }
+    try:
+        tk = yf.Ticker(ticker)
+
+        # Next earnings date
+        try:
+            cal = tk.calendar or {}
+            dates = [d for d in (cal.get("Earnings Date") or []) if d]
+            if dates:
+                dates = sorted(dates)
+                if len(dates) > 1 and dates[0] != dates[-1]:
+                    out["next_earnings"] = f"{dates[0]:%b %d} – {dates[-1]:%b %d, %Y}"
+                else:
+                    out["next_earnings"] = f"{dates[0]:%b %d, %Y}"
+        except Exception:  # noqa: BLE001
+            pass
+        if not out["next_earnings"]:
+            try:
+                ed = tk.earnings_dates
+                if ed is not None and not ed.empty:
+                    future = ed[ed["Reported EPS"].isna()].sort_index()
+                    if not future.empty:
+                        out["next_earnings"] = future.index[0].strftime("%b %d, %Y")
+            except Exception:  # noqa: BLE001
+                pass
+
+        # EPS consensus estimates (next quarter / next fiscal year)
+        try:
+            ee = tk.earnings_estimate
+            if ee is not None and not ee.empty:
+                if "+1q" in ee.index:
+                    row = ee.loc["+1q"]
+                    out["eps_next_q"] = _to_float(row.get("avg"))
+                    n = row.get("numberOfAnalysts")
+                    out["eps_next_q_n"] = int(n) if pd.notna(n) else None
+                if "+1y" in ee.index:
+                    row = ee.loc["+1y"]
+                    out["eps_next_fy"] = _to_float(row.get("avg"))
+                    n = row.get("numberOfAnalysts")
+                    out["eps_next_fy_n"] = int(n) if pd.notna(n) else None
+        except Exception:  # noqa: BLE001
+            pass
+    except Exception as exc:  # noqa: BLE001
+        out["error"] = str(exc)
+    return out
+
+
+def render_price_target_gauge(low: float, mean: float, high: float, current: float) -> None:
+    dark = _is_dark()
+    axis_lo = min(low, current) * 0.95
+    axis_hi = max(high, current) * 1.05
+    fig = go.Figure(go.Indicator(
+        mode="number+gauge",
+        value=current,
+        number={"prefix": "$", "valueformat": ",.2f", "font": {"size": 22}},
+        domain={"x": [0.12, 0.95], "y": [0.25, 0.75]},
+        title={"text": "Current vs. Target Range", "font": {"size": 13}},
+        gauge={
+            "shape": "bullet",
+            "axis": {"range": [axis_lo, axis_hi], "tickprefix": "$"},
+            "bar": {"color": "#2196F3", "thickness": 0.45},
+            "bgcolor": "rgba(0,0,0,0)",
+            "steps": [
+                {"range": [low, mean], "color": "rgba(255,152,0,0.28)"},
+                {"range": [mean, high], "color": "rgba(76,175,80,0.28)"},
+            ],
+            "threshold": {
+                "line": {"color": "#E2E8F0" if dark else "#0B1628", "width": 3},
+                "thickness": 0.9,
+                "value": mean,
+            },
+        },
+    ))
+    fig.update_layout(height=110, margin=dict(t=30, l=10, r=20, b=10))
+    _style_plotly(fig)
+    fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
+    st.plotly_chart(fig, use_container_width=True, theme=None)
+    st.caption(
+        f"Low ${low:,.2f}  ·  Avg ${mean:,.2f}  ·  High ${high:,.2f}  ·  "
+        f"Line = analyst avg target"
+    )
+
+
 def render_analyst(ticker: str) -> None:
     detail = fetch_detail(ticker)
     if detail.get("error"):
         st.warning(f"Couldn't load detail for {ticker}: {detail['error']}")
         return
+    fc = fetch_earnings_forecast(ticker)
+
+    st.metric("Next Earnings Date", fc.get("next_earnings") or "N/A")
+
+    st.markdown("### Analyst Forecasts")
+
     rec_key = detail.get("rec_key")
     mean    = detail.get("rec_mean")
     consensus = rec_key.replace("_", " ").title() if rec_key and rec_key != "none" else "—"
-    tmean, cur, n = detail.get("target_mean"), detail.get("current"), detail.get("n_analysts")
-    c1, c2, c3 = st.columns(3)
+    tlow, tmean, thigh = detail.get("target_low"), detail.get("target_mean"), detail.get("target_high")
+    cur, n = detail.get("current"), detail.get("n_analysts")
+
+    st.caption("Price targets")
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Low",     f"${tlow:,.2f}"  if tlow  else "—")
+    c2.metric("Average",  f"${tmean:,.2f}" if tmean else "—",
+              delta=f"{(tmean/cur-1)*100:+.1f}% vs current" if (tmean and cur) else None)
+    c3.metric("High",    f"${thigh:,.2f}" if thigh else "—")
+    c4.metric("Current", f"${cur:,.2f}"   if cur   else "—")
+
+    if tlow and tmean and thigh and cur:
+        render_price_target_gauge(tlow, tmean, thigh, cur)
+
+    st.caption("Consensus recommendation")
+    c1, c2 = st.columns(2)
     c1.metric("Consensus", consensus,
-              help=f"Mean {mean:.2f}/5 (1=Strong Buy)" if mean else None)
-    if tmean:
-        c2.metric("Avg price target", f"${tmean:,.2f}",
-                  delta=f"{(tmean/cur-1)*100:+.1f}% vs current" if cur else None)
-    else:
-        c2.metric("Avg price target", "—")
-    c3.metric("# Analysts", int(n) if n else "—")
+              help=f"Mean {mean:.2f}/5 (1=Strong Buy, 5=Strong Sell)" if mean else None)
+    c2.metric("# Analysts", int(n) if n else "—")
     bd = detail.get("breakdown")
     if bd and sum(bd.values()) > 0:
-        st.caption("Rating breakdown (current month)")
         for col, (label, val) in zip(st.columns(len(bd)), bd.items()):
             col.metric(label, val)
-    if detail.get("target_low") and detail.get("target_high"):
-        st.caption(f"Target range: ${detail['target_low']:,.2f} – ${detail['target_high']:,.2f}")
+
+    st.caption("EPS consensus estimates")
+    e1, e2 = st.columns(2)
+    eps_q, eps_q_n   = fc.get("eps_next_q"),  fc.get("eps_next_q_n")
+    eps_fy, eps_fy_n = fc.get("eps_next_fy"), fc.get("eps_next_fy_n")
+    e1.metric("Next Quarter EPS", f"${eps_q:,.2f}" if eps_q is not None else "—",
+              help=f"{eps_q_n} analysts" if eps_q_n else None)
+    e2.metric("Next Fiscal Year EPS", f"${eps_fy:,.2f}" if eps_fy is not None else "—",
+              help=f"{eps_fy_n} analysts" if eps_fy_n else None)
+
     st.markdown("**Recent news**")
     news = detail.get("news") or []
     if not news:
@@ -1673,11 +2029,19 @@ def render_single_ticker(ticker: str) -> None:
         st.rerun()
 
     render_financial_ratios(f, f.get("sector"))
-    tab_chart, tab_analyst = st.tabs(["Price Chart", "Analyst & News"])
+    tab_chart, tab_analyst, tab_ai = st.tabs(["Price Chart", "Analyst & News", "AI Assistant"])
     with tab_chart:
         render_price_chart(ticker, name)
     with tab_analyst:
         render_analyst(ticker)
+    with tab_ai:
+        detail = fetch_detail(ticker)
+        system_prompt = _build_stock_context(ticker, f, p, detail)
+        render_ai_chat(
+            chat_key=f"stock_{ticker}",
+            system_prompt=system_prompt,
+            placeholder=f"Ask anything about {ticker}…",
+        )
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -1753,11 +2117,12 @@ def render_price_chart(ticker: str, name: str) -> None:
     fig.update_layout(
         title=f"{ticker} — {name} · {chart_period}",
         xaxis_title=None, yaxis_title="Price ($)", height=450,
-        xaxis_rangeslider_visible=False, template="plotly_dark",
+        xaxis_rangeslider_visible=False,
         margin=dict(t=50, l=60, r=20, b=40),
         legend=dict(orientation="h", y=1.08),
     )
-    st.plotly_chart(fig, use_container_width=True)
+    _style_plotly(fig)
+    st.plotly_chart(fig, use_container_width=True, theme=None)
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -1778,7 +2143,7 @@ def render_commodity_heatmap(df: pd.DataFrame, period_col: str) -> str | None:
     )
     fig = px.treemap(
         plot_df, path=["Category", "Name"], values="_size",
-        color=period_col, color_continuous_scale=_HEATMAP_SCALE,
+        color=period_col, color_continuous_scale=_heatmap_scale(),
         color_continuous_midpoint=0, range_color=[-3, 3],
         custom_data=["_chg_fmt", "_price_fmt"],
     )
@@ -1789,10 +2154,12 @@ def render_commodity_heatmap(df: pd.DataFrame, period_col: str) -> str | None:
     )
     fig.update_layout(
         height=380, margin=dict(t=30, l=5, r=5, b=5),
-        coloraxis_showscale=False, template="plotly_dark",
+        coloraxis_showscale=False,
     )
+    _style_plotly(fig, treemap=True)
     known = set(df["Name"].tolist())
-    event = st.plotly_chart(fig, use_container_width=True, key="commodity_heatmap", on_select="rerun")
+    event = st.plotly_chart(fig, use_container_width=True, key="commodity_heatmap",
+                            on_select="rerun", theme=None)
     if event and event.selection:
         for pt in event.selection.get("points", []):
             label = pt.get("label", "")
@@ -1816,7 +2183,7 @@ def render_crypto_heatmap(df: pd.DataFrame, period_col: str) -> str | None:
     )
     fig = px.treemap(
         plot_df, path=["Name"], values="_size",
-        color=period_col, color_continuous_scale=_HEATMAP_SCALE,
+        color=period_col, color_continuous_scale=_heatmap_scale(),
         color_continuous_midpoint=0, range_color=[-5, 5],
         custom_data=["_chg_fmt", "Ticker"],
     )
@@ -1827,10 +2194,12 @@ def render_crypto_heatmap(df: pd.DataFrame, period_col: str) -> str | None:
     )
     fig.update_layout(
         height=380, margin=dict(t=30, l=5, r=5, b=5),
-        coloraxis_showscale=False, template="plotly_dark",
+        coloraxis_showscale=False,
     )
+    _style_plotly(fig, treemap=True)
     known = set(df["Name"].tolist())
-    event = st.plotly_chart(fig, use_container_width=True, key="crypto_heatmap", on_select="rerun")
+    event = st.plotly_chart(fig, use_container_width=True, key="crypto_heatmap",
+                            on_select="rerun", theme=None)
     if event and event.selection:
         for pt in event.selection.get("points", []):
             label = pt.get("label", "")
@@ -1854,7 +2223,7 @@ def render_etf_heatmap(df: pd.DataFrame, period_col: str) -> str | None:
     )
     fig = px.treemap(
         plot_df, path=["Category", "Ticker"], values="_size",
-        color=period_col, color_continuous_scale=_HEATMAP_SCALE,
+        color=period_col, color_continuous_scale=_heatmap_scale(),
         color_continuous_midpoint=0, range_color=[-3, 3],
         custom_data=["_chg_fmt", "Name"],
     )
@@ -1868,10 +2237,12 @@ def render_etf_heatmap(df: pd.DataFrame, period_col: str) -> str | None:
     )
     fig.update_layout(
         height=440, margin=dict(t=30, l=5, r=5, b=5),
-        coloraxis_showscale=False, template="plotly_dark",
+        coloraxis_showscale=False,
     )
+    _style_plotly(fig, treemap=True)
     known = set(df["Ticker"].tolist())
-    event = st.plotly_chart(fig, use_container_width=True, key="etf_heatmap", on_select="rerun")
+    event = st.plotly_chart(fig, use_container_width=True, key="etf_heatmap",
+                            on_select="rerun", theme=None)
     if event and event.selection:
         for pt in event.selection.get("points", []):
             label = pt.get("label", "")
@@ -2249,7 +2620,7 @@ def render_equities_page() -> None:
                 st.rerun()
         with st.container(border=True):
             render_single_ticker(ticker_input)
-        st.divider()
+        return
 
     # ── 2. Screen Setup card ──────────────────────────────────────────────────
     with st.container(border=True):
@@ -2757,6 +3128,16 @@ def render_equities_page() -> None:
         with st.container(border=True):
             render_single_ticker(detail_ticker)
 
+    # ── Market AI Assistant ───────────────────────────────────────────────────
+    st.divider()
+    with st.expander("AI Market Assistant", expanded=False):
+        st.caption("Ask broad market questions, get help understanding ratios, or explore sector trends.")
+        render_ai_chat(
+            chat_key="market",
+            system_prompt=_build_market_context(),
+            placeholder="Ask about market trends, sectors, or financial concepts…",
+        )
+
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Corporate Network page
@@ -2796,6 +3177,8 @@ def _build_network_figure(
     sector_filter: set[str],
 ) -> go.Figure:
     fig = go.Figure()
+    dark = _is_dark()
+    node_border_idle = "#2a2a2a" if dark else "#B8C2D0"
 
     # Active edges after type + sector filters
     active_edges = [
@@ -2914,8 +3297,9 @@ def _build_network_figure(
                 "#FFD700" if (highlighted_nodes and t == next(iter(highlighted_nodes), None)
                               and len(highlighted_nodes) == 1) else
                 "#FFD700" if is_edge_endpoint else
-                "#FFFFFF" if (highlighted_nodes and t in highlighted_nodes) else
-                "#2a2a2a"
+                ("#FFFFFF" if dark else "#0B1628")
+                if (highlighted_nodes and t in highlighted_nodes) else
+                node_border_idle
             )
 
         fig.add_trace(go.Scatter(
@@ -2925,12 +3309,13 @@ def _build_network_figure(
             marker=dict(
                 color=[_SECTOR_COLORS.get(sector, "#888")] * len(node_x),
                 size=sizes,
-                line=dict(color=borders, width=[2 if b != "#2a2a2a" else 0.5 for b in borders]),
+                line=dict(color=borders,
+                          width=[0.5 if b == node_border_idle else 2 for b in borders]),
                 opacity=opacities,
             ),
             text=node_text,
             textposition="top center",
-            textfont=dict(size=9, color="#E2E8F0"),
+            textfont=dict(size=9, color="#E2E8F0" if dark else "#0B1628"),
             customdata=customdata,
             hovertemplate=(
                 "<b>%{customdata[1]}</b> · %{customdata[2]}<br>"
@@ -2952,10 +3337,10 @@ def _build_network_figure(
             showlegend=True, legendgroup=rel_type,
         ))
 
-    dark = st.session_state.get("dark_mode", True)
     fig.update_layout(
         height=680,
         margin=dict(t=10, l=5, r=5, b=5),
+        template="plotly_dark" if dark else "plotly_white",
         paper_bgcolor="#141927" if dark else "#FFFFFF",
         plot_bgcolor="#0B0E1A" if dark else "#F2F5FA",
         font=dict(color="#E2E8F0" if dark else "#0B1628", family="sans-serif"),
@@ -3211,6 +3596,7 @@ def render_network_page() -> None:
 
     event = st.plotly_chart(
         fig, use_container_width=True, key="network_graph", on_select="rerun",
+        theme=None,
         config=dict(scrollZoom=True, displayModeBar=True,
                     modeBarButtonsToRemove=["lasso2d", "select2d"]),
     )
@@ -3286,6 +3672,180 @@ def render_network_page() -> None:
             render_single_ticker(detail_ticker)
 
 
+# ──────────────────────────────────────────────────────────────────────────────
+# Watchlist alerts — Key Info (current state) + Recent Changes (since last load)
+# ──────────────────────────────────────────────────────────────────────────────
+
+_WL_NEAR_52W_PCT  = 0.03    # "within 3% of 52-week high/low" threshold used for Key Info
+_WL_AT_52W_PCT    = 0.005   # tighter band — only this close counts as an actual new high/low
+_WL_EARNINGS_DAYS = 7
+
+
+def _rsi_zone(rsi: float | None) -> str | None:
+    if rsi is None:
+        return None
+    if rsi >= 70:
+        return "overbought"
+    if rsi <= 30:
+        return "oversold"
+    return "neutral"
+
+
+@st.cache_data(show_spinner=False, ttl=60 * 15)
+def fetch_watchlist_snapshot(tickers: tuple[str, ...]) -> dict[str, dict]:
+    prices: dict[str, dict] = {}
+    for i in range(0, len(tickers), PRICE_BATCH):
+        prices.update(fetch_price_batch(tuple(tickers[i : i + PRICE_BATCH])))
+    out: dict[str, dict] = {}
+    for t in tickers:
+        p = prices.get(t, {})
+        f = fetch_fundamentals(t)
+        out[t] = {
+            "price":         p.get("price"),
+            "ma50":          p.get("ma50"),
+            "ma200":         p.get("ma200"),
+            "rsi":           p.get("rsi"),
+            "prox_high":     f.get("prox_high"),
+            "prox_low":      f.get("prox_low"),
+            "earnings_date": fetch_earnings_date(t),
+        }
+    return out
+
+
+def _watchlist_key_info(snap: dict) -> list[str]:
+    items: list[str] = []
+    price, ma50, ma200, rsi = snap.get("price"), snap.get("ma50"), snap.get("ma200"), snap.get("rsi")
+    prox_high, prox_low = snap.get("prox_high"), snap.get("prox_low")
+
+    ed = snap.get("earnings_date")
+    if ed:
+        try:
+            days = (datetime.strptime(ed, "%Y-%m-%d").date() - datetime.now().date()).days
+            if 0 <= days <= _WL_EARNINGS_DAYS:
+                items.append(f"Earnings report {'today' if days == 0 else f'in {days}d'} ({ed})")
+        except ValueError:
+            pass
+
+    if prox_high is not None and 0 <= prox_high <= _WL_NEAR_52W_PCT:
+        items.append(f"Within 3% of 52-week high ({prox_high*100:.1f}% below)")
+    if prox_low is not None and 0 <= prox_low <= _WL_NEAR_52W_PCT:
+        items.append(f"Within 3% of 52-week low ({prox_low*100:.1f}% above)")
+
+    zone = _rsi_zone(rsi)
+    if zone == "overbought":
+        items.append(f"RSI overbought ({rsi:.1f})")
+    elif zone == "oversold":
+        items.append(f"RSI oversold ({rsi:.1f})")
+
+    if price is not None and ma50 is not None and ma200 is not None:
+        if price > ma50 and price > ma200:
+            items.append("Uptrend — above both 50-day & 200-day MA")
+        elif price < ma50 and price < ma200:
+            items.append("Downtrend — below both 50-day & 200-day MA")
+
+    return items
+
+
+def _watchlist_state_from_snapshot(snap: dict) -> dict:
+    price, ma50, ma200 = snap.get("price"), snap.get("ma50"), snap.get("ma200")
+    prox_high, prox_low = snap.get("prox_high"), snap.get("prox_low")
+    return {
+        "above_50":         None if price is None or ma50  is None else price > ma50,
+        "above_200":        None if price is None or ma200 is None else price > ma200,
+        "ma50_above_ma200": None if ma50  is None or ma200 is None else ma50  > ma200,
+        "rsi_zone":         _rsi_zone(snap.get("rsi")),
+        "at_high":          None if prox_high is None else prox_high <= _WL_AT_52W_PCT,
+        "at_low":           None if prox_low  is None else prox_low  <= _WL_AT_52W_PCT,
+    }
+
+
+def _watchlist_recent_changes(snap: dict, prev: dict | None) -> list[tuple[int, str]]:
+    """Returns (priority, message) — lower priority number = more material, sorts first."""
+    if not prev:
+        return []  # first time seeing this ticker: no baseline yet, nothing to compare
+
+    cur = _watchlist_state_from_snapshot(snap)
+    ma50, ma200 = snap.get("ma50"), snap.get("ma200")
+    changes: list[tuple[int, str]] = []
+
+    if cur["ma50_above_ma200"] is not None and prev.get("ma50_above_ma200") is not None:
+        if cur["ma50_above_ma200"] and not prev["ma50_above_ma200"]:
+            changes.append((0, "Golden cross — 50-day MA crossed above 200-day MA"))
+        elif not cur["ma50_above_ma200"] and prev["ma50_above_ma200"]:
+            changes.append((0, "Death cross — 50-day MA crossed below 200-day MA"))
+
+    if cur["above_50"] is not None and prev.get("above_50") is not None:
+        if cur["above_50"] and not prev["above_50"]:
+            changes.append((0, f"Price crossed above 50-day MA (${ma50:,.2f})"))
+        elif not cur["above_50"] and prev["above_50"]:
+            changes.append((0, f"Price crossed below 50-day MA (${ma50:,.2f})"))
+
+    if cur["above_200"] is not None and prev.get("above_200") is not None:
+        if cur["above_200"] and not prev["above_200"]:
+            changes.append((0, f"Price crossed above 200-day MA (${ma200:,.2f})"))
+        elif not cur["above_200"] and prev["above_200"]:
+            changes.append((0, f"Price crossed below 200-day MA (${ma200:,.2f})"))
+
+    if cur["at_high"] is not None and prev.get("at_high") is not None:
+        if cur["at_high"] and not prev["at_high"]:
+            changes.append((1, "New 52-week high"))
+    if cur["at_low"] is not None and prev.get("at_low") is not None:
+        if cur["at_low"] and not prev["at_low"]:
+            changes.append((1, "New 52-week low"))
+
+    zone, p_zone = cur["rsi_zone"], prev.get("rsi_zone")
+    if zone is not None and p_zone is not None and zone != p_zone:
+        rsi = snap.get("rsi")
+        if zone in ("overbought", "oversold"):
+            changes.append((2, f"RSI entered {zone} zone ({rsi:.1f})"))
+        elif p_zone in ("overbought", "oversold"):
+            changes.append((2, f"RSI exited {p_zone} zone ({rsi:.1f})"))
+
+    return changes
+
+
+def render_watchlist_alerts(tickers: list[str]) -> None:
+    snapshots  = fetch_watchlist_snapshot(tuple(tickers))
+    prev_state = load_watchlist_state()
+    new_state  = dict(prev_state)
+
+    key_info: dict[str, list[str]] = {}
+    all_changes: list[tuple[int, str, str]] = []
+
+    for t in tickers:
+        snap = snapshots.get(t, {})
+        ki = _watchlist_key_info(snap)
+        if ki:
+            key_info[t] = ki
+        for prio, msg in _watchlist_recent_changes(snap, prev_state.get(t)):
+            all_changes.append((prio, t, msg))
+        new_state[t] = _watchlist_state_from_snapshot(snap)
+
+    save_watchlist_state(new_state)
+    all_changes.sort(key=lambda x: x[0])
+
+    st.markdown("#### Key Info")
+    if not key_info:
+        st.caption("Nothing notable across your watchlist right now.")
+    else:
+        for t in tickers:
+            if t not in key_info:
+                continue
+            with st.container(border=True):
+                st.markdown(f"**{t}**")
+                for item in key_info[t]:
+                    st.markdown(f"- {item}")
+
+    st.markdown("#### Recent Changes")
+    st.caption("Since the last time this app was loaded.")
+    if not all_changes:
+        st.caption("No recent changes since the last load.")
+    else:
+        for _, t, msg in all_changes:
+            with st.container(border=True):
+                st.markdown(f"**{t}** — {msg}")
+
+
 def render_watchlist_page() -> None:
     st.title("Watchlist")
     wl = load_watchlist()
@@ -3296,6 +3856,9 @@ def render_watchlist_page() -> None:
 
     tickers = sorted(wl)
     st.caption(f"{len(tickers)} stocks saved · prices refreshed every 30 minutes")
+
+    render_watchlist_alerts(tickers)
+    st.divider()
 
     prices_wl = {}
     for i in range(0, len(tickers), PRICE_BATCH):
@@ -3353,7 +3916,7 @@ def main() -> None:
     _inject_css()
 
     # ── Top navigation bar ────────────────────────────────────────────────────
-    nav_col, toggle_col = st.columns([11, 1])
+    nav_col, toggle_col, settings_col = st.columns([10, 1, 1])
     with nav_col:
         nav_page = st.radio(
             "Page",
@@ -3369,6 +3932,25 @@ def main() -> None:
             key="dark_mode",
             help="Toggle dark / light mode",
         )
+    with settings_col:
+        with st.popover("⚙", use_container_width=True, help="Settings"):
+            st.markdown("**Settings**")
+            st.text_input(
+                "Anthropic API Key",
+                type="password",
+                key="anthropic_api_key",
+                placeholder="sk-ant-…",
+                help=(
+                    "Your key is stored only in this browser session — never saved to disk "
+                    "or sent anywhere except directly to api.anthropic.com. "
+                    "Get a free key at console.anthropic.com."
+                ),
+            )
+            has_key = bool(st.session_state.get("anthropic_api_key", "").strip())
+            if has_key:
+                st.success("API key set — AI Assistant is enabled.")
+            else:
+                st.caption("No key entered — AI Assistant will show setup instructions.")
     st.divider()
 
     if nav_page == "Equities":
