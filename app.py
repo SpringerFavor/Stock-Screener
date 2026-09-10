@@ -333,6 +333,7 @@ _ETF_NAMES: dict[str, str] = {
 # All session-state keys that belong to user-adjustable widgets.
 _WIDGET_KEYS = [
     "ticker_search",
+    "ticker_search_pick",
     "sector_filter",
     "grp_Large Cap", "grp_Mid Cap", "grp_Small Cap",
     "idx_Large Cap", "idx_Mid Cap", "idx_Small Cap",
@@ -1229,6 +1230,55 @@ def fetch_fundamentals(ticker: str) -> dict:
         }
 
 
+@st.cache_data(show_spinner=False, ttl=60 * 60)
+def resolve_ticker_query(query: str) -> list[dict]:
+    """Resolve free text to candidate symbols, matching ticker OR company name
+    (case-insensitive, partial). Returns ``[{"symbol", "name"}, …]`` best-first.
+
+    A literal ticker (e.g. "BE", "BRK-B", "CL=F") is tried first; otherwise
+    Yahoo Finance's symbol/name search is used so "Bloom" or "bloom energy"
+    resolves to BE just like typing "BE" does.
+    """
+    q = (query or "").strip()
+    if not q:
+        return []
+    ql = q.lower()
+    out: list[dict] = []
+    seen: set[str] = set()
+
+    def _add(sym: str, nm: str | None) -> None:
+        sym = (sym or "").strip().upper()
+        if sym and sym not in seen:
+            seen.add(sym)
+            out.append({"symbol": sym, "name": (nm or sym).strip()})
+
+    # 1) Treat the query as a literal ticker first.
+    if len(q) <= 7 and all(c.isalnum() or c in "-.=^" for c in q):
+        f = fetch_fundamentals(q.upper())
+        if not f.get("error"):
+            _add(q.upper(), f.get("name"))
+
+    # 2) Yahoo Finance symbol/name search (matches on both ticker and name).
+    try:
+        quotes = yf.Search(
+            q, max_results=15, news_count=0, lists_count=0, raise_errors=False
+        ).quotes or []
+    except Exception:
+        quotes = []
+    _KINDS = {"EQUITY", "ETF", "MUTUALFUND", "CURRENCY", "FUTURE", "INDEX", "CRYPTOCURRENCY"}
+    for qt in quotes:
+        if qt.get("quoteType") and qt["quoteType"] not in _KINDS:
+            continue
+        sym = qt.get("symbol", "")
+        nm  = qt.get("shortname") or qt.get("longname") or ""
+        if ql in sym.lower() or ql in nm.lower():
+            _add(sym, nm)
+    if not out:  # fall back to whatever the search ranked first
+        for qt in quotes:
+            _add(qt.get("symbol", ""), qt.get("shortname") or qt.get("longname"))
+    return out
+
+
 def fetch_fundamentals_many(tickers: list[str]) -> dict[str, dict]:
     out: dict[str, dict] = {}
     if not tickers:
@@ -2029,6 +2079,7 @@ def render_single_ticker(ticker: str) -> None:
         st.rerun()
 
     render_financial_ratios(f, f.get("sector"))
+    render_period_performance(ticker)
     tab_chart, tab_analyst, tab_ai = st.tabs(["Price Chart", "Analyst & News", "AI Assistant"])
     with tab_chart:
         render_price_chart(ticker, name)
@@ -2045,35 +2096,147 @@ def render_single_ticker(ticker: str) -> None:
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Price chart (2y download → 1y display so MA200 is fully populated)
+# Price chart
+#
+# Always pull a long daily history behind the scenes so the 50/200-day moving
+# averages are fully populated, compute the MAs on that full dataset, then trim
+# only the *displayed* range to the selected period. This is why the 50d MA line
+# now shows even on short display windows (1D / 1W / 1M).
 # ──────────────────────────────────────────────────────────────────────────────
+
+# chart_period -> (intraday fetch period | None, display interval, display window)
+# A None intraday period means the display uses the daily series directly.
+_CHART_CFG: dict[str, tuple[str | None, str, object]] = {
+    "1D":  ("1d",  "2m",  pd.Timedelta(days=1)),
+    "1W":  ("5d",  "1h",  pd.Timedelta(days=7)),
+    "1M":  (None,  "1d",  pd.DateOffset(months=1)),
+    "3M":  (None,  "1d",  pd.DateOffset(months=3)),
+    "YTD": (None,  "1d",  "ytd"),
+    "1Y":  (None,  "1d",  pd.DateOffset(years=1)),
+    "3Y":  (None,  "1d",  pd.DateOffset(years=3)),
+}
+
 
 @st.cache_data(show_spinner=False, ttl=300)
 def fetch_chart_data(ticker: str, chart_period: str = "1Y") -> pd.DataFrame | None:
-    # (yf_period, interval, add_moving_averages)
-    _CFG = {
-        "1D":  ("1d",  "2m",  False),
-        "1W":  ("5d",  "1h",  False),
-        "1M":  ("1mo", "1d",  True),
-        "3M":  ("3mo", "1d",  True),
-        "YTD": ("ytd", "1d",  True),
-        "1Y":  ("2y",  "1d",  True),   # download 2y to ensure MA200 is fully populated
-        "3Y":  ("3y",  "1d",  True),
-    }
-    yf_period, interval, show_ma = _CFG.get(chart_period, ("2y", "1d", True))
+    intraday_period, interval, window = _CHART_CFG.get(
+        chart_period, (None, "1d", pd.DateOffset(years=1))
+    )
     try:
-        hist = yf.Ticker(ticker).history(period=yf_period, interval=interval, auto_adjust=True)
-        if hist is None or hist.empty:
+        tk = yf.Ticker(ticker)
+        # Long daily history — enough lookback for a full MA200 (and MA50)
+        # regardless of how short the selected display window is.
+        daily = tk.history(period="5y", interval="1d", auto_adjust=True)
+        if daily is None or daily.empty:
             return None
-        if show_ma:
-            hist["MA50"]  = hist["Close"].rolling(50).mean()
-            hist["MA200"] = hist["Close"].rolling(200).mean()
-            if chart_period == "1Y":
-                cutoff = hist.index[-1] - pd.DateOffset(years=1)
-                hist = hist[hist.index >= cutoff]
-        return hist
+        daily["MA50"]  = daily["Close"].rolling(50).mean()
+        daily["MA200"] = daily["Close"].rolling(200).mean()
+
+        if intraday_period is None:
+            hist = daily.copy()
+        else:
+            intr = tk.history(period=intraday_period, interval=interval,
+                              auto_adjust=True)
+            if intr is None or intr.empty:
+                hist = daily.copy()
+            else:
+                # Carry the daily MA values onto the intraday bars by calendar
+                # date (as-of / forward fill) so the MA lines still render.
+                ma_src = daily[["MA50", "MA200"]].copy()
+                sidx = ma_src.index
+                ma_src.index = (sidx.tz_localize(None) if sidx.tz is not None
+                                else sidx).normalize()
+                ma_src = ma_src[~ma_src.index.duplicated(keep="last")].sort_index()
+                kidx = intr.index
+                key = (kidx.tz_localize(None) if kidx.tz is not None
+                       else kidx).normalize()
+                intr["MA50"]  = ma_src["MA50"].reindex(key, method="ffill").to_numpy()
+                intr["MA200"] = ma_src["MA200"].reindex(key, method="ffill").to_numpy()
+                hist = intr
+
+        # Trim only the displayed x-axis range to the selected period.
+        tz = getattr(hist.index, "tz", None)
+        if isinstance(window, str) and window == "ytd":
+            cutoff = pd.Timestamp(year=hist.index[-1].year, month=1, day=1, tz=tz)
+        else:
+            cutoff = hist.index[-1] - window
+        trimmed = hist[hist.index >= cutoff]
+        return trimmed if not trimmed.empty else hist
     except Exception:
         return None
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Period performance (shared across every asset detail view)
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Same period options as the price-chart toggle. Value is a lookback spec:
+#   "prev" -> previous close, "ytd" -> first close of the calendar year,
+#   otherwise a pandas offset subtracted from the latest timestamp.
+_PERF_PERIODS: list[tuple[str, object]] = [
+    ("1D",  "prev"),
+    ("1W",  pd.Timedelta(days=7)),
+    ("1M",  pd.DateOffset(months=1)),
+    ("3M",  pd.DateOffset(months=3)),
+    ("YTD", "ytd"),
+    ("1Y",  pd.DateOffset(years=1)),
+    ("3Y",  pd.DateOffset(years=3)),
+]
+
+
+@st.cache_data(show_spinner=False, ttl=60 * 30)
+def fetch_period_changes(ticker: str) -> dict[str, float | None]:
+    """Percent change over each chart period (1D…3Y), from up to 5y of daily
+    closes. Works for any yfinance symbol — equities, ETFs, crypto, futures.
+
+    A period with insufficient history returns None (rendered as "—")."""
+    try:
+        hist = yf.Ticker(ticker).history(period="5y", interval="1d", auto_adjust=True)
+    except Exception:
+        return {}
+    if hist is None or hist.empty or "Close" not in hist:
+        return {}
+    close = hist["Close"].dropna()
+    if len(close) < 2:
+        return {}
+    last = float(close.iloc[-1])
+    last_ts = close.index[-1]
+
+    def _chg(ref) -> float | None:
+        return round((last / ref - 1) * 100, 2) if ref and ref > 0 else None
+
+    out: dict[str, float | None] = {}
+    for label, spec in _PERF_PERIODS:
+        if spec == "prev":
+            out[label] = _chg(float(close.iloc[-2]))
+        elif spec == "ytd":
+            ytd = close[close.index.year == last_ts.year]
+            out[label] = _chg(float(ytd.iloc[0])) if len(ytd) >= 2 else None
+        else:
+            prior = close[close.index <= last_ts - spec]
+            out[label] = _chg(float(prior.iloc[-1])) if not prior.empty else None
+    return out
+
+
+def render_period_performance(ticker: str) -> None:
+    """A row of color-coded % changes (1D/1W/1M/3M/YTD/1Y/3Y) for any ticker."""
+    changes = fetch_period_changes(ticker)
+    if not changes or all(v is None for v in changes.values()):
+        return
+    cells = []
+    for label, _ in _PERF_PERIODS:
+        v = changes.get(label)
+        if v is None:
+            val_html = '<div class="r-value">—</div>'
+        else:
+            cls = "t-pos" if v >= 0 else "t-neg"
+            val_html = f'<div class="r-value {cls}">{v:+.2f}%</div>'
+        cells.append(f'<div class="r-item"><div class="r-label">{label}</div>{val_html}</div>')
+    st.markdown(
+        '<div class="r-card"><div class="r-card-title">Performance</div>'
+        f'<div class="r-row">{"".join(cells)}</div></div>',
+        unsafe_allow_html=True,
+    )
 
 
 def render_price_chart(ticker: str, name: str) -> None:
@@ -2108,10 +2271,14 @@ def render_price_chart(ticker: str, name: str) -> None:
                                  line=dict(color="#2196F3", width=1.5)))
     else:
         fig.add_trace(go.Ohlc(**kw))
-    if "MA50" in hist.columns and hist["MA50"].notna().any():
+    has_ma50 = "MA50" in hist.columns and hist["MA50"].notna().any()
+    if has_ma50:
         fig.add_trace(go.Scatter(x=hist.index, y=hist["MA50"], mode="lines", name="50d MA",
                                  line=dict(color="#FF9800", width=1.5, dash="dot")))
-    if "MA200" in hist.columns and hist["MA200"].notna().any():
+    # MA200 sits far from price on very short windows and would flatten the
+    # candles, so only overlay it on 1M+ ranges.
+    if (chart_period not in ("1D", "1W")
+            and "MA200" in hist.columns and hist["MA200"].notna().any()):
         fig.add_trace(go.Scatter(x=hist.index, y=hist["MA200"], mode="lines", name="200d MA",
                                  line=dict(color="#CE93D8", width=1.5, dash="dash")))
     fig.update_layout(
@@ -2122,6 +2289,16 @@ def render_price_chart(ticker: str, name: str) -> None:
         legend=dict(orientation="h", y=1.08),
     )
     _style_plotly(fig)
+    # Keep the y-axis anchored to the price bars (+ the 50d MA) so the MA line
+    # stays visible on short windows without compressing the candles.
+    y_lo, y_hi = float(hist["Low"].min()), float(hist["High"].max())
+    if has_ma50:
+        ma = hist["MA50"].dropna()
+        if not ma.empty:
+            y_lo, y_hi = min(y_lo, float(ma.min())), max(y_hi, float(ma.max()))
+    if y_hi > y_lo:
+        pad = (y_hi - y_lo) * 0.06
+        fig.update_yaxes(range=[y_lo - pad, y_hi + pad])
     st.plotly_chart(fig, use_container_width=True, theme=None)
 
 
@@ -2267,7 +2444,7 @@ def render_etf_page() -> None:
         with sc:
             etf_search_raw = st.text_input(
                 "Search any ETF ticker",
-                placeholder="Type any ETF ticker not in the list below (e.g. SCHD, VIG, JEPI…)",
+                placeholder="Search by ticker or name (e.g. SCHD or Schwab Dividend)",
                 key="etf_search",
                 label_visibility="collapsed",
             )
@@ -2278,9 +2455,13 @@ def render_etf_page() -> None:
                 st.rerun()
 
     if etf_search_raw and etf_search_raw.strip():
-        with st.container(border=True):
-            render_single_ticker(etf_search_raw.strip().upper())
-        st.divider()
+        etf_matches = resolve_ticker_query(etf_search_raw)
+        if etf_matches:
+            with st.container(border=True):
+                render_single_ticker(etf_matches[0]["symbol"])
+            st.divider()
+        else:
+            st.warning(f"No ETF or ticker found matching “{etf_search_raw.strip()}”.")
 
     # ── Load data ─────────────────────────────────────────────────────────────
     if not st.session_state.get("_etf_loaded"):
@@ -2419,6 +2600,7 @@ def render_commodities_page() -> None:
             s3.metric("1-Week",  f"{row.get('Chg 1W', 0):+.2f}%" if row.get("Chg 1W") is not None else "—")
             s4.metric("1-Month", f"{row.get('Chg 1M', 0):+.2f}%" if row.get("Chg 1M") is not None else "—")
             s5.metric("YTD",     f"{row.get('Chg YTD', 0):+.2f}%" if row.get("Chg YTD") is not None else "—")
+            render_period_performance(ticker)
             render_price_chart(ticker, com_sel)
 
 
@@ -2583,6 +2765,7 @@ def render_crypto_page() -> None:
             s3.metric("24h Vol",    f"${vol/1e9:.2f}B" if vol else "—")
             s4.metric("1-Month",  f"{row.get('Chg 1M', 0):+.2f}%" if row.get("Chg 1M") is not None else "—")
             s5.metric("YTD",      f"{row.get('Chg YTD', 0):+.2f}%" if row.get("Chg YTD") is not None else "—")
+            render_period_performance(ticker)
             render_price_chart(ticker, crypto_sel)
 
 
@@ -2606,20 +2789,32 @@ def render_equities_page() -> None:
 
     # ── 1. Single-ticker search ───────────────────────────────────────────────
     search_col, clear_col = st.columns([5, 1])
-    ticker_input = search_col.text_input(
+    raw_query = search_col.text_input(
         "Quick ticker lookup",
-        placeholder="Type a ticker (e.g. AAPL) to view its full profile — bypasses the screener",
+        placeholder="Search by ticker or company name (e.g. AAPL or Bloom Energy) — bypasses the screener",
         key="ticker_search", label_visibility="collapsed",
-    ).strip().upper()
+    ).strip()
 
-    if ticker_input:
+    if raw_query:
         with clear_col:
             st.write(" ")
             if st.button("✕ Clear", key="clear_search"):
                 st.session_state.pop("ticker_search", None)
+                st.session_state.pop("ticker_search_pick", None)
                 st.rerun()
+        matches = resolve_ticker_query(raw_query)
+        if not matches:
+            st.warning(f"No ticker or company found matching “{raw_query}”.")
+            return
+        if len(matches) == 1 or matches[0]["symbol"] == raw_query.upper():
+            chosen = matches[0]["symbol"]
+        else:
+            opts = {f'{m["symbol"]} — {m["name"]}': m["symbol"] for m in matches}
+            pick = st.selectbox("Matches", list(opts), key="ticker_search_pick",
+                                label_visibility="collapsed")
+            chosen = opts[pick]
         with st.container(border=True):
-            render_single_ticker(ticker_input)
+            render_single_ticker(chosen)
         return
 
     # ── 2. Screen Setup card ──────────────────────────────────────────────────
