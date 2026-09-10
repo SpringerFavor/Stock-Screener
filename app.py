@@ -330,6 +330,100 @@ _ETF_NAMES: dict[str, str] = {
     "BITB": "Bitwise Bitcoin ETF",
 }
 
+# ──────────────────────────────────────────────────────────────────────────────
+# ETF-exposure scanning ("which ETFs hold this stock", "top sector ETFs")
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Candidate ETFs scanned for both features. yfinance only discloses each fund's
+# top ~10 holdings, so this list is what "top ETFs holding X" is drawn from.
+_ETF_SCAN_UNIVERSE: dict[str, str] = {
+    # Broad market
+    "SPY": "SPDR S&P 500",              "VOO": "Vanguard S&P 500",
+    "IVV": "iShares Core S&P 500",      "VTI": "Vanguard Total Stock Market",
+    "QQQ": "Invesco NASDAQ-100",        "DIA": "SPDR Dow Jones Industrial Avg",
+    "IWM": "iShares Russell 2000",      "RSP": "Invesco S&P 500 Equal Weight",
+    # Sector — SPDR Select Sector
+    "XLK": "Technology Select Sector",  "XLF": "Financial Select Sector",
+    "XLE": "Energy Select Sector",      "XLV": "Health Care Select Sector",
+    "XLI": "Industrial Select Sector",  "XLY": "Consumer Discretionary Select Sector",
+    "XLP": "Consumer Staples Select Sector", "XLU": "Utilities Select Sector",
+    "XLB": "Materials Select Sector",   "XLRE": "Real Estate Select Sector",
+    "XLC": "Communication Services Select Sector",
+    # Sector — Vanguard
+    "VGT": "Vanguard Information Technology", "VHT": "Vanguard Health Care",
+    "VFH": "Vanguard Financials",       "VDE": "Vanguard Energy",
+    "VIS": "Vanguard Industrials",      "VCR": "Vanguard Consumer Discretionary",
+    "VDC": "Vanguard Consumer Staples", "VPU": "Vanguard Utilities",
+    "VAW": "Vanguard Materials",        "VNQ": "Vanguard Real Estate",
+    "VOX": "Vanguard Communication Services",
+    # Industry / thematic
+    "SOXX": "iShares Semiconductor",    "SMH": "VanEck Semiconductor",
+    "IGV": "iShares Expanded Tech-Software", "SKYY": "First Trust Cloud Computing",
+    "CIBR": "First Trust Nasdaq Cybersecurity", "HACK": "Amplify Cybersecurity",
+    "IBB": "iShares Biotechnology",     "XBI": "SPDR S&P Biotech",
+    "IHI": "iShares U.S. Medical Devices", "IHF": "iShares U.S. Healthcare Providers",
+    "KBE": "SPDR S&P Bank",             "KRE": "SPDR S&P Regional Banking",
+    "KIE": "SPDR S&P Insurance",        "OIH": "VanEck Oil Services",
+    "XOP": "SPDR S&P Oil & Gas E&P",    "XHB": "SPDR S&P Homebuilders",
+    "ITB": "iShares U.S. Home Construction", "JETS": "U.S. Global Jets",
+    "XRT": "SPDR S&P Retail",           "PAVE": "Global X U.S. Infrastructure Dev",
+    "ITA": "iShares U.S. Aerospace & Defense", "PPA": "Invesco Aerospace & Defense",
+    "TAN": "Invesco Solar",             "ICLN": "iShares Global Clean Energy",
+    "LIT": "Global X Lithium & Battery Tech", "URA": "Global X Uranium",
+    "GDX": "VanEck Gold Miners",        "XME": "SPDR S&P Metals & Mining",
+    "MOO": "VanEck Agribusiness",       "BOTZ": "Global X Robotics & AI",
+    "ARKK": "ARK Innovation",           "ARKG": "ARK Genomic Revolution",
+}
+
+# yfinance company sector -> Morningstar ETF categoryName(s) that count as a
+# broad match for that sector.
+_SECTOR_TO_ETF_CATEGORIES: dict[str, set[str]] = {
+    "Technology":             {"Technology"},
+    "Communication Services": {"Communications"},
+    "Financial Services":     {"Financial"},
+    "Healthcare":             {"Health"},
+    "Energy":                 {"Equity Energy"},
+    "Industrials":            {"Industrials", "Infrastructure"},
+    "Consumer Cyclical":      {"Consumer Cyclical"},
+    "Consumer Defensive":     {"Consumer Defensive"},
+    "Basic Materials":        {"Natural Resources", "Equity Precious Metals"},
+    "Real Estate":            {"Real Estate"},
+    "Utilities":              {"Utilities"},
+}
+
+# Industry-level ETF matches, keyed by substrings found in yfinance's
+# info['industry']. Only used to *supplement* the broad-sector list, with a
+# note in the UI, since fund category data alone can't resolve this far.
+_INDUSTRY_ETFS: list[tuple[tuple[str, ...], list[str]]] = [
+    (("semiconductor",),                       ["SOXX", "SMH"]),
+    (("software", "software-infrastructure",), ["IGV", "SKYY"]),
+    (("information technology services", "cloud"), ["SKYY", "IGV"]),
+    (("cybersecurity", "security"),            ["CIBR", "HACK"]),
+    (("bank",),                                ["KBE", "KRE"]),
+    (("capital markets", "financial data", "insurance"), ["KIE"]),
+    (("biotechnology",),                       ["IBB", "XBI"]),
+    (("drug manufacturers", "pharmaceutical"), ["IBB", "XBI"]),
+    (("medical devices", "medical instruments", "medical-devices"), ["IHI"]),
+    (("healthcare plans", "medical care facilities"), ["IHF"]),
+    (("oil & gas e&p", "oil & gas exploration"), ["XOP"]),
+    (("oil & gas equipment", "oil & gas drilling", "oil & gas services"), ["OIH"]),
+    (("oil & gas integrated", "oil & gas refining", "oil & gas midstream"), ["XOP", "OIH"]),
+    (("aerospace", "defense"),                 ["ITA", "PPA"]),
+    (("airlines",),                            ["JETS"]),
+    (("residential construction",),            ["XHB", "ITB"]),
+    (("specialty retail", "internet retail", "apparel retail", "discount stores",
+      "department stores", "grocery stores", "home improvement retail", "auto parts"), ["XRT"]),
+    (("engineering & construction", "infrastructure"), ["PAVE"]),
+    (("solar",),                               ["TAN", "ICLN"]),
+    (("uranium",),                             ["URA"]),
+    (("gold", "other precious metals"),        ["GDX"]),
+    (("copper", "steel", "aluminum", "other industrial metals", "coking coal", "mining"), ["XME"]),
+    (("lithium",),                             ["LIT"]),
+    (("farm & heavy construction", "agricultural inputs", "farm products"), ["MOO"]),
+    (("robotics", "automation"),               ["BOTZ"]),
+]
+
+
 # All session-state keys that belong to user-adjustable widgets.
 _WIDGET_KEYS = [
     "ticker_search",
@@ -2080,11 +2174,15 @@ def render_single_ticker(ticker: str) -> None:
 
     render_financial_ratios(f, f.get("sector"))
     render_period_performance(ticker)
-    tab_chart, tab_analyst, tab_ai = st.tabs(["Price Chart", "Analyst & News", "AI Assistant"])
+    tab_chart, tab_analyst, tab_etf, tab_ai = st.tabs(
+        ["Price Chart", "Analyst & News", "ETF Exposure", "AI Assistant"]
+    )
     with tab_chart:
         render_price_chart(ticker, name)
     with tab_analyst:
         render_analyst(ticker)
+    with tab_etf:
+        render_etf_exposure(ticker, f)
     with tab_ai:
         detail = fetch_detail(ticker)
         system_prompt = _build_stock_context(ticker, f, p, detail)
@@ -2237,6 +2335,143 @@ def render_period_performance(ticker: str) -> None:
         f'<div class="r-row">{"".join(cells)}</div></div>',
         unsafe_allow_html=True,
     )
+
+
+@st.cache_data(show_spinner=False, ttl=60 * 60 * 12)
+def scan_etf_universe() -> dict[str, dict]:
+    """For every ETF in ``_ETF_SCAN_UNIVERSE`` fetch its Morningstar category
+    and its top-10 disclosed holdings ({symbol: weight fraction}).
+
+    One shared scan serves both ETF-exposure features for the whole session.
+    """
+    def _grab(etf: str) -> tuple[str, dict]:
+        try:
+            fd = yf.Ticker(etf).funds_data
+            th = fd.top_holdings
+            holdings = {}
+            if th is not None and not th.empty and "Holding Percent" in th.columns:
+                for sym, pct in zip(th.index, th["Holding Percent"]):
+                    v = _to_float(pct)
+                    if sym and v is not None:
+                        holdings[str(sym).upper()] = v
+            category = None
+            try:
+                category = (fd.fund_overview or {}).get("categoryName")
+            except Exception:
+                pass
+            return etf, {"category": category, "holdings": holdings}
+        except Exception:
+            return etf, {"category": None, "holdings": {}}
+
+    out: dict[str, dict] = {}
+    with concurrent.futures.ThreadPoolExecutor(max_workers=16) as pool:
+        for etf, data in pool.map(_grab, _ETF_SCAN_UNIVERSE):
+            out[etf] = data
+    return out
+
+
+def _industry_etf_matches(industry: str) -> list[str]:
+    """ETF tickers whose focus matches a specific industry string, or []."""
+    ind = (industry or "").lower()
+    if not ind:
+        return []
+    hits: list[str] = []
+    for needles, etfs in _INDUSTRY_ETFS:
+        if any(n in ind for n in needles):
+            for e in etfs:
+                if e not in hits:
+                    hits.append(e)
+    return hits
+
+
+def render_etf_exposure(ticker: str, f: dict) -> None:
+    ticker = ticker.upper()
+    scan = scan_etf_universe()
+
+    # ── 1. ETFs holding this company (top-10 disclosed only) ──────────────────
+    st.markdown("**Top ETFs holding this company**")
+    rows = [
+        {"ETF": etf, "Name": _ETF_SCAN_UNIVERSE[etf],
+         "Weight %": round(data["holdings"][ticker] * 100, 2)}
+        for etf, data in scan.items() if ticker in data.get("holdings", {})
+    ]
+    if rows:
+        held_df = (pd.DataFrame(rows)
+                   .sort_values("Weight %", ascending=False)
+                   .reset_index(drop=True))
+        st.dataframe(
+            held_df, use_container_width=True, hide_index=True,
+            column_config={"Weight %": st.column_config.NumberColumn(format="%.2f%%")},
+        )
+    else:
+        st.caption(f"{ticker} is not in the top-10 holdings of any scanned ETF.")
+    st.caption(
+        "Reflects only each ETF's top-10 disclosed holdings (via yfinance "
+        "`funds_data.top_holdings`) across a fixed candidate list — an ETF that "
+        "holds this company below its top 10 won't appear. Not exhaustive."
+    )
+
+    st.divider()
+
+    # ── 2. Top sector / industry ETFs, ranked by selected-period return ───────
+    sector   = f.get("sector")
+    industry = f.get("industry")
+    st.markdown(f"**Top sector ETFs — {sector or 'sector n/a'}**"
+                + (f"  ·  _{industry}_" if industry else ""))
+
+    if not sector:
+        st.info("yfinance has no sector classification for this company, so "
+                "sector-ETF matching isn't available.")
+        return
+
+    wanted_cats = _SECTOR_TO_ETF_CATEGORIES.get(sector, set())
+    sector_etfs = [e for e, d in scan.items() if d.get("category") in wanted_cats]
+    industry_etfs = [e for e in _industry_etf_matches(industry) if e in scan]
+
+    matched = list(dict.fromkeys(industry_etfs + sector_etfs))
+    if not matched:
+        st.info(f"No scanned ETF matches the “{sector}” sector.")
+        return
+
+    period = st.radio(
+        "Period", ["1D", "1W", "1M", "3M", "YTD", "1Y", "3Y"],
+        index=5, horizontal=True, key=f"etf_period_{ticker}",
+        label_visibility="collapsed",
+    )
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as pool:
+        changes = dict(zip(matched, pool.map(fetch_period_changes, matched)))
+    perf_rows = [
+        {
+            "ETF": etf,
+            "Name": _ETF_SCAN_UNIVERSE[etf],
+            "Category": scan[etf].get("category") or "—",
+            "Match": "industry" if etf in industry_etfs else "sector",
+            f"{period} %": (changes.get(etf) or {}).get(period),
+        }
+        for etf in matched
+    ]
+    perf_df = (pd.DataFrame(perf_rows)
+               .sort_values(f"{period} %", ascending=False, na_position="last")
+               .reset_index(drop=True))
+    st.dataframe(
+        perf_df, use_container_width=True, hide_index=True,
+        column_config={f"{period} %": st.column_config.NumberColumn(format="%.2f%%")},
+    )
+
+    if industry_etfs:
+        st.caption(
+            f"Industry-focused ETFs ({', '.join(industry_etfs)}) are matched by "
+            f"keyword against the “{industry}” classification; the rest are broad "
+            f"“{sector}” sector funds (matched on fund category). Ranked by return "
+            f"over the selected period."
+        )
+    else:
+        st.caption(
+            f"Fund data doesn't reliably resolve ETFs to the “{industry}” "
+            f"industry, so this falls back to broad “{sector}” sector ETFs "
+            f"(matched on fund category). Ranked by return over the selected period."
+        )
 
 
 def render_price_chart(ticker: str, name: str) -> None:
